@@ -1,0 +1,50 @@
+import { useState } from 'react'
+import { Box, Slider, Typography } from '@mui/material'
+
+const defaultValue = {
+    min: 200,
+    max: 2000,
+    origin: [500, 1400],
+    distance: 50
+}
+
+export default function CUISlider(oriProps) {
+
+    const props = {...defaultValue, ...oriProps}
+    const [value, setValue] = useState(props.origin)
+
+    const handleChange = (event, newValue, activeThumb) => {
+        if (!Array.isArray(newValue)) return
+
+        if (newValue[1] - newValue[0] >= props.distance) {
+            return setValue(newValue)
+        }
+
+        if (activeThumb === 0) {
+            const clamped = Math.min(newValue[0], props.max - props.distance)
+            return setValue([clamped, clamped + props.distance])
+        }
+
+        const clamped = Math.max(newValue[1], props.distance + props.min)
+        setValue([clamped - props.distance, clamped])
+    }
+
+    return (
+        <Box sx={{ width: '14rem', padding: '0 1rem' }}>
+            <Typography sx={
+                { mb: 6, textAlign: 'center', fontWeight: 'bold' }
+            }>
+                {props.label}
+            </Typography>
+            <Slider
+                max={props.max}
+                min={props.min}
+                step={props.distance}
+                value={value}
+                onChange={handleChange}
+                valueLabelDisplay="on"
+                disableSwap
+            />
+        </Box>
+    )
+}
