@@ -6,5 +6,9 @@ const MyCard = styled(Paper)(() => ({
 }))
 
 export default function CUICard(props) {
-    return <MyCard elevation={4}>{props.children}</MyCard>;
+    return <MyCard 
+        elevation={4} 
+        sx={props.sx}
+        onClick={props.onClick}
+    >{props.children}</MyCard>;
 }
