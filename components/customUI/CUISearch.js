@@ -13,8 +13,8 @@ const MySearch = styled(FormControl)(() => ({
 export default function CUISearch(props) {
     return (
     <MySearch variant="standard" sx={props.sx} >
-        <InputLabel htmlFor={props.id}>{props.label}</InputLabel>
-        <Input id={props.id} text
+        <InputLabel>{props.label}</InputLabel>
+        <Input type="text"
             onClick={props.onClick}
             onChange={props.onChange}
             placeholder={props.placeholder}

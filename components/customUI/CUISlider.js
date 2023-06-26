@@ -2,8 +2,6 @@ import { useState } from 'react'
 import { Box, Slider, Typography } from '@mui/material'
 import RedTheme from '../RedTheme'
 
-import ChangeButton from './changeButton'
-
 const defaultValue = {
     min: 200,
     max: 2000,
@@ -51,7 +49,6 @@ export default function CUISlider(oriProps) {
                 disableSwap
             />
         </Box>
-        <ChangeButton>Change Theme</ChangeButton>
         </RedTheme>
     )
 }

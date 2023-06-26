@@ -13,7 +13,7 @@ export default function CUISelect(props) {
         select
         id={props.id}
         label={props.label}
-        defaultValue={props.defaultValue}
+        defaultValue={props.defaultValue || ''}
         helperText={props.helperText}
     >
         {props.options?.map(option => 
