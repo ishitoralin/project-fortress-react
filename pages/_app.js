@@ -6,6 +6,9 @@ const customTheme = (outerTheme) =>
   createTheme({
     palette: {
       mode: outerTheme.palette.mode,
+      common: {
+        red: '#EA0000'
+      }
     },
     components: {
       MuiTextField: {
@@ -74,7 +77,6 @@ const customTheme = (outerTheme) =>
   })
 
 export default function MyApp({ Component, pageProps }) {
-  // Use the layout defined at the page level, if available
   const getLayout = Component.getLayout || ((page) => page)
   const outerTheme = useTheme()
 

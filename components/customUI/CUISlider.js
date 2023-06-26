@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Box, Slider, Typography } from '@mui/material'
+import RedTheme from '../RedThemeProvider'
 
 const defaultValue = {
     min: 200,
@@ -9,7 +10,6 @@ const defaultValue = {
 }
 
 export default function CUISlider(oriProps) {
-
     const props = {...defaultValue, ...oriProps}
     const [value, setValue] = useState(props.origin)
 
@@ -30,10 +30,13 @@ export default function CUISlider(oriProps) {
     }
 
     return (
-        <Box sx={{ width: '14rem', padding: '0 1rem' }}>
-            <Typography sx={
-                { mb: 6, textAlign: 'center', fontWeight: 'bold' }
-            }>
+        <RedTheme>
+        <Box sx={{ width: '16rem', padding: '0 1rem' }}>
+            <Typography 
+                variant='subtitle2' 
+                align='center' 
+                mb={6} 
+            >
                 {props.label}
             </Typography>
             <Slider
@@ -46,5 +49,6 @@ export default function CUISlider(oriProps) {
                 disableSwap
             />
         </Box>
+        </RedTheme>
     )
 }
