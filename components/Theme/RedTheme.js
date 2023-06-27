@@ -1,9 +1,10 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { MAIN_RED } from '@/assets/ColorCode'
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#EA0000'
+            main: MAIN_RED
         }
     }
 })

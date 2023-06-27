@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import { Box, Slider, Typography } from '@mui/material'
-import RedTheme from '../RedTheme'
+
+import createColorTheme from '@/libs/CreateColorTheme'
+import { MAIN_RED } from '@/assets/ColorCode'
+const RedTheme = createColorTheme(MAIN_RED)
 
 const defaultValue = {
     min: 200,

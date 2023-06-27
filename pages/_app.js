@@ -1,88 +1,16 @@
 import '@/styles/globals.css'
-import { outlinedInputClasses } from '@mui/material/OutlinedInput'
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles'
 
-const customTheme = (outerTheme) =>
-  createTheme({
-    palette: {
-      mode: outerTheme.palette.mode,
-      common: {
-        red: '#EA0000'
-      }
-    },
-    components: {
-      MuiTextField: {
-        styleOverrides: {
-          root: {
-            '--TextField-brandBorderColor': '#E0E3E7',
-            '--TextField-brandBorderHoverColor': '#B2BAC2',
-            '--TextField-brandBorderFocusedColor': '#6F7E8C',
-            '& label.Mui-focused': {
-              color: 'var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiOutlinedInput: {
-        styleOverrides: {
-          notchedOutline: {
-            borderColor: 'var(--TextField-brandBorderColor)',
-          },
-          root: {
-            [`&:hover .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: 'var(--TextField-brandBorderHoverColor)',
-            },
-            [`&.Mui-focused .${outlinedInputClasses.notchedOutline}`]: {
-              borderColor: 'var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiFilledInput: {
-        styleOverrides: {
-          root: {
-            '&:before, &:after': {
-              borderBottom: '2px solid var(--TextField-brandBorderColor)',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
-            },
-            '&.Mui-focused:after': {
-              borderBottom:
-                '2px solid var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-      MuiInput: {
-        styleOverrides: {
-          root: {
-            '&:before': {
-              borderBottom: '2px solid var(--TextField-brandBorderColor)',
-            },
-            '&:after': {
-              borderBottom: '2px solid var(--TextField-brandBorderColor)',
-            },
-            '&:hover:not(.Mui-disabled, .Mui-error):before': {
-              borderBottom: '2px solid var(--TextField-brandBorderHoverColor)',
-            },
-            '&.Mui-focused:after': {
-              borderBottom:
-                '2px solid var(--TextField-brandBorderFocusedColor)',
-            },
-          },
-        },
-      },
-    },
-  })
+import Layout from '@/components/layout/layout'
+const defaultLayout = page => (
+  <Layout>
+    {page}
+  </Layout>
+)
 
 export default function MyApp({ Component, pageProps }) {
-  const getLayout = Component.getLayout || ((page) => page)
-  const outerTheme = useTheme()
+  const getLayout = Component.getLayout || defaultLayout
 
   return getLayout(
-    <ThemeProvider theme={customTheme(outerTheme)}>
       <Component {...pageProps} />
-    </ThemeProvider>
   )
 }

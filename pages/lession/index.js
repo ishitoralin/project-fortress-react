@@ -10,9 +10,9 @@ const LessionPage = () => {
     return (
         <Container sx={{ padding: 2 }}>
             <CUIFilter label="篩選器" items={[
-                <CUISearch label="課程關鍵字" placeholder="請輸入關鍵字"/>,
-                <CUISelect label="課程標籤" options={tagsData}/>,
-                <CUISlider label="價格範圍"/>
+                <CUISearch label="課程關鍵字" placeholder="請輸入關鍵字" />,
+                <CUISelect label="課程標籤" options={tagsData} />,
+                <CUISlider label="價格範圍" />
             ]}/>
         </Container>
     )
