@@ -1,5 +1,5 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { MAIN_RED } from '@/assets/ColorCode'
+import { MAIN_RED } from '@/assets/color-code'
 
 const theme = createTheme({
     palette: {

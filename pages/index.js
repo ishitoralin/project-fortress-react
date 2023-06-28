@@ -1,7 +1,4 @@
-export default function HomePage() {
-  return (
-    <>
-      <h1>Home page here</h1>
-    </>
-  )
-}
+export default () => (
+  <h1>Home page</h1>
+)
+

@@ -1,5 +1,5 @@
 import { Divider, Typography, Stack, Paper } from '@mui/material'
-import CUICard from './CUICard'
+import CUICard from './cui-card'
 import { styled } from '@mui/material/styles'
 
 const Item = styled(Paper)(() => ({
