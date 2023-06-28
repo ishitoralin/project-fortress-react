@@ -4,8 +4,8 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { MAIN_BLACK } from "@/assets/color-code"
 import LogoIcon from "@/assets/logo"
 
-const mr2 = {
-  mr: 2
+const ml2 = {
+  ml: 2
 }
 
 const centerAll = {
@@ -19,8 +19,8 @@ const navbarStyle = {
   top: 0,
   bgcolor: MAIN_BLACK, 
   height: '80px',
-  width: '100vw',
-  paddingInline: '1rem',
+  width: '100%',
+  paddingInline: '1.5rem',
   ...centerAll
 }
 
@@ -42,7 +42,7 @@ const linkItemStyle = {
     bgcolor: 'white',
     color: 'black'
   },
-  ...mr2
+  ...ml2
 }
 
 const linksData = [
@@ -92,7 +92,7 @@ export default function Navbar() {
             <Link href={link.href}>{link.linkName}</Link>
           </Box>
         )}
-        <Box sx={...mr2}>
+        <Box sx={...ml2}>
         <ShoppingCartIcon />
         </Box>
         <Box sx={linkItemStyle} >
