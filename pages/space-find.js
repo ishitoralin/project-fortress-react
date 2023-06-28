@@ -1,3 +1,3 @@
 export default () => (
-    <h1>Shop Page</h1>
+    <h1>Space find</h1>
 )

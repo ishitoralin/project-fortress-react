@@ -52,9 +52,9 @@ const linksData = [
     href: '/coach'
   }, 
   {
-    keyName: 'shop',
+    keyName: 'product',
     linkName: '進入商城',
-    href: '/shop'
+    href: '/product'
   }, 
   {
     keyName: 'lesson',
@@ -67,9 +67,9 @@ const linksData = [
     href: '/record'
   }, 
   {
-    keyName: 'location',
+    keyName: 'space-find',
     linkName: '場地找找',
-    href: '/location'
+    href: '/space-find'
   }, 
   {
     keyName: 'member',
