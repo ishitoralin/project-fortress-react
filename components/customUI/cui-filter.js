@@ -7,9 +7,9 @@ const Item = styled(Paper)(() => ({
   borderRadius: 0,
 }));
 
-const Filter = ({ items, label = 'Filter Label' }) => {
+const Filter = ({ sx, items, label = 'Filter Label' }) => {
   return (
-    <CUICard>
+    <CUICard sx={sx}>
       <Item>
         <Typography variant="h5">{label}</Typography>
       </Item>

@@ -3,7 +3,7 @@ import { TextField, MenuItem } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 const MySelect = styled(TextField)(() => ({
-  width: '16rem',
+  width: '100%',
 }));
 
 export default function CUISelect(props) {

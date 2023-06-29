@@ -18,7 +18,7 @@ const navbarStyle = {
   position: 'fixed',
   top: 0,
   bgcolor: MAIN_BLACK, 
-  height: '80px',
+  height: 'var(--nav-height)',
   width: '100%',
   paddingInline: '1.5rem',
   ...centerAll
