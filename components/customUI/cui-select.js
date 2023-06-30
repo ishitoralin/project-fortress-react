@@ -11,14 +11,20 @@ export default function CUISelect(props) {
       defaultValue={props.defaultValue || ''}
       helperText={props.helperText}
     >
-      {props.options?.map((option) => (
-        <MenuItem
-          key={option.key || option.value || option}
-          value={option.value || option}
-        >
-          {option.label || option}
-        </MenuItem>
-      ))}
+      {props.options?.map((option, index) => {
+        return typeof option === 'string' || option instanceof String ? (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ) : (
+          <MenuItem
+            key={option.key || index}
+            value={option.value || option.label || ''}
+          >
+            {option.label || option.value || ''}
+          </MenuItem>
+        );
+      })}
     </TextField>
   );
 }
