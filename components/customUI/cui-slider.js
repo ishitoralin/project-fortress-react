@@ -14,22 +14,36 @@ const defaultValue = {
 
 export default function CUISlider(oriProps) {
   const props = { ...defaultValue, ...oriProps };
-  const [value, setValue] = useState(props.origin);
+
+  const [firstThumb, secondThunb, max, min, distance] = [
+    ...props.origin,
+    props.max,
+    props.min,
+    props.distance,
+  ].map((value) => parseInt(value));
+
+  const onChange =
+    typeof props.onChange === 'function' ? props.onChange : () => {};
+
+  const [value, setValue] = useState([firstThumb, secondThunb]);
 
   const handleChange = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) return;
+    if (!Array.isArray(newValue)) return onChange(event);
 
-    if (newValue[1] - newValue[0] >= props.distance) {
-      return setValue(newValue);
+    if (newValue[1] - newValue[0] >= distance) {
+      setValue(newValue);
+      return onChange(event);
     }
 
     if (activeThumb === 0) {
-      const clamped = Math.min(newValue[0], props.max - props.distance);
-      return setValue([clamped, clamped + props.distance]);
+      const clamped = Math.min(newValue[0], max - distance);
+      setValue([clamped, clamped + distance]);
+      return onChange(event);
     }
 
-    const clamped = Math.max(newValue[1], props.distance + props.min);
-    setValue([clamped - props.distance, clamped]);
+    const clamped = Math.max(newValue[1], distance + min);
+    setValue([clamped - distance, clamped]);
+    return onChange(event);
   };
 
   return (
@@ -39,9 +53,9 @@ export default function CUISlider(oriProps) {
           {props.label}
         </Typography>
         <Slider
-          max={props.max}
-          min={props.min}
-          step={props.distance}
+          max={max}
+          min={min}
+          step={distance}
           value={value}
           onChange={handleChange}
           valueLabelDisplay="on"
