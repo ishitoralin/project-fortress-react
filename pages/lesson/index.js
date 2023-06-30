@@ -11,7 +11,7 @@ import absImg from '@/assets/abs.jpg';
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
 
 const bannerStyle = {
-  '&::before': {
+  '::before': {
     content: '""',
     position: 'absolute',
     top: 0,
@@ -19,7 +19,7 @@ const bannerStyle = {
     width: '100%',
     height: '100%',
     bgcolor: 'rgba(10,10,10,0.5)',
-    zIndex: '99',
+    zIndex: '1',
   },
   position: 'sticky',
   top: 0,

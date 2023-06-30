@@ -9,17 +9,17 @@ const Item = styled(Paper)(() => ({
 
 const Filter = ({ sx, items, label = 'Filter Label' }) => {
   return (
-    <CUICard sx={sx}>
+    <CUICard sx={{ ...sx, display: 'inline-block', height: 'fit-content' }}>
       <Item>
         <Typography variant="h5">{label}</Typography>
       </Item>
       <Divider sx={{ borderBottom: '3px solid lightgrey' }} />
       <Stack>
-        {items.map((item, index) => (
+        {items.map((item) => (
           <Item
             sx={{ borderBottom: '1px solid lightgrey' }}
             elevation={0}
-            key={index}
+            key={item.key}
           >
             {item}
           </Item>

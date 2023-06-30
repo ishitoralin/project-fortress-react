@@ -1,16 +1,10 @@
 import { TextField, MenuItem } from '@mui/material';
 
-import { styled } from '@mui/material/styles';
-
-const MySelect = styled(TextField)(() => ({
-  width: '100%',
-}));
-
 export default function CUISelect(props) {
   return (
-    <MySelect
+    <TextField
       variant="standard"
-      sx={props.sx}
+      sx={{ width: '100%', ...props.sx }}
       select
       id={props.id}
       label={props.label}
@@ -25,6 +19,6 @@ export default function CUISelect(props) {
           {option.label || option}
         </MenuItem>
       ))}
-    </MySelect>
+    </TextField>
   );
 }

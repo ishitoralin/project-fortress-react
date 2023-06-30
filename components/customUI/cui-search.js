@@ -1,15 +1,10 @@
 import { FormControl, InputLabel, Input, InputAdornment } from '@mui/material';
 
 import SearchIcon from '@mui/icons-material/Search';
-import { styled } from '@mui/material/styles';
-
-const MySearch = styled(FormControl)(() => ({
-  width: '100%',
-}));
 
 export default function CUISearch(props) {
   return (
-    <MySearch variant="standard" sx={props.sx}>
+    <FormControl variant="standard" sx={{ width: '100%', ...props.sx }}>
       <InputLabel>{props.label}</InputLabel>
       <Input
         type="text"
@@ -22,6 +17,6 @@ export default function CUISearch(props) {
           </InputAdornment>
         }
       />
-    </MySearch>
+    </FormControl>
   );
 }

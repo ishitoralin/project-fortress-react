@@ -1,17 +1,15 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles'
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function createColorTheme(color) {
-    const theme = createTheme({
-        palette: {
-            primary: {
-                main: color,
-            }
-        }
-    })
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: color,
+      },
+    },
+  });
 
-    return ({children}) =>  (
-        <ThemeProvider theme={theme} >
-            {children}
-        </ThemeProvider>
-    )
+  return function CustomTheme({ children }) {
+    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  };
 }
