@@ -73,9 +73,10 @@ export default function myComponent() {
 
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
-| key | String \| Number |
+| name | String | 
 | label | String | 搜尋列名稱
 | placeholder | String | 搜尋列提示
+| color | String | mui theme color
 | sx | Object | sx 樣式物件
 | onClick | Function | 
 | onChange | Function |
@@ -109,16 +110,17 @@ export default function myComponent() {
 
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
-| key | String \| Number |
-| id | String | 
+| name | String | 
 | label | String | 選單名稱
+| color | String | mui theme color
 | sx | Object | sx 樣式物件
 | defaultValue | String | 選單元件預設值
 | helperText | String | 說明文字
-| options | Array[ Object \| String ] | 選單項目
+| options | Array[ Object \| String ] | 項目陣列
+| onChange | Function |
 
-### CUISelect options :
 
+### CUISelect 項目 :
 
 | 名稱 | 類型 | 說明 | 
 | --- | :---: | :---: | 
@@ -126,19 +128,18 @@ export default function myComponent() {
 | value | String \| Number | 選單元件選取值
 | label | String | 項目名稱
 
-#### 選單項目陣列內建議使用 Object 類型, 使用 String 類型則選單項目內 key, value, label 皆會使用該字串作為屬性值;
+#### 選單項目建議使用 Object 類型, 使用 String 類型則項目內 key, value, label 皆會使用該字串作為屬性值;
 
-#### 使用 Object 類型屬性值套用的順序為 :
+#### 使用 Object 類型未給定特定屬性值時會依序套用 :
 
 | key | value | label |
 | :---: | :---: | :---: |
-| key | value | label |
 | 陣列索引值 | label | value |
 |  | 空字串 | 空字串 |
 
 <br />
 
-## 範圍條 (CUISlider)
+## 滑動條 (CUISlider)
 
 ### 使用 CUISlider :
 
@@ -152,6 +153,7 @@ export default function myComponent() {
             label={label}
             max={max}
             min={min}
+            origin={[firstThumb, secondThumb]}
             distance={distance}
         />
         ...
@@ -163,11 +165,51 @@ export default function myComponent() {
 
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
-| key | String \| Number |
+| name | String | 
 | label | String | 範圍條名稱
 | max | Number \| String | 範圍條最大值
 | min | Number \| String | 範圍條最小值
-| distance | Number \| String | 位移量
+| origin | Array[ Number \| String, Number \| String ] | 滑鈕起始位置
+| distance | Number \| String | 步進值
+| color | String | mui theme color
 | onChange | Function |
+
+<br />
+
+## 篩選器 (CUIFilter)
+
+### 使用 CUIFilter :
+
+```
+import CUIFilter from '@/components/customUI/cui-filter';
+
+export default function myComponent() {
+    return (<>
+        ...
+        <CUIFilter 
+            label={label}
+            items={[
+                <Component1 />,
+                <Component2 />,
+                ...
+            ]}
+        />
+        ...
+    </>);
+}
+```
+
+### CUIFilter 參數 :
+
+| 名稱 | 類型 | 說明 |
+| --- | :---: | :---: |
+| label | String | 篩選器名稱, 未設定時不渲染標題區
+| noButton |  | 不渲染篩選器按鈕
+| items | Array[ \<Component /> ] | 子元件陣列
+| sx | Object | sx 樣式物件
+| sxLabel | Object | sx 樣式物件, 套用於篩選器標題區
+| sxBody | Object | sx 樣式物件, 套用於篩選器內容區
+| color | String | mui theme color
+| onClick | Function | 點擊篩選器按鈕的回呼函式
 
 <br />

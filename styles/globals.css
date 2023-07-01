@@ -1,6 +1,13 @@
 :root {
   --nav-height: 60px;
   --footer-height: 40px;
+  --main-red: #EA0000;
+  --main-black: #0A0A0A;
+  --light-gray: #FAFAFA;
+  --light-gray2: #F5F5F5;
+  --main-white: #FFF;
+  --fortress: #FFDF8E;
+  --deepgrey: #707070;
 }
 
 * {

@@ -6,10 +6,12 @@ export default function CUISelect(props) {
       variant="standard"
       sx={{ width: '100%', ...props.sx }}
       select
-      id={props.id}
+      name={props.name}
+      color={props.color}
       label={props.label}
       defaultValue={props.defaultValue || ''}
       helperText={props.helperText}
+      onChange={props.onChange}
     >
       {props.options?.map((option, index) => {
         return typeof option === 'string' || option instanceof String ? (

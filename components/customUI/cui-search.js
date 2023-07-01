@@ -5,9 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 export default function CUISearch(props) {
   return (
     <FormControl variant="standard" sx={{ width: '100%', ...props.sx }}>
-      <InputLabel>{props.label}</InputLabel>
+      <InputLabel color={props.color}>{props.label}</InputLabel>
       <Input
         type="text"
+        name={props.name}
+        color={props.color}
         onClick={props.onClick}
         onChange={props.onChange}
         placeholder={props.placeholder}

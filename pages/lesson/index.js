@@ -28,7 +28,7 @@ const bannerStyle = {
 
 const mainContentStyle = {
   width: '100%',
-  bgcolor: 'white',
+  bgcolor: 'grey',
   position: 'relative',
 };
 
@@ -50,7 +50,7 @@ const rightSideStyle = {
 
 const LessionPage = () => {
   return (
-    <>
+    <Box>
       <Box sx={bannerStyle}>
         <Image
           fill={true}
@@ -98,7 +98,7 @@ const LessionPage = () => {
           </Box>
         </Container>
       </Box>
-    </>
+    </Box>
   );
 };
 

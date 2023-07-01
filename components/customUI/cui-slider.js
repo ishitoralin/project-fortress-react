@@ -15,49 +15,73 @@ const defaultValue = {
 export default function CUISlider(oriProps) {
   const props = { ...defaultValue, ...oriProps };
 
-  const [firstThumb, secondThunb, max, min, distance] = [
-    ...props.origin,
+  const [max, min, distance, firstThumb, secondThumb] = [
     props.max,
     props.min,
     props.distance,
+    ...props.origin,
   ].map((value) => parseInt(value));
 
-  const onChange =
-    typeof props.onChange === 'function' ? props.onChange : () => {};
-
-  const [value, setValue] = useState([firstThumb, secondThunb]);
+  const [value, setValue] = useState([firstThumb, secondThumb]);
 
   const handleChange = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) return onChange(event);
+    if (!Array.isArray(newValue)) return;
 
     if (newValue[1] - newValue[0] >= distance) {
-      setValue(newValue);
-      return onChange(event);
+      return setValue(newValue);
     }
 
     if (activeThumb === 0) {
       const clamped = Math.min(newValue[0], max - distance);
-      setValue([clamped, clamped + distance]);
-      return onChange(event);
+      return setValue([clamped, clamped + distance]);
     }
 
     const clamped = Math.max(newValue[1], distance + min);
-    setValue([clamped - distance, clamped]);
-    return onChange(event);
+    return setValue([clamped - distance, clamped]);
   };
 
   return (
     <RedTheme>
-      <Box sx={{ width: '100%', padding: '0 1rem' }}>
-        <Typography variant="subtitle2" align="center" mb={6}>
+      <Box sx={{ width: '100%', paddingLeft: '1rem', paddingRight: '1rem' }}>
+        <Typography
+          color={props.color}
+          variant="subtitle1"
+          align="center"
+          mb={4}
+        >
           {props.label}
         </Typography>
         <Slider
           max={max}
           min={min}
           step={distance}
+          color={props.color}
+          name={props.name}
           value={value}
-          onChange={handleChange}
+          sx={{
+            marginBottom: 3,
+            '& .MuiSlider-thumb': {
+              '.MuiSlider-valueLabelOpen': {
+                userSelect: 'none',
+                ':before': {
+                  content: 'none',
+                },
+                transform: 'translateY(145%) translateX(0%) scale(1)',
+              },
+              ':last-child': {
+                '.MuiSlider-valueLabelOpen': {
+                  transform: 'translateY(-95%) translateX(0%) scale(1)',
+                },
+              },
+            },
+          }}
+          onChange={(event, newValue, activeThumb) => {
+            handleChange(event, newValue, activeThumb);
+            if (props.onChange && typeof props.onChange !== 'function') {
+              throw 'CUISlider onChange is not a function';
+            }
+            props.onChange && props.onChange(event);
+          }}
           valueLabelDisplay="on"
           disableSwap
         />
