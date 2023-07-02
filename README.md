@@ -4,7 +4,7 @@
   
 ---
   
-## 使用自己的客製 Layout
+## 使用你的客製 Layout
 
 ### 在你的 page 檔案中添加 getLayout 屬性 :
 
@@ -22,6 +22,63 @@ export default function YourPage() {
         ...
     </>)
 }
+```
+
+<br />
+
+## 使用 Color Theme
+
+### 使用預設的 Color Theme
+
+```
+// 引入主紅色的 color theme
+import RedTheme from '@/context/Theme/red-theme';
+
+// 包裹在需要套用的元件外層
+export default function myComponent() {
+    return (<>
+        ...
+        <RedTheme>
+            ...
+            <Component1 />
+            ...
+        </RedTheme>
+        ...
+        <Component2 />
+        ...
+    </>);
+}
+```
+ - 被 color theme 包裹的 mui component 使用的主色 (main) 會被替換為 color theme 的顏色
+
+### 使用你的客製 Color Theme
+
+#### 引入 createColorTheme : 
+
+```
+import createColorTheme from '@/libs/CreateColorTheme';
+```
+
+#### 製作客製的 Color Theme : 
+
+```
+const MyColorTheme = createColorTheme(myColor);
+```
+
+#### createColorTheme 參數 : 
+
+| type | format |
+| --- | :---: |
+| String |  ```#nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()```
+
+#### 使用客製的 Color Theme : 
+
+```
+...
+<MyColorTheme>
+    <Component />
+</MyColorTheme>
+...
 ```
 
 <br />
@@ -128,9 +185,9 @@ export default function myComponent() {
 | value | String \| Number | 選單元件選取值
 | label | String | 項目名稱
 
-#### 選單項目建議使用 Object 類型, 使用 String 類型則項目內 key, value, label 皆會使用該字串作為屬性值;
+- #### 選單項目建議使用 Object 類型, 使用 String 類型則項目內 key, value, label 皆會使用該字串作為屬性值
 
-#### 使用 Object 類型未給定特定屬性值時會依序套用 :
+- #### 使用 Object 類型未給定屬性值時會依序套用 :
 
 | key | value | label |
 | :---: | :---: | :---: |
@@ -153,7 +210,7 @@ export default function myComponent() {
             label={label}
             max={max}
             min={min}
-            origin={[firstThumb, secondThumb]}
+            value={[firstThumb, secondThumb]}
             distance={distance}
         />
         ...
@@ -166,10 +223,10 @@ export default function myComponent() {
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
 | name | String | 
-| label | String | 範圍條名稱
-| max | Number \| String | 範圍條最大值
-| min | Number \| String | 範圍條最小值
-| origin | Array[ Number \| String, Number \| String ] | 滑鈕起始位置
+| label | String | 滑動條名稱
+| max | Number \| String | 滑動條最大值
+| min | Number \| String | 滑動條最小值
+| value | Array[ Number \| String, Number \| String ] | 滑鈕位置 (範圍值)
 | distance | Number \| String | 步進值
 | color | String | mui theme color
 | onChange | Function |
@@ -210,6 +267,6 @@ export default function myComponent() {
 | sxLabel | Object | sx 樣式物件, 套用於篩選器標題區
 | sxBody | Object | sx 樣式物件, 套用於篩選器內容區
 | color | String | mui theme color
-| onClick | Function | 點擊篩選器按鈕的回呼函式
+| onClick | Function | 點擊篩選器按鈕執行的回呼函式
 
 <br />
