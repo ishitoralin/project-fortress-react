@@ -1,11 +1,10 @@
 import Link from 'next/link';
 import { Box, Stack } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { MAIN_BLACK } from '@/assets/color-code';
 import LogoIcon from '@/assets/logo';
 
 const ml2 = {
-  ml: 2,
+  marginLeft: '20px',
 };
 
 const centerAll = {
@@ -17,7 +16,7 @@ const centerAll = {
 const navbarStyle = {
   position: 'fixed',
   top: 0,
-  bgcolor: MAIN_BLACK,
+  bgcolor: 'var(--main-black)',
   height: 'var(--nav-height)',
   width: '100%',
   paddingInline: '1.5rem',
@@ -42,8 +41,13 @@ const linkItemStyle = {
     bgcolor: 'white',
     color: 'black',
   },
-  ...ml2,
 };
+
+const MyLink = (props) => (
+  <Link style={{ ...ml2, display: 'block' }} {...props}>
+    {props.children}
+  </Link>
+);
 
 const linksData = [
   {
@@ -82,22 +86,24 @@ export default function Navbar() {
   return (
     <Stack sx={navbarStyle} direction={'row'}>
       <Box sx={logoBoxStyle}>
-        <Link href="/">
+        <MyLink href="/">
           <LogoIcon width={150} height={50} />
-        </Link>
+        </MyLink>
       </Box>
       <Box sx={linksStyle}>
         {linksData.map((link) => (
-          <Link key={link.linkName} href={link.href}>
+          <MyLink key={link.linkName} href={link.href}>
             <Box sx={linkItemStyle}>{link.linkName}</Box>
-          </Link>
+          </MyLink>
         ))}
-        <Box sx={ml2}>
-          <ShoppingCartIcon />
-        </Box>
-        <Box sx={linkItemStyle}>
-          <Link href="/">登入/註冊</Link>
-        </Box>
+        <MyLink href="/">
+          <Box>
+            <ShoppingCartIcon />
+          </Box>
+        </MyLink>
+        <MyLink href="/">
+          <Box sx={linkItemStyle}>登入/註冊</Box>
+        </MyLink>
       </Box>
     </Stack>
   );
