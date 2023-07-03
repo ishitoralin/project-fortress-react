@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import Link from 'next/link';
-import { Box, Stack } from '@mui/material';
+import { Box, Collapse, Stack } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoIcon from '@/assets/logo';
 
@@ -15,6 +16,7 @@ const centerAll = {
 
 const navbarStyle = {
   position: 'fixed',
+  overflow: 'visible',
   top: 0,
   bgcolor: 'var(--main-black)',
   height: 'var(--nav-height)',
@@ -83,6 +85,8 @@ const linksData = [
 ];
 
 export default function Navbar() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Stack sx={navbarStyle} direction={'row'}>
       <Box sx={logoBoxStyle}>
@@ -101,8 +105,18 @@ export default function Navbar() {
             <ShoppingCartIcon />
           </Box>
         </MyLink>
-        <MyLink href="/">
+        <MyLink
+          href=""
+          style={{ position: 'relative' }}
+          onClick={() => setExpanded((pre) => !pre)}
+        >
           <Box sx={linkItemStyle}>登入/註冊</Box>
+          <Collapse
+            in={expanded}
+            sx={{ position: 'absolute', top: '100%', bgcolor: 'black' }}
+          >
+            expand content
+          </Collapse>
         </MyLink>
       </Box>
     </Stack>
