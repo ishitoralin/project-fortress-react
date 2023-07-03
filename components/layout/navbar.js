@@ -88,9 +88,9 @@ export default function Navbar() {
       </Box>
       <Box sx={linksStyle}>
         {linksData.map((link) => (
-          <Box key={link.keyName} sx={linkItemStyle}>
-            <Link href={link.href}>{link.linkName}</Link>
-          </Box>
+          <Link key={link.linkName} href={link.href}>
+            <Box sx={linkItemStyle}>{link.linkName}</Box>
+          </Link>
         ))}
         <Box sx={ml2}>
           <ShoppingCartIcon />
