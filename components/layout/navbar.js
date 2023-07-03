@@ -22,6 +22,7 @@ const navbarStyle = {
   height: 'var(--nav-height)',
   width: '100%',
   paddingInline: '1.5rem',
+  zIndex: 10,
   ...centerAll,
 };
 
@@ -45,9 +46,43 @@ const linkItemStyle = {
   },
 };
 
-const MyLink = (props) => (
-  <Link style={{ ...ml2, display: 'block' }} {...props}>
-    {props.children}
+const ExpandItem = (props) => {
+  return (
+    <Box
+      sx={{ ...linkItemStyle, ...ml2, position: 'relative' }}
+      onClick={props.onClick}
+    >
+      {props.children}
+      <Collapse
+        in={props.in}
+        sx={{
+          position: 'absolute',
+          width: '100%',
+          top: '100%',
+          left: 0,
+          bgcolor: 'var(--main-black)',
+        }}
+      >
+        {props.links.map((link) => (
+          // <Link key={link.key} href={link.href}>
+          //   <Box sx={{...linkItemStyle, textAlign: 'center'}}>{link.linkName}</Box>
+          // </Link>
+          <Item
+            style={{ marginLeft: 0, textAlign: 'center' }}
+            key={link.key}
+            href={link.href}
+          >
+            {link.linkName}
+          </Item>
+        ))}
+      </Collapse>
+    </Box>
+  );
+};
+
+const Item = (props) => (
+  <Link style={{ ...ml2, display: 'block', ...props.style }} {...props}>
+    <Box sx={linkItemStyle}>{props.children}</Box>
   </Link>
 );
 
@@ -90,34 +125,63 @@ export default function Navbar() {
   return (
     <Stack sx={navbarStyle} direction={'row'}>
       <Box sx={logoBoxStyle}>
-        <MyLink href="/">
+        <Link href="/">
           <LogoIcon width={150} height={50} />
-        </MyLink>
+        </Link>
       </Box>
       <Box sx={linksStyle}>
-        {linksData.map((link) => (
-          <MyLink key={link.linkName} href={link.href}>
-            <Box sx={linkItemStyle}>{link.linkName}</Box>
-          </MyLink>
-        ))}
-        <MyLink href="/">
+        <Item href="/product">進入商城</Item>
+        <Item href="/space-find">場地找找</Item>
+        <Item href="/">
           <Box>
             <ShoppingCartIcon />
           </Box>
-        </MyLink>
-        <MyLink
-          href=""
-          style={{ position: 'relative' }}
+        </Item>
+        <ExpandItem
+          in={expanded}
+          onClick={() => setExpanded((pre) => !pre)}
+          links={[
+            {
+              key: 'coach',
+              linkName: '教練簡介',
+              href: '/coach',
+            },
+            {
+              key: 'lesson',
+              linkName: '課程資訊',
+              href: '/lesson',
+            },
+          ]}
+        >
+          課程與教練
+        </ExpandItem>
+        {/* <Item
+          href="/"
+          style={{
+            position: 'relative',
+            padding: '.8rem',
+            borderRadius: '3px',
+            transition: '.5s',
+            ':hover': {
+              backgroundColor: 'white',
+              color: 'black',
+            },
+          }}
           onClick={() => setExpanded((pre) => !pre)}
         >
-          <Box sx={linkItemStyle}>登入/註冊</Box>
+          登入/註冊
           <Collapse
             in={expanded}
-            sx={{ position: 'absolute', top: '100%', bgcolor: 'black' }}
+            sx={{
+              position: 'absolute',
+              width: '100%',
+              top: '100%',
+              bgcolor: 'black',
+            }}
           >
-            expand content
+            ex
           </Collapse>
-        </MyLink>
+        </Item> */}
       </Box>
     </Stack>
   );
