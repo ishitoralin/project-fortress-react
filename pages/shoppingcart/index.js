@@ -9,15 +9,17 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
 export default function ShoppingCart() {
+  // 購買狀態範圍
   const shoppingState = {
     // border: '2px solid rgb(63, 141, 218)',
     width: '100%',
     height: '100px',
+    padding: '0 200px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   };
-
+  // 購買狀態物件容器
   const shoppingStateContainer = {
     height: '100%',
     display: 'flex',
@@ -26,7 +28,7 @@ export default function ShoppingCart() {
     fontSize: '25px',
     borderBottom: '1px solid #000000',
   };
-
+  // 購買狀態物件
   const shoppingStateComponent = {
     width: '490px',
     height: '100%',
@@ -36,14 +38,19 @@ export default function ShoppingCart() {
     fontSize: '25px',
   };
 
+  // 購物車產品標題範圍
   const ProductionTitle = {
-    width: '100%',
+    // width: '80%',
     height: '100px',
+    margin: 'auto',
+    padding: '0 200px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    // border: '2px solid red',
   };
-  const ProductionContainer = {
+  // 購物車產品標題物件容器
+  const ProductionTitleContainer = {
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -51,14 +58,16 @@ export default function ShoppingCart() {
     borderBottom: '1px solid #000',
     fontSize: '25px',
   };
-  const ProductionComponent = {
+  // 購物車產品物件1
+  const ProductionTitleComponent = {
     width: '217px',
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   };
-  const ProductionComponentInfo = {
+  // 購物車產品物件2(加大範圍)
+  const ProductionTitleComponentInfo = {
     width: '434px',
     height: '100%',
     display: 'flex',
@@ -66,6 +75,19 @@ export default function ShoppingCart() {
     alignItems: 'center',
   };
 
+  // 待結帳產品列表範圍
+  const ProductionList = {
+    // width: '80%',
+    height: '100px',
+    margin: 'auto',
+    padding: '0 200px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // border: '2px solid red',
+  };
+
+  // 待結帳產品列表範圍容器
   const ProductionListContainer = {
     height: '100%',
     display: 'flex',
@@ -75,13 +97,24 @@ export default function ShoppingCart() {
     fontSize: '25px',
   };
 
-  const count = {
-    width: '100%',
-    height: '100px',
+  // 待結帳產品列表物件
+  const ProductionListComponent = {
+    width: '217px',
+    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    border: '2px solid red',
+  };
+
+  // 結帳欄
+  const count = {
+    width: '100%',
+    height: '100px',
+    padding: '0 200px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // border: '2px solid red',
   };
 
   const countContainer = {
@@ -96,19 +129,20 @@ export default function ShoppingCart() {
   const checkButton = {
     width: '100%',
     height: '100px',
+    padding: '0 200px',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'end',
     alignItems: 'center',
     // border: '2px solid red',
   };
 
   const checkButtonContainer = {
-    border: '2px solid red',
     height: '100px',
+    width: '100%',
     display: 'flex',
-    justifyContent: 'center',
+    justifyContent: 'end',
     alignItems: 'center',
-    fontSize: '25px',
+    // border: '2px solid red',
   };
   return (
     <>
@@ -131,50 +165,48 @@ export default function ShoppingCart() {
         </div>
       </div>
       <div style={ProductionTitle}>
-        <div style={ProductionContainer}>
-          <div style={ProductionComponent}>產品編號</div>
-          <div style={ProductionComponentInfo}>商品資訊</div>
-          <div style={ProductionComponent}>單價</div>
-          <div style={ProductionComponent}>數量</div>
-          <div style={ProductionComponent}>小計</div>
-          <div style={ProductionComponent}>刪除</div>
+        <div style={ProductionTitleContainer}>
+          <div style={ProductionTitleComponent}>產品編號</div>
+          <div style={ProductionTitleComponentInfo}>商品資訊</div>
+          <div style={ProductionTitleComponent}>單價</div>
+          <div style={ProductionTitleComponent}>數量</div>
+          <div style={ProductionTitleComponent}>小計</div>
+          <div style={ProductionTitleComponent}>刪除</div>
         </div>
       </div>
-      <div style={ProductionTitle}>
+      <div style={ProductionList}>
         <div style={ProductionListContainer}>
-          <div style={ProductionComponent}>1</div>
-          <div style={ProductionComponent}>photo</div>
-          <div style={ProductionComponent}>detail</div>
-          <div style={ProductionComponent}>3000</div>
-          <div style={ProductionComponent}>
+          <div style={ProductionListComponent}>1</div>
+          <div style={ProductionListComponent}>photo</div>
+          <div style={ProductionListComponent}>detail</div>
+          <div style={ProductionListComponent}>3000</div>
+          <div style={ProductionListComponent}>
             <RemoveIcon></RemoveIcon>
             <input type="number" style={{ width: '50px' }} />
             <AddIcon></AddIcon>
           </div>
-          <div style={ProductionComponent}>amount</div>
-          <div style={ProductionComponent}>
+          <div style={ProductionListComponent}>amount</div>
+          <div style={ProductionListComponent}>
             <DeleteOutlineIcon />
           </div>
         </div>
       </div>
       <div style={count}>
         <div style={countContainer}>
-          <div style={ProductionComponent}>總計</div>
-          <div style={ProductionComponentInfo}></div>
-          <div style={ProductionComponent}></div>
-          <div style={ProductionComponent}>總共N件</div>
-          <div style={ProductionComponent}>15000</div>
-          <div style={ProductionComponent}>NTD </div>
+          <div style={ProductionListComponent}>總計</div>
+          <div style={ProductionListComponent}></div>
+          <div style={ProductionListComponent}></div>
+          <div style={ProductionListComponent}></div>
+          <div style={ProductionListComponent}>總共N件</div>
+          <div style={ProductionListComponent}>15000</div>
+          <div style={ProductionListComponent}>NTD </div>
         </div>
       </div>
       <div style={checkButton}>
         <div style={checkButtonContainer}>
-          <div style={ProductionComponent}>
-            <Button variant="outlined">返回商城</Button>
-          </div>
-          <div style={ProductionComponent}>
-            <Button variant="outlined">確認購買</Button>
-          </div>
+          {/* button樣式尚未處理 */}
+          <Button variant="outlined">返回商城</Button>
+          <Button variant="outlined">確認購買</Button>
         </div>
       </div>
     </>
