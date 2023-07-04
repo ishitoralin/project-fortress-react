@@ -5,10 +5,9 @@ import EastIcon from '@mui/icons-material/East';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 
-export default function ShoppingCart() {
+export default function ShoppingCart(props) {
   // 購買狀態範圍
   const shoppingState = {
     // border: '2px solid rgb(63, 141, 218)',
@@ -131,16 +130,25 @@ export default function ShoppingCart() {
     height: '100px',
     padding: '0 200px',
     display: 'flex',
-    justifyContent: 'end',
+    justifyContent: 'center',
     alignItems: 'center',
     // border: '2px solid red',
   };
 
   const checkButtonContainer = {
-    height: '100px',
+    height: '100%',
     width: '100%',
     display: 'flex',
     justifyContent: 'end',
+    alignItems: 'center',
+    // border: '2px solid red',
+  };
+  const checkButtonComponent = {
+    height: '100%',
+    width: '15%',
+    marginLeft: '10px',
+    display: 'flex',
+    justifyContent: 'center',
     alignItems: 'center',
     // border: '2px solid red',
   };
@@ -174,6 +182,8 @@ export default function ShoppingCart() {
           <div style={ProductionTitleComponent}>刪除</div>
         </div>
       </div>
+
+      {/* 商品列表start，之後用fetch從DB抓資料 */}
       <div style={ProductionList}>
         <div style={ProductionListContainer}>
           <div style={ProductionListComponent}>1</div>
@@ -191,6 +201,8 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
+      {/* 商品列表end，之後用fetch從DB抓資料 */}
+
       <div style={count}>
         <div style={countContainer}>
           <div style={ProductionListComponent}>總計</div>
@@ -204,9 +216,50 @@ export default function ShoppingCart() {
       </div>
       <div style={checkButton}>
         <div style={checkButtonContainer}>
-          {/* button樣式尚未處理 */}
-          <Button variant="outlined">返回商城</Button>
-          <Button variant="outlined">確認購買</Button>
+          <div style={checkButtonComponent}>
+            <Button
+              sx={
+                props.color
+                  ? { width: '100%' }
+                  : {
+                      width: '100%',
+                      bgcolor: 'white',
+                      transition: '.5s',
+                      ':hover': {
+                        opacity: '.7',
+                        bgcolor: 'white',
+                      },
+                    }
+              }
+              color="secondary"
+              variant="contained"
+              onClick={props.onClick}
+            >
+              返回首頁
+            </Button>
+          </div>
+          <div style={checkButtonComponent}>
+            <Button
+              sx={
+                props.color
+                  ? { width: '100%'}
+                  : {
+                      width: '100%',
+                      bgcolor: 'var(--main-red)',
+                      transition: '.5s',
+                      ':hover': {
+                        opacity: '.7',
+                        bgcolor: 'var(--main-red)',
+                      },
+                    }
+              }
+              color={props.color}
+              variant="contained"
+              onClick={props.onClick}
+            >
+              確認購買
+            </Button>
+          </div>
         </div>
       </div>
     </>
