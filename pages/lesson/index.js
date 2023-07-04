@@ -53,7 +53,7 @@ const LessionPage = () => {
     <Box>
       <Box sx={bannerStyle}>
         <Image
-          fill={true}
+          fill
           src={absImg}
           alt="bannerimg"
           style={{ objectFit: 'cover' }}

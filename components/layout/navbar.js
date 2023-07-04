@@ -49,7 +49,12 @@ const linkItemStyle = {
 const ExpandItem = (props) => {
   return (
     <Box
-      sx={{ ...linkItemStyle, ...ml2, position: 'relative' }}
+      sx={{
+        ...linkItemStyle,
+        ...ml2,
+        position: 'relative',
+        cursor: 'pointer',
+      }}
       onClick={props.onClick}
     >
       {props.children}
@@ -58,22 +63,41 @@ const ExpandItem = (props) => {
         sx={{
           position: 'absolute',
           width: '100%',
-          top: '100%',
+          top: '0%',
           left: 0,
-          bgcolor: 'var(--main-black)',
+          color: 'white',
+          borderRadius: 'inherit',
         }}
       >
+        <Box
+          sx={{
+            ...linkItemStyle,
+            bgcolor: 'white',
+            color: 'var(--main-black)',
+          }}
+        >
+          {props.children}
+        </Box>
         {props.links.map((link) => (
-          // <Link key={link.key} href={link.href}>
-          //   <Box sx={{...linkItemStyle, textAlign: 'center'}}>{link.linkName}</Box>
-          // </Link>
-          <Item
-            style={{ marginLeft: 0, textAlign: 'center' }}
+          <Link
+            style={{
+              marginLeft: 0,
+              textAlign: 'center',
+              backgroundColor: 'var(--main-black)',
+            }}
             key={link.key}
             href={link.href}
           >
-            {link.linkName}
-          </Item>
+            <Box
+              sx={{
+                ...linkItemStyle,
+                bgcolor: 'var(--main-black)',
+                marginTop: '.2rem',
+              }}
+            >
+              {link.linkName}
+            </Box>
+          </Link>
         ))}
       </Collapse>
     </Box>
@@ -86,34 +110,73 @@ const Item = (props) => (
   </Link>
 );
 
+const expandData = {
+  coachLesson: [
+    {
+      key: 'coach',
+      linkName: '教練簡介',
+      href: '/coach',
+    },
+    {
+      key: 'lesson',
+      linkName: '課程資訊',
+      href: '/lesson',
+    },
+  ],
+  member: [
+    {
+      key: 'member',
+      linkName: '會員中心',
+      href: '/member',
+    },
+    {
+      key: 'signInUp',
+      linkName: '登入註冊',
+      href: '/member',
+    },
+  ],
+  record: [
+    {
+      key: 'train',
+      linkName: '訓練紀錄',
+      href: '/record',
+    },
+    {
+      key: 'diet',
+      linkName: '飲食紀錄',
+      href: '/record',
+    },
+  ],
+};
+
 const linksData = [
   {
-    keyName: 'coach',
+    key: 'coach',
     linkName: '教練簡介',
     href: '/coach',
   },
   {
-    keyName: 'product',
+    key: 'product',
     linkName: '進入商城',
     href: '/product',
   },
   {
-    keyName: 'lesson',
+    key: 'lesson',
     linkName: '課程資訊',
     href: '/lesson',
   },
   {
-    keyName: 'record',
+    key: 'record',
     linkName: '個人紀錄',
     href: '/record',
   },
   {
-    keyName: 'space-find',
+    key: 'space-find',
     linkName: '場地找找',
     href: '/space-find',
   },
   {
-    keyName: 'member',
+    key: 'member',
     linkName: '會員中心',
     href: '/member',
   },
@@ -121,6 +184,9 @@ const linksData = [
 
 export default function Navbar() {
   const [expanded, setExpanded] = useState(false);
+  const [linksState, setLinksState] = useState(() => {
+    return new Map([...Object.keys(expandData)].map((key) => [key, false]));
+  });
 
   return (
     <Stack sx={navbarStyle} direction={'row'}>
@@ -132,11 +198,15 @@ export default function Navbar() {
       <Box sx={linksStyle}>
         <Item href="/product">進入商城</Item>
         <Item href="/space-find">場地找找</Item>
-        <Item href="/">
-          <Box>
-            <ShoppingCartIcon />
-          </Box>
-        </Item>
+        <Link href="/" style={{ ...ml2, display: 'block' }}>
+          <ShoppingCartIcon
+            sx={{
+              ':hover': {
+                color: 'var(--fortress)',
+              },
+            }}
+          />
+        </Link>
         <ExpandItem
           in={expanded}
           onClick={() => setExpanded((pre) => !pre)}
