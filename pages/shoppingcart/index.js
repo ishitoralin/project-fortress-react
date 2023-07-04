@@ -6,6 +6,8 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 export default function ShoppingCart() {
   const shoppingState = {
     // border: '2px solid rgb(63, 141, 218)',
@@ -16,7 +18,7 @@ export default function ShoppingCart() {
     alignItems: 'center',
   };
 
-  const titleContainer = {
+  const shoppingStateContainer = {
     height: '100%',
     display: 'flex',
     justifyContent: 'center',
@@ -25,7 +27,7 @@ export default function ShoppingCart() {
     borderBottom: '1px solid #000000',
   };
 
-  const titleComponent = {
+  const shoppingStateComponent = {
     width: '490px',
     height: '100%',
     display: 'flex',
@@ -79,10 +81,29 @@ export default function ShoppingCart() {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    border: '2px solid red',
   };
 
   const countContainer = {
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: '25px',
+    borderBottom: '1px solid rgba(0,0,0,0.15)',
+  };
+
+  const checkButton = {
     width: '100%',
+    height: '100px',
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    // border: '2px solid red',
+  };
+
+  const checkButtonContainer = {
+    border: '2px solid red',
     height: '100px',
     display: 'flex',
     justifyContent: 'center',
@@ -92,18 +113,18 @@ export default function ShoppingCart() {
   return (
     <>
       <div className={`${styles.shoppingState}`}>
-        <div style={titleContainer}>
-          <div style={titleComponent}>
+        <div style={shoppingStateContainer}>
+          <div style={shoppingStateComponent}>
             <CheckCircleOutlineIcon />
             訂單確認
           </div>
           <EastIcon />
-          <div style={titleComponent}>
+          <div style={shoppingStateComponent}>
             <RemoveCircleOutlineIcon />
             買家資訊
           </div>
           <EastIcon />
-          <div style={titleComponent}>
+          <div style={shoppingStateComponent}>
             <RemoveCircleOutlineIcon />
             訂單明細
           </div>
@@ -142,8 +163,18 @@ export default function ShoppingCart() {
           <div style={ProductionComponentInfo}></div>
           <div style={ProductionComponent}></div>
           <div style={ProductionComponent}>總共N件</div>
-          <div style={ProductionComponent}></div>
+          <div style={ProductionComponent}>15000</div>
           <div style={ProductionComponent}>NTD </div>
+        </div>
+      </div>
+      <div style={checkButton}>
+        <div style={checkButtonContainer}>
+          <div style={ProductionComponent}>
+            <Button variant="outlined">返回商城</Button>
+          </div>
+          <div style={ProductionComponent}>
+            <Button variant="outlined">確認購買</Button>
+          </div>
         </div>
       </div>
     </>
