@@ -6,7 +6,9 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
-
+import createColorTheme from '@/libs/CreateColorTheme';
+const WhiteTheme = createColorTheme('#FFF');
+const RedTheme = createColorTheme('#00FFFF');
 export default function ShoppingCart(props) {
   // 購買狀態範圍
   const shoppingState = {
@@ -217,48 +219,35 @@ export default function ShoppingCart(props) {
       <div style={checkButton}>
         <div style={checkButtonContainer}>
           <div style={checkButtonComponent}>
-            <Button
-              sx={
-                props.color
-                  ? { width: '100%' }
-                  : {
-                      width: '100%',
-                      bgcolor: 'white',
-                      transition: '.5s',
-                      ':hover': {
-                        opacity: '.7',
-                        bgcolor: 'white',
-                      },
-                    }
-              }
-              color="secondary"
-              variant="contained"
-              onClick={props.onClick}
-            >
-              返回首頁
-            </Button>
+            <WhiteTheme>
+              <Button
+                sx={{ width: '100%' }}
+                variant="contained"
+                onClick={props.onClick}
+              >
+                返回首頁
+              </Button>
+            </WhiteTheme>
           </div>
           <div style={checkButtonComponent}>
-            <Button
-              sx={
-                props.color
-                  ? { width: '100%'}
-                  : {
-                      width: '100%',
-                      bgcolor: 'var(--main-red)',
-                      transition: '.5s',
-                      ':hover': {
-                        opacity: '.7',
-                        bgcolor: 'var(--main-red)',
-                      },
-                    }
-              }
-              color={props.color}
-              variant="contained"
-              onClick={props.onClick}
-            >
-              確認購買
-            </Button>
+            <RedTheme>
+              <Button
+                sx={{
+                  width: '100%',
+                  // bgcolor: 'var(--main-red)',
+                  // transition: '.5s',
+                  ':hover': {
+                    opacity: '.7',
+                    bgcolor: 'var(--main-red)',
+                  },
+                }}
+                // color={props.color}
+                variant="contained"
+                onClick={props.onClick}
+              >
+                確認購買
+              </Button>
+            </RedTheme>
           </div>
         </div>
       </div>
