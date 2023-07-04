@@ -1,30 +1,32 @@
 import { TextField, MenuItem } from '@mui/material';
 
-import { styled } from '@mui/material/styles';
-
-const MySelect = styled(TextField)(() => ({
-  width: '100%',
-}));
-
 export default function CUISelect(props) {
   return (
-    <MySelect
+    <TextField
       variant="standard"
-      sx={props.sx}
+      sx={{ width: '100%', ...props.sx }}
       select
-      id={props.id}
+      name={props.name}
+      color={props.color}
       label={props.label}
       defaultValue={props.defaultValue || ''}
       helperText={props.helperText}
+      onChange={props.onChange}
     >
-      {props.options?.map((option) => (
-        <MenuItem
-          key={option.key || option.value || option}
-          value={option.value || option}
-        >
-          {option.label || option}
-        </MenuItem>
-      ))}
-    </MySelect>
+      {props.options?.map((option, index) => {
+        return typeof option === 'string' || option instanceof String ? (
+          <MenuItem key={option} value={option}>
+            {option}
+          </MenuItem>
+        ) : (
+          <MenuItem
+            key={option.key || index}
+            value={option.value || option.label || ''}
+          >
+            {option.label || option.value || ''}
+          </MenuItem>
+        );
+      })}
+    </TextField>
   );
 }
