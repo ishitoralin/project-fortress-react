@@ -1,12 +1,22 @@
-import Navbar from './navbar'
-import Footer from './footer'
+import Navbar from './navbar';
+import Footer from './footer';
 
 export default function Layout({ children }) {
   return (
     <>
       <Navbar />
-      <main style={{'margin-top': '80px'}}>{children}</main>
-      <Footer />
+      <div style={{ height: 'var(--nav-height)' }}></div>
+      <main>
+        <div
+          style={{
+            position: 'relative',
+            minHeight: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+          }}
+        >
+          {children}
+          <Footer />
+        </div>
+      </main>
     </>
-  )
+  );
 }

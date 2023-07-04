@@ -28,5 +28,3 @@ const Filter = ({ items, label = 'Filter Label' }) => {
     </CUICard>
   );
 };
-
-export default Filter;
