@@ -1,8 +1,28 @@
  .shoppingState  {
- 
     width: 100%;
     height: 100px;
+    padding: 0 200px;
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
+  /* styles.css */
+
+/* 隱藏數量調整按鈕 */
+.inputHideAdjustButton[type="number"]::-webkit-inner-spin-button,
+.inputHideAdjustButton[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputHideAdjustButton[type="number"] {
+  -moz-appearance: textfield;
+}
+
+.buttonWidth{
+  width: 60px;
+  height: 30px;
+  text-align:center;
+  font-size: 24px;
+}
