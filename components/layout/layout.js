@@ -6,8 +6,17 @@ export default function Layout({ children }) {
     <>
       <Navbar />
       <div style={{ height: 'var(--nav-height)' }}></div>
-      <main>{children}</main>
-      <Footer />
+      <main>
+        <div
+          style={{
+            position: 'relative',
+            minHeight: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+          }}
+        >
+          {children}
+          <Footer />
+        </div>
+      </main>
     </>
   );
 }

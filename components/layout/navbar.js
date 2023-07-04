@@ -1,104 +1,124 @@
-import Link from 'next/link'
-import { Box, Stack } from "@mui/material"
+import { useState } from 'react';
+import Link from 'next/link';
+import { Box, Collapse, Stack } from '@mui/material';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import { MAIN_BLACK } from "@/assets/color-code"
-import LogoIcon from "@/assets/logo"
+import LogoIcon from '@/assets/logo';
 
 const ml2 = {
-  ml: 2
-}
+  marginLeft: '20px',
+};
 
 const centerAll = {
   display: 'flex',
   justifyContent: 'center',
-  alignItems: 'center'
-}
+  alignItems: 'center',
+};
 
 const navbarStyle = {
   position: 'fixed',
+  overflow: 'visible',
   top: 0,
-  bgcolor: MAIN_BLACK, 
+  bgcolor: 'var(--main-black)',
   height: 'var(--nav-height)',
   width: '100%',
   paddingInline: '1.5rem',
-  ...centerAll
-}
-
-const logoBoxStyle ={
   ...centerAll,
-  marginRight: 'auto'
-}
+};
+
+const logoBoxStyle = {
+  ...centerAll,
+  marginRight: 'auto',
+};
 
 const linksStyle = {
   ...centerAll,
   color: 'white',
-}
+};
 
 const linkItemStyle = {
-  p:  '.8rem',
+  p: '.8rem',
   borderRadius: '3px',
   transition: '.5s',
-  ":hover": {
+  ':hover': {
     bgcolor: 'white',
-    color: 'black'
+    color: 'black',
   },
-  ...ml2
-}
+};
+
+const MyLink = (props) => (
+  <Link style={{ ...ml2, display: 'block' }} {...props}>
+    {props.children}
+  </Link>
+);
 
 const linksData = [
   {
     keyName: 'coach',
     linkName: '教練簡介',
-    href: '/coach'
-  }, 
+    href: '/coach',
+  },
   {
     keyName: 'product',
     linkName: '進入商城',
-    href: '/product'
-  }, 
+    href: '/product',
+  },
   {
     keyName: 'lesson',
     linkName: '課程資訊',
-    href: '/lesson'
-  }, 
+    href: '/lesson',
+  },
   {
     keyName: 'record',
     linkName: '個人紀錄',
-    href: '/record'
-  }, 
+    href: '/record',
+  },
   {
     keyName: 'space-find',
     linkName: '場地找找',
-    href: '/space-find'
-  }, 
+    href: '/space-find',
+  },
   {
     keyName: 'member',
     linkName: '會員中心',
-    href: '/member'
-  }
-]
+    href: '/member',
+  },
+];
 
 export default function Navbar() {
+  const [expanded, setExpanded] = useState(false);
+
   return (
     <Stack sx={navbarStyle} direction={'row'}>
       <Box sx={logoBoxStyle}>
-        <Link href="/">
-          <LogoIcon width={150} height={50}/>
-        </Link>
+        <MyLink href="/">
+          <LogoIcon width={150} height={50} />
+        </MyLink>
       </Box>
       <Box sx={linksStyle}>
-        {linksData.map(link => 
-          <Box key={link.keyName} sx={linkItemStyle} >
-            <Link href={link.href}>{link.linkName}</Link>
+        {linksData.map((link) => (
+          <MyLink key={link.linkName} href={link.href}>
+            <Box sx={linkItemStyle}>{link.linkName}</Box>
+          </MyLink>
+        ))}
+        <MyLink href="/">
+          <Box>
+            <ShoppingCartIcon />
           </Box>
-        )}
-        <Box sx={...ml2}>
-        <ShoppingCartIcon />
-        </Box>
-        <Box sx={linkItemStyle} >
-          <Link href="/">登入/註冊</Link>
-        </Box>
+        </MyLink>
+        <MyLink
+          href=""
+          style={{ position: 'relative' }}
+          onClick={() => setExpanded((pre) => !pre)}
+        >
+          <Box sx={linkItemStyle}>登入/註冊</Box>
+          <Collapse
+            in={expanded}
+            sx={{ position: 'absolute', top: '100%', bgcolor: 'black' }}
+          >
+            expand content
+          </Collapse>
+        </MyLink>
       </Box>
     </Stack>
-  )
+  );
 }
