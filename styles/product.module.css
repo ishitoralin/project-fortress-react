@@ -1,13 +1,27 @@
 
-.container{
-    color:red
-}
+/* .container{
+} */
 .container>div{
     color:blue
 }
-
+.Carouselimg{
+  width: 100%;
+  margin-top: 20px;
+  padding: 0px 61px;
+  display: flex;
+  justify-content: space-between;
+  /* position: relative; */
+  align-items: center;}
+.wrap {
+    width: 100% ;
+    outline: none;
+    align-items: stretch;
+  }
 .aaa{
   background-color: aliceblue;
   max-width: 200px;
   
 }
+
+
+
