@@ -1,35 +1,44 @@
-import React, { Component } from 'react';
-// import Carousel from 'react-material-ui-carousel';
-// import { Paper, Button } from '@mui/material';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-export default class AdaptiveHeight extends Component {
-  render() {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 1,
-      slidesToScroll: 1,
-    };
-    return (
-      <div>
-        <Slider {...settings}>
-          <div>
-            <img src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg" />
+import React, { useRef, useState } from 'react';
+// Import Swiper React components
+import { Swiper, SwiperSlide } from 'swiper/react';
+import styles from '@/styles/product.module.css';
+
+// Import Swiper styles
+import 'swiper/css';
+
+export default function Index() {
+  return (
+    <>
+      <Swiper className="mySwiper">
+        <SwiperSlide>
+          <div className={`${styles['img-wrapper']}`}>
+            <img
+              alt="1"
+              src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg"
+            />
           </div>
-          <div>
-            <img src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className={`${styles['img-wrapper']}`}>
+            <img
+              alt="2"
+              src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg"
+            />
           </div>
-          <div>
-            <img src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg" />
+        </SwiperSlide>
+        <SwiperSlide>
+          <div className={`${styles['img-wrapper']}`}>
+            <img
+              alt="3"
+              src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg"
+            />
           </div>
-        </Slider>
-      </div>
-    );
-  }
+        </SwiperSlide>
+      </Swiper>
+    </>
+  );
 }
+
 // const Carouselimg1 = [
 //   <img src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg" />,
 // ];

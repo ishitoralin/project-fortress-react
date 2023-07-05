@@ -23,5 +23,16 @@
   
 }
 
-
-
+.img-wrapper{
+  width: 100%;
+  height: auto;
+  
+}
+.img-wrapper img{
+width: 100%;
+height: 1080px;
+object-fit: cover;
+}
+.IndexButtons{
+  
+}
