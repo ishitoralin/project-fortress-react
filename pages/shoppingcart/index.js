@@ -1,15 +1,19 @@
 import styles from './shoppingcart.module.css';
+//Import Icon
 import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EastIcon from '@mui/icons-material/East';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+//Import Icon
+
+//Import button
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
-// import { AddIcon, RemoveIcon } from '@mui/icons-material';
+//Import button
 
-//卡片import
+//import Card
 import * as React from 'react';
 import {
   Card,
@@ -23,6 +27,7 @@ import {
 // import CardContent from '@mui/material/CardContent';
 // import CardMedia from '@mui/material/CardMedia';
 // import Typography from '@mui/material/Typography';
+//import Card
 
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
