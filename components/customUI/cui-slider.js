@@ -8,18 +8,22 @@ const RedTheme = createColorTheme(MAIN_RED);
 const defaultValue = {
   min: 200,
   max: 2000,
-  origin: [500, 1400],
+  value: [500, 1400],
   distance: 50,
 };
 
 export default function CUISlider(oriProps) {
   const props = { ...defaultValue, ...oriProps };
 
+  if (!Array.isArray(props.value)) {
+    throw 'CUISlider can only accept array as value';
+  }
+
   const [max, min, distance, firstThumb, secondThumb] = [
     props.max,
     props.min,
     props.distance,
-    ...props.origin,
+    ...props.value,
   ].map((value) => parseInt(value));
 
   const [value, setValue] = useState([firstThumb, secondThumb]);
