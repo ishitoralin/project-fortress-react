@@ -4,8 +4,9 @@ import { styled } from '@mui/material/styles';
 const MyCard = styled(Paper)(() => ({
   display: 'inline-block',
   padding: '20px',
-  bgcolor: 'pink',
+  backgroundColor: 'pink',
   borderRadius: '20px',
+  width: '100%',
 }));
 
 export default function SUICard(props) {
