@@ -1,36 +1,16 @@
+import Link from 'next/link';
 import React from 'react';
-import Box from '@mui/material/Box';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
+import styles from '@/styles/member.module.css';
 
 export default function Index() {
-  const [age, setAge] = React.useState('');
-
-  const handleChange = (event) => {
-    setAge(event.target.value);
-  };
-
   return (
-    <>
-      <div style={{ height: '1000px', outline: '1px solid red' }}></div>
-      <Box sx={{ width: 120 }}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-simple-select-label">Age</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={age}
-            label="Age"
-            onChange={handleChange}
-          >
-            <MenuItem value={10}>Ten</MenuItem>
-            <MenuItem value={20}>Twenty</MenuItem>
-            <MenuItem value={30}>Thirty</MenuItem>
-          </Select>
-        </FormControl>
-      </Box>
-    </>
+    <section className={`${styles.container}`}>
+      <div>
+        <Link>會員資料</Link>
+        <Link>收藏商品</Link>
+        <Link>收藏課程</Link>
+        <Link>我的訂單</Link>
+      </div>
+    </section>
   );
 }
