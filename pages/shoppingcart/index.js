@@ -232,7 +232,7 @@ export default function ShoppingCart(props) {
     width: '100%',
     height: '100%',
     display: 'flex',
-    flexWarp: 'Wrap',
+    flexWrap: 'wrap',
     justifyContent: 'start',
     alignItems: 'center',
     border: '2px solid red',
