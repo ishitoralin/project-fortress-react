@@ -23,6 +23,7 @@ const navbarStyle = {
   height: 'var(--nav-height)',
   width: '100%',
   paddingInline: '1.5rem',
+  userSelect: 'none',
   zIndex: 10,
   ...centerAll,
 };

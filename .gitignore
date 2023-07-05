@@ -8,6 +8,9 @@
 # testing
 /coverage
 
+# test img
+assets/.jpg
+
 # next.js
 /.next/
 /out/
