@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Box, Collapse, Stack } from '@mui/material';
+import ClickAwayListener from '@mui/base/ClickAwayListener';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoIcon from '@/assets/logo';
 
@@ -105,7 +106,11 @@ const ExpandItem = (props) => {
 };
 
 const Item = (props) => (
-  <Link style={{ ...ml2, display: 'block', ...props.style }} {...props}>
+  <Link
+    passHref
+    style={{ ...ml2, display: 'block', ...props.style }}
+    {...props}
+  >
     <Box sx={linkItemStyle}>{props.children}</Box>
   </Link>
 );
@@ -149,110 +154,76 @@ const expandData = {
   ],
 };
 
-const linksData = [
-  {
-    key: 'coach',
-    linkName: '教練簡介',
-    href: '/coach',
-  },
-  {
-    key: 'product',
-    linkName: '進入商城',
-    href: '/product',
-  },
-  {
-    key: 'lesson',
-    linkName: '課程資訊',
-    href: '/lesson',
-  },
-  {
-    key: 'record',
-    linkName: '個人紀錄',
-    href: '/record',
-  },
-  {
-    key: 'space-find',
-    linkName: '場地找找',
-    href: '/space-find',
-  },
-  {
-    key: 'member',
-    linkName: '會員中心',
-    href: '/member',
-  },
-];
+const getInitState = () => {
+  return new Map([...Object.keys(expandData)].map((key) => [key, false]));
+};
 
 export default function Navbar() {
-  const [expanded, setExpanded] = useState(false);
-  const [linksState, setLinksState] = useState(() => {
-    return new Map([...Object.keys(expandData)].map((key) => [key, false]));
-  });
+  const [linksState, setLinksState] = useState(() => getInitState());
+
+  const toggleLink = (name) => {
+    setLinksState((pre) => {
+      const newState = new Map(pre);
+      newState.forEach((state, key) => {
+        newState.set(key, key === name ? !newState.get(name) : false);
+      });
+      return newState;
+    });
+  };
+
+  const closeLinks = () => setLinksState(getInitState());
 
   return (
     <Stack sx={navbarStyle} direction={'row'}>
-      <Box sx={logoBoxStyle}>
+      <Box sx={logoBoxStyle} onClick={closeLinks}>
         <Link href="/">
           <LogoIcon width={150} height={50} />
         </Link>
       </Box>
-      <Box sx={linksStyle}>
-        <Item href="/product">進入商城</Item>
-        <Item href="/space-find">場地找找</Item>
-        <Link href="/" style={{ ...ml2, display: 'block' }}>
-          <ShoppingCartIcon
-            sx={{
-              ':hover': {
-                color: 'var(--fortress)',
-              },
-            }}
-          />
-        </Link>
-        <ExpandItem
-          in={expanded}
-          onClick={() => setExpanded((pre) => !pre)}
-          links={[
-            {
-              key: 'coach',
-              linkName: '教練簡介',
-              href: '/coach',
-            },
-            {
-              key: 'lesson',
-              linkName: '課程資訊',
-              href: '/lesson',
-            },
-          ]}
-        >
-          課程與教練
-        </ExpandItem>
-        {/* <Item
-          href="/"
-          style={{
-            position: 'relative',
-            padding: '.8rem',
-            borderRadius: '3px',
-            transition: '.5s',
-            ':hover': {
-              backgroundColor: 'white',
-              color: 'black',
-            },
-          }}
-          onClick={() => setExpanded((pre) => !pre)}
-        >
-          登入/註冊
-          <Collapse
-            in={expanded}
-            sx={{
-              position: 'absolute',
-              width: '100%',
-              top: '100%',
-              bgcolor: 'black',
-            }}
+      <ClickAwayListener onClickAway={closeLinks}>
+        <Box sx={linksStyle}>
+          <ExpandItem
+            in={linksState.get('coachLesson')}
+            onClick={() => toggleLink('coachLesson')}
+            links={expandData['coachLesson']}
           >
-            ex
-          </Collapse>
-        </Item> */}
-      </Box>
+            課程與教練
+          </ExpandItem>
+          <Item href="/product" onClick={closeLinks}>
+            進入商城
+          </Item>
+          <ExpandItem
+            in={linksState.get('record')}
+            onClick={() => toggleLink('record')}
+            links={expandData['record']}
+          >
+            個人紀錄
+          </ExpandItem>
+          <Item href="/space-find" onClick={closeLinks}>
+            場地找找
+          </Item>
+          <Link
+            href="/"
+            onClick={closeLinks}
+            style={{ ...ml2, display: 'block' }}
+          >
+            <ShoppingCartIcon
+              sx={{
+                ':hover': {
+                  color: 'var(--fortress)',
+                },
+              }}
+            />
+          </Link>
+          <ExpandItem
+            in={linksState.get('member')}
+            onClick={() => toggleLink('member')}
+            links={expandData['member']}
+          >
+            會員中心
+          </ExpandItem>
+        </Box>
+      </ClickAwayListener>
     </Stack>
   );
 }
