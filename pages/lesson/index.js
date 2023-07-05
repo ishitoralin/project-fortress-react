@@ -1,36 +1,13 @@
-import Image from 'next/image';
 import { Box, Container, Typography } from '@mui/material';
+
+import Banner from '@/components/lesson-banner';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
 import CUIFilter from '@/components/customUI/cui-filter';
 import CUICard from '@/components/customUI/cui-card';
 
-import absImg from '@/assets/abs.jpg';
-import abs1Img from '@/assets/abs1.jpg';
-import core from '@/assets/core.jpg';
-import functional from '@/assets/functional.jpg';
-import hiit from '@/assets/HIIT.jpg';
-import oxgen1 from '@/assets/oxgen1.jpg';
-
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
-const bannerImgs = [absImg, abs1Img, core, functional, hiit, oxgen1];
-
-const bannerStyle = {
-  position: 'sticky',
-  overflow: 'hidden',
-  // overflowX: 'auto',
-  top: 0,
-  height: '70vh',
-};
-
-const carouselStyle = {
-  display: 'flex',
-  position: 'relative',
-  left: '-100%',
-  width: '300%',
-  height: '100%',
-};
 
 const mainContentStyle = {
   width: '100%',
@@ -51,29 +28,13 @@ const containerStyle = {
 const rightSideStyle = {
   width: '70%',
   height: '100vh',
-  bgcolor: 'pink',
+  bgcolor: 'lightsteelblue',
 };
 
 const LessionPage = () => {
   return (
     <Box>
-      <Box sx={bannerStyle}>
-        <Box sx={carouselStyle}>
-          {bannerImgs.map((img, index) => (
-            <Image
-              key={index}
-              src={img}
-              alt="bannerimg"
-              style={{
-                width: '100vw',
-                height: '100%',
-                objectFit: 'cover',
-                filter: 'brightness(60%)',
-              }}
-            />
-          ))}
-        </Box>
-      </Box>
+      <Banner />
       <Box sx={mainContentStyle}>
         <Container sx={containerStyle}>
           <Typography

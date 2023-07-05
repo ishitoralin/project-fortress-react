@@ -155,8 +155,12 @@ const expandData = {
   ],
 };
 
+const initState = new Map(
+  [...Object.keys(expandData)].map((key) => [key, false])
+);
+
 const getInitState = () => {
-  return new Map([...Object.keys(expandData)].map((key) => [key, false]));
+  return new Map(initState);
 };
 
 export default function Navbar() {
