@@ -4,6 +4,7 @@ import CUICard from '@/components/customUI/cui-card';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
+
 import CUICarousel from '@/components/customUI/cui-carousel';
 import PButton from '@/components/customUI/p-button';
 
