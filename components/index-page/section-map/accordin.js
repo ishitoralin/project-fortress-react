@@ -21,7 +21,9 @@ export default function Accordin({ locations, setLocation, location }) {
             expandIcon={<ExpandMoreIcon />}
             id={`panel${i}-header`}
           >
-            <Typography className={`${styles.title}`}>{el.name}館</Typography>
+            <Typography className={`${styles.title}`}>
+              健身堡壘{el.name}館
+            </Typography>
           </AccordionSummary>
           <AccordionDetails className={`${styles.detail}`}>
             {el?.transportation &&

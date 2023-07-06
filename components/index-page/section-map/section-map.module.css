@@ -5,13 +5,13 @@
   padding: 80px 50px;
   gap: 20px;
 }
+.wrapper {
+  width: 35%;
+  flex-shrink: 0;
+}
 .map-container {
   width: 100%;
   aspect-ratio: 1 / 1;
-}
-.wrapper {
-  width: 50%;
-  flex-shrink: 0;
 }
 .title {
   font-size: 25px;

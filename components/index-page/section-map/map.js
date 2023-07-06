@@ -1,9 +1,14 @@
 import React from 'react';
+import { icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import styles from './section-map.module.css';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import ChangeView from './change-view';
-
+import { Typography } from '@mui/material';
+const ICON = icon({
+  iconUrl: '/icons/location-med-2-svgrepo-com.svg',
+  iconSize: [50, 50],
+});
 export default function Map({ defaultCenter, location, locations }) {
   return (
     <div className={`${styles.wrapper}`}>
@@ -23,10 +28,12 @@ export default function Map({ defaultCenter, location, locations }) {
             position={el.center}
             eventHandlers={{
               click: () => {},
+              mouseover: (event) => event.target.openPopup(),
             }}
+            icon={ICON}
           >
-            <Popup>
-              <h1>{el.name}</h1>
+            <Popup autoClose closeOnClick>
+              <Typography variant="h6">健身堡壘{el.name}館</Typography>
             </Popup>
           </Marker>
         ))}
