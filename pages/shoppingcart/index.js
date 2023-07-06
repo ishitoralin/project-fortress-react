@@ -33,21 +33,37 @@ const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
 export default function ShoppingCart(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  // 購買狀態範圍
-  const shoppingState = {
-    // border: '2px solid rgb(63, 141, 218)',
-    width: '100%',
-    height: '100px',
-    padding: '0 200px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
+  const fakeDataForCart = {
+    products: [
+      {
+        id: '1',
+        photo: 'photo',
+        name: '緊身衣',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: '3000',
+        quantity: '1',
+        amount: '3000',
+      },
+      {
+        id: '2',
+        photo: 'photo',
+        name: '布偶裝',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: '2000',
+        quantity: '2',
+        amount: '4000',
+      },
+    ],
   };
+  // 各區塊範圍(寬滿版，pd200px)
+  const sessionContainer = {
+    width: '100%',
+    padding: '0 200px',
+  };
+
   // 購買狀態物件容器
   const shoppingStateContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -57,27 +73,16 @@ export default function ShoppingCart(props) {
   // 購買狀態物件
   const shoppingStateComponent = {
     width: '33%',
-    height: '100%',
+    height: '100px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     fontSize: '25px',
   };
 
-  // 購物車產品標題範圍
-  const ProductionTitle = {
-    width: '100%',
-    height: '100px',
-    padding: '0 200px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // border: '2px solid red',
-  };
   // 購物車產品標題物件容器
   const ProductionTitleContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -87,35 +92,23 @@ export default function ShoppingCart(props) {
   // 購物車產品物件1
   const ProductionTitleComponent = {
     width: '14%',
-    height: '100%',
+    height: '50px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   };
-  // 購物車產品物件2(加大範圍)
+  // 購物車產品物件2(詳細資訊欄專用)
   const ProductionTitleComponentInfo = {
     width: '28%',
-    height: '100%',
+    height: '50px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-  };
-
-  // 待結帳產品列表範圍
-  const ProductionList = {
-    width: '100%',
-    height: '100px',
-    padding: '0 200px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // border: '2px solid red',
   };
 
   // 待結帳產品列表範圍容器
   const ProductionListContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -126,17 +119,16 @@ export default function ShoppingCart(props) {
   // 待結帳產品列表物件
   const ProductionListComponent = {
     width: '14%',
-    height: '100%',
+    height: '100px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // border: '2px solid red',
   };
 
   // 待結帳產品列表物件(數量欄專用)
   const ProductionListComponentForQuantity = {
     width: '14%',
-    height: '100%',
+    height: '100px',
     padding: '30px',
     display: 'flex',
     justifyContent: 'space-around',
@@ -144,48 +136,26 @@ export default function ShoppingCart(props) {
     // border: '2px solid red',
   };
 
-  // 結帳欄
-  const count = {
-    width: '100%',
-    height: '100px',
-    padding: '0 200px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // border: '2px solid red',
-  };
-
+  // 結帳欄容器
   const countContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     fontSize: '25px',
     borderBottom: '1px solid rgba(0,0,0,0.15)',
   };
-
+  //結帳欄物件
   const countComponent = {
     width: '14%',
-    height: '100%',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  const checkButton = {
-    width: '100%',
     height: '100px',
-    padding: '0 200px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    // border: '2px solid red',
   };
 
   const checkButtonContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'end',
     alignItems: 'center',
@@ -194,7 +164,7 @@ export default function ShoppingCart(props) {
 
   const checkButtonComponent = {
     width: '15%',
-    height: '100%',
+    height: '100px',
     marginLeft: '10px',
     display: 'flex',
     justifyContent: 'center',
@@ -202,19 +172,8 @@ export default function ShoppingCart(props) {
     // border: '2px solid red',
   };
 
-  const spatialProduct = {
-    width: '100%',
-    height: '100px',
-    padding: '0 200px',
-    display: 'flex',
-    // flexWarp: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
   const spatialProductContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
     justifyContent: 'start',
     alignItems: 'end',
@@ -222,30 +181,25 @@ export default function ShoppingCart(props) {
     fontWeight: '700',
   };
 
-  const recommendProduct = {
+  const recommendProductTitle = {
     width: '100%',
-    // height: '100px',
-    padding: '0 200px',
+    height: '100px',
+    padding: '20px 0',
     display: 'flex',
-    // flexWarp: 'wrap',
-    // overflow: 'hidden',
-    justifyContent: 'space-between',
+    justifyContent: 'start',
     alignItems: 'center',
-    // border: '2px solid red',
+    fontSize: '28px',
   };
   const recommendProductContainer = {
     width: '100%',
-    height: '100%',
     display: 'flex',
-    flexWrap: 'wrap',
+    overflow: 'scroll',
     justifyContent: 'start',
     alignItems: 'center',
-    border: '2px solid red',
   };
 
   const recommendProductComponent = {
-    width: '345px',
-    // height: '400px',
+    // width: '345px',
     margin: '20px',
     display: 'flex',
     justifyContent: 'center',
@@ -254,7 +208,7 @@ export default function ShoppingCart(props) {
 
   return (
     <>
-      <div className={`${styles.shoppingState}`}>
+      <div style={sessionContainer}>
         <div style={shoppingStateContainer}>
           <div style={shoppingStateComponent}>
             <CheckCircleOutlineIcon />
@@ -272,7 +226,7 @@ export default function ShoppingCart(props) {
           </div>
         </div>
       </div>
-      <div style={ProductionTitle}>
+      <div style={sessionContainer}>
         <div style={ProductionTitleContainer}>
           <div style={ProductionTitleComponent}>產品編號</div>
           <div style={ProductionTitleComponentInfo}>商品資訊</div>
@@ -282,31 +236,34 @@ export default function ShoppingCart(props) {
           <div style={ProductionTitleComponent}>刪除</div>
         </div>
       </div>
-
       {/* 商品列表start，之後用fetch從DB抓資料 */}
-      <div style={ProductionList}>
-        <div style={ProductionListContainer}>
-          <div style={ProductionListComponent}>1</div>
-          <div style={ProductionListComponent}>photo</div>
-          <div style={ProductionListComponent}>detail</div>
-          <div style={ProductionListComponent}>3000</div>
-          <div style={ProductionListComponentForQuantity}>
-            <RemoveIcon></RemoveIcon>
-            <input
-              type="number"
-              className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
-            />
-            <AddIcon></AddIcon>
-          </div>
-          <div style={ProductionListComponent}>amount</div>
-          <div style={ProductionListComponent}>
-            <DeleteOutlineIcon />
-          </div>
-        </div>
+      <div style={sessionContainer}>
+        {fakeDataForCart.products.map((v, i) => {
+          return (
+            <div style={ProductionListContainer} key={i}>
+              <div style={ProductionListComponent}>{v.id}</div>
+              <div style={ProductionListComponent}>{v.photo}</div>
+              <div style={ProductionListComponent}>{v.detail}</div>
+              <div style={ProductionListComponent}>{v.price}</div>
+              <div style={ProductionListComponentForQuantity}>
+                <RemoveIcon></RemoveIcon>
+                <input
+                  type="number"
+                  className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
+                  value={v.quantity}
+                />
+                <AddIcon></AddIcon>
+              </div>
+              <div style={ProductionListComponent}>{v.price * v.quantity}</div>
+              <div style={ProductionListComponent}>
+                <DeleteOutlineIcon />
+              </div>
+            </div>
+          );
+        })}
       </div>
       {/* 商品列表end，之後用fetch從DB抓資料 */}
-
-      <div style={count}>
+      <div style={sessionContainer}>
         <div style={countContainer}>
           <div style={countComponent}>總計</div>
           <div style={countComponent}></div>
@@ -317,7 +274,7 @@ export default function ShoppingCart(props) {
           <div style={countComponent}>NTD </div>
         </div>
       </div>
-      <div style={checkButton}>
+      <div style={sessionContainer}>
         <div style={checkButtonContainer}>
           <div style={checkButtonComponent}>
             <WhiteTheme>
@@ -356,10 +313,71 @@ export default function ShoppingCart(props) {
           </div>
         </div>
       </div>
-      <div style={spatialProduct}>
+      <div style={sessionContainer}>
         <div style={spatialProductContainer}>精選商品</div>
       </div>
-      <div style={recommendProduct}>
+      <div style={sessionContainer}>
+        <div style={recommendProductTitle}>本季新品!!!</div>
+        <div style={recommendProductContainer}>
+          {fakeDataForCards.map((v, i) => {
+            return (
+              <div style={recommendProductComponent} key={i}>
+                <Card sx={{ maxWidth: 345, minWidth: 345 }}>
+                  <CardMedia
+                    sx={{ height: 140 }}
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    title="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {v}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Lizards are a widespread group of squamate reptiles, with
+                      over 6,000 species, ranging across all continents except
+                      Antarctica
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">Learn More</Button>
+                  </CardActions>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+        <div style={recommendProductTitle}>推薦商品!!!</div>
+        <div style={recommendProductContainer}>
+          {fakeDataForCards.map((v, i) => {
+            return (
+              <div style={recommendProductComponent} key={i}>
+                <Card sx={{ maxWidth: 345, minWidth: 345 }}>
+                  <CardMedia
+                    sx={{ height: 140 }}
+                    image="/static/images/cards/contemplative-reptile.jpg"
+                    title="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                      {v}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      Lizards are a widespread group of squamate reptiles, with
+                      over 6,000 species, ranging across all continents except
+                      Antarctica
+                    </Typography>
+                  </CardContent>
+                  <CardActions>
+                    <Button size="small">Share</Button>
+                    <Button size="small">Learn More</Button>
+                  </CardActions>
+                </Card>
+              </div>
+            );
+          })}
+        </div>
+        <div style={recommendProductTitle}>熱門商品!!!</div>
         <div style={recommendProductContainer}>
           {fakeDataForCards.map((v, i) => {
             return (
