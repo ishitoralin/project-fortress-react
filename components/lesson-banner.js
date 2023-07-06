@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
 import { Button, Box, Typography } from '@mui/material';
-import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -85,7 +84,80 @@ const carouselStyle = {
   height: '100%',
 };
 
-const slideTime = 700;
+const pesudoElementStyle = {
+  content: '""',
+  position: 'absolute',
+  backdropFilter: 'blur(10px)',
+  width: '40%',
+  height: '24%',
+  border: '3px solid white',
+  transition: '1s',
+  pointerEvents: 'none',
+  backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(1.5) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 100%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
+};
+
+const pesudoHoverStyle = {
+  transitionDelay: '.5s',
+  width: '100%',
+  height: '100%',
+  top: '0',
+  left: '0',
+  backdropFilter: 'blur(0px)',
+  opacity: '0.1',
+};
+
+const lessonInfoStyle = {
+  position: 'absolute',
+  inset: '20% 15%',
+  padding: '3% 5%',
+  border: '2px solid white',
+  zIndex: 1,
+  ':before': {
+    top: '-20%',
+    left: '-7.5%',
+    ...pesudoElementStyle,
+  },
+  ':after': {
+    top: '90%',
+    left: '67%',
+    ...pesudoElementStyle,
+  },
+  ':hover:after, :hover:before': pesudoHoverStyle,
+};
+
+const buttonStyle = {
+  position: 'absolute',
+  left: '10%',
+  bottom: '10%',
+  boxShadow: 'none',
+  borderWidth: '3px',
+  borderRadius: '30px',
+  paddingInline: '1rem',
+  fontWeight: 'bold',
+  fontSize: '1.1rem',
+  paddingRight: '3rem',
+  paddingLeft: '3rem',
+  overflow: 'hidden',
+  ':hover': {
+    borderWidth: '3px',
+    color: 'black',
+  },
+  ':before': {
+    content: '""',
+    position: 'absolute',
+    left: '-100%',
+    width: '100%',
+    height: '100%',
+    bgcolor: 'white',
+    transition: '.5s',
+    zIndex: '-1',
+  },
+  ':hover:before': {
+    left: 0,
+  },
+};
+
+const slideTime = 1000;
 const interval = {
   id: null,
   setId: function (id) {
@@ -144,9 +216,9 @@ const Banner = () => {
   };
 
   const goSlide = () => {
-    // if (transi) return;
-    // setTransi(true);
-    // setLeftPosi((pre) => pre - 1);
+    if (transi) return;
+    setTransi(true);
+    setLeftPosi((pre) => pre - 1);
   };
 
   return (
@@ -172,55 +244,10 @@ const Banner = () => {
               key={item}
               sx={{ position: 'relative', width: '100%', height: '100%' }}
             >
-              <Box
-                sx={{
-                  position: 'absolute',
-                  inset: '20% 15%',
-                  padding: '3% 5%',
-                  border: '2px solid white',
-                  zIndex: 1,
-                  ':before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: '-20%',
-                    left: '-7.5%',
-                    backdropFilter: 'blur(10px)',
-                    width: '40%',
-                    height: '24%',
-                    border: '3px solid white',
-                    transition: '1s',
-                    pointerEvents: 'none',
-                    backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(1.5) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 100%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
-                  },
-                  ':after': {
-                    content: '""',
-                    position: 'absolute',
-                    top: '90%',
-                    left: '67%',
-                    width: '40%',
-                    height: '24%',
-                    border: '3px solid white',
-                    backdropFilter: 'blur(10px)',
-                    transition: '1s',
-                    pointerEvents: 'none',
-                    backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(1.5) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 100%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
-                  },
-                  ':hover:after, :hover:before': {
-                    transitionDelay: '.5s',
-                    width: '100%',
-                    height: '100%',
-                    top: '0',
-                    left: '0',
-                    backdropFilter: 'blur(0px)',
-                    opacity: '0.05',
-                  },
-                }}
-              >
+              <Box sx={lessonInfoStyle}>
                 <Typography
                   variant={'h4'}
                   sx={{
-                    // position: 'absolute',
-                    // top: '50%',
                     color: 'white',
                     zIndex: 1,
                   }}
@@ -248,37 +275,7 @@ const Banner = () => {
                     />
                   }
                   variant="outlined"
-                  sx={{
-                    position: 'absolute',
-                    left: '10%',
-                    bottom: '10%',
-                    boxShadow: 'none',
-                    borderWidth: '3px',
-                    borderRadius: '30px',
-                    paddingInline: '1rem',
-                    fontWeight: 'bold',
-                    fontSize: '1.1rem',
-                    paddingRight: '3rem',
-                    paddingLeft: '3rem',
-                    overflow: 'hidden',
-                    ':hover': {
-                      borderWidth: '3px',
-                      color: 'black',
-                    },
-                    ':before': {
-                      content: '""',
-                      position: 'absolute',
-                      left: '-100%',
-                      width: '100%',
-                      height: '100%',
-                      bgcolor: 'white',
-                      transition: '.5s',
-                      zIndex: '-1',
-                    },
-                    ':hover:before': {
-                      left: 0,
-                    },
-                  }}
+                  sx={buttonStyle}
                 >
                   了解更多
                 </Button>
