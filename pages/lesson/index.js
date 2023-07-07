@@ -1,4 +1,10 @@
-import { Box, Button, Container, Typography } from '@mui/material';
+import {
+  Box,
+  Container,
+  Typography,
+  ToggleButton,
+  ToggleButtonGroup,
+} from '@mui/material';
 import Image from 'next/image';
 import Banner from '@/components/lesson-banner';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -88,22 +94,44 @@ const containerStyle = {
 
 const rightSideStyle = {
   width: '70%',
+  bgcolor: 'var(--deepgrey)',
+  borderRadius: '3px',
+  padding: '2rem',
 };
 
 const UiButton = (props) => (
-  <Button
-    {...props}
-    variant="contained"
+  <ToggleButton
     size="large"
+    {...props}
     sx={{
       bgcolor: '#eee',
-      borderRadius: '3px',
+      color: 'var(--main-black)',
+      borderTopLeftRadius: '3px !important',
+      borderTopRightRadius: '3px !important',
+      borderBottomRightRadius: '3px !important',
+      borderBottomLeftRadius: '3px !important',
+      paddingBlock: '.5rem',
+      paddingInline: '1.5rem',
+      fontWeight: 'bold',
       marginRight: '1rem',
+      transition: '.2s',
+      ':hover': {
+        bgcolor: '#bbb',
+      },
+      '&.Mui-selected': {
+        bgcolor: 'var(--main-red)',
+        color: 'white',
+      },
+      '&.Mui-selected:hover': {
+        bgcolor: 'var(--main-red)',
+        filter: 'brightness(90%)',
+      },
+
       ...props.sx,
     }}
   >
     {props.children}
-  </Button>
+  </ToggleButton>
 );
 
 const LessionPage = () => {
@@ -144,29 +172,87 @@ const LessionPage = () => {
                   sx={{
                     position: 'sticky',
                     display: 'flex',
+                    alignItems: 'center',
                     width: '100%',
                     height: '5rem',
-                    // paddingTop: '2rem',
-                    top: '0',
-                    // bgcolor: 'rgba(85, 85, 85, .8)',
-                    // marginBottom: '2rem',
-                    zIndex: 1,
-                    // backdropFilter: 'blur(50px)',
+                    paddingTop: '2rem',
+                    boxShadow: '0 5px 0 5px var(--deepgrey), 0 12px 5px #333',
+                    transform: 'translateY(-2rem)',
+                    top: '2rem',
+                    bgcolor: 'var(--deepgrey)',
+                    zIndex: 2,
                   }}
                 >
                   <Box>
-                    <UiButton>台北</UiButton>
-                    <UiButton>台中</UiButton>
-                    <UiButton>高雄</UiButton>
+                    <ToggleButtonGroup
+                      value={'Taipei'}
+                      exclusive
+                      aria-label="lesson location"
+                    >
+                      <UiButton value="Taipei" aria-label="Taipei">
+                        台北
+                      </UiButton>
+                      <UiButton value="Taichung" aria-label="Taichung">
+                        台中
+                      </UiButton>
+                      <UiButton value="Kaohsiung" aria-label="Kaohsiung">
+                        高雄
+                      </UiButton>
+                    </ToggleButtonGroup>
                   </Box>
-                  <Box sx={{ marginLeft: 'auto' }}>
-                    <UiButton>
-                      <FormatListBulletedOutlinedIcon />
+                  <ToggleButtonGroup
+                    value={'list'}
+                    exclusive
+                    aria-label="lesson location"
+                    sx={{ marginLeft: 'auto' }}
+                  >
+                    <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
+                      <FormatListBulletedOutlinedIcon size="small" />
                     </UiButton>
-                    <UiButton sx={{ marginRight: 0 }}>
+                    <UiButton
+                      value="calendar"
+                      sx={{ paddingInline: '.7rem', marginRight: 0 }}
+                    >
                       <CalendarMonthIcon />
                     </UiButton>
-                  </Box>
+                  </ToggleButtonGroup>
+                  {/* <UiButton>
+                      <label
+                        htmlFor="location-Taipei"
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          height: '100%',
+                        }}
+                      >
+                        台北
+                      </label>
+                    </UiButton>
+                    <input
+                      type="radio"
+                      name="location"
+                      id="location-Taipei"
+                      value="location-Taipei"
+                      // hidden
+                    />
+                    <UiButton>
+                      <label htmlFor="location-Taichung">台中</label>
+                    </UiButton>
+                    <input
+                      type="radio"
+                      name="location"
+                      id="location-Taichung"
+                      // hidden
+                    />
+                    <UiButton>
+                      <label htmlFor="location-Kaohsiung">高雄</label>
+                    </UiButton>
+                    <input
+                      type="radio"
+                      name="location"
+                      id="location-Kaohsiung"
+                      // hidden
+                    /> */}
                 </Box>
               </WhiteTheme>
               {[
