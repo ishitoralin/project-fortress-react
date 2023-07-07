@@ -66,7 +66,7 @@ export default function ProductList(props) {
     width: '100%',
     padding: '0 200px',
   };
-  const  ProductListContainer = {
+  const ProductListContainer = {
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
@@ -76,14 +76,14 @@ export default function ProductList(props) {
   };
 
   // 待結帳產品列表物件
-  const  ProductListComponent = {
+  const ProductListComponent = {
     width: '14%',
     height: '100px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
   };
-  const  ProductListComponentForDetail = {
+  const ProductListComponentForDetail = {
     width: '14%',
     height: '100px',
     display: 'flex',
@@ -91,7 +91,7 @@ export default function ProductList(props) {
     alignItems: 'center',
   };
   // 待結帳產品列表物件(數量欄專用)
-  const  ProductListComponentForQuantity = {
+  const ProductListComponentForQuantity = {
     width: '14%',
     height: '100px',
     padding: '30px',
@@ -142,12 +142,12 @@ export default function ProductList(props) {
       <div style={sessionContainer}>
         {fakeDataForCart.products.map((v, i) => {
           return (
-            <div style={ ProductListContainer} key={i}>
-              <div style={ ProductListComponent}>{v.id}</div>
-              <div style={ ProductListComponent}>{v.photo}</div>
-              <div style={ ProductListComponentForDetail}>{v.detail}</div>
-              <div style={ ProductListComponent}>{v.price}</div>
-              <div style={ ProductListComponentForQuantity}>
+            <div style={ProductListContainer} key={i}>
+              <div style={ProductListComponent}>{v.id}</div>
+              <div style={ProductListComponent}>{v.photo}</div>
+              <div style={ProductListComponentForDetail}>{v.detail}</div>
+              <div style={ProductListComponent}>{v.price}</div>
+              <div style={ProductListComponentForQuantity}>
                 <Button sx={{ color: 'black' }}>
                   <RemoveIcon></RemoveIcon>
                 </Button>
@@ -160,8 +160,8 @@ export default function ProductList(props) {
                   <AddIcon></AddIcon>
                 </Button>
               </div>
-              <div style={ ProductListComponent}>{v.price * v.quantity}</div>
-              <div style={ ProductListComponent}>
+              <div style={ProductListComponent}>{v.price * v.quantity}</div>
+              <div style={ProductListComponent}>
                 <Button sx={{ color: 'black' }}>
                   <DeleteOutlineIcon
                     sx={{ fontSize: '26px' }}

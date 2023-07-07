@@ -1,6 +1,16 @@
 /* 精選商品欄位 */
 import React from 'react';
 import Button from '@mui/material/Button';
+import Carousel from 'react-material-ui-carousel';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Box from '@mui/material/Box';
+import createColorTheme from '@/libs/CreateColorTheme';
+//Import button
+const WhiteTheme = createColorTheme('#FFF');
+const RedTheme = createColorTheme('#FF0000');
+// import ImageList from '@mui/material/ImageList';
+// import ImageListItem from '@mui/material/ImageListItem';
+import { Slide } from '@mui/material';
 import {
   Card,
   CardActions,
@@ -8,7 +18,7 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-export default function RecommendProduct() {
+export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   const sessionContainer = {
@@ -30,9 +40,9 @@ export default function RecommendProduct() {
     overflow: 'scroll',
     justifyContent: 'start',
     alignItems: 'center',
+    overflowY: 'hidden',
   };
   const recommendProductComponent = {
-    // width: '345px',
     margin: '20px',
     display: 'flex',
     justifyContent: 'center',
@@ -47,29 +57,64 @@ export default function RecommendProduct() {
             <div style={recommendProductComponent} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
-                  sx={{ height: 140 }}
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  sx={{ height: '140px' }}
+                  // image={`/SCphoto/capoo${i}.png`}
+                  image="/SCphoto/capoo${i}.png"
                   title="green iguana"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {v}
+                    <Box
+                      sx={{
+                        m: 'auto',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Box>產品名稱{v}</Box>
+                      <FavoriteBorderIcon></FavoriteBorderIcon>
+                    </Box>
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    產品敘述 Lizards are a widespread group of squamate
+                    reptiles, with over 6,000 species
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
+                <CardActions
+                  sx={{
+                    margin: 'auto',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    p: '16px',
+                  }}
+                >
+                  Price
+                  <WhiteTheme>
+                    <Button
+                      size="small"
+                      sx={{
+                        // width: '10%',
+                        ':hover': {
+                          opacity: '.7',
+                          bgcolor: 'var(--main-red)',
+                        },
+                      }}
+                      // color={props.color}
+                      variant="contained"
+                      onClick={props.onClick}
+                    >
+                      加入購物車
+                    </Button>
+                  </WhiteTheme>
                 </CardActions>
               </Card>
             </div>
           );
         })}
       </div>
+
       <div style={recommendProductTitle}>推薦商品!!!</div>
       <div style={recommendProductContainer}>
         {fakeDataForCards.map((v, i) => {
@@ -77,23 +122,56 @@ export default function RecommendProduct() {
             <div style={recommendProductComponent} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
-                  sx={{ height: 140 }}
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  sx={{ height: '140px' }}
+                  // image={`/SCphoto/capoo${i}.png`}
+                  image="/SCphoto/capoo${i}.png"
                   title="green iguana"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {v}
+                    <Box
+                      sx={{
+                        m: 'auto',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Box>產品名稱{v}</Box>
+                      <FavoriteBorderIcon></FavoriteBorderIcon>
+                    </Box>
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    產品敘述 Lizards are a widespread group of squamate
+                    reptiles, with over 6,000 species
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
+                <CardActions
+                  sx={{
+                    margin: 'auto',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Button size="small">Price</Button>
+                  <WhiteTheme>
+                    <Button
+                      size="small"
+                      sx={{
+                        // width: '10%',
+                        ':hover': {
+                          opacity: '.7',
+                          bgcolor: 'var(--main-red)',
+                        },
+                      }}
+                      // color={props.color}
+                      variant="contained"
+                      onClick={props.onClick}
+                    >
+                      加入購物車
+                    </Button>
+                  </WhiteTheme>
                 </CardActions>
               </Card>
             </div>
@@ -107,23 +185,56 @@ export default function RecommendProduct() {
             <div style={recommendProductComponent} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
-                  sx={{ height: 140 }}
-                  image="/static/images/cards/contemplative-reptile.jpg"
+                  sx={{ height: '140px' }}
+                  // image={`/SCphoto/capoo${i}.png`}
+                  image="/SCphoto/capoo${i}.png"
                   title="green iguana"
                 />
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    {v}
+                    <Box
+                      sx={{
+                        m: 'auto',
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      <Box>產品名稱{v}</Box>
+                      <FavoriteBorderIcon></FavoriteBorderIcon>
+                    </Box>
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
-                    Lizards are a widespread group of squamate reptiles, with
-                    over 6,000 species, ranging across all continents except
-                    Antarctica
+                    產品敘述 Lizards are a widespread group of squamate
+                    reptiles, with over 6,000 species
                   </Typography>
                 </CardContent>
-                <CardActions>
-                  <Button size="small">Share</Button>
-                  <Button size="small">Learn More</Button>
+                <CardActions
+                  sx={{
+                    margin: 'auto',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                >
+                  <Button size="small">Price</Button>
+                  <WhiteTheme>
+                    <Button
+                      size="small"
+                      sx={{
+                        // width: '10%',
+                        ':hover': {
+                          opacity: '.7',
+                          bgcolor: 'var(--main-red)',
+                        },
+                      }}
+                      // color={props.color}
+                      variant="contained"
+                      onClick={props.onClick}
+                    >
+                      加入購物車
+                    </Button>
+                  </WhiteTheme>
                 </CardActions>
               </Card>
             </div>
