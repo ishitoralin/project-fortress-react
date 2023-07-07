@@ -27,7 +27,7 @@ export default function Map({ defaultCenter, location, locations }) {
             key={i}
             position={el.center}
             eventHandlers={{
-              click: () => {},
+              click: (event) => event.target.openPopup(),
               mouseover: (event) => event.target.openPopup(),
             }}
             icon={ICON}
