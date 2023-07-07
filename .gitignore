@@ -45,3 +45,5 @@ yarn.lock
 /.vscode/
 
 /public/SCphoto/
+
+/public/react-imgs/
