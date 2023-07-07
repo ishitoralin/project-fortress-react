@@ -6,10 +6,10 @@ export default function Index() {
   return (
     <section className={`${styles.container}`}>
       <div>
-        <Link>會員資料</Link>
+        {/* <Link>會員資料</Link>
         <Link>收藏商品</Link>
         <Link>收藏課程</Link>
-        <Link>我的訂單</Link>
+        <Link>我的訂單</Link> */}
       </div>
     </section>
   );
