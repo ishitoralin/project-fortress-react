@@ -1,10 +1,8 @@
- .shoppingState  {
+.shoppingState  {
     width: 100%;
     padding: 0 200px;
   }
-
-  /* styles.css */
-
+/* styles.css */
 
 /* 隱藏數量調整按鈕 */
 .inputHideAdjustButton[type="number"]::-webkit-inner-spin-button,
