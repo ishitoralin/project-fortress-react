@@ -158,6 +158,7 @@ const buttonStyle = {
 };
 
 const slideTime = 1000;
+const intervalTime = 7000;
 const interval = {
   id: null,
   setId: function (id) {
@@ -195,14 +196,14 @@ const Banner = () => {
   }, [leftPosi]);
 
   useEffect(() => {
-    interval.start(goSlide, 5000);
+    interval.start(goSlide, intervalTime);
     return () => interval.clear();
   }, []);
 
   const goLeft = () => {
     if (transi) return;
     interval.clear();
-    interval.start(goSlide, 5000);
+    interval.start(goSlide, intervalTime);
     setTransi(true);
     setLeftPosi((pre) => pre - 1);
   };
@@ -210,7 +211,7 @@ const Banner = () => {
   const goRight = () => {
     if (transi) return;
     interval.clear();
-    interval.start(goSlide, 5000);
+    interval.start(goSlide, intervalTime);
     setTransi(true);
     setLeftPosi((pre) => pre + 1);
   };
