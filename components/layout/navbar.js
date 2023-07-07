@@ -145,12 +145,12 @@ const expandData = {
     {
       key: 'train',
       linkName: '訓練紀錄',
-      href: '/record',
+      href: '/record/exercise',
     },
     {
       key: 'diet',
       linkName: '飲食紀錄',
-      href: '/record',
+      href: '/record/diet',
     },
   ],
 };

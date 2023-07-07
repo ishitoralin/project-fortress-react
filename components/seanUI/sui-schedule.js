@@ -1,30 +1,85 @@
-// import Paper from '@mui/material/Paper';
-import { Grid, Paper } from '@mui/material';
+import { Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
-// >>> Sean's schedule list element
-const MySchedule = styled(Paper)(() => ({
+const myBorderWidth = '2px';
+const myBorderColor = 'black';
+const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
+
+const SUIScheduleItem = styled(Box)(() => ({
   display: 'flex',
-  justifyContent: 'space-between',
-  padding: '1rem',
-  backgroundColor: 'pink',
-  borderRadius: '50px',
-  width: '100%',
-  margin: '2rem',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '2.5rem',
+  // backgroundColor: 'lightgreen',
+  padding: '10px',
+  borderRadius: '0px',
+  borderWidth: `${myBorderWidth} 0 ${myBorderWidth} ${myBorderWidth}`,
+  borderColor: `${myBorderColor}`,
+  borderStyle: 'solid',
 }));
 
-function SUISchedule(props) {
+function SUISchedule({ list }) {
   return (
-    <MySchedule elevation={4} sx={props.sx} onClick={props.onClick}>
-      {props.children}
-    </MySchedule>
+    <div
+      style={{
+        width: '100%',
+      }}
+    >
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          mt: 3,
+          width: '100%',
+        }}
+      >
+        {list.map((list, i) => {
+          return (
+            <Box
+              key={i}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                my: 0.5,
+                width: '100%',
+              }}
+            >
+              <SUIScheduleItem
+                sx={{
+                  borderTopLeftRadius: '30px',
+                  borderBottomLeftRadius: '30px',
+                  width: '58%',
+                }}
+              >
+                {list.workout}
+              </SUIScheduleItem>
+              <SUIScheduleItem sx={{ width: '18%' }}>
+                {list.weight}
+              </SUIScheduleItem>
+              <SUIScheduleItem sx={{ width: '12%' }}>
+                {list.reps}
+              </SUIScheduleItem>
+              <SUIScheduleItem
+                sx={{
+                  width: '12%',
+                  borderTopRightRadius: '30px',
+                  borderBottomRightRadius: '30px',
+                  // width: '80px',
+                  borderRight: myBorder,
+                }}
+              >
+                {list.sets}
+              </SUIScheduleItem>
+            </Box>
+          );
+        })}
+      </Box>
+    </div>
   );
 }
-// <<< Sean's schedule list element
 
-// >>> Sean's schedule list element
 const MyScheduleTable = styled(Grid)(() => ({
-  border: '3px black solid',
+  border: myBorder,
   borderRadius: '20px',
   //   height: '1000px',
 }));
@@ -36,6 +91,5 @@ function SUIScheduleTable(props) {
     </MyScheduleTable>
   );
 }
-// <<< Sean's schedule list element
 
 export { SUISchedule, SUIScheduleTable };

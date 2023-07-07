@@ -45,7 +45,7 @@ const ExercisePage = () => {
         </Grid>
         <Grid item lg={5} sm={4}>
           <Section>
-            <h1>record/index is abandon</h1>
+            <h1>diet WIP</h1>
             <CUISearch
               sx={{ width: '100%' }}
               label="搜尋運動類型"
