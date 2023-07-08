@@ -10,9 +10,8 @@ const Filter = ({ noButton = false, ...props }) => {
   return (
     <CUICard
       sx={{
-        ...props.sx,
-        overflow: 'hidden',
         height: 'fit-content',
+        ...props.sx,
       }}
     >
       {typeof props.label === 'string' && (

@@ -185,6 +185,7 @@ export default function myComponent() {
 | name | String | 
 | label | String | 搜尋列名稱
 | placeholder | String | 搜尋列提示
+| value | String | 
 | color | String | mui theme color
 | sx | Object | sx 樣式物件
 | onClick | Function | 
@@ -221,6 +222,7 @@ export default function myComponent() {
 | --- | :---: | :---: |
 | name | String | 
 | label | String | 選單名稱
+| value | Any | 
 | color | String | mui theme color
 | sx | Object | sx 樣式物件
 | defaultValue | String | 選單元件預設值

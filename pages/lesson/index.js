@@ -7,6 +7,8 @@ import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
 import CUIFilter from '@/components/customUI/cui-filter';
 
+import { useState } from 'react';
+
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
 
 const mainContentStyle = {
