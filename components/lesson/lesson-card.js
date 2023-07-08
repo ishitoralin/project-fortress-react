@@ -6,6 +6,7 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import CUICard from '@/components/customUI/cui-card';
 
 const cardStyle = {
@@ -16,13 +17,6 @@ const cardStyle = {
   bgcolor: '#eee',
   display: 'flex',
   overflow: 'hidden',
-  //   cursor: 'pointer',
-  '&:hover > div:first-of-type': {
-    transform: 'scale(1.5) rotateZ(15deg)',
-  },
-  '&:hover > div:first-of-type > div': {
-    // transform: 'rotateZ(0deg)',
-  },
 };
 
 const cardLeftStyle = {
@@ -34,7 +28,6 @@ const cardLeftStyle = {
   boxShadow: '1px 0 7px #555',
   transform: 'scale(1.75) rotateZ(15deg)',
   transition: '.5s',
-  //   cursor: 'pointer',
 };
 
 const cardBox = {
@@ -71,6 +64,27 @@ const iconStyle = {
   verticalAlign: 'text-bottom',
   color: 'grey',
   marginRight: '.3rem',
+};
+
+const priceIconStyle = {
+  verticalAlign: 'text-top',
+  color: '#555',
+  transform: 'skew(-10deg)',
+  marginRight: '.2rem',
+};
+
+const priceTextStyle = {
+  position: 'relative',
+  fontWeight: 'bold',
+  fontStyle: 'oblique',
+  ':before': {
+    content: '""',
+    position: 'absolute',
+    left: '-20%',
+    bottom: 0,
+    width: '130%',
+    borderBottom: '3px solid var(--main-red)',
+  },
 };
 
 const LessonCard = ({ lesson }) => (
@@ -153,22 +167,45 @@ const LessonCard = ({ lesson }) => (
           </Typography>
         </Box>
       </Box>
-      <Box>
-        <Typography
-          variant="h5"
-          sx={{ marginTop: '1rem', fontWeight: 'bold', fontStyle: 'oblique' }}
-        >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '.25rem 5% 0rem 1rem' /*marginTop: '.5rem'*/,
+        }}
+      >
+        <Typography variant="h5" sx={priceTextStyle}>
+          <MonetizationOnRoundedIcon sx={priceIconStyle} />
           價格: {lesson.price}
+        </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            marginLeft: 'auto',
+            fontWeight: 'bold',
+            fontStyle: 'oblique',
+          }}
+        >
+          立即報名
         </Typography>
         <Box
           sx={{
+            // border: '1px solid red',
+            width: '50px',
+            height: '50px',
             position: 'relative',
-            marginLeft: '5rem',
+            // marginLeft: '1rem',
             transform: 'rotate(-90deg)',
           }}
         >
-          <ForwardSymbol />
+          <ForwardSymbol width={'45px'} />
         </Box>
+        {/* <Typography
+          variant="h5"
+          sx={{ marginLeft: 'auto',fontWeight: 'bold', fontStyle: 'oblique' }}
+        >
+          價格: {lesson.price}
+        </Typography> */}
       </Box>
     </Box>
   </CUICard>

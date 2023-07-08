@@ -1,16 +1,16 @@
 import styles from '@/styles/forwardSymbol.module.css';
 
-const ForwardSymbol = () => (
+const ForwardSymbol = ({ width = '50px', height = '50px' }) => (
   <div className={styles.scrolldownContainer}>
-    <div className={styles.scrolldownBtn}>
+    <div className={styles.scrolldownBtn} style={{ width, height }}>
       <svg
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
-        x="0px"
-        y="0px"
-        width="50px"
-        height="80px"
+        // x="0px"
+        // y="0px"
+        // width="0.25"
+        // height="0.25"
         viewBox="0 0 50 80"
         enableBackground="new 0 0 50 80"
         xmlSpace="preserve"
