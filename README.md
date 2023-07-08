@@ -6,7 +6,7 @@
   
 ## 使用你的客製 Layout
 
-### 在你的 page 檔案中添加 getLayout 屬性 :
+### 為你的 page 元件添加 getLayout 屬性 :
 
 ```
 // 在這裡加入你的客製 Layout
@@ -104,6 +104,58 @@ export default function myComponent() {
     </>);
 }
 ```
+
+<br />
+
+## 卡片 (CUICard)
+
+### 使用 CUICard :
+ - #### 等同使用 MUI \<Paper elevation={4}>\</Paper> 元件
+
+```
+import CUICard from '@/components/customUI/cui-card';
+
+export default function myComponent() {
+    return (<>
+        ...
+        <CUICard>
+            ...
+        </CUICard>
+        ...
+    </>);
+}
+```
+
+### CUICard 參數 :
+ - #### 此元件支援所有 MUI Paper component 的可用參數
+
+<br />
+
+## 按鈕 (CUIButton)
+
+### 使用 CUIButton :
+
+```
+import CUIButton from '@/components/customUI/cui-button';
+
+export default function myComponent() {
+    return (<>
+        ...
+        <CUIButton btncolor={btncolor}>
+            按鈕文字
+        </CUIButton>
+        ...
+    </>);
+}
+```
+
+### CUIButton 參數 :
+
+ - #### 此元件支援所有 MUI Button component 的可用參數
+
+| 名稱 | 類型 | 說明 |
+| --- | :---: | :---: |
+| btncolor | String | 按鈕顏色(文字不會自動調整可視度)
 
 <br />
 
