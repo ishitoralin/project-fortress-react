@@ -57,10 +57,16 @@ const LessionPage = () => {
               items={[
                 <CUISearch
                   key={1}
+                  color={'steel_grey'}
                   label="課程關鍵字"
                   placeholder="請輸入關鍵字"
                 />,
-                <CUISelect key={2} label="課程標籤" options={tagsData} />,
+                <CUISelect
+                  key={2}
+                  color={'steel_grey'}
+                  label="課程標籤"
+                  options={tagsData}
+                />,
                 <CUISlider key={3} label="價格範圍" />,
               ]}
             />

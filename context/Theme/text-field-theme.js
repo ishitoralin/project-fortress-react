@@ -1,5 +1,5 @@
-import { outlinedInputClasses } from '@mui/material/OutlinedInput'
-import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles'
+import { outlinedInputClasses } from '@mui/material/OutlinedInput';
+import { createTheme, ThemeProvider, useTheme } from '@mui/material/styles';
 
 const customTheme = (outerTheme) =>
   createTheme({
@@ -70,14 +70,11 @@ const customTheme = (outerTheme) =>
         },
       },
     },
-  })
-  
-export default function TextFieldTheme({children}) {
-    const outerTheme = useTheme()
-    return (
-        <ThemeProvider theme={customTheme(outerTheme)}>
-            {children}
-        </ThemeProvider>
-    )
-} 
+  });
 
+export default function TextFieldTheme({ children }) {
+  const outerTheme = useTheme();
+  return (
+    <ThemeProvider theme={customTheme(outerTheme)}>{children}</ThemeProvider>
+  );
+}

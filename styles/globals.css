@@ -8,6 +8,10 @@
   --main-white: #FFF;
   --fortress: #FFDF8E;
   --deepgrey: #707070;
+
+  --light-grey: #E0E3E7;
+  --steel-light-grey: #B2BAC2;
+  --steel-grey: #6F7E8C;
 }
 
 * {
