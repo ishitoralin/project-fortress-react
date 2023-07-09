@@ -324,3 +324,67 @@ export default function myComponent() {
 | onClick | Function | 點擊篩選器按鈕執行的回呼函式
 
 <br />
+
+## 日期選擇器 (CUIDatePicker)
+
+### 使用 CUIDatePicker :
+
+```
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
+
+export default function myComponent() {
+    return (<>
+        ...
+        <CUIDatePicker 
+            label={label}
+            format={format}
+        />
+        ...
+    </>);
+}
+```
+
+### CUIDatePicker 參數 :
+
+| 名稱 | 類型 | 說明 |
+| --- | :---: | :---: |
+| label | String | 日期選擇器名稱
+| format | String | 日期格式, 選擇器上顯示的日期與回傳的日期都會套用此格式 (dayjs format)
+| value | Any | 預設顯示日期, 通常於使用可控元件時設定
+| defaultValue | Any | 預設顯示日期, 通常於使用不可控元件時設定
+| minDate | Any | 日期最小值
+| maxDate | Any | 日期最大值
+| sx | Object | sx 樣式物件
+| onChange | Funtion | 改變日期時會執行的回呼函式, 傳入參數為套用 format 格式的字串
+ - ``value, defaultValue, minDate, maxDate`` 參數會經過 ``dayjs()`` 套用 ``format`` 參數給予的格式進行轉換為字串
+
+### 示例 :
+
+```
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
+
+export default function myComponent() {
+    return (<>
+        ...
+        <CUIDatePicker 
+            label={"訓練日期"}
+            format={"YYYY-MM-DD"}
+
+            defaultValue={"2023/07/10"}
+            // 日期預設顯示 2023-07-10
+
+            value={new Date()}
+            // 日期預設顯示當天日期
+
+            minDate={dayjs()}
+            // 日期最小值為當天日期 (需引入 dayjs 套件)
+
+            onChange={(date) => console.log(date)} 
+            // 若使用者選擇 2022年2月25日 ===> 輸出 2022-02-25
+        />
+        ...
+    </>);
+}
+```
+
+<br />

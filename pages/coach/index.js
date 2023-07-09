@@ -9,9 +9,13 @@ const CoachPage = () => (
   <div style={{ padding: '5rem' }}>
     <h1>Coach Page</h1>
     <CUISearch label={'search'} />
-    <CUIDatePicker label={'label'} />
+    <CUIDatePicker
+      label={'search'}
+      format="MM-DD-YYYY"
+      // minDate={'2022/02/04'}
+      // maxDate={'2023/08/04'}
+    />
     <CUISearch label={'search'} />
-    <CUIDatePicker label={'label'} />
   </div>
 );
 

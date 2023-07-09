@@ -7,9 +7,6 @@ import dayjs from 'dayjs';
 // const [value, setValue] = useState(dayjs())
 // console.log(dayjs(value).format('YYYY/MM/DD'))
 // minDate={dayjs()}
-// minDate={new Date()}
-
-// translate(0, -1.5px) scale(0.75)
 
 const datePickerStyle = {
   '& .Mui-focused.MuiFormLabel-root, & .MuiFormLabel-filled.MuiFormLabel-root':
@@ -25,26 +22,45 @@ const datePickerStyle = {
   '& .MuiOutlinedInput-notchedOutline': {
     borderWidth: 0,
     borderRadius: 0,
-    borderBottomWidth: '1px',
+    borderBottomWidth: '2px',
   },
   '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
     borderWidth: 0,
     borderRadius: 0,
-    borderBottomWidth: '1px',
+    borderBottomWidth: '2px',
   },
   '&.MuiFormControl-root': {
     marginTop: '1rem',
   },
 };
 
-const CUIDatePicker = (props) => (
-  <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
-    <DatePicker
-      format="YYYY/MM/DD"
-      {...props}
-      sx={{ ...datePickerStyle, ...props.sx }}
-    />
-  </LocalizationProvider>
-);
+const defaultFormat = 'YYYY/MM/DD';
 
+const CUIDatePicker = (props) => {
+  const [value, defaultValue, minDate, maxDate] = [
+    props.value,
+    props.defaultValue,
+    props.minDate,
+    props.maxDate,
+  ].map((item) => (item ? dayjs(item) : undefined));
+
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
+      <DatePicker
+        format={defaultFormat}
+        views={['year', 'month', 'day']}
+        {...props}
+        sx={{ ...datePickerStyle, ...props.sx }}
+        value={value}
+        defaultValue={defaultValue}
+        minDate={minDate}
+        maxDate={maxDate}
+        onChange={(timeObj) => {
+          const time = dayjs(timeObj).format(props.format || defaultFormat);
+          typeof props.onChange === 'function' && props.onChange(time);
+        }}
+      />
+    </LocalizationProvider>
+  );
+};
 export default CUIDatePicker;
