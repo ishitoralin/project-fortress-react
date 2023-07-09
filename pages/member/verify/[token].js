@@ -7,7 +7,10 @@ export default function VerifyToken() {
     if (typeof Window !== 'undefined') {
       console.log(router);
     }
+    for (let k in router) {
+      console.log('K:', k, 'V:', router[k]);
+    }
   }, []);
 
-  return <div>{JSON.stringify(router)}</div>;
+  return <div>1223</div>;
 }
