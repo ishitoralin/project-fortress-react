@@ -127,7 +127,7 @@ export default function myComponent() {
 ```
 
 ### CUICard 參數 :
- - #### 此元件支援所有 MUI Paper component 的可用參數
+ - #### 此元件支援所有 MUI Paper 的可用參數
 
 <br />
 
@@ -151,7 +151,7 @@ export default function myComponent() {
 
 ### CUIButton 參數 :
 
- - #### 此元件支援所有 MUI Button component 的可用參數
+ - #### 此元件支援所有 MUI Button 的可用參數
 
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
@@ -274,6 +274,8 @@ export default function myComponent() {
 
 ### CUISlider 參數 :
 
+ - 此元件設計為可控元件, 做為不可控元件時無法使用 ``onChange`` 參數取值
+
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
 | name | String | 
@@ -283,7 +285,7 @@ export default function myComponent() {
 | value | Array[ Number \| String, Number \| String ] | 滑鈕位置 (範圍值)
 | distance | Number \| String | 步進值
 | color | String | mui theme color
-| onChange | Function |
+| onChange | Function | 傳入參數為滑鈕位置 (範圍值), 類型為 Array[ Number, Number ]
 
 <br />
 
@@ -346,12 +348,14 @@ export default function myComponent() {
 
 ### CUIDatePicker 參數 :
 
+ - 此元件可傳入所有 MUI Date Picker 的可用參數
+ - 此元件設計為可控元件, 做為不可控元件時無法使用 ``onChange`` 參數取值
+
 | 名稱 | 類型 | 說明 |
 | --- | :---: | :---: |
 | label | String | 日期選擇器名稱
 | format | String | 日期格式, 選擇器上顯示的日期與回傳的日期都會套用此格式 (dayjs format)
-| value | Any | 預設顯示日期, 通常於使用可控元件時設定
-| defaultValue | Any | 預設顯示日期, 通常於使用不可控元件時設定
+| value | Any | 預設顯示日期
 | minDate | Any | 日期最小值
 | maxDate | Any | 日期最大值
 | sx | Object | sx 樣式物件

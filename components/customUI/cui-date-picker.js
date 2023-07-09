@@ -52,7 +52,6 @@ const CUIDatePicker = (props) => {
         {...props}
         sx={{ ...datePickerStyle, ...props.sx }}
         value={value}
-        defaultValue={defaultValue}
         minDate={minDate}
         maxDate={maxDate}
         onChange={(timeObj) => {
