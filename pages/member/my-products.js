@@ -1,7 +1,9 @@
 import React from 'react';
-import MemberLayout from '@/components/layout/memberLayout';
+import MemberCenterLayout from '@/components/layout/memberCenterLayout';
 
 export default function MyProducts() {
   return <div>my-product</div>;
 }
-MyProducts.getLayout = (page) => <MemberLayout>(page)</MemberLayout>;
+MyProducts.getLayout = (page) => (
+  <MemberCenterLayout>{page}</MemberCenterLayout>
+);

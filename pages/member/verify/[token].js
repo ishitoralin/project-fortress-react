@@ -1,5 +1,6 @@
-import { useRouter } from 'next/router';
 import React, { useEffect } from 'react';
+import { useRouter } from 'next/router';
+import MemberLayout from '@/components/layout/memberLayout';
 
 export default function VerifyToken() {
   const router = useRouter();
@@ -14,3 +15,4 @@ export default function VerifyToken() {
 
   return <div>1223</div>;
 }
+VerifyToken.getLayout = (page) => <MemberLayout> {page}</MemberLayout>;

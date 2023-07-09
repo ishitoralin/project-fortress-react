@@ -8,5 +8,9 @@ const SectionMap = dynamic(
 );
 
 export default function Index() {
-  return <SectionMap></SectionMap>;
+  return (
+    <>
+      <SectionMap></SectionMap>
+    </>
+  );
 }
