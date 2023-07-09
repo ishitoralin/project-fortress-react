@@ -43,3 +43,7 @@ yarn.lock
 
 #vscode setting
 /.vscode/
+
+/public/SCphoto/
+
+/public/react-imgs/

@@ -145,18 +145,22 @@ const expandData = {
     {
       key: 'train',
       linkName: '訓練紀錄',
-      href: '/record',
+      href: '/record/exercise',
     },
     {
       key: 'diet',
       linkName: '飲食紀錄',
-      href: '/record',
+      href: '/record/diet',
     },
   ],
 };
 
+const initState = new Map(
+  [...Object.keys(expandData)].map((key) => [key, false])
+);
+
 const getInitState = () => {
-  return new Map([...Object.keys(expandData)].map((key) => [key, false]));
+  return new Map(initState);
 };
 
 export default function Navbar() {
