@@ -2,6 +2,9 @@ import '@/styles/globals.css';
 
 import Layout from '@/components/layout/layout';
 import { AuthProvider } from '@/utils/useAuth';
+
+import MainTheme from '@/context/Theme/main-theme';
+
 const defaultLayout = (page) => <Layout>{page}</Layout>;
 
 export default function MyApp({ Component, pageProps }) {
@@ -9,7 +12,9 @@ export default function MyApp({ Component, pageProps }) {
 
   return getLayout(
     <AuthProvider>
-      <Component {...pageProps} />
+      <MainTheme>
+        <Component {...pageProps} />
+      </MainTheme>
     </AuthProvider>
   );
 }

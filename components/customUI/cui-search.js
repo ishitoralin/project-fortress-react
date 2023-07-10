@@ -10,6 +10,7 @@ export default function CUISearch(props) {
         type="text"
         name={props.name}
         color={props.color}
+        value={props.value}
         onClick={props.onClick}
         onChange={props.onChange}
         placeholder={props.placeholder}
