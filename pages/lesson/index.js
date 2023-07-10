@@ -39,7 +39,7 @@ const LessionPage = () => {
           <Typography
             id="findYourLesson"
             variant="h4"
-            sx={{ textAlign: 'center', py: 4, mb: '2rem' }}
+            sx={{ textAlign: 'center', py: 8, mb: '2rem' }}
           >
             尋找您喜愛的課程
           </Typography>

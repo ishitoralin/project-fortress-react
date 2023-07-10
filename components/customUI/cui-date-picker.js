@@ -57,7 +57,6 @@ const CUIDatePicker = (props) => {
       <ColorTheme>
         <DatePicker
           format={defaultFormat}
-          views={['year', 'month', 'day']}
           {...props}
           sx={{ ...datePickerStyle, ...props.sx }}
           value={value}

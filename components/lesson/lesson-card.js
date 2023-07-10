@@ -232,8 +232,8 @@ const LessonCard = ({ lesson }) => (
             cursor: 'pointer',
             ':hover': {
               '.regisText': {
-                fontSize: '1.4rem',
-                filter: 'drop-shadow(0 7px 2px grey)',
+                fontSize: '1.3rem',
+                filter: 'drop-shadow(0 7px 7px grey)',
               },
             },
           }}

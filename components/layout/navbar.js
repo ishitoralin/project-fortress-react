@@ -24,7 +24,7 @@ const navbarStyle = {
   width: '100%',
   paddingInline: '1.5rem',
   userSelect: 'none',
-  zIndex: 10,
+  zIndex: 99,
   ...centerAll,
 };
 
