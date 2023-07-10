@@ -100,7 +100,7 @@ export default function Navbar() {
             <Box sx={linkItemStyle}>{link.linkName}</Box>
           </MyLink>
         ))}
-        <MyLink href="/">
+        <MyLink href="/shoppingcart">
           <Box>
             <ShoppingCartIcon />
           </Box>
