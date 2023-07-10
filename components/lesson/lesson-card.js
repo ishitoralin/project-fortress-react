@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Button, Box, Typography } from '@mui/material';
 
 import ForwardSymbol from '@/assets/forward-symbol';
 import Image from 'next/image';
@@ -17,25 +17,66 @@ const cardStyle = {
   bgcolor: '#eee',
   display: 'flex',
   overflow: 'hidden',
+  transition: '.2s',
+  ':hover': {
+    button: {
+      opacity: 1,
+    },
+    '.lesson_card_img': {
+      // filter: 'brightness(0.45) !important',
+    },
+  },
 };
 
-const cardLeftStyle = {
+const cardImgStyle = {
   position: 'relative',
   width: '30%',
   height: '100%',
-  left: '-5%',
   overflow: 'hidden',
   boxShadow: '1px 0 7px #555',
-  transform: 'scale(1.75) rotateZ(15deg)',
-  transition: '.5s',
+  transform: 'scale(1.5) translateY(-5%) rotateZ(15deg)',
 };
 
-const cardBox = {
+const cardBodyStyle = {
+  width: '60%',
+  padding: '1rem',
+  marginLeft: 'auto',
+};
+
+const imgBox = {
   position: 'relative',
-  width: '125%',
+  width: '100%',
   height: '90%',
-  transform: 'rotateZ(-15deg)',
+  transform: 'rotateZ(-15deg) translate(15%, 10%)',
+};
+
+const imgButtonStyle = {
+  position: 'absolute',
+  left: '50%',
+  top: '50%',
+  zIndex: 2,
+  transform: 'translate(-70%, -50%)',
+  fontWeight: 'bold',
+  border: '2px solid white',
+  opacity: 0,
   transition: '.5s',
+  ':before': {
+    content: '""',
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    bgcolor: 'white',
+    transform: 'scale(0, 1)',
+    transition: '.5s',
+    zIndex: -1,
+  },
+  ':hover': {
+    color: 'black',
+    ':before': {
+      transform: 'scale(1, 1)',
+    },
+    border: '2px solid white',
+  },
 };
 
 const imgStyle = {
@@ -43,6 +84,22 @@ const imgStyle = {
   height: '100%',
   filter: 'brightness(90%)',
   objectFit: 'cover',
+  transition: '.5s',
+};
+
+const cardTitleStyle = {
+  display: 'inline-block',
+  width: '90%',
+  textAlign: 'center',
+  fontWeight: 'bold',
+  fontStyle: 'oblique',
+};
+
+const favoriteIconStyle = {
+  width: '10%',
+  verticalAlign: 'text-bottom',
+  color: 'var(--main-red)',
+  cursor: 'pointer',
 };
 
 const cardInfoBoxStyle = { display: 'flex', borderBottom: '2px solid #dfdfdf' };
@@ -80,7 +137,7 @@ const priceTextStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    left: '-20%',
+    left: '-17.5%',
     bottom: 0,
     width: '130%',
     borderBottom: '3px solid var(--main-red)',
@@ -89,49 +146,30 @@ const priceTextStyle = {
 
 const LessonCard = ({ lesson }) => (
   <CUICard sx={cardStyle}>
-    <Box sx={cardLeftStyle}>
-      <Box sx={cardBox}>
-        <Image alt="lessonImg" src={lesson.img} fill style={imgStyle} />
+    <Box sx={cardImgStyle}>
+      <Box sx={imgBox}>
+        <Button
+          variant="outlined"
+          size="small"
+          color="main_white"
+          sx={imgButtonStyle}
+        >
+          查看詳情
+        </Button>
+        <Image
+          className="lesson_card_img"
+          alt="lessonImg"
+          src={lesson.img}
+          fill
+          style={imgStyle}
+        />
       </Box>
     </Box>
-    <Box
-      sx={{
-        width: '60%',
-        padding: '1rem',
-        marginLeft: 'auto',
-      }}
-    >
-      <Typography
-        variant="h5"
-        sx={{
-          display: 'inline-block',
-          width: '90%',
-          textAlign: 'center',
-          fontWeight: 'bold',
-          fontStyle: 'oblique',
-        }}
-      >
+    <Box sx={cardBodyStyle}>
+      <Typography variant="h5" sx={cardTitleStyle}>
         {lesson.lessonName}
-        {
-          //     time: '2024/05/06 14:00',
-          //     description:
-          //       '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-          //     coachName: '蔡岱峯',
-          //     price: '600',
-          //     enrolled: 10,
-          //     limit: 20,
-          //     tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-          //     location: '台北館',
-        }
       </Typography>
-      <FavoriteBorderOutlinedIcon
-        sx={{
-          width: '10%',
-          verticalAlign: 'text-bottom',
-          color: 'var(--main-red)',
-          cursor: 'pointer',
-        }}
-      />
+      <FavoriteBorderOutlinedIcon sx={favoriteIconStyle} />
       <Box sx={{ padding: '.25rem 5% 0rem 1rem' }}>
         <Box sx={cardInfoBoxStyle}>
           <Typography variant="h6" sx={cardInfoTitleStyle}>
@@ -190,22 +228,14 @@ const LessonCard = ({ lesson }) => (
         </Typography>
         <Box
           sx={{
-            // border: '1px solid red',
             width: '50px',
             height: '50px',
             position: 'relative',
-            // marginLeft: '1rem',
             transform: 'rotate(-90deg)',
           }}
         >
           <ForwardSymbol width={'45px'} />
         </Box>
-        {/* <Typography
-          variant="h5"
-          sx={{ marginLeft: 'auto',fontWeight: 'bold', fontStyle: 'oblique' }}
-        >
-          價格: {lesson.price}
-        </Typography> */}
       </Box>
     </Box>
   </CUICard>
