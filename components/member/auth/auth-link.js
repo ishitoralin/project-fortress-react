@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { Typography } from '@mui/material';
-import { LIGHT_GRAY2 } from '@/assets/color-code';
+import { DEEPGREY } from '@/assets/color-code';
 
 export default function AuthLink({ path }) {
   const content = { first: '', last: '' };
@@ -23,7 +23,7 @@ export default function AuthLink({ path }) {
       throw new Error('invalid path');
   }
   return (
-    <Typography variant="h6" sx={{ color: LIGHT_GRAY2 }}>
+    <Typography variant="span" sx={{ color: DEEPGREY }}>
       {content.first}
       <Link href={`/member/${path}`}>
         <Typography variant="span" sx={{ textDecoration: 'underline' }}>
