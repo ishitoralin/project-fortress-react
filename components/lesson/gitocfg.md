@@ -10,3 +10,7 @@ alias.lg1 log --oneline
 alias.ls config --get-regexp '^alias\.'
 alias.acm !git add -A && git commit -m
 alias.mg merge
+alias.p push
+alias.pl pull
+alias.fch fetch
+alias.dif diff --name-only

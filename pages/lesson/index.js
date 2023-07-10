@@ -66,9 +66,7 @@ const LessionPage = () => {
                   label="課程標籤"
                   options={tagsData}
                 />,
-                <RedTheme key={3}>
-                  <CUIDatePicker label="課程日期" color={'steel_grey'} />
-                </RedTheme>,
+                <CUIDatePicker key={3} label="課程日期" color={'steel_grey'} />,
                 <CUISlider key={4} label="價格範圍" />,
               ]}
             />

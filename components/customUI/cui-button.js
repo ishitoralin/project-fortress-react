@@ -1,19 +1,20 @@
 import { Button } from '@mui/material';
 
 const CUIButton = (props) => {
-  const defaultSx = props.color
-    ? {}
-    : {
-        bgcolor: props.btncolor || 'var(--main-red)',
-        transition: '.5s',
-        ':hover': {
-          filter: 'brightness(0.8)',
-          bgcolor: props.btncolor || 'var(--main-red)',
-        },
-      };
+  const buttonStyle = {
+    transition: '.5s',
+    ':hover': {
+      filter: 'brightness(0.85)',
+    },
+  };
 
   return (
-    <Button variant="contained" {...props} sx={{ ...defaultSx, ...props.sx }}>
+    <Button
+      variant="contained"
+      {...props}
+      color={props.color || 'main_red'}
+      sx={{ ...buttonStyle, ...props.sx }}
+    >
       {props.children}
     </Button>
   );

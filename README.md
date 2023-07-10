@@ -1,9 +1,9 @@
-# This is the final project frontend for mfee36 group4.  
+# This is the final project frontend for mfee36 group4.
 
 ### The backend for final project - https://github.com/LQTjim/g4-final-project-backend
-  
+
 ---
-  
+
 ## 使用你的客製 Layout
 
 ### 為你的 page 元件添加 getLayout 屬性 :
@@ -17,7 +17,7 @@ YourPage.getLayout = (page) => (
 )
 
 // 你的頁面元件
-export default function YourPage() { 
+export default function YourPage() {
     return (<>
         ...
     </>)
@@ -49,29 +49,30 @@ export default function myComponent() {
     </>);
 }
 ```
- - 被 color theme 包裹的 mui component 使用的主色 (main) 會被替換為 color theme 的顏色
+
+- 被 color theme 包裹的 mui component 使用的主色 (main) 會被替換為 color theme 的顏色
 
 ### 使用你的客製 Color Theme
 
-#### 引入 createColorTheme : 
+#### 引入 createColorTheme :
 
 ```
 import createColorTheme from '@/libs/CreateColorTheme';
 ```
 
-#### 製作客製的 Color Theme : 
+#### 製作客製的 Color Theme :
 
 ```
 const MyColorTheme = createColorTheme(myColor);
 ```
 
-#### createColorTheme 參數 : 
+#### createColorTheme 參數 :
 
-| type | format |
-| --- | :---: |
-| String |  ```#nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()```
+| type   |                         format                         |
+| ------ | :----------------------------------------------------: |
+| String | `#nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()` |
 
-#### 使用客製的 Color Theme : 
+#### 使用客製的 Color Theme :
 
 ```
 ...
@@ -110,7 +111,8 @@ export default function myComponent() {
 ## 卡片 (CUICard)
 
 ### 使用 CUICard :
- - #### 等同使用 MUI \<Paper elevation={4}>\</Paper> 元件
+
+- #### 等同使用 MUI \<Paper elevation={4}>\</Paper> 元件
 
 ```
 import CUICard from '@/components/customUI/cui-card';
@@ -127,7 +129,8 @@ export default function myComponent() {
 ```
 
 ### CUICard 參數 :
- - #### 此元件支援所有 MUI Paper 的可用參數
+
+- #### 此元件支援所有 MUI Paper 的可用參數
 
 <br />
 
@@ -141,7 +144,7 @@ import CUIButton from '@/components/customUI/cui-button';
 export default function myComponent() {
     return (<>
         ...
-        <CUIButton btncolor={btncolor}>
+        <CUIButton>
             按鈕文字
         </CUIButton>
         ...
@@ -151,11 +154,7 @@ export default function myComponent() {
 
 ### CUIButton 參數 :
 
- - #### 此元件支援所有 MUI Button 的可用參數
-
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| btncolor | String | 按鈕顏色(文字不會自動調整可視度)
+- #### 此元件支援所有 MUI Button 的可用參數
 
 <br />
 
@@ -169,7 +168,7 @@ import CUISearch from '@/components/customUI/cui-search';
 export default function myComponent() {
     return (<>
         ...
-        <CUISearch 
+        <CUISearch
             label={label}
             placeholder={placeholder}
         />
@@ -180,16 +179,16 @@ export default function myComponent() {
 
 ### CUISearch 參數 :
 
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| name | String | 
-| label | String | 搜尋列名稱
-| placeholder | String | 搜尋列提示
-| value | String | 
-| color | String | mui theme color
-| sx | Object | sx 樣式物件
-| onClick | Function | 
-| onChange | Function |
+| 名稱        |   類型   |      說明       |
+| ----------- | :------: | :-------------: |
+| name        |  String  |
+| label       |  String  |   搜尋列名稱    |
+| placeholder |  String  |   搜尋列提示    |
+| value       |  String  |
+| color       |  String  | mui theme color |
+| sx          |  Object  |   sx 樣式物件   |
+| onClick     | Function |
+| onChange    | Function |
 
 <br />
 
@@ -203,7 +202,7 @@ import CUISelect from '@/components/customUI/cui-select';
 export default function myComponent() {
     return (<>
         ...
-        <CUISelect 
+        <CUISelect
             label={label}
             options={[
                 {key: optionsKey1, value: optionsValue1, label: optionsLabel1},
@@ -218,35 +217,34 @@ export default function myComponent() {
 
 ### CUISelect 參數 :
 
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| name | String | 
-| label | String | 選單名稱
-| value | Any | 
-| color | String | mui theme color
-| sx | Object | sx 樣式物件
-| defaultValue | String | 選單元件預設值
-| helperText | String | 說明文字
-| options | Array[ Object \| String ] | 項目陣列
-| onChange | Function |
-
+| 名稱         |           類型            |      說明       |
+| ------------ | :-----------------------: | :-------------: |
+| name         |          String           |
+| label        |          String           |    選單名稱     |
+| value        |            Any            |
+| color        |          String           | mui theme color |
+| sx           |          Object           |   sx 樣式物件   |
+| defaultValue |          String           | 選單元件預設值  |
+| helperText   |          String           |    說明文字     |
+| options      | Array[ Object \| String ] |    項目陣列     |
+| onChange     |         Function          |
 
 ### CUISelect 項目 :
 
-| 名稱 | 類型 | 說明 | 
-| --- | :---: | :---: | 
-| key | String \| Number
-| value | String \| Number | 選單元件選取值
-| label | String | 項目名稱
+| 名稱  |       類型       |      說明      |
+| ----- | :--------------: | :------------: |
+| key   | String \| Number |
+| value | String \| Number | 選單元件選取值 |
+| label |      String      |    項目名稱    |
 
 - #### 選單項目建議使用 Object 類型, 使用 String 類型則項目內 key, value, label 皆會使用該字串作為屬性值
 
 - #### 使用 Object 類型未給定屬性值時會依序套用 :
 
-| key | value | label |
-| :---: | :---: | :---: |
-| 陣列索引值 | label | value |
-|  | 空字串 | 空字串 |
+|    key     | value  | label  |
+| :--------: | :----: | :----: |
+| 陣列索引值 | label  | value  |
+|            | 空字串 | 空字串 |
 
 <br />
 
@@ -260,7 +258,7 @@ import CUISlider from '@/components/customUI/cui-slider';
 export default function myComponent() {
     return (<>
         ...
-        <CUISlider 
+        <CUISlider
             label={label}
             max={max}
             min={min}
@@ -274,18 +272,18 @@ export default function myComponent() {
 
 ### CUISlider 參數 :
 
- - 此元件設計為可控元件, 做為不可控元件時無法使用 ``onChange`` 參數取值
+- 此元件設計為可控元件, 做為不可控元件時無法使用 `onChange` 參數取值
 
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| name | String | 
-| label | String | 滑動條名稱
-| max | Number \| String | 滑動條最大值
-| min | Number \| String | 滑動條最小值
-| value | Array[ Number \| String, Number \| String ] | 滑鈕位置 (範圍值)
-| distance | Number \| String | 步進值
-| color | String | mui theme color
-| onChange | Function | 傳入參數為滑鈕位置 (範圍值), 類型為 Array[ Number, Number ]
+| 名稱     |                    類型                     |                            說明                             |
+| -------- | :-----------------------------------------: | :---------------------------------------------------------: |
+| name     |                   String                    |
+| label    |                   String                    |                         滑動條名稱                          |
+| max      |              Number \| String               |                        滑動條最大值                         |
+| min      |              Number \| String               |                        滑動條最小值                         |
+| value    | Array[ Number \| String, Number \| String ] |                      滑鈕位置 (範圍值)                      |
+| distance |              Number \| String               |                           步進值                            |
+| color    |                   String                    |                       mui theme color                       |
+| onChange |                  Function                   | 傳入參數為滑鈕位置 (範圍值), 類型為 Array[ Number, Number ] |
 
 <br />
 
@@ -299,7 +297,7 @@ import CUIFilter from '@/components/customUI/cui-filter';
 export default function myComponent() {
     return (<>
         ...
-        <CUIFilter 
+        <CUIFilter
             label={label}
             items={[
                 <Component1 />,
@@ -314,16 +312,16 @@ export default function myComponent() {
 
 ### CUIFilter 參數 :
 
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| label | String | 篩選器名稱, 未設定時不渲染標題區
-| noButton |  | 不渲染篩選器按鈕
-| items | Array[ \<Component /> ] | 子元件陣列
-| sx | Object | sx 樣式物件
-| sxLabel | Object | sx 樣式物件, 套用於篩選器標題區
-| sxBody | Object | sx 樣式物件, 套用於篩選器內容區
-| color | String | mui theme color
-| onClick | Function | 點擊篩選器按鈕執行的回呼函式
+| 名稱     |          類型           |               說明               |
+| -------- | :---------------------: | :------------------------------: |
+| label    |         String          | 篩選器名稱, 未設定時不渲染標題區 |
+| noButton |                         |         不渲染篩選器按鈕         |
+| items    | Array[ \<Component /> ] |            子元件陣列            |
+| sx       |         Object          |           sx 樣式物件            |
+| sxLabel  |         Object          | sx 樣式物件, 套用於篩選器標題區  |
+| sxBody   |         Object          | sx 樣式物件, 套用於篩選器內容區  |
+| color    |         String          |         mui theme color          |
+| onClick  |        Function         |   點擊篩選器按鈕執行的回呼函式   |
 
 <br />
 
@@ -337,7 +335,7 @@ import CUIDatePicker from '@/components/customUI/cui-date-picker';
 export default function myComponent() {
     return (<>
         ...
-        <CUIDatePicker 
+        <CUIDatePicker
             label={label}
             format={format}
         />
@@ -348,19 +346,20 @@ export default function myComponent() {
 
 ### CUIDatePicker 參數 :
 
- - 此元件可傳入所有 MUI Date Picker 的可用參數
- - 此元件設計為可控元件, 做為不可控元件時無法使用 ``onChange`` 參數取值
+- 此元件可傳入所有 MUI Date Picker 的可用參數
+- 此元件設計為可控元件, 做為不可控元件時無法使用 `onChange` 參數取值
 
-| 名稱 | 類型 | 說明 |
-| --- | :---: | :---: |
-| label | String | 日期選擇器名稱
-| format | String | 日期格式, 選擇器上顯示的日期與回傳的日期都會套用此格式 (dayjs format)
-| value | Any | 預設顯示日期
-| minDate | Any | 日期最小值
-| maxDate | Any | 日期最大值
-| sx | Object | sx 樣式物件
-| onChange | Funtion | 改變日期時會執行的回呼函式, 傳入參數為套用 format 格式的字串
- - ``value, defaultValue, minDate, maxDate`` 參數會經過 ``dayjs()`` 套用 ``format`` 參數給予的格式進行轉換為字串
+| 名稱     |  類型   |                                 說明                                  |
+| -------- | :-----: | :-------------------------------------------------------------------: |
+| label    | String  |                            日期選擇器名稱                             |
+| format   | String  | 日期格式, 選擇器上顯示的日期與回傳的日期都會套用此格式 (dayjs format) |
+| value    |   Any   |                             預設顯示日期                              |
+| minDate  |   Any   |                              日期最小值                               |
+| maxDate  |   Any   |                              日期最大值                               |
+| sx       | Object  |                              sx 樣式物件                              |
+| onChange | Funtion |     改變日期時會執行的回呼函式, 傳入參數為套用 format 格式的字串      |
+
+- `value, minDate, maxDate` 參數會經過 `dayjs()` 套用 `format` 參數給予的格式進行轉換為字串
 
 ### 示例 :
 
@@ -370,7 +369,7 @@ import CUIDatePicker from '@/components/customUI/cui-date-picker';
 export default function myComponent() {
     return (<>
         ...
-        <CUIDatePicker 
+        <CUIDatePicker
             label={"訓練日期"}
             format={"YYYY-MM-DD"}
 
@@ -383,7 +382,7 @@ export default function myComponent() {
             minDate={dayjs()}
             // 日期最小值為當天日期 (需引入 dayjs 套件)
 
-            onChange={(date) => console.log(date)} 
+            onChange={(date) => console.log(date)}
             // 若使用者選擇 2022年2月25日 ===> 輸出 2022-02-25
         />
         ...

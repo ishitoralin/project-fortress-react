@@ -41,6 +41,9 @@ const defaultFormat = 'YYYY/MM/DD';
 
 const CUIDatePicker = (props) => {
   const theme = useMainTheme();
+  const ColorTheme = props.color
+    ? createColorTheme(theme.palette[props.color].main)
+    : (props) => <>{props.children}</>;
 
   const [value, defaultValue, minDate, maxDate] = [
     props.value,
@@ -48,8 +51,6 @@ const CUIDatePicker = (props) => {
     props.minDate,
     props.maxDate,
   ].map((item) => (item ? dayjs(item) : undefined));
-
-  const ColorTheme = createColorTheme(theme.palette[props.color].main);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
