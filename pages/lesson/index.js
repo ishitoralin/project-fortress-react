@@ -5,7 +5,9 @@ import RightSide from '@/components/lesson/rightside';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
+import RedTheme from '@/context/Theme/red-theme';
 
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
 
@@ -64,7 +66,10 @@ const LessionPage = () => {
                   label="課程標籤"
                   options={tagsData}
                 />,
-                <CUISlider key={3} label="價格範圍" />,
+                <RedTheme key={3}>
+                  <CUIDatePicker label="課程日期" color={'steel_grey'} />
+                </RedTheme>,
+                <CUISlider key={4} label="價格範圍" />,
               ]}
             />
             <RightSide />

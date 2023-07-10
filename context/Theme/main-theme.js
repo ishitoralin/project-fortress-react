@@ -27,6 +27,8 @@ const theme = createTheme({
   },
 });
 
+export const useMainTheme = () => theme;
+
 export default function MainTheme({ children }) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 }
