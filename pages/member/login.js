@@ -78,6 +78,9 @@ export default function Login() {
 
         <form onSubmit={formik.handleSubmit} className={styles['right-panel']}>
           <div className={`${styles['right-panel-bg']}`}></div>
+          <Link className={styles['right-logo']} href="/">
+            <Logo fill={MAIN_BLACK} className={styles.logo} />
+          </Link>
           <Typography variant="h4">登入帳號</Typography>
           {['sign-up', 'forgot-password'].map((el) => (
             <AuthLink key={el} path={el} />

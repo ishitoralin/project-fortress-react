@@ -61,7 +61,6 @@
 }
 .panel-section {
   position: absolute;
-  overflow: auto;
   min-height: 630px;
   top: 50%;
   padding-left: 64px;
@@ -119,6 +118,9 @@
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   z-index: -1;
 }
+.right-logo {
+  display: none;
+}
 .back-cover {
   position: absolute;
   inset: 0;
@@ -162,6 +164,14 @@
   .back-cover,
   .front-cover {
     display: none;
+  }
+  .right-logo {
+    display: inline;
+  }
+  .right-logo svg {
+    width: 250px;
+    height: 100%;
+    margin-bottom: 25px;
   }
 }
 @media screen and (max-width: 768px) {
