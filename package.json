@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev2": "next dev -p 9010",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -16,10 +17,12 @@
     "@fullcalendar/react": "^6.1.8",
     "@mui/icons-material": "^5.13.7",
     "@mui/material": "^5.13.7",
+    "@mui/x-date-pickers": "^6.9.1",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.0",
     "D": "^1.0.0",
     "d3": "^7.8.5",
+    "dayjs": "^1.11.9",
     "eslint-config-next": "13.4.2",
     "framer-motion": "^10.12.17",
     "leaflet": "^1.9.4",
@@ -31,6 +34,9 @@
     "react-leaflet": "^4.2.1",
     "react-material-ui-carousel": "^3.4.2",
     "sass": "^1.63.6",
+    "react-slick": "^0.29.0",
+    "slick-carousel": "^1.8.1",
+    "swiper": "^10.0.3",
     "validator": "^13.9.0"
   },
   "devDependencies": {

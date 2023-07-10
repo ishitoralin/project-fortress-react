@@ -5,3 +5,6 @@ export const LIGHT_GRAY2 = '#F5F5F5';
 export const MAIN_WHITE = '#FFF';
 export const FORTRESS = '#FFDF8E';
 export const DEEPGREY = '#707070';
+export const LIGHT_GREY = '#E0E3E7';
+export const STEEL_LIGHT_GREY = '#B2BAC2';
+export const STEEL_GREY = '#6F7E8C';

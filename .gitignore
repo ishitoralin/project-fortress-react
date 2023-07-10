@@ -8,6 +8,8 @@
 # testing
 /coverage
 
+*.jpg
+
 # next.js
 /.next/
 /out/
@@ -43,3 +45,5 @@ yarn.lock
 /.vscode/
 
 /public/SCphoto/
+
+/public/react-imgs/
