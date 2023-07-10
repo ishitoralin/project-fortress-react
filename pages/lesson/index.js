@@ -7,7 +7,6 @@ import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
-import RedTheme from '@/context/Theme/red-theme';
 
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
 
