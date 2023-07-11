@@ -1,15 +1,9 @@
-import {
-  Box,
-  ToggleButton,
-  Typography,
-  ToggleButtonGroup,
-} from '@mui/material';
-import Image from 'next/image';
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
+import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
-import CUICard from '@/components/customUI/cui-card';
+import LessonCard from './lesson-card';
 import WhiteTheme from '@/context/Theme/white-theme';
 
 const lessonData = [
@@ -68,10 +62,10 @@ const lessonData = [
 ];
 
 const rightSideStyle = {
-  width: '70%',
-  bgcolor: 'var(--deepgrey)',
+  width: '65%',
+  // bgcolor: 'silver',
   borderRadius: '3px',
-  padding: '2rem',
+  // padding: '2rem',
 };
 
 const UiButton = (props) => (
@@ -114,12 +108,18 @@ const headerStyle = {
   display: 'flex',
   alignItems: 'center',
   width: '100%',
-  height: '5rem',
-  paddingTop: '2rem',
-  boxShadow: '0 5px 0 5px var(--deepgrey), 0 12px 5px #333',
-  transform: 'translateY(-2rem)',
+  // boxSizing: 'content-box',
+  padding: '1rem',
+  // height: '4rem',
+  // paddingTop: '2rem',
+  marginBottom: '1rem',
+  // boxShadow: '0 10px 0 10px silver, 0 20px 5px #333',
+  boxShadow: '0 3px 5px #555',
+  // transform: 'translateY(-2rem)',
+  backdropFilter: 'blur(5px)',
   top: '2rem',
-  bgcolor: 'var(--deepgrey)',
+  bgcolor: 'rgba(180, 180, 180, .95)',
+  borderRadius: '3px',
   zIndex: 2,
 };
 
@@ -172,76 +172,7 @@ const RightSide = () => (
       ...lessonData,
       ...lessonData,
     ].map((lesson, index) => (
-      <CUICard
-        key={index}
-        sx={{
-          width: '100%',
-          height: '200px',
-          marginBottom: '1.5rem',
-          bgcolor: '#eee',
-          display: 'flex',
-          overflow: 'hidden',
-        }}
-      >
-        <Box
-          sx={{
-            position: 'relative',
-            width: '30%',
-            height: '100%',
-            left: '-10%',
-            overflow: 'hidden',
-            transform: 'scale(1.75) rotateZ(15deg)',
-            boxShadow: '1px 0 3px #555',
-          }}
-        >
-          <Box
-            sx={{
-              position: 'relative',
-              width: '125%',
-              height: '100%',
-              transform: 'rotateZ(-15deg)',
-            }}
-          >
-            <Image
-              alt="lessonImg"
-              src={lesson.img}
-              fill
-              style={{
-                width: '100%',
-                height: '100%',
-                filter: 'brightness(90%)',
-                objectFit: 'cover',
-              }}
-            />
-          </Box>
-        </Box>
-        <Box
-          sx={{
-            width: '65%',
-            padding: '1rem',
-            marginLeft: 'auto',
-          }}
-        >
-          <Typography
-            variant="h5"
-            sx={{ textAlign: 'center', fontWeight: 'bold' }}
-          >
-            {lesson.lessonName}
-            <FavoriteBorderOutlinedIcon
-              sx={{
-                verticalAlign: 'text-top',
-                color: 'var(--main-red)',
-              }}
-            />
-            {/* <FavoriteOutlinedIcon
-                        sx={{
-                          verticalAlign: 'text-top',
-                          color: 'var(--main-red)',
-                        }}
-                      /> */}
-          </Typography>
-        </Box>
-      </CUICard>
+      <LessonCard key={index} lesson={lesson} />
     ))}
   </Box>
 );

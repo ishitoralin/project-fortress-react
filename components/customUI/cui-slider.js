@@ -5,43 +5,74 @@ import createColorTheme from '@/libs/CreateColorTheme';
 import { MAIN_RED } from '@/assets/color-code';
 const RedTheme = createColorTheme(MAIN_RED);
 
+const thumbsStyle = {
+  marginBottom: 3,
+  '& .MuiSlider-thumb': {
+    '.MuiSlider-valueLabelOpen': {
+      userSelect: 'none',
+      ':before': {
+        content: 'none',
+      },
+      transform: 'translateY(145%) translateX(0%) scale(1)',
+    },
+    ':last-child': {
+      '.MuiSlider-valueLabelOpen': {
+        transform: 'translateY(-95%) translateX(0%) scale(1)',
+      },
+    },
+  },
+};
+
 const defaultValue = {
   min: 200,
   max: 2000,
-  value: [500, 1400],
   distance: 50,
 };
 
-export default function CUISlider(oriProps) {
-  const props = { ...defaultValue, ...oriProps };
+export default function CUISlider(props) {
+  if (props.value && !Array.isArray(props.value))
+    throw 'CUISlider can only accept value with Array type';
 
-  if (!Array.isArray(props.value)) {
-    throw 'CUISlider can only accept array as value';
-  }
+  const thumbs = [0, 1].map((index) => {
+    const which = index === 0 ? 'min' : 'max';
 
-  const [max, min, distance, firstThumb, secondThumb] = [
-    props.max,
-    props.min,
-    props.distance,
-    ...props.value,
+    return props.value && index in props.value
+      ? props.value[index]
+      : props[which] || defaultValue[which];
+  });
+
+  const [min, max, distance, firstThumb, secondThumb] = [
+    props.min || thumbs[0],
+    props.max || thumbs[1],
+    props.distance || defaultValue.distance,
+    ...thumbs,
   ].map((value) => parseInt(value));
+
+  if (max <= min) throw 'max value cannot less than min value';
+  if (max - min < distance) throw 'distance value too large';
+  if (min > firstThumb) throw 'firstThumb value cannot less than min value';
+  if (max < secondThumb) throw 'max value cannot less than secondThumb value';
 
   const [value, setValue] = useState([firstThumb, secondThumb]);
 
   const handleChange = (event, newValue, activeThumb) => {
-    if (!Array.isArray(newValue)) return;
+    const newState = getNewValue(event, newValue, activeThumb);
+    setValue(newState);
+    typeof props.onChange === 'function' && props.onChange(newState);
+  };
 
+  const getNewValue = (event, newValue, activeThumb) => {
     if (newValue[1] - newValue[0] >= distance) {
-      return setValue(newValue);
+      return newValue;
     }
 
     if (activeThumb === 0) {
       const clamped = Math.min(newValue[0], max - distance);
-      return setValue([clamped, clamped + distance]);
+      return [clamped, clamped + distance];
     }
 
     const clamped = Math.max(newValue[1], distance + min);
-    return setValue([clamped - distance, clamped]);
+    return [clamped - distance, clamped];
   };
 
   return (
@@ -56,36 +87,14 @@ export default function CUISlider(oriProps) {
           {props.label}
         </Typography>
         <Slider
-          max={max}
           min={min}
+          max={max}
           step={distance}
           color={props.color}
           name={props.name}
           value={value}
-          sx={{
-            marginBottom: 3,
-            '& .MuiSlider-thumb': {
-              '.MuiSlider-valueLabelOpen': {
-                userSelect: 'none',
-                ':before': {
-                  content: 'none',
-                },
-                transform: 'translateY(145%) translateX(0%) scale(1)',
-              },
-              ':last-child': {
-                '.MuiSlider-valueLabelOpen': {
-                  transform: 'translateY(-95%) translateX(0%) scale(1)',
-                },
-              },
-            },
-          }}
-          onChange={(event, newValue, activeThumb) => {
-            handleChange(event, newValue, activeThumb);
-            if (props.onChange && typeof props.onChange !== 'function') {
-              throw 'CUISlider onChange is not a function';
-            }
-            props.onChange && props.onChange(event);
-          }}
+          sx={thumbsStyle}
+          onChange={handleChange}
           valueLabelDisplay="on"
           disableSwap
         />

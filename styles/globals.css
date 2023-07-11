@@ -1,13 +1,23 @@
 :root {
   --nav-height: 60px;
   --footer-height: 40px;
-  --main-red: #EA0000;
-  --main-black: #0A0A0A;
-  --light-gray: #FAFAFA;
-  --light-gray2: #F5F5F5;
-  --main-white: #FFF;
-  --fortress: #FFDF8E;
+  --main-red: #ea0000;
+  --main-black: #0a0a0a;
+  --light-gray: #fafafa;
+  --light-gray2: #f5f5f5;
+  --main-white: #fff;
+  --fortress: #ffdf8e;
   --deepgrey: #707070;
+
+  --light-grey: #e0e3e7;
+  --steel-light-grey: #b2bac2;
+  --steel-grey: #6f7e8c;
+}
+
+@media screen and (max-width: 768px) {
+  :root {
+    font-size: 14px;
+  }
 }
 
 * {
@@ -19,13 +29,13 @@
 html,
 body {
   max-width: 100vw;
-  overflow: hidden;
+  /* overflow: hidden; */
   height: 100vh;
 }
 
 main {
   overflow: auto;
-  height: calc( 100vh - var(--nav-height) );
+  height: calc(100vh - var(--nav-height));
 }
 
 a {
