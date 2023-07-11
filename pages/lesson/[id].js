@@ -6,13 +6,13 @@ import { useRouter } from 'next/router';
 
 const containerStyle = { py: '1rem', height: 'fit-content' };
 
-const bigCardStyle = {
-  //   position: 'relative',
-  border: '2px solid red',
-  height: '1600px',
-  width: '90%',
-  margin: 'auto',
-};
+  const bigCardStyle = {
+    //   position: 'relative',
+    border: '2px solid red',
+    height: '1600px',
+    width: '90%',
+    margin: 'auto',
+  };
 
 const imgBoxStyle = {
   position: 'relative',
