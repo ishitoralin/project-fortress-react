@@ -10,6 +10,7 @@ import AuthLink from '@/components/member/auth/auth-link';
 import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
+import GoogleSvg from '@/public/icons/google-svg.svg';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -99,16 +100,24 @@ export default function Login() {
                 onBlur={formik.handleBlur}
                 error={formik.touched[name] && Boolean(formik.errors[name])}
                 helperText={formik.touched[name] && formik.errors[name]}
-                // autoComplete="off"
+                autoComplete="off"
               />
             );
           })}
           <CUIButton fullWidth type="submit">
             登入
           </CUIButton>
-          <Typography variant="span" sx={{ color: DEEPGREY }}>
-            第三方登入
-          </Typography>
+          <div>
+            <Typography variant="span" sx={{ color: DEEPGREY }}>
+              第三方登入
+            </Typography>
+            <img
+              src={GoogleSvg.src}
+              width={25}
+              alt="google登入"
+              className={styles['google-login']}
+            />
+          </div>
           <div className={styles['back-cover']}></div>
           <div className={styles['front-cover']}></div>
         </form>
