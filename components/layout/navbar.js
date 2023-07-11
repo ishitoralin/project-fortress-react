@@ -185,26 +185,45 @@ export default function Navbar() {
           <LogoIcon width={150} height={50} />
         </Link>
       </Box>
-      <Box sx={linksStyle}>
-        {linksData.map((link) => (
-          <MyLink key={link.linkName} href={link.href}>
-            <Box sx={linkItemStyle}>{link.linkName}</Box>
-          </MyLink>
-        ))}
-        <MyLink href="/">
-          <Box>
-            <ShoppingCartIcon />
-          </Box>
-        </MyLink>
-        <MyLink
-          href=""
-          style={{ position: 'relative' }}
-          onClick={() => setExpanded((pre) => !pre)}
-        >
-          <Box sx={linkItemStyle}>登入/註冊</Box>
-          <Collapse
-            in={expanded}
-            sx={{ position: 'absolute', top: '100%', bgcolor: 'black' }}
+      <ClickAwayListener onClickAway={closeLinks}>
+        <Box sx={linksStyle}>
+          <ExpandItem
+            in={linksState.get('coachLesson')}
+            onClick={() => toggleLink('coachLesson')}
+            links={expandData['coachLesson']}
+          >
+            課程與教練
+          </ExpandItem>
+          <Item href="/product" onClick={closeLinks}>
+            進入商城
+          </Item>
+          <ExpandItem
+            in={linksState.get('record')}
+            onClick={() => toggleLink('record')}
+            links={expandData['record']}
+          >
+            個人紀錄
+          </ExpandItem>
+          <Item href="/space-find" onClick={closeLinks}>
+            場地找找
+          </Item>
+          <Link
+            href="/"
+            onClick={closeLinks}
+            style={{ ...ml2, display: 'block' }}
+          >
+            <ShoppingCartIcon
+              sx={{
+                ':hover': {
+                  color: 'var(--fortress)',
+                },
+              }}
+            />
+          </Link>
+          <ExpandItem
+            in={linksState.get('member')}
+            onClick={() => toggleLink('member')}
+            links={expandData['member']}
           >
             會員中心
           </ExpandItem>
