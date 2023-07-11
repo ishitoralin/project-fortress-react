@@ -17,15 +17,15 @@ function SUICardList({ list }) {
     <div
       style={{
         display: 'flex',
-        backgroundColor: 'pink',
-        borderRadius: '20px',
+        backgroundColor: 'lightgray',
+        // borderRadius: '20px',
         width: '100%',
         height: '500px',
         marginTop: '1.5rem',
         overflow: 'auto',
         position: 'relative',
-        border: `${myBorderWidth} solid ${myBorderColor}`,
-        padding: '1rem',
+        // border: `${myBorderWidth} solid ${myBorderColor}`,
+        padding: '0.5rem',
         // outline: `${myBorderWidth} solid blue`,
       }}
     >
@@ -68,19 +68,47 @@ function MyCard({ item }) {
 
 // function Calendar
 
-function CalendarCard() {
+function CalendarCard({ date }) {
   return (
-    <Card sx={{ width: '100px' }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Title
+    <Card
+      sx={{
+        width: '100%',
+        border: `${myBorderWidth} solid ${myBorderColor}`,
+        borderRadius: '20px',
+        p: 0,
+      }}
+    >
+      <CardContent sx={{ p: 0 }}>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{
+            bgcolor: 'yellow',
+            p: 1,
+            borderBottom: `${myBorderWidth} solid ${myBorderColor}`,
+            textAlign: 'center',
+          }}
+        >
+          {date}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the content of the card.
+        <Typography variant="body2" color="text.secondary" sx={{ p: 0, m: 0 }}>
+          This is the content of
+          twerfawfawfawfwqal;jijhfnalkjfhnawlkjfhbnawlkjgrbnhe card.
         </Typography>
       </CardContent>
     </Card>
   );
 }
 
-export { SUICardList };
+function CalendarCardList({ dates }) {
+  return (
+    <>
+      {dates.map((date, i) => {
+        return <CalendarCard key={i} date={date} />;
+      })}
+      {/* {console.log(dates)} */}
+    </>
+  );
+}
+
+export { SUICardList, CalendarCardList, CalendarCard };

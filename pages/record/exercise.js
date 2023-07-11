@@ -2,7 +2,11 @@ import { Container, Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
-import { SUICardList } from '@/components/seanUI/sui-card';
+import {
+  SUICardList,
+  CalendarCard,
+  CalendarCardList,
+} from '@/components/seanUI/sui-card';
 import {
   SUISchedule,
   SUIScheduleTable,
@@ -40,16 +44,12 @@ const exerciseList = [
   { workout: 'Squat', weight: 60, reps: 12, sets: 5 },
 ];
 
-// const exerciseCardList = [
-//   {
-//     img: '@/data/imgs/record/exercise/啞鈴二頭彎舉',
-//     description: '啞鈴二頭彎舉',
-//   },
-// ];
 const exerciseCardList = Array(16).fill({
   img: '/react-imgs/record/exercise/啞鈴二頭彎舉',
   description: '啞鈴二頭彎舉',
 });
+
+const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
 //<<< pseudo-data
 
 const myBorderWidth = '2px';
@@ -158,6 +158,30 @@ const ExercisePage = () => {
               </Section>
             </SUIScheduleTable>
           </Grid>
+        </Grid>
+      </div>
+      <div id="page-2" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
+        <Grid container justifyContent="center">
+          <Grid
+            item
+            lg={2}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          >
+            <CalendarCardList dates={exerciseDate} />
+          </Grid>
+          <Grid
+            item
+            lg={10}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          ></Grid>
         </Grid>
       </div>
     </>
