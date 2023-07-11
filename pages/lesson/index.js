@@ -5,6 +5,7 @@ import RightSide from '@/components/lesson/rightside';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
 const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
@@ -38,7 +39,7 @@ const LessionPage = () => {
           <Typography
             id="findYourLesson"
             variant="h4"
-            sx={{ textAlign: 'center', py: 4, mb: '2rem' }}
+            sx={{ textAlign: 'center', py: 8, mb: '2rem' }}
           >
             尋找您喜愛的課程
           </Typography>
@@ -64,7 +65,8 @@ const LessionPage = () => {
                   label="課程標籤"
                   options={tagsData}
                 />,
-                <CUISlider key={3} label="價格範圍" />,
+                <CUIDatePicker key={3} label="課程日期" color={'steel_grey'} />,
+                <CUISlider key={4} label="價格範圍" />,
               ]}
             />
             <RightSide />

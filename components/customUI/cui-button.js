@@ -7,7 +7,7 @@ const CUIButton = (props) => {
         bgcolor: props.btncolor || 'var(--main-red)',
         transition: '.5s',
         ':hover': {
-          filter: 'brightness(0.8)',
+          filter: 'brightness(0.85)',
           bgcolor: props.btncolor || 'var(--main-red)',
         },
       };

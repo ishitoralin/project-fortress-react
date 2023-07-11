@@ -1,6 +1,8 @@
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { useMainTheme } from '@/context/Theme/main-theme';
+import createColorTheme from '@/libs/CreateColorTheme';
 import 'dayjs/locale/zh-tw';
 import dayjs from 'dayjs';
 
@@ -9,6 +11,7 @@ import dayjs from 'dayjs';
 // minDate={dayjs()}
 
 const datePickerStyle = {
+  width: '100%',
   '& .Mui-focused.MuiFormLabel-root, & .MuiFormLabel-filled.MuiFormLabel-root':
     {
       transform: 'translate(0, -1rem) scale(0.75)',
@@ -37,6 +40,11 @@ const datePickerStyle = {
 const defaultFormat = 'YYYY/MM/DD';
 
 const CUIDatePicker = (props) => {
+  const theme = useMainTheme();
+  const ColorTheme = props.color
+    ? createColorTheme(theme.palette[props.color].main)
+    : (props) => <>{props.children}</>;
+
   const [value, defaultValue, minDate, maxDate] = [
     props.value,
     props.defaultValue,
@@ -46,19 +54,21 @@ const CUIDatePicker = (props) => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
-      <DatePicker
-        format={defaultFormat}
-        views={['year', 'month', 'day']}
-        {...props}
-        sx={{ ...datePickerStyle, ...props.sx }}
-        value={value}
-        minDate={minDate}
-        maxDate={maxDate}
-        onChange={(timeObj) => {
-          const time = dayjs(timeObj).format(props.format || defaultFormat);
-          typeof props.onChange === 'function' && props.onChange(time);
-        }}
-      />
+      <ColorTheme>
+        <DatePicker
+          format={defaultFormat}
+          {...props}
+          sx={{ ...datePickerStyle, ...props.sx }}
+          value={value}
+          defaultValue={defaultValue}
+          minDate={minDate}
+          maxDate={maxDate}
+          onChange={(timeObj) => {
+            const time = dayjs(timeObj).format(props.format || defaultFormat);
+            typeof props.onChange === 'function' && props.onChange(time);
+          }}
+        />
+      </ColorTheme>
     </LocalizationProvider>
   );
 };

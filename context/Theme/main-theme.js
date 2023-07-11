@@ -14,18 +14,20 @@ import {
 
 const theme = createTheme({
   palette: {
-    main_red: { main: MAIN_RED },
-    main_black: { main: MAIN_BLACK },
+    main_red: { main: MAIN_RED, contrastText: MAIN_WHITE },
+    main_black: { main: MAIN_BLACK, contrastText: MAIN_WHITE },
     light_gray: { main: LIGHT_GRAY },
     light_gray2: { main: LIGHT_GRAY2 },
     main_white: { main: MAIN_WHITE },
     fortress: { main: FORTRESS },
-    deepgrey: { main: DEEPGREY },
+    deepgrey: { main: DEEPGREY, contrastText: MAIN_WHITE },
     light_grey: { main: LIGHT_GREY },
     steel_light_grey: { main: STEEL_LIGHT_GREY },
-    steel_grey: { main: STEEL_GREY },
+    steel_grey: { main: STEEL_GREY, contrastText: MAIN_WHITE },
   },
 });
+
+export const useMainTheme = () => theme;
 
 export default function MainTheme({ children }) {
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;

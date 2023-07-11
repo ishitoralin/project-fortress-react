@@ -23,7 +23,7 @@ const cardStyle = {
       opacity: 1,
     },
     '.lesson_card_img': {
-      // filter: 'brightness(0.45) !important',
+      filter: 'brightness(0.45) !important',
     },
   },
 };
@@ -56,6 +56,7 @@ const imgButtonStyle = {
   top: '50%',
   zIndex: 2,
   transform: 'translate(-70%, -50%)',
+  fontSize: '.8rem',
   fontWeight: 'bold',
   border: '2px solid white',
   opacity: 0,
@@ -63,19 +64,20 @@ const imgButtonStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    width: '100%',
+    left: '50%',
+    width: '0%',
     height: '100%',
     bgcolor: 'white',
-    transform: 'scale(0, 1)',
+    zIndex: '-1',
     transition: '.5s',
-    zIndex: -1,
   },
   ':hover': {
-    color: 'black',
-    ':before': {
-      transform: 'scale(1, 1)',
-    },
+    color: '#333',
     border: '2px solid white',
+    ':before': {
+      left: 0,
+      width: '100%',
+    },
   },
 };
 
@@ -144,6 +146,12 @@ const priceTextStyle = {
   },
 };
 
+const forwardSymbolStyle = {
+  width: '50px',
+  height: '50px',
+  transform: 'rotate(-90deg)',
+};
+
 const LessonCard = ({ lesson }) => (
   <CUICard sx={cardStyle}>
     <Box sx={cardImgStyle}>
@@ -209,32 +217,41 @@ const LessonCard = ({ lesson }) => (
         sx={{
           display: 'flex',
           alignItems: 'center',
-          padding: '.25rem 5% 0rem 1rem' /*marginTop: '.5rem'*/,
+          padding: '.25rem 5% 0rem 1rem',
         }}
       >
         <Typography variant="h5" sx={priceTextStyle}>
           <MonetizationOnRoundedIcon sx={priceIconStyle} />
           價格: {lesson.price}
         </Typography>
-        <Typography
-          variant="h6"
-          sx={{
-            marginLeft: 'auto',
-            fontWeight: 'bold',
-            fontStyle: 'oblique',
-          }}
-        >
-          立即報名
-        </Typography>
         <Box
           sx={{
-            width: '50px',
-            height: '50px',
-            position: 'relative',
-            transform: 'rotate(-90deg)',
+            display: 'flex',
+            alignItems: 'center',
+            marginLeft: 'auto',
+            cursor: 'pointer',
+            ':hover': {
+              '.regisText': {
+                fontSize: '1.3rem',
+                filter: 'drop-shadow(0 7px 7px grey)',
+              },
+            },
           }}
         >
-          <ForwardSymbol width={'45px'} />
+          <Typography
+            variant="h6"
+            className="regisText"
+            sx={{
+              fontWeight: 'bold',
+              fontStyle: 'oblique',
+              transition: '.3s',
+            }}
+          >
+            立即報名
+          </Typography>
+          <Box sx={forwardSymbolStyle}>
+            <ForwardSymbol width={'45px'} />
+          </Box>
         </Box>
       </Box>
     </Box>
