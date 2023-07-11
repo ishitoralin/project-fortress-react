@@ -83,3 +83,58 @@ align-self: stretch;
   display: flex;
   justify-content: center;
 }
+.BigCard{
+  width: 622px;
+  height: 1000px;display: flex;
+  justify-content: flex-start;
+  align-items: flex-end ;
+}
+.CardButtons{
+  display: flex;
+  width: 150px;
+  height: 50px;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+}
+.Card{
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-end;
+align-items: flex-start;
+}
+.smallCard{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  width: 347px;
+  height: 500px;  
+}
+.Cardcontainer{
+display: flex;
+padding: 10px;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+flex: 1 0 0;
+align-self: stretch;
+}
+.Cardcontainer2{
+  display: flex;
+justify-content: center;
+align-items: center;
+gap: 20px;
+flex: 1 0 0;
+align-self: stretch;
+  }
+  .product-card-section{
+    display: flex;
+  width: 1792px;
+  padding: 0px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  }
