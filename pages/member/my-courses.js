@@ -1,7 +1,7 @@
 import React from 'react';
-import MemberLayout from '@/components/layout/memberLayout';
+import MemberCenterLayout from '@/components/layout/memberCenterLayout';
 
 export default function MyCourses() {
   return <div>my-course</div>;
 }
-MyCourses.getLayout = (page) => <MemberLayout>(page)</MemberLayout>;
+MyCourses.getLayout = (page) => <MemberCenterLayout>{page}</MemberCenterLayout>;
