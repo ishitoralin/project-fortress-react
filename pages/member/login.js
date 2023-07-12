@@ -5,7 +5,7 @@ import MemberLayout from '@/components/layout/memberLayout';
 import styles from '@/styles/member.module.css';
 import Logo from '@/assets/logo';
 import { DEEPGREY, MAIN_BLACK } from '@/assets/color-code';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import AuthLink from '@/components/member/auth/auth-link';
 import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
@@ -16,28 +16,15 @@ const validationSchema = yup.object({
     .string('請輸入信箱')
     .email('錯誤的信箱格式')
     .required('信箱為必填欄位'),
-  name: yup.string('請輸入姓名').required('姓名為必填欄位'),
   password: yup
     .string('請輸入密碼')
     .matches(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/, '密碼需有1個英文字和1個數字')
     .min(6, '密碼長度需介於6-8個字')
     .max(8, '密碼長度需介於6-8個字')
     .required('密碼為必填欄位'),
-  confirmpassword: yup
-    .string('請再次輸入密碼')
-    .test('passwords-match', '密碼需相符', function (value) {
-      return this.parent.password === value;
-    }),
 });
 export default function Login() {
   const filed = [
-    {
-      label: '姓名',
-      placeholder: '',
-      name: 'name',
-      type: 'text',
-      value: '',
-    },
     {
       label: '電子信箱',
       placeholder: '',
@@ -52,15 +39,9 @@ export default function Login() {
       type: 'password',
       value: '',
     },
-    {
-      label: '確認密碼',
-      placeholder: '',
-      name: 'confirmpassword',
-      type: 'password',
-    },
   ];
   const formik = useFormik({
-    initialValues: { name: '', email: '', password: '', confirmpassword: '' },
+    initialValues: { email: '', password: '' },
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(JSON.stringify(values, null, 2));
@@ -107,7 +88,7 @@ export default function Login() {
           <CUIButton fullWidth type="submit">
             登入
           </CUIButton>
-          <div>
+          <Box>
             <Typography variant="span" sx={{ color: DEEPGREY }}>
               第三方登入
             </Typography>
@@ -117,7 +98,7 @@ export default function Login() {
               alt="google登入"
               className={styles['google-login']}
             />
-          </div>
+          </Box>
           <div className={styles['back-cover']}></div>
           <div className={styles['front-cover']}></div>
         </form>

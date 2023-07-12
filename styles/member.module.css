@@ -146,7 +146,7 @@
 .google-login {
   cursor: pointer;
   display: block;
-  margin: auto;
+  margin: 10px auto 0 auto;
 }
 @keyframes flip-cover {
   0% {
