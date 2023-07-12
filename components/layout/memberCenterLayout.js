@@ -1,11 +1,25 @@
 import React from 'react';
-import Layout from './layout';
 import MemberSubNav from './memberSubNav';
+import Navbar from './navbar';
+import Footer from './footer';
 
 export default function MemberCenterLayout({ children }) {
   return (
-    <Layout>
-      <MemberSubNav>{children}</MemberSubNav>
-    </Layout>
+    <>
+      <Navbar />
+      <div style={{ height: 'var(--nav-height)' }}></div>
+      <main>
+        <div
+          style={{
+            position: 'relative',
+            minHeight: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+          }}
+        >
+          <MemberSubNav />
+          <>{children}</>
+          <Footer />
+        </div>
+      </main>
+    </>
   );
 }

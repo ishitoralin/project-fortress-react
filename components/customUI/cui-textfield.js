@@ -40,9 +40,16 @@ export default function CUITextField(prop) {
             </InputAdornment>
           }
         />
-        <FormHelperText>{prop.helperText}</FormHelperText>
+        <FormHelperText>{prop.helperText || ' '}</FormHelperText>
       </FormControl>
     );
   }
-  return <TextField variant="standard" fullWidth {...prop} />;
+  return (
+    <TextField
+      variant="standard"
+      fullWidth
+      {...prop}
+      helperText={prop.helperText || ' '}
+    />
+  );
 }

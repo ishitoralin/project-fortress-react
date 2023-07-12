@@ -3,7 +3,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { motion } from 'framer-motion';
 import styles from '@/styles/member.module.css';
-import { Typography } from '@mui/material';
 const linkDetail = [
   { href: '/member', title: '會員資料' },
   { href: '/member/my-products', title: '收藏商品' },
@@ -17,7 +16,7 @@ export default function MemberSubNav() {
     if (typeof window !== 'undefined') {
       setRoute(router?.route?.split('/member/')[1]);
     }
-  });
+  }, [router]);
 
   return (
     <section className={`${styles['sub-nav-section']}`}>

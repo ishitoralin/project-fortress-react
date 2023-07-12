@@ -1,3 +1,4 @@
+/* ANCHOR member-subnav*/
 .sub-nav-section {
   display: flex;
   justify-content: center;
@@ -6,9 +7,10 @@
 .sub-nav-container {
   width: 50%;
   min-width: 650px;
-  padding: 0 30px;
+  padding: 10px 30px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   background: var(--main-black);
 }
 .sub-nav-link {
@@ -47,7 +49,7 @@
 .sub-nav-link:hover {
   color: var(--deepgrey);
 }
-/* member page : /login ,/forgot-password ,/sign-up ,/verify/[token] */
+/* ANCHOR member page : /login ,/forgot-password ,/sign-up ,/verify/[token] */
 .bg {
   position: absolute;
   z-index: -1;
@@ -63,7 +65,7 @@
   position: absolute;
   min-height: 630px;
   top: 50%;
-  padding-left: 64px;
+  padding-left: 200px;
   display: flex;
   transform: translateY(-50%);
   align-items: center;
@@ -182,7 +184,6 @@
 }
 @media screen and (max-width: 768px) {
   .panel-section {
-    margin-top: 50px;
     padding: 16px;
     width: 100%;
   }
@@ -195,4 +196,26 @@
   .fornt-cover {
     display: none;
   }
+}
+/* ANCHOR member-center */
+.center-container {
+  display: flex;
+}
+.photo {
+  outline: 1px solid blue;
+  position: relative;
+  background-color: var(--main-black);
+  max-width: 300px;
+  width: 50%;
+  aspect-ratio: 1 / 1;
+}
+
+.photo .camera {
+  fill: var(--main-white);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
+}
+.info {
 }
