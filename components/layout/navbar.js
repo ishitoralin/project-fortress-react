@@ -138,7 +138,7 @@ const expandData = {
     {
       key: 'signInUp',
       linkName: '登入註冊',
-      href: '/member',
+      href: '/member/login',
     },
   ],
   record: [
