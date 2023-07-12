@@ -1,16 +1,12 @@
 /* 精選商品欄位 */
 import React from 'react';
-import Button from '@mui/material/Button';
-import Carousel from 'react-material-ui-carousel';
+import styles from '@/styles/shoppingcart.module.css';import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
-// import ImageList from '@mui/material/ImageList';
-// import ImageListItem from '@mui/material/ImageListItem';
-import { Slide } from '@mui/material';
 import {
   Card,
   CardActions,
@@ -18,39 +14,17 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
+
+
 export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-
-  const recommendProductTitle = {
-    width: '100%',
-    height: '100px',
-    padding: '20px 0',
-    display: 'flex',
-    justifyContent: 'start',
-    alignItems: 'center',
-    fontSize: '28px',
-  };
-  const recommendProductContainer = {
-    width: '100%',
-    display: 'flex',
-    overflow: 'scroll',
-    justifyContent: 'start',
-    alignItems: 'center',
-    overflowY: 'hidden',
-  };
-  const recommendProductComponent = {
-    margin: '20px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
   return (
     <div>
-      <div style={recommendProductTitle}>本季新品!!!</div>
-      <div style={recommendProductContainer}>
+      <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
+      <div className={`${styles.recommendProductContainer}`}>
         {fakeDataForCards.map((v, i) => {
           return (
-            <div style={recommendProductComponent} key={i}>
+            <div className={`${styles.recommendProductComponent}`} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}
@@ -111,11 +85,11 @@ export default function RecommendProduct(props) {
         })}
       </div>
 
-      <div style={recommendProductTitle}>推薦商品!!!</div>
-      <div style={recommendProductContainer}>
+      <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
+      <div className={`${styles.recommendProductContainer}`}>
         {fakeDataForCards.map((v, i) => {
           return (
-            <div style={recommendProductComponent} key={i}>
+            <div className={`${styles.recommendProductComponent}`} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}
@@ -174,11 +148,11 @@ export default function RecommendProduct(props) {
           );
         })}
       </div>
-      <div style={recommendProductTitle}>熱門商品!!!</div>
-      <div style={recommendProductContainer}>
+      <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
+      <div className={`${styles.recommendProductContainer}`}>
         {fakeDataForCards.map((v, i) => {
           return (
-            <div style={recommendProductComponent} key={i}>
+            <div className={`${styles.recommendProductComponent}`} key={i}>
               <Card sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}

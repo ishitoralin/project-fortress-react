@@ -1,9 +1,9 @@
-import Main from '@/components/shoppingcart';
+import FirstStageComponent from '@/components/shoppingcart/firststage';
 import * as React from 'react';
-export default function ShoppingCart() {
+export default function Firststage() {
   return (
     <>
-      <Main></Main>
+      <FirstStageComponent></FirstStageComponent>
     </>
   );
 }
