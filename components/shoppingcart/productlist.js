@@ -41,6 +41,22 @@ export default function ProductList(props) {
         price: 600,
         quantity: 75,
       },
+      {
+        id: 4,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+        quantity: 75,
+      },
+      {
+        id: 5,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+        quantity: 75,
+      },
     ],
   };
   let totalPrice = 0;
@@ -62,17 +78,22 @@ export default function ProductList(props) {
     setFinalQuantity(finalQuantity + totalQuantity);
   }, []);
 
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
-  const ProductListContainer = {
+  const ProductListContainer1 = {
     width: '100%',
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottom: '1px solid rgba(0,0,0,0.15)',
     fontSize: '25px',
+  };
+  const ProductListContainer2 = {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderBottom: '1px solid rgba(0,0,0,0.15)',
+    fontSize: '25px',
+    backgroundColor: '#fcfcfc',
   };
 
   // 待結帳產品列表物件
@@ -139,10 +160,15 @@ export default function ProductList(props) {
 
   return fakeDataForCart ? (
     <>
-      <div style={sessionContainer}>
+      <div>
         {fakeDataForCart.products.map((v, i) => {
           return (
-            <div style={ProductListContainer} key={i}>
+            <div
+              style={
+                i % 2 === 0 ? ProductListContainer1 : ProductListContainer2
+              }
+              key={i}
+            >
               <div style={ProductListComponent}>{v.id}</div>
               <div style={ProductListComponent}>{v.photo}</div>
               <div style={ProductListComponentForDetail}>{v.detail}</div>
@@ -173,7 +199,7 @@ export default function ProductList(props) {
         })}
       </div>
       {/* 產品總計欄位 */}
-      <div style={sessionContainer}>
+      <div>
         <div style={countContainer}>
           <div style={countComponent}>總計</div>
           <div style={countComponent}></div>
@@ -185,7 +211,7 @@ export default function ProductList(props) {
         </div>
       </div>
       {/* 結帳按鈕 */}
-      <div style={sessionContainer}>
+      <div>
         <div style={checkButtonContainer}>
           <div style={checkButtonComponent}>
             <WhiteTheme>

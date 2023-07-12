@@ -21,10 +21,6 @@ import {
 export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
   const recommendProductTitle = {
     width: '100%',
     height: '100px',
@@ -49,7 +45,7 @@ export default function RecommendProduct(props) {
     alignItems: 'center',
   };
   return (
-    <div style={sessionContainer}>
+    <div>
       <div style={recommendProductTitle}>本季新品!!!</div>
       <div style={recommendProductContainer}>
         {fakeDataForCards.map((v, i) => {

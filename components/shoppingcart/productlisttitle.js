@@ -1,10 +1,7 @@
 import React from 'react';
 
 export default function ProductListTitle() {
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
+
   // 購物車產品標題物件容器
   const ProductionTitleContainer = {
     width: '100%',
@@ -31,7 +28,7 @@ export default function ProductListTitle() {
     alignItems: 'center',
   };
   return (
-    <div style={sessionContainer}>
+    <div>
       <div style={ProductionTitleContainer}>
         <div style={ProductionTitleComponent}>產品編號</div>
         <div style={ProductionTitleComponentInfo}>商品資訊</div>

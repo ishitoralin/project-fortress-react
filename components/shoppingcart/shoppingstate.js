@@ -4,12 +4,6 @@ import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import EastIcon from '@mui/icons-material/East';
 
 export default function ShoppingState() {
-  // 各區塊範圍(寬滿版，pd200px)
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
-
   // 購買狀態物件容器
   const shoppingStateContainer = {
     width: '100%',
@@ -30,7 +24,7 @@ export default function ShoppingState() {
   };
 
   return (
-    <div style={sessionContainer}>
+    <div>
       <div style={shoppingStateContainer}>
         <div style={shoppingStateComponent}>
           <CheckCircleOutlineIcon />

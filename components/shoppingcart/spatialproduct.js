@@ -2,10 +2,6 @@
 import React from 'react';
 
 export default function SpatialProduct() {
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
   const spatialProductContainer = {
     width: '100%',
     display: 'flex',
@@ -15,7 +11,7 @@ export default function SpatialProduct() {
     fontWeight: '700',
   };
   return (
-    <div style={sessionContainer}>
+    <div>
       <div style={spatialProductContainer}>精選商品</div>
     </div>
   );
