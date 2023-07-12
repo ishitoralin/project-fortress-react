@@ -27,6 +27,7 @@ export default function CUITextField(prop) {
           value={prop.value}
           onChange={prop.onChange}
           onBlur={prop.onBlur}
+          autoComplete={prop.autoComplete}
           endAdornment={
             <InputAdornment position="end">
               <IconButton
