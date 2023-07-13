@@ -2,6 +2,8 @@ import { Container, Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
+import CUIButton from '@/components/customUI/cui-button';
 import {
   SUICardList,
   CalendarCard,
@@ -50,6 +52,8 @@ const exerciseCardList = Array(16).fill({
 });
 
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
+
+const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
 const myBorderWidth = '2px';
@@ -74,12 +78,15 @@ const Section = styled(Box)(({ theme }) => ({
 const ExercisePage = () => {
   return (
     <>
+      {/* =================================================================== */}
+      {/* === page 1 ========================================================= */}
+      {/* =================================================================== */}
       <div id="page-1" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
         {/* <div sx={{ padding: '64px' }}> */}
         <Grid container justifyContent="center">
           <Grid
             item
-            lg={2}
+            lg={3}
             sm={2}
             sx={{
               p: 2,
@@ -92,7 +99,7 @@ const ExercisePage = () => {
 
           <Grid
             item
-            lg={6}
+            lg={5}
             sm={0}
             sx={{
               p: 2,
@@ -125,11 +132,21 @@ const ExercisePage = () => {
             {/* ============================================================================ */}
             <SUIScheduleTable>
               <Section>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                  <Box sx={{ position: 'sticky', top: 0 }}>
-                    <DatePicker sx={{ width: '100%' }} />
-                  </Box>
-                </LocalizationProvider>
+                <Box
+                  sx={{
+                    position: 'sticky',
+                    top: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
+                  <CUIButton
+                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
+                  >
+                    加入規劃
+                  </CUIButton>
+                </Box>
               </Section>
               <Box
                 sx={{
@@ -160,11 +177,22 @@ const ExercisePage = () => {
           </Grid>
         </Grid>
       </div>
-      <div id="page-2" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
-        <Grid container justifyContent="center">
+      {/* =================================================================== */}
+      {/* === page 2 ========================================================= */}
+      {/* =================================================================== */}
+
+      <div
+        id="page-2"
+        style={{
+          paddingLeft: '200px',
+          paddingRight: '200px',
+          paddingTop: '50px',
+        }}
+      >
+        <Grid container justifyContent="center" sx={{ width: '100%' }}>
           <Grid
             item
-            lg={2}
+            lg={3}
             sm={12}
             sx={{
               outline: '3px solid blue',
@@ -173,15 +201,109 @@ const ExercisePage = () => {
           >
             <CalendarCardList dates={exerciseDate} />
           </Grid>
+
+          {/* ============================================================= */}
+
           <Grid
             item
-            lg={10}
+            lg={9}
             sm={12}
             sx={{
               outline: '3px solid blue',
               p: 2,
             }}
-          ></Grid>
+          >
+            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
+            <p>
+              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+
+      {/* =================================================================== */}
+      {/* === page 3 ========================================================= */}
+      {/* =================================================================== */}
+      <div
+        id="page-2"
+        style={{
+          paddingLeft: '200px',
+          paddingRight: '200px',
+          paddingTop: '50px',
+        }}
+      >
+        <Grid container justifyContent="center" sx={{ width: '100%' }}>
+          <Grid
+            item
+            lg={3}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          >
+            <Section>
+              <Box
+                sx={{
+                  top: 0,
+                }}
+              >
+                <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
+                <CUIDatePicker sx={{ width: '100%' }} label={'pick a date'} />
+                {/* <CUIButton
+                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
+                  >
+                    加入規劃
+                  </CUIButton> */}
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                {plotType.map((ele) => {
+                  return (
+                    <CUIButton
+                      key={ele}
+                      color={'fortress'}
+                      sx={{ width: '100%', mt: 1 }}
+                    >
+                      {ele}
+                    </CUIButton>
+                  );
+                })}
+                <CUIButton color={'deepgrey'} sx={{ width: '100%', mt: 1 }}>
+                  更多+
+                </CUIButton>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  mt: 2,
+                }}
+              >
+                <CUIButton color={'steel-grey'} sx={{ width: '50%' }}>
+                  輸出PDF
+                </CUIButton>
+                <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
+              </Box>
+            </Section>
+          </Grid>
+
+          {/* ============================================================= */}
+
+          <Grid
+            item
+            lg={9}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          >
+            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
+            <p>
+              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
+            </p>
+          </Grid>
         </Grid>
       </div>
     </>

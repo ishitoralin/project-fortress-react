@@ -33,9 +33,9 @@ function SUICardList({ list }) {
         {list.map((item, i) => (
           <Grid
             item
-            xs={12}
-            sm={6}
-            md={3}
+            xs={6}
+            // sm={4}
+            md={4}
             key={i}
             sx={{ display: 'flex', justifyContent: 'center', p: 1 }}
           >
@@ -72,10 +72,12 @@ function CalendarCard({ date }) {
   return (
     <Card
       sx={{
-        width: '100%',
+        // width: '100%',
         border: `${myBorderWidth} solid ${myBorderColor}`,
         borderRadius: '20px',
+        height: '15rem',
         p: 0,
+        m: 2,
       }}
     >
       <CardContent sx={{ p: 0 }}>
@@ -106,7 +108,6 @@ function CalendarCardList({ dates }) {
       {dates.map((date, i) => {
         return <CalendarCard key={i} date={date} />;
       })}
-      {/* {console.log(dates)} */}
     </>
   );
 }
