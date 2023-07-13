@@ -1,4 +1,7 @@
 /* ANCHOR member-subnav*/
+.expand-button {
+  display: none;
+}
 .sub-nav-section {
   display: flex;
   justify-content: center;
@@ -48,6 +51,31 @@
 }
 .sub-nav-link:hover {
   color: var(--deepgrey);
+}
+@media screen and (max-width: 768px) {
+  .expand-button {
+    display: block;
+  }
+  .sub-nav-section {
+    display: none;
+  }
+  .sub-nav-section.expand {
+    margin-top: 10px;
+    display: flex;
+  }
+  .sub-nav-container {
+    /* scroll-margin-inline-start: 0; */
+    overflow-y: scroll;
+    flex-direction: column;
+    min-width: 0;
+  }
+  .sub-nav-container.expand {
+  }
+  .sub-nav-link {
+    width: 100%;
+    padding: 5px;
+    text-align: center;
+  }
 }
 /* ANCHOR member page : /login ,/forgot-password ,/sign-up ,/verify/[token] */
 .bg {
@@ -199,13 +227,15 @@
 }
 /* ANCHOR member-center */
 .center-container {
+  margin-top: 50px;
   display: flex;
+  justify-content: center;
+  gap: 100px;
 }
 .photo {
-  outline: 1px solid blue;
   position: relative;
   background-color: var(--main-black);
-  max-width: 300px;
+  max-width: 500px;
   width: 50%;
   aspect-ratio: 1 / 1;
 }
@@ -218,4 +248,6 @@
   transform: translateX(-50%) translateY(-50%);
 }
 .info {
+  width: 50%;
+  max-width: 500px;
 }
