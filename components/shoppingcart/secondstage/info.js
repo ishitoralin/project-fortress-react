@@ -48,6 +48,7 @@ export default function Info() {
   };
   return (
     <>
+      {/* 購買人資訊 */}
       <div className={`${styles.InfoArea}`}>
         <div className={`${styles.InfoContainer}`}>
           <div className={`${styles.InfoComponent1}`}>訂購人資訊</div>
@@ -135,6 +136,7 @@ export default function Info() {
           <div className={`${styles.InfoComponent1}`}>4</div>
         </div>
       </div>
+      {/* 商品列表title */}
       <div className={`${styles.ProductConFirmTitleContainer}`}>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>
           產品序號
@@ -146,7 +148,7 @@ export default function Info() {
         <div className={`${styles.ProductConFirmTitleComponent1}`}>數量</div>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>小計</div>
       </div>
-
+      {/* 商品列表body */}
       {fakeDataForCart.products.map((v, i) => {
         return (
           <div className={`${styles.ProductConFirmListContainer}`} key={v.id}>
@@ -168,6 +170,11 @@ export default function Info() {
           </div>
         );
       })}
+      {/* 付款方式 */}
+      <div>
+        <div className=''></div>
+        <div></div>
+      </div>
     </>
   );
 }
