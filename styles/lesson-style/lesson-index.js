@@ -20,7 +20,7 @@ export const containerStyle = {
 
 export const filterStyle = {
   width: '27%',
-  maxHeight: '650px',
+  maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
   overflowY: 'auto',
   position: 'sticky',
   top: '2rem',

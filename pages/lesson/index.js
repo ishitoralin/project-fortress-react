@@ -18,25 +18,16 @@ import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
 const LessionPage = () => {
-  const [allTags, setAllTags] = useState([]);
   const [tags, setTags] = useState([]);
-  // const [tagsMap, setTagsMap] = useState();
+  const [tagsMap, setTagsMap] = useState();
   const [selectTags, setSelecTags] = useState([]);
 
   useEffect(() => {
     (async () => {
       const res = await fetch('http://localhost:3001/lesson/tags');
       const datas = await res.json();
-      setAllTags(datas);
+      setTagsMap(datas);
       setTags(datas);
-      // const tags = datas.map((data) => ({
-      //   key: data.sid,
-      //   value: data.sid,
-      //   label: data.name,
-      // }));
-      // const tagsMap = tags.map((tag) => [tag.key, tag.label]);
-      // setTagsMap(new Map(tagsMap));
-      // setTags(tags);
     })();
   }, []);
 
@@ -71,7 +62,10 @@ const LessionPage = () => {
                     options={tags}
                     onChange={(event) => {
                       const newSelect = [...selectTags, event.target.value];
-                      // const newTags = allTags.map(tag => )
+                      const newTags = tags.filter(
+                        (tag) => tag !== event.target.value
+                      );
+                      setTags(newTags);
                       setSelecTags(newSelect);
                     }}
                   />
@@ -80,11 +74,17 @@ const LessionPage = () => {
                       <Chip
                         key={tag}
                         label={tag}
-                        sx={{ margin: '1rem .2rem -0.5rem 0'}}
+                        sx={{ margin: '1rem .2rem -0.5rem 0' }}
                         onDelete={() => {
                           const newState = selectTags.filter(
                             (item) => item !== tag
                           );
+                          const newTags = [...tags, tag];
+                          newTags.sort(
+                            (t1, t2) =>
+                              tagsMap.indexOf(t1) - tagsMap.indexOf(t2)
+                          );
+                          setTags(newTags);
                           setSelecTags(newState);
                         }}
                       />

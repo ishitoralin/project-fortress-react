@@ -50,7 +50,7 @@ const CUIDatePicker = (props) => {
     props.defaultValue,
     props.minDate,
     props.maxDate,
-  ].map((item) => (item ? dayjs(item) : undefined));
+  ].map((item) => (item === undefined ? undefined : dayjs(item)));
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="zh-tw">
