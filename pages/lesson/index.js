@@ -1,3 +1,5 @@
+import { useState } from 'react';
+
 import { Box, Container, Typography } from '@mui/material';
 import Banner from '@/components/lesson/banner';
 import RightSide from '@/components/lesson/rightside';
@@ -8,7 +10,35 @@ import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
-const tagsData = ['有氧', '健力', '腿部肌力', '瑜珈'];
+const tagsData = [
+  'HIIT',
+  '有氧',
+  '心肺',
+  '拳擊',
+  '格鬥',
+  '瑜珈',
+  '壺鈴',
+  '健力',
+  '健美',
+  '健體',
+  '核心',
+  '體能',
+  '體態雕塑',
+  '增肌',
+  '減脂',
+  '皮拉提斯',
+  '藥球',
+  '肌力',
+  '耐力',
+  '上肢力量',
+  '下肢力量',
+  '功能性訓練',
+  '全身性訓練',
+  '專項訓練',
+  '傷害預防',
+  '伸展',
+  '專業建議',
+];
 
 const mainContentStyle = {
   width: '100%',
@@ -31,6 +61,7 @@ const containerStyle = {
 };
 
 const LessionPage = () => {
+  const [selectTags, setSelecTags] = useState([]);
   return (
     <Box>
       <Banner />
@@ -64,7 +95,10 @@ const LessionPage = () => {
                   color={'steel_grey'}
                   label="課程標籤"
                   options={tagsData}
+                  onChange={(event) => console.log(event)}
                 />,
+
+                <Box key={'selected_tags_box'}>test</Box>,
                 <CUIDatePicker key={3} label="課程日期" color={'steel_grey'} />,
                 <CUISlider key={4} label="價格範圍" />,
               ]}
