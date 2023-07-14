@@ -280,7 +280,7 @@ const ExercisePage = () => {
                   mt: 2,
                 }}
               >
-                <CUIButton color={'steel-grey'} sx={{ width: '50%' }}>
+                <CUIButton color={'fortress'} sx={{ width: '50%' }}>
                   輸出PDF
                 </CUIButton>
                 <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
