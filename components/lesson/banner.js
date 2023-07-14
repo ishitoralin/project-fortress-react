@@ -145,7 +145,7 @@ const buttonStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    transform: 'translateX(-100%)',
+    left: '-100%',
     width: '100%',
     height: '100%',
     bgcolor: 'white',
@@ -153,7 +153,7 @@ const buttonStyle = {
     zIndex: '-1',
   },
   ':hover:before': {
-    transform: 'translate(0)',
+    left: 0,
   },
 };
 

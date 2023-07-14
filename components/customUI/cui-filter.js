@@ -1,9 +1,10 @@
-import { Typography, Stack, Box, Button } from '@mui/material';
+import { Typography, Stack, Box } from '@mui/material';
 import CUICard from './cui-card';
 import { styled } from '@mui/material/styles';
+import CUIButton from './cui-button';
 
 const Item = styled(Box)(() => ({
-  padding: '1.5rem',
+  padding: '1.2rem 1.5rem',
 }));
 
 const Filter = ({ noButton = false, ...props }) => {
@@ -33,26 +34,14 @@ const Filter = ({ noButton = false, ...props }) => {
           ))}
         {!noButton && (
           <Item sx={{ textAlign: 'center' }}>
-            <Button
-              sx={
-                props.color
-                  ? { width: '100%' }
-                  : {
-                      width: '100%',
-                      bgcolor: 'var(--main-red)',
-                      transition: '.5s',
-                      ':hover': {
-                        opacity: '.7',
-                        bgcolor: 'var(--main-red)',
-                      },
-                    }
-              }
+            <CUIButton
+              sx={{ width: '100%' }}
               color={props.color}
               variant="contained"
               onClick={props.onClick}
             >
               篩選
-            </Button>
+            </CUIButton>
           </Item>
         )}
       </Stack>

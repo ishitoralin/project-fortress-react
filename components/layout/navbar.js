@@ -24,7 +24,7 @@ const navbarStyle = {
   width: '100%',
   paddingInline: '1.5rem',
   userSelect: 'none',
-  zIndex: 10,
+  zIndex: 99,
   ...centerAll,
 };
 
@@ -181,7 +181,7 @@ export default function Navbar() {
   return (
     <Stack sx={navbarStyle} direction={'row'}>
       <Box sx={logoBoxStyle} onClick={closeLinks}>
-        <Link href="/">
+        <Link href="/" style={{ height: '50px' }}>
           <LogoIcon width={150} height={50} />
         </Link>
       </Box>
