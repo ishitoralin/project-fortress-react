@@ -1,12 +1,14 @@
 /* 精選商品欄位 */
 import React from 'react';
-import styles from '@/styles/shoppingcart.module.css';import Button from '@mui/material/Button';
+import styles from '@/styles/shoppingcart.module.css';
+import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
+import CUICard from '@/components/customUI/cui-card';
 import {
   Card,
   CardActions,
@@ -14,7 +16,6 @@ import {
   CardMedia,
   Typography,
 } from '@mui/material';
-
 
 export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -25,7 +26,7 @@ export default function RecommendProduct(props) {
         {fakeDataForCards.map((v, i) => {
           return (
             <div className={`${styles.recommendProductComponent}`} key={i}>
-              <Card sx={{ maxWidth: 345, minWidth: 345 }}>
+              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}
                   // image={`/SCphoto/capoo${i}.png`}
@@ -79,7 +80,7 @@ export default function RecommendProduct(props) {
                     </Button>
                   </WhiteTheme>
                 </CardActions>
-              </Card>
+              </CUICard>
             </div>
           );
         })}
@@ -90,7 +91,7 @@ export default function RecommendProduct(props) {
         {fakeDataForCards.map((v, i) => {
           return (
             <div className={`${styles.recommendProductComponent}`} key={i}>
-              <Card sx={{ maxWidth: 345, minWidth: 345 }}>
+              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}
                   // image={`/SCphoto/capoo${i}.png`}
@@ -143,7 +144,7 @@ export default function RecommendProduct(props) {
                     </Button>
                   </WhiteTheme>
                 </CardActions>
-              </Card>
+              </CUICard>
             </div>
           );
         })}
@@ -153,7 +154,7 @@ export default function RecommendProduct(props) {
         {fakeDataForCards.map((v, i) => {
           return (
             <div className={`${styles.recommendProductComponent}`} key={i}>
-              <Card sx={{ maxWidth: 345, minWidth: 345 }}>
+              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
                 <CardMedia
                   sx={{ height: '140px' }}
                   // image={`/SCphoto/capoo${i}.png`}
@@ -206,7 +207,7 @@ export default function RecommendProduct(props) {
                     </Button>
                   </WhiteTheme>
                 </CardActions>
-              </Card>
+              </CUICard>
             </div>
           );
         })}
