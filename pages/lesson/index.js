@@ -24,10 +24,14 @@ const LessionPage = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('http://localhost:3001/lesson/tags');
-      const datas = await res.json();
-      setTagsMap(datas);
-      setTags(datas);
+      try {
+        const res = await fetch('http://localhost:3001/lesson/tags');
+        const datas = await res.json();
+        setTagsMap(datas);
+        setTags(datas);
+      } catch (ex) {
+        setTags(['目前沒有標籤可選取']);
+      }
     })();
   }, []);
 
