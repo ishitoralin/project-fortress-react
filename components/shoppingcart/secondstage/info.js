@@ -3,12 +3,12 @@ import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import { CSVLink } from 'react-csv';
 export default function Info() {
-  const headers = [
-    {
-      label: '產品序號',
-      key: 'id',
-    },
-  ];
+  // const headers = [
+  //   {
+  //     label: '產品序號',
+  //     key: 'id',
+  //   },
+  // ];
   const fakeDataForCart = {
     products: [
       {
@@ -61,7 +61,7 @@ export default function Info() {
           <div className={`${styles.InfoComponent1}`}>訂購人資訊</div>
           <div className={`${styles.InfoComponent2}`}>
             <div>
-              <CSVLink data={fakeDataForCart.products} headers={headers}>
+              <CSVLink data={fakeDataForCart.products}>
                 <Button>export data</Button>
               </CSVLink>
               <Button
