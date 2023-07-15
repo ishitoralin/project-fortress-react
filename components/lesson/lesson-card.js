@@ -94,7 +94,7 @@ const cardTitleStyle = {
   width: '90%',
   textAlign: 'center',
   fontWeight: 'bold',
-  fontStyle: 'oblique',
+  // fontStyle: 'oblique',
 };
 
 const favoriteIconStyle = {
@@ -109,14 +109,14 @@ const cardInfoBoxStyle = { display: 'flex', borderBottom: '2px solid #dfdfdf' };
 const cardInfoTitleStyle = {
   width: 'fit-content',
   fontWeight: 'bold',
-  fontStyle: 'oblique',
+  // fontStyle: 'oblique',
 };
 
 const cardInfoStyle = {
   flexGrow: 1,
   textAlign: 'center',
   fontWeight: 'bold',
-  fontStyle: 'oblique',
+  // fontStyle: 'oblique',
 };
 
 const tagStyle = {
@@ -127,7 +127,7 @@ const tagStyle = {
 };
 
 const iconStyle = {
-  verticalAlign: 'text-bottom',
+  verticalAlign: 'middle',
   color: 'grey',
   marginRight: '.3rem',
 };
@@ -153,9 +153,9 @@ const priceTextStyle = {
   },
 };
 
-const forwardSymbolStyle = {
-  width: '50px',
-  height: '50px',
+const forwardSymbolBoxStyle = {
+  width: '45px',
+  height: '45px',
   transform: 'rotate(-90deg)',
 };
 
@@ -250,7 +250,7 @@ const LessonCard = ({ lesson }) => (
           padding: '.25rem 5% 0rem 1rem',
         }}
       >
-        <Typography variant="h5" sx={priceTextStyle}>
+        <Typography variant="h5" sx={{...priceTextStyle, fontSize: '1.6rem'}}>
           <MonetizationOnRoundedIcon sx={priceIconStyle} />
           價格: {lesson.price}
         </Typography>
@@ -279,8 +279,8 @@ const LessonCard = ({ lesson }) => (
           >
             立即報名
           </Typography>
-          <Box sx={forwardSymbolStyle}>
-            <ForwardSymbol width={'45px'} />
+          <Box sx={forwardSymbolBoxStyle}>
+            <ForwardSymbol width={'35px'} color={'goldenrod'} />
           </Box>
         </Box>
       </Box>

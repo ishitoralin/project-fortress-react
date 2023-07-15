@@ -1,5 +1,6 @@
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useState } from 'react';
 
+import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
@@ -63,9 +64,7 @@ const lessonData = [
 
 const rightSideStyle = {
   width: '65%',
-  // bgcolor: 'silver',
   borderRadius: '3px',
-  // padding: '2rem',
 };
 
 const UiButton = (props) => (
@@ -83,8 +82,8 @@ const UiButton = (props) => (
       paddingInline: '1.5rem',
       fontWeight: 'bold',
       marginRight: '1rem',
-      transition: '.2s',
       ':hover': {
+        transition: '.2s',
         bgcolor: '#bbb',
       },
       '&.Mui-selected': {
@@ -108,14 +107,9 @@ const headerStyle = {
   display: 'flex',
   alignItems: 'center',
   width: '100%',
-  // boxSizing: 'content-box',
   padding: '1rem',
-  // height: '4rem',
-  // paddingTop: '2rem',
   marginBottom: '1rem',
-  // boxShadow: '0 10px 0 10px silver, 0 20px 5px #333',
   boxShadow: '0 3px 5px #555',
-  // transform: 'translateY(-2rem)',
   backdropFilter: 'blur(5px)',
   top: '2rem',
   bgcolor: 'rgba(180, 180, 180, .95)',
@@ -123,58 +117,65 @@ const headerStyle = {
   zIndex: 2,
 };
 
-const RightSide = () => (
-  <Box sx={rightSideStyle}>
-    <WhiteTheme>
-      <Box sx={headerStyle}>
-        <Box>
+const RightSide = () => {
+  const [location, setLocation] = useState('Taipei');
+  const [displayMode, setDisplayMode] = useState('list');
+
+  return (
+    <Box sx={rightSideStyle}>
+      <WhiteTheme>
+        <Box sx={headerStyle}>
+          <Box>
+            <ToggleButtonGroup
+              value={location}
+              exclusive
+              aria-label="lesson location"
+              onChange={(e) => setLocation(e.target.value)}
+            >
+              <UiButton value="Taipei" aria-label="Taipei">
+                台北
+              </UiButton>
+              <UiButton value="Taichung" aria-label="Taichung">
+                台中
+              </UiButton>
+              <UiButton value="Kaohsiung" aria-label="Kaohsiung">
+                高雄
+              </UiButton>
+            </ToggleButtonGroup>
+          </Box>
           <ToggleButtonGroup
-            value={'Taipei'}
+            value={displayMode}
             exclusive
             aria-label="lesson location"
+            sx={{ marginLeft: 'auto' }}
+            onChange={(event) => setDisplayMode(event.target.value)}
           >
-            <UiButton value="Taipei" aria-label="Taipei">
-              台北
+            <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
+              <FormatListBulletedOutlinedIcon size="small" />
             </UiButton>
-            <UiButton value="Taichung" aria-label="Taichung">
-              台中
-            </UiButton>
-            <UiButton value="Kaohsiung" aria-label="Kaohsiung">
-              高雄
+            <UiButton
+              value="calendar"
+              sx={{ paddingInline: '.7rem', marginRight: 0 }}
+            >
+              <CalendarMonthIcon />
             </UiButton>
           </ToggleButtonGroup>
         </Box>
-        <ToggleButtonGroup
-          value={'list'}
-          exclusive
-          aria-label="lesson location"
-          sx={{ marginLeft: 'auto' }}
-        >
-          <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
-            <FormatListBulletedOutlinedIcon size="small" />
-          </UiButton>
-          <UiButton
-            value="calendar"
-            sx={{ paddingInline: '.7rem', marginRight: 0 }}
-          >
-            <CalendarMonthIcon />
-          </UiButton>
-        </ToggleButtonGroup>
-      </Box>
-    </WhiteTheme>
-    {[
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-    ].map((lesson, index) => (
-      <LessonCard key={index} lesson={lesson} />
-    ))}
-  </Box>
-);
+      </WhiteTheme>
+      {[
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+        ...lessonData,
+      ].map((lesson, index) => (
+        <LessonCard key={index} lesson={lesson} />
+      ))}
+    </Box>
+  );
+};
 
 export default RightSide;
