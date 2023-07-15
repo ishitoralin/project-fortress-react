@@ -80,7 +80,7 @@ function SUISchedule({ list }) {
 
 const MyScheduleTable = styled(Grid)(() => ({
   border: myBorder,
-  borderRadius: '20px',
+  borderRadius: '5px',
   //   height: '1000px',
 }));
 

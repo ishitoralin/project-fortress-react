@@ -90,9 +90,13 @@ const ExercisePage = () => {
             sm={2}
             sx={{
               p: 2,
+              display: 'flex',
+              justifyContent: 'center',
             }}
           >
-            <BodySvg />
+            <Box sx={{ width: '80%' }}>
+              <BodySvg />
+            </Box>
           </Grid>
 
           {/* ============================================================================ */}
@@ -154,7 +158,7 @@ const ExercisePage = () => {
                   width: '100%',
                   height: '40px',
                   borderTop: myBorder,
-                  bgcolor: 'lightgreen',
+                  bgcolor: 'var(  --steel-light-grey)',
                   boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
                   px: 1.5,
                 }}
@@ -169,7 +173,28 @@ const ExercisePage = () => {
                 </Box>
               </Box>
               <Section
-                sx={{ height: '250px', overflow: 'auto', position: 'relative' }}
+                sx={{
+                  height: '250px',
+                  overflow: 'auto',
+                  position: 'relative',
+                  // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
+                  '&::-webkit-scrollbar': {
+                    width: 20,
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: 'var(--fortress)',
+                    borderRadius: '5px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    borderRadius: '5px',
+                    backgroundColor: 'var(--main-red)',
+                    transition: '.5s',
+                    '&:hover': {
+                      filter: 'brightness(0.85)',
+                      backgroundColor: 'var(--main-red)',
+                    },
+                  },
+                }}
               >
                 <SUISchedule list={exerciseList} />
               </Section>

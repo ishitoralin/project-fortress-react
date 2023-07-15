@@ -14,10 +14,10 @@ const myBorderColor = 'black';
 
 function SUICardList({ list }) {
   return (
-    <div
-      style={{
+    <Paper
+      sx={{
         display: 'flex',
-        backgroundColor: 'lightgray',
+        backgroundColor: 'var(--steel-light-grey)',
         // borderRadius: '20px',
         width: '100%',
         height: '500px',
@@ -27,6 +27,22 @@ function SUICardList({ list }) {
         // border: `${myBorderWidth} solid ${myBorderColor}`,
         padding: '0.5rem',
         // outline: `${myBorderWidth} solid blue`,
+        '&::-webkit-scrollbar': {
+          width: 20,
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'var(--fortress)',
+          borderRadius: '5px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: '5px',
+          backgroundColor: 'var(--main-red)',
+          transition: '.5s',
+          '&:hover': {
+            filter: 'brightness(0.85)',
+            backgroundColor: 'var(--main-red)',
+          },
+        },
       }}
     >
       <Grid container>
@@ -43,7 +59,7 @@ function SUICardList({ list }) {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
