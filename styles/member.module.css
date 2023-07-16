@@ -81,21 +81,21 @@
 .bg {
   position: absolute;
   z-index: -1;
-  inset: 0;
   background-image: url('/static/member/cover-1920.jpg');
   background-size: cover;
   background-position: center center;
   filter: blur(3px) opacity(70%);
+  width: 100vw;
   height: 100vh;
-  min-height: 630px;
+  /* min-height: 630px; */
 }
 .panel-section {
   position: absolute;
   min-height: 630px;
   top: 50%;
-  padding-left: 200px;
+  left: 50%;
   display: flex;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateX(-50%);
   align-items: center;
   perspective: 600px;
   transform-style: preserve-3d;
@@ -135,6 +135,7 @@
 .right-panel {
   position: relative;
   display: flex;
+  min-width: 500px;
   align-self: stretch;
   flex-direction: column;
   align-items: center;
@@ -213,12 +214,13 @@
 @media screen and (max-width: 768px) {
   .panel-section {
     padding: 16px;
-    width: 100%;
+    width: 90%;
   }
   .right-panel {
     gap: 5px;
     padding: 20px;
     width: 100%;
+    min-width: 300px;
   }
   .back-cover,
   .fornt-cover {

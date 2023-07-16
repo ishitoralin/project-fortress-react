@@ -2,10 +2,11 @@ import React from 'react';
 import MemberSubNav from './memberSubNav';
 import Navbar from './navbar';
 import Footer from './footer';
+import ProtectedRouteWrapper from '@/components/protected-route';
 
 export default function MemberCenterLayout({ children }) {
   return (
-    <>
+    <ProtectedRouteWrapper>
       <Navbar />
       <div style={{ height: 'var(--nav-height)' }}></div>
       <main>
@@ -20,6 +21,6 @@ export default function MemberCenterLayout({ children }) {
           <Footer />
         </div>
       </main>
-    </>
+    </ProtectedRouteWrapper>
   );
 }

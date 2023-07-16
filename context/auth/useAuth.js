@@ -1,0 +1,50 @@
+import React, { useState, useContext, createContext, useEffect } from 'react';
+
+import axios from 'axios';
+import { useRouter } from 'next/router';
+export const AuthContext = createContext(null);
+
+export const AuthProvider = ({ children }) => {
+  const [auth, setAuth] = useState({ isLogin: false, user: {} });
+  const logout = () => {
+    //TODO delete cookie and delete JWT in heap here
+    console.log('logout');
+    setAuth((prev) => {
+      return { ...prev, isLogin: false, user: {} };
+    });
+  };
+  const checkAuth = async () => {
+    const res = await axios.get('api/users/check-login', {
+      withCredentials: true,
+    });
+
+    if (res.data.message === 'authorized') {
+      const user = res.data.user;
+      setAuth({ isLogin: true, user });
+    }
+  };
+
+  useEffect(() => {
+    //還沒接
+    // checkAuth();
+    setAuth({ isLogin: true, user: { userId: 1 } });
+  }, []);
+
+  return (
+    <AuthContext.Provider value={{ auth, setAuth, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+};
+
+export const useAuth = () => useContext(AuthContext);
+export function ProtectedRoute({ children }) {
+  const { auth } = useAuth();
+  const router = useRouter();
+  useEffect(() => {
+    if (auth.isLogin) {
+      router.push('/');
+    }
+  }, [auth.isLogin]);
+  return <>{auth.isLogin ? children : <>12121</>}</>;
+}

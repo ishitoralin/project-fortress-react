@@ -11,6 +11,8 @@ import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
 import GoogleSvg from '@/public/icons/google-svg.svg';
+import useLoginNavigate from '@/hooks/useLoginNavigate';
+import { useAuth } from '@/context/auth/useAuth';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -24,6 +26,8 @@ const validationSchema = yup.object({
     .required('密碼為必填欄位'),
 });
 export default function Login() {
+  useLoginNavigate();
+  const { setAuth } = useAuth();
   const filed = [
     {
       label: '電子信箱',
@@ -45,6 +49,7 @@ export default function Login() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       console.log(JSON.stringify(values, null, 2));
+      setAuth({ isLogin: true, user: {} });
     },
   });
   return (

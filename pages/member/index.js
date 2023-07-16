@@ -39,6 +39,7 @@ export default function Index() {
     },
   });
   useEffect(() => {
+    console.log('fetch');
     setData({
       sex: '不透露',
       address: '台北市北投區復興二路29號',
