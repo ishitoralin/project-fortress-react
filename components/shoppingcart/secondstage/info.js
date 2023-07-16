@@ -1,14 +1,24 @@
 import React from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
-import { CSVLink } from 'react-csv';
-export default function Info() {
-  // const headers = [
-  //   {
-  //     label: '產品序號',
-  //     key: 'id',
-  //   },
-  // ];
+import createColorTheme from '@/libs/CreateColorTheme';
+import Box from '@mui/material/Box';
+import LinePay from '@/public/shoppingcart/LINEPay.png';
+// import LinePay from '@/public/shoppingcart';
+// import { CSVLink } from 'react-csv';
+// <CSVLink data={fakeDataForCart.products}>
+// <Button>export data</Button>
+// </CSVLink>
+// const headers = [
+//   {
+//     label: '產品序號',
+//     key: 'id',
+//   },
+// ];
+
+export default function Info(props) {
+  const WhiteTheme = createColorTheme('#FFF');
+  const RedTheme = createColorTheme('#FF0000');
   const fakeDataForCart = {
     products: [
       {
@@ -61,9 +71,6 @@ export default function Info() {
           <div className={`${styles.InfoComponent1}`}>訂購人資訊</div>
           <div className={`${styles.InfoComponent2}`}>
             <div>
-              <CSVLink data={fakeDataForCart.products}>
-                <Button>export data</Button>
-              </CSVLink>
               <Button
                 sx={{
                   padding: '0 6px',
@@ -181,9 +188,66 @@ export default function Info() {
         );
       })}
       {/* 付款方式 */}
+      <div className={styles.PaymentMethodContainer}>
+        <div className={styles.PaymentMethodTitle}>請選擇付款方式</div>
+        <div className={styles.PaymentMethodComponent}>
+          <div className={styles.PaymentMethod}>LinePay</div>
+          <div className={styles.PaymentMethod}>信用卡</div>
+          <div className={styles.PaymentMethod}>貨到付款</div>
+          <div className={styles.PaymentMethod}>ATM轉帳</div>
+          <div className={styles.PaymentMethod}>ApplyPay</div>
+        </div>
+      </div>
+      {/* 發票 */}
+      <div className={styles.PaymentMethodContainer}>
+        <div className={styles.PaymentMethodTitle}>請選擇發票</div>
+        <div className={styles.PaymentMethodComponent}>
+          <div className={styles.PaymentMethod}>捐贈</div>
+          <div className={styles.PaymentMethod}>公司</div>
+          <div className={styles.PaymentMethod}>雲端發票</div>
+          <div className={styles.PaymentMethod}>隨貨寄送</div>
+          <div className={styles.PaymentMethod}></div>
+        </div>
+      </div>
+      {/* 結帳按鈕 */}
       <div>
-        <div className=""></div>
-        <div></div>
+        <div className={`${styles.checkButtonContainer}`}>
+          <div className={`${styles.checkButtonComponent}`}>
+            <WhiteTheme>
+              <Button
+                sx={{
+                  width: '100%',
+                  ':hover': {
+                    opacity: '.7',
+                    bgcolor: 'var(--light-gray2)',
+                  },
+                }}
+                variant="contained"
+                onClick={props.onClick}
+              >
+                返回首頁
+              </Button>
+            </WhiteTheme>
+          </div>
+          <div className={`${`${styles.checkButtonComponent}`}`}>
+            <RedTheme>
+              <Button
+                sx={{
+                  width: '100%',
+                  ':hover': {
+                    opacity: '.7',
+                    bgcolor: 'var(--main-red)',
+                  },
+                }}
+                // color={props.color}
+                variant="contained"
+                onClick={props.onClick}
+              >
+                確認購買
+              </Button>
+            </RedTheme>
+          </div>
+        </div>
       </div>
     </>
   );

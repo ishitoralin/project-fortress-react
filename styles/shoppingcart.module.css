@@ -1,275 +1,299 @@
 /* button cancel adjust button */
-.inputHideAdjustButton[type="number"]::-webkit-inner-spin-button,
-.inputHideAdjustButton[type="number"]::-webkit-outer-spin-button {
+.inputHideAdjustButton[type='number']::-webkit-inner-spin-button,
+.inputHideAdjustButton[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-.inputHideAdjustButton[type="number"] {
+.inputHideAdjustButton[type='number'] {
   -moz-appearance: textfield;
 }
 
-.buttonWidth{
+.buttonWidth {
   width: 60px;
   height: 30px;
-  text-align:center;
+  text-align: center;
   font-size: 24px;
 }
 
 /* shoppingstage */
 /* 購買狀態的標題容器 */
 .shoppingStateContainer {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
-    border-Bottom:  2px solid #000000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
+  border-bottom: 2px solid #000000;
 }
 /* 購買狀態的元件 */
 .shoppingStateComponent {
-    width: 33%;
-    height: 100px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 25px;
+  width: 33%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 25px;
 }
 
 /* shoppinglisttitle */
 /* 購物車產品標題物件容器 */
-  .ProductionTitleContainer {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 2px solid #000;
-    font-size: 25px;
-  }
-  /* 購物車產品物件1 */
-    .ProductionTitleComponent  {
-    width: 14%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  /* 購物車產品物件2(詳細資訊欄專用) */
-  .ProductionTitleComponentInfo  {
-    width: 28%;
-    height: 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+.ProductionTitleContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid #000;
+  font-size: 25px;
+}
+/* 購物車產品物件1 */
+.ProductionTitleComponent {
+  width: 14%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 購物車產品物件2(詳細資訊欄專用) */
+.ProductionTitleComponentInfo {
+  width: 28%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .ProductListContainer1  {
-    width:  100%  ;
-    display:  flex  ;
-    justify-content:  space-between  ;
-    align-items:  center  ;
-    border-bottom:  1px solid rgba(0,0,0,0.15)  ;
-    font-size:  25px  ;
-  }
- .ProductListContainer2 {
-    width:  100%  ;
-    display:  flex  ;
-    justify-content:  space-between  ;
-    align-items:  center  ;
-    border-bottom:  1px solid rgba(0,0,0,0.15)  ;
-    font-size:  25px  ;
-    /* background-color:  #fcfcfc  ; */
-  }
+.ProductListContainer1 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 25px;
+}
+.ProductListContainer2 {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 25px;
+  /* background-color:  #fcfcfc  ; */
+}
 
 /* 待結帳產品列表物件 */
-    .ProductListComponent  {
-    width:  14%  ;
-    height:  100px  ;
-    display:  flex  ;
-    justify-content:  center  ;
-    align-items:  center  ;
-  }
-    .ProductListComponentForDetail  {
-    width:  14%  ;
-    height:  100px  ;
-    display:  flex  ;
-    justify-content:  start  ;
-    align-items:  center  ;
-  }
+.ProductListComponent {
+  width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ProductListComponentForDetail {
+  width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
 /* 待結帳產品列表物件(數量欄專用) */
-   .ProductListComponentForQuantity  {
-    width:  14%  ;
-    height:  100px  ;
-    padding:  30px  ;
-    display:  flex  ;
-    justify-content:  space-around  ;
-    align-items:  center  ;
-  }
+.ProductListComponentForQuantity {
+  width: 14%;
+  height: 100px;
+  padding: 30px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
 
-  /* 結帳欄容器 */
-.countContainer  {
-    width:  100%  ;
-    display:  flex  ;
-    justify-content:  space-between  ;
-    align-items:  center  ;
-    font-size:  25px  ;
-    border-bottom:  1px solid rgba(0,0,0,0.15)  ;
-  }
-  /* 結帳欄物件 */
-.countComponent   {
-    width:  14%  ;
-    height:  100px  ;
-    display:  flex  ;
-    justify-content:  center  ;
-    align-items:  center  ;
-  }
+/* 結帳欄容器 */
+.countContainer {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 25px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+/* 結帳欄物件 */
+.countComponent {
+  width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-.checkButtonContainer   {
-    width:  100%  ;
-    display:  flex  ;
-    justify-content:  end  ;
-    align-items:  center  ;
-  }
+.checkButtonContainer {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
 
-.checkButtonComponent   {
-    width:  15%  ;
-    height:  100px  ;
-    margin-left:  10px  ;
-    display:  flex  ;
-    justify-content:  center  ;
-    align-items:  center  ;
-  }
-  /* 推薦商品標題 */
-.recommendProductTitle   {
-    width:  100%  ;
-    height:  100px  ;
-    padding:  20px 0  ;
-    display:  flex  ;
-    justify-content:  start  ;
-    align-items:  center  ;
-    font-size:  28px  ;
-  }
-  /* 推薦商品元件容器 */
-.recommendProductContainer   {
-    width:  100%  ;
-    display:  flex  ;
-    overflow:  scroll  ;
-    justify-content:  start  ;
-    align-items:  center  ;
-    overflow-y:  hidden  ;
-  }
-  /* 推薦商品元件 */
-.recommendProductComponent   {
-    margin:  20px  ;
-    display:  flex  ;
-    justify-content:  center  ;
-    align-items:  center  ;
-  }
+.checkButtonComponent {
+  width: 15%;
+  height: 100px;
+  margin-left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* 推薦商品標題 */
+.recommendProductTitle {
+  width: 100%;
+  height: 100px;
+  padding: 20px 0;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 28px;
+}
+/* 推薦商品元件容器 */
+.recommendProductContainer {
+  width: 100%;
+  display: flex;
+  overflow: scroll;
+  justify-content: start;
+  align-items: center;
+  overflow-y: hidden;
+}
+/* 推薦商品元件 */
+.recommendProductComponent {
+  margin: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .InfoArea {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
 .InfoContainer {
-    width: 750px;
-    height: 680px;
-    padding: 20px;
-    display: flex;
-    flex-flow: column nowrap;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #FFF0F0;
-  }
+  width: 750px;
+  height: 680px;
+  padding: 20px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff0f0;
+}
 
 .InfoComponent1 {
-    width: 100%;
-    display: flex;
-    justify-content:start;
-    align-items: center;
-    font-size: 24px;
-    padding: 0 6px;
-    font-weight: 700;
-
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  font-size: 24px;
+  padding: 0 6px;
+  font-weight: 700;
 }
 
 .InfoComponent2 {
-    width: 100%;
-    display: flex;
-    justify-content:start;
-    align-items: center;
-    font-size: 24px;
-    font-weight: 700;
-
-}
-.InfoComponent2>div {
-  height: 100%;
-  width: 100%;
-  justify-content:start;
-  align-items: center;
-}
-
-
-
-/* comfirm title */
-.ProductConFirmTitleContainer{
-  height: 100%;
   width: 100%;
   display: flex;
-  justify-content:center;
-  align-items: center;
-  border-bottom:  1px solid #000;
-}
-
-
-.ProductConFirmTitleComponent1{
-  width: 18%;
-  height: 100px;
-  display: flex;
-  justify-content:center;
+  justify-content: start;
   align-items: center;
   font-size: 24px;
   font-weight: 700;
 }
-.ProductConFirmTitleComponent2{
+.InfoComponent2 > div {
+  height: 100%;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+}
+
+/* comfirm title */
+.ProductConFirmTitleContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #000;
+}
+
+.ProductConFirmTitleComponent1 {
+  width: 18%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  font-weight: 700;
+}
+.ProductConFirmTitleComponent2 {
   width: 27%;
   height: 100px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   font-size: 24px;
   font-weight: 700;
 }
-  
+
 /* confirm list */
-.ProductConFirmListContainer{
+.ProductConFirmListContainer {
   height: 100%;
   width: 100%;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
-  border-bottom:  1px solid #000;
+  border-bottom: 1px solid #000;
 }
-.ProductConFirmListComponent1{
+.ProductConFirmListComponent1 {
   width: 18%;
   height: 240px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   font-size: 16px;
   font-weight: 700;
 }
 
-.ProductConFirmListComponent2{
+.ProductConFirmListComponent2 {
   width: 27%;
   height: 240px;
   display: flex;
-  justify-content:center;
+  justify-content: center;
   align-items: center;
   font-size: 16px;
   font-weight: 700;
 }
 
 /* recipt */
+.PaymentMethodContainer {
+  height: 100%;
+  width: 100%;
+  justify-content: start;
+  align-items: center;
+}
+.PaymentMethodTitle{
+  margin: 20px;
+}
+.PaymentMethodComponent {
+  height: 100px;
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.PaymentMethod {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.PaymentMethod:hover {
+  background-color: #f09651;
+}
