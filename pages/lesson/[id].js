@@ -1,22 +1,21 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Chip, Container, Grid, Typography } from '@mui/material';
 import CUICard from '@/components/customUI/cui-card';
 
-import LessonCardNoImg from '@/components/lesson/lesson-card-no-img';
-
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import LessonCard from '@/components/lesson/lesson-card';
 
 const containerStyle = { py: '2rem' };
 
-const bigCardStyle = {
-  '--bigCard-height': '400px',
-  '--imgBox-ratio': '55%',
+const cardBoxStyle = {
+  '--bigCard-height': '380px',
+  '--imgBox-ratio': '80%',
+  '--contentCard-width': '90%',
+  '--contentCard-radius': 'clamp(5px, .5rem, 15px)',
 
   position: 'relative',
   overflow: 'hidden',
   height: 'var(--bigCard-height)',
-  bgcolor: 'rgba(255, 255, 255, 0.05)',
+  bgcolor: 'rgba(255, 255, 255, 0)',
   width: '100%',
   margin: 'auto',
   ':after': {
@@ -28,47 +27,55 @@ const bigCardStyle = {
     height: '100%',
     zIndex: 2,
     pointerEvents: 'none',
-    boxShadow: 'inset 0 0 15px #fff',
+    // boxShadow: 'inset 0 0 15px #fff',
   },
 };
 
 const imgBoxStyle = {
-  position: 'relative',
-  width: '100%',
-  height: 'var(--imgBox-ratio)',
-};
-
-const bigCardBodyStyle = {
   position: 'absolute',
-  width: '96%',
-  left: '2%',
-  top: '70%',
-  padding: 4,
-  borderTopLeftRadius: '15px',
-  borderTopRightRadius: '15px',
-  bgcolor: 'rgba(0, 0, 0, 0.45)',
-  color: '#eee',
-  // backdropFilter: 'blur(5px)',
-  animation: '0.75s ease-out 1s slide-up forwards',
-  '@keyframes slide-up': {
+  opacity: 0,
+  overflow: 'hidden',
+  borderRadius: 'var(--contentCard-radius)',
+  width: 'var(--contentCard-width)',
+  height: 'var(--imgBox-ratio)',
+  animation: '2s ease-out fade-in forwards',
+  '@keyframes fade-in': {
     '0%': {
-      transform: 'translateY(0)',
+      opacity: 0,
     },
     '100%': {
-      transform: 'translateY(calc(-90% + 120px))',
+      opacity: 1,
+    },
+  },
+};
+
+const cardBodyStyle = {
+  position: 'absolute',
+  width: 'var(--contentCard-width)',
+  right: '-100%',
+  bottom: '0',
+  padding: 4,
+  borderRadius: 'var(--contentCard-radius)',
+  bgcolor: 'rgba(235, 235, 235, 0.97)',
+  animation: '1.5s ease-out 0.5s slide-left forwards',
+  '@keyframes slide-left': {
+    '0%': {
+      transform: 'translateX(0)',
+    },
+    '100%': {
+      transform: 'translateX(-115%)',
     },
   },
 };
 
 const cardBodyTitle = {
   position: 'relative',
-  margin: '.5rem',
   ':before': {
     position: 'absolute',
     content: '""',
-    bottom: '-0.75rem',
-    height: '3px',
-    bgcolor: '#eee',
+    bottom: '-0.5rem',
+    height: '2px',
+    bgcolor: 'black',
     animation: '1s ease-in-out 1.75s spread forwards',
   },
   '@keyframes spread': {
@@ -83,39 +90,74 @@ const cardBodyTitle = {
   },
 };
 
-const row = {
-  display: 'block',
-};
-
 const CertainLessonPage = () => {
   return (
     <Box
       sx={{
-        // minHeight: 'calc(100vh - var(--nav-height) - var(--footer-height))',
         backgroundColor: 'var(--deepgrey)',
         backgroundAttachment: 'fixed',
-        backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(4) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 30%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
+        backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(3) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 30%, 0.95)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 35%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
       }}
     >
       <Container sx={containerStyle}>
-        <CUICard sx={bigCardStyle}>
-          <Box sx={imgBoxStyle}>
+        <Box sx={cardBoxStyle}>
+          <CUICard sx={imgBoxStyle}>
             <Image
               alt="lesson-img"
-              src="/lesson-img/abs1.jpg"
+              src="/lesson-img/functional.jpg"
               fill
               style={{ objectFit: 'cover' }}
             />
-          </Box>
-          <CUICard sx={bigCardBodyStyle}>
+          </CUICard>
+          <CUICard sx={cardBodyStyle}>
             <Typography variant="h4" sx={cardBodyTitle}>
               瑜珈流動與冥想課程
             </Typography>
-            <Typography variant="h6" sx={{ padding: 2, textIndent: '2rem' }}>
+            <Typography
+              variant="h5"
+              sx={{
+                marginTop: 4,
+                marginBottom: 2,
+                paddingInline: 2,
+                textIndent: '2rem',
+              }}
+            >
               這個課程以流動的瑜伽動作和呼吸練習為基礎，融合了力量、靈活性和平衡。透過連貫的動作流，你將提升身體柔軟度、強化肌肉，同時培養身心的平靜和集中力。
             </Typography>
+            {[
+              '有氧',
+              '心肺',
+              '拳擊',
+              '格鬥',
+              '瑜珈',
+              '壺鈴',
+              '健力',
+              '健美',
+              '健體',
+              '核心',
+            ].map((tag, index) => (
+              <Chip
+                key={index}
+                label={tag}
+                sx={{
+                  marginRight: '.2rem',
+                  marginBottom: '1rem',
+                  fontSize: '1rem',
+                  paddingInline: '.5rem',
+                }}
+              />
+            ))}
+            <Typography
+              variant="h5"
+              sx={{ textAlign: 'right', fontStyle: 'oblique' }}
+            >
+              指導教練 &nbsp;&nbsp;{' '}
+              <Box sx={{ display: 'inline-block', fontStyle: 'normal' }}>
+                可達鴨 大蔥鴨
+              </Box>
+            </Typography>
           </CUICard>
-        </CUICard>
+        </Box>
         <Box sx={{ marginTop: '2rem', py: 4, width: '100%' }}>
           <Grid container sx={{ justifyContent: 'start', gap: '2rem' }}>
             {Array(10)
@@ -129,7 +171,18 @@ const CertainLessonPage = () => {
                 price: '600',
                 enrolled: 10,
                 limit: 20,
-                tags: ['有氧', '核心鍛鍊', '腿部肌力'],
+                tags: [
+                  '有氧',
+                  '心肺',
+                  '拳擊',
+                  '格鬥',
+                  '瑜珈',
+                  '壺鈴',
+                  '健力',
+                  '健美',
+                  '健體',
+                  '核心',
+                ],
                 location: '台北館',
               })
               .map((lesson, index) => (
@@ -142,7 +195,7 @@ const CertainLessonPage = () => {
                   lg={5.75}
                   xl={5.75}
                 >
-                  <LessonCardNoImg lesson={lesson}></LessonCardNoImg>
+                  <LessonCard lesson={lesson} />
                   {/* <CUICard sx={{ p: 3, bgcolor: '#eee', height: '200px' }}>
                   <Typography variant="h6">Lesson title</Typography>
                   <Typography variant="subtitle" sx={{ ...row }}>

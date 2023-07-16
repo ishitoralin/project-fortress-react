@@ -5,7 +5,7 @@ import {
   flexRowSpaceBetween,
   containerStyle,
   filterStyle,
-} from '@/styles/lesson-style/lesson-index';
+} from '@/styles/lesson-style/lesson-index-style';
 
 import { Box, Chip, Container, Typography } from '@mui/material';
 import Banner from '@/components/lesson/banner';
@@ -50,6 +50,7 @@ const LessionPage = () => {
           <Box sx={flexRowSpaceBetween}>
             <CUIFilter
               sx={filterStyle}
+              color={'steel_grey'}
               label="篩選器"
               items={[
                 <CUISearch

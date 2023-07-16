@@ -87,11 +87,11 @@ const UiButton = (props) => (
         bgcolor: '#bbb',
       },
       '&.Mui-selected': {
-        bgcolor: 'var(--main-red)',
+        bgcolor: 'var(--steel-grey)',
         color: 'white',
       },
       '&.Mui-selected:hover': {
-        bgcolor: 'var(--main-red)',
+        bgcolor: 'var(--steel-grey)',
         filter: 'brightness(90%)',
       },
 
