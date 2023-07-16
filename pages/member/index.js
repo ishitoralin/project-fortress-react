@@ -8,8 +8,11 @@ import CUITextField from '@/components/customUI/cui-textfield';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUISelect from '@/components/customUI/cui-select';
 import CUIButton from '@/components/customUI/cui-button';
+import { Box } from '@mui/material';
 
-const validationSchema = yup.object({});
+const validationSchema = yup.object({
+  mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
+});
 export default function Index() {
   const initialData = {
     name: '',
@@ -124,10 +127,12 @@ export default function Index() {
           if (type === 'date') {
             return (
               <CUIDatePicker
+                className={styles['date-picker']}
                 key={name}
                 value={displayData[name]}
                 label={label}
                 format="YYYY-MM-D"
+                helperText="sdfasdf"
                 onChange={(e) => {
                   formik.setValues((v) => {
                     return { ...v, [name]: e };
@@ -139,6 +144,7 @@ export default function Index() {
           if (type === 'select') {
             return (
               <CUISelect
+                sx={{ marginBottom: '15px', marginTop: '0px' }}
                 label={label}
                 options={['男', '女', '不透露']}
                 key={name}
@@ -153,6 +159,7 @@ export default function Index() {
           }
           return (
             <CUITextField
+              className={`${name === 'address' ? styles['filed-address'] : ''}`}
               key={name}
               label={label}
               placeholder={placeholder}
@@ -165,18 +172,21 @@ export default function Index() {
               helperText={formik.touched[name] && formik.errors[name]}
               autoComplete="off"
               disabled={disabled}
-              sx={{ marginBottom: '-15px' }}
+              sx={{ marginBottom: '15px', marginTop: '0px' }}
             />
           );
         })}
-        <CUIButton
-          onClick={() => {
-            formik.setValues(data);
-          }}
-        >
-          重置
-        </CUIButton>
-        <CUIButton type="submit">儲存並變更</CUIButton>
+        <Box className={styles['button-container']}>
+          <CUIButton
+            sx={{ marginRight: '10px' }}
+            onClick={() => {
+              formik.setValues(data);
+            }}
+          >
+            重置
+          </CUIButton>
+          <CUIButton type="submit">儲存並變更</CUIButton>
+        </Box>
       </form>
     </div>
   );

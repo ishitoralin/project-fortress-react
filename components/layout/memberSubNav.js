@@ -27,11 +27,9 @@ export default function MemberSubNav() {
     <>
       <Box
         sx={{ display: 'flex', justifyContent: 'center', marginTop: '10px' }}
+        className={`${styles['expand-button']}`}
       >
-        <CUIButton
-          className={`${styles['expand-button']}`}
-          onClick={handleExpand}
-        >
+        <CUIButton onClick={handleExpand} sx={{ px: '100px' }}>
           {
             linkDetail.find((el) => route === el?.href?.split('/member/')[1])
               ?.title
