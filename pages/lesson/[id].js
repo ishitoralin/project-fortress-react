@@ -163,7 +163,7 @@ const CertainLessonPage = () => {
             {Array(10)
               .fill({
                 lessonName: '水阻划船入門',
-                img: '/lesson-img/core.jpg',
+                img: '/coach-img/emily.jpg',
                 time: '2024/05/06 14:00',
                 description:
                   '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
@@ -195,7 +195,7 @@ const CertainLessonPage = () => {
                   lg={5.75}
                   xl={5.75}
                 >
-                  <LessonCard lesson={lesson} />
+                  <LessonCard lesson={lesson} coachcard />
                   {/* <CUICard sx={{ p: 3, bgcolor: '#eee', height: '200px' }}>
                   <Typography variant="h6">Lesson title</Typography>
                   <Typography variant="subtitle" sx={{ ...row }}>

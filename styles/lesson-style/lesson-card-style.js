@@ -1,9 +1,11 @@
+const mainWhite = '#eee';
+
 export const cardStyle = {
   margin: 'auto',
   width: '100%',
   height: '230px',
   marginBottom: '1.5rem',
-  bgcolor: '#eee',
+  bgcolor: mainWhite,
   display: 'flex',
   overflow: 'hidden',
   transition: '.2s',
@@ -27,7 +29,7 @@ export const cardImgStyle = {
 };
 
 export const cardBodyStyle = {
-  width: '60%',
+  width: '62%',
   padding: '1rem',
   marginLeft: 'auto',
 };
@@ -36,7 +38,7 @@ export const imgBox = {
   position: 'relative',
   width: '100%',
   height: '90%',
-  transform: 'rotateZ(-15deg) translate(15%, 10%)',
+  transform: 'rotateZ(-15deg) translate(10%, 10%)',
 };
 
 export const imgButtonStyle = {
@@ -44,25 +46,26 @@ export const imgButtonStyle = {
   left: '50%',
   top: '50%',
   zIndex: 2,
-  transform: 'translate(-70%, -50%)',
-  fontSize: '.8rem',
+  transform: 'translate(-60%, -40%)',
+  fontSize: '.5rem',
   fontWeight: 'bold',
-  border: '2px solid white',
+  borderWidth: '2px',
   opacity: 0,
   transition: '.5s',
   ':before': {
     content: '""',
     position: 'absolute',
+    top: 0,
     left: '50%',
     width: '0%',
     height: '100%',
-    bgcolor: 'white',
+    bgcolor: mainWhite,
     zIndex: '-1',
     transition: '.5s',
   },
   ':hover': {
     color: '#333',
-    border: '2px solid white',
+    borderWidth: '2px',
     ':before': {
       left: 0,
       width: '100%',
@@ -137,7 +140,7 @@ export const iconStyle = {
 export const priceRegiBoxStyle = {
   display: 'flex',
   alignItems: 'center',
-  padding: '.25rem 5% 0rem 1rem',
+  padding: '.25rem 5% 0rem 0rem',
 };
 
 export const priceIconStyle = {

@@ -4,8 +4,11 @@ import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+import React from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 import LessonCard from './lesson-card';
-import WhiteTheme from '@/context/Theme/white-theme';
 
 const lessonData = [
   {
@@ -104,6 +107,7 @@ const UiButton = (props) => (
 
 const headerStyle = {
   position: 'sticky',
+  top: '2rem',
   display: 'flex',
   alignItems: 'center',
   width: '100%',
@@ -111,7 +115,6 @@ const headerStyle = {
   marginBottom: '1rem',
   boxShadow: '0 3px 5px #555',
   backdropFilter: 'blur(5px)',
-  top: '2rem',
   bgcolor: 'rgba(180, 180, 180, .95)',
   borderRadius: '3px',
   zIndex: 2,
@@ -119,61 +122,68 @@ const headerStyle = {
 
 const RightSide = () => {
   const [location, setLocation] = useState('Taipei');
-  const [displayMode, setDisplayMode] = useState('list');
+  const [displayMode, setDisplayMode] = useState('calendar');
 
   return (
     <Box sx={rightSideStyle}>
-      <WhiteTheme>
-        <Box sx={headerStyle}>
-          <Box>
-            <ToggleButtonGroup
-              value={location}
-              exclusive
-              aria-label="lesson location"
-              onChange={(e) => setLocation(e.target.value)}
-            >
-              <UiButton value="Taipei" aria-label="Taipei">
-                台北
-              </UiButton>
-              <UiButton value="Taichung" aria-label="Taichung">
-                台中
-              </UiButton>
-              <UiButton value="Kaohsiung" aria-label="Kaohsiung">
-                高雄
-              </UiButton>
-            </ToggleButtonGroup>
-          </Box>
+      <Box sx={headerStyle}>
+        <Box>
           <ToggleButtonGroup
-            value={displayMode}
+            value={location}
             exclusive
-            aria-label="lesson location"
-            sx={{ marginLeft: 'auto' }}
-            onChange={(event) => setDisplayMode(event.target.value)}
+            aria-label="lessonlocation"
+            onChange={(event, value) => setLocation(value)}
           >
-            <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
-              <FormatListBulletedOutlinedIcon size="small" />
+            <UiButton value="Taipei" aria-label="Taipei">
+              台北
             </UiButton>
-            <UiButton
-              value="calendar"
-              sx={{ paddingInline: '.7rem', marginRight: 0 }}
-            >
-              <CalendarMonthIcon />
+            <UiButton value="Taichung" aria-label="Taichung">
+              台中
+            </UiButton>
+            <UiButton value="Kaohsiung" aria-label="Kaohsiung">
+              高雄
             </UiButton>
           </ToggleButtonGroup>
         </Box>
-      </WhiteTheme>
-      {[
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-        ...lessonData,
-      ].map((lesson, index) => (
-        <LessonCard key={index} lesson={lesson} />
-      ))}
+        <ToggleButtonGroup
+          value={displayMode}
+          exclusive
+          aria-label="displayMode"
+          sx={{ marginLeft: 'auto' }}
+          onChange={(event, value) => setDisplayMode(value)}
+        >
+          <UiButton
+            value="list"
+            aria-label="list"
+            sx={{ paddingInline: '.7rem' }}
+          >
+            <FormatListBulletedOutlinedIcon size="small" />
+          </UiButton>
+          <UiButton
+            value="calendar"
+            aria-label="calendar"
+            sx={{ paddingInline: '.7rem', marginRight: 0 }}
+          >
+            <CalendarMonthIcon />
+          </UiButton>
+        </ToggleButtonGroup>
+      </Box>
+      {displayMode === 'list' ? (
+        [
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+        ].map((lesson, index) => <LessonCard key={index} lesson={lesson} />)
+      ) : (
+        <Box sx={{ position: 'sticky', padding: '2%', top: '10rem' }}>
+          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
+        </Box>
+      )}
     </Box>
   );
 };

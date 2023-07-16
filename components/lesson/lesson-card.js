@@ -32,8 +32,14 @@ import {
   forwardSymbolBoxStyle,
 } from '@/styles/lesson-style/lesson-card-style';
 
-const LessonCard = ({ lesson }) => (
-  <CUICard sx={{ ...cardStyle }}>
+const LessonCard = ({ lesson, coachcard }) => (
+  <CUICard
+    sx={
+      coachcard
+        ? { ...cardStyle, height: '200px' }
+        : { ...cardStyle, width: '90%' }
+    }
+  >
     <Box sx={cardImgStyle}>
       <Box sx={imgBox}>
         <Button
@@ -42,7 +48,7 @@ const LessonCard = ({ lesson }) => (
           color="main_white"
           sx={imgButtonStyle}
         >
-          查看詳情
+          {coachcard ? '教練資料' : '查看詳情'}
         </Button>
         <Image
           className="lesson_card_img"
@@ -92,11 +98,13 @@ const LessonCard = ({ lesson }) => (
             {lesson.enrolled} / {lesson.limit}
           </Typography>
         </Box>
-        <Box sx={tagBoxStyle}>
-          {lesson.tags.map((tag, index) => (
-            <Chip key={index} label={tag} sx={tagStyle} />
-          ))}
-        </Box>
+        {!coachcard && (
+          <Box sx={tagBoxStyle}>
+            {lesson.tags.map((tag, index) => (
+              <Chip key={index} label={tag} sx={tagStyle} />
+            ))}
+          </Box>
+        )}
       </Box>
       <Box sx={priceRegiBoxStyle}>
         <Typography variant="h5" sx={{ ...priceTextStyle, fontSize: '1.6rem' }}>
