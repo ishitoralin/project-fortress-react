@@ -107,7 +107,7 @@ const UiButton = (props) => (
 
 const headerStyle = {
   position: 'sticky',
-  top: '2rem',
+  top: '1rem',
   display: 'flex',
   alignItems: 'center',
   width: '100%',
@@ -180,10 +180,25 @@ const RightSide = () => {
           ...lessonData,
         ].map((lesson, index) => <LessonCard key={index} lesson={lesson} />)
       ) : (
-        <Box sx={{ position: 'sticky', padding: '2%', top: '10rem' }}>
-          <FullCalendar plugins={[dayGridPlugin]} initialView="dayGridMonth" />
-        </Box>
+        <>
+          <Box
+            sx={{
+              bgcolor: '#333',
+              width: '90%',
+              borderRadius: '5px',
+              padding: '2%',
+              marginInline: 'auto',
+            }}
+          >
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              headerToolbar={false}
+            />
+          </Box>
+        </>
       )}
+      {/* <Box sx={{height: '50px'}}></Box> */}
     </Box>
   );
 };

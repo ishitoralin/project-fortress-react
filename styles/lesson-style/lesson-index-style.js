@@ -23,6 +23,6 @@ export const filterStyle = {
   maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
   overflowY: 'auto',
   position: 'sticky',
-  top: '2rem',
+  top: '1rem',
   bgcolor: '#eee',
 };
