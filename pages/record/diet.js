@@ -29,8 +29,11 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
-
 // =========================================================================
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+// =========================================================================
+import style from './record.module.css';
 
 //>>> pseudo-data
 const selections = [
@@ -128,6 +131,8 @@ const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
+const NuBorder = `4px solid black`;
+const NuBorderRadius = '30px';
 const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
 
 const scheduleTitle = {
@@ -145,6 +150,15 @@ const Section = styled(Box)(({ theme }) => ({
   alignItems: 'center',
 }));
 
+const NuBox = styled(Box)(() => ({
+  display: 'flex',
+  flexDirection: 'column',
+  justifyContent: 'center',
+  alignItems: 'center',
+  // outline: '3px solid blue',
+  width: '100%',
+}));
+
 const ExercisePage = () => {
   return (
     <>
@@ -153,7 +167,12 @@ const ExercisePage = () => {
       {/* =================================================================== */}
       <div
         id="page-2"
-        style={{ paddingLeft: '200px', paddingRight: '200px', height: '800px' }}
+        style={{
+          marginTop: '50px',
+          paddingLeft: '200px',
+          paddingRight: '200px',
+          height: '800px',
+        }}
       >
         {/* <div sx={{ padding: '64px' }}> */}
         <Grid container justifyContent="center">
@@ -197,46 +216,6 @@ const ExercisePage = () => {
               </Box>
             </Section>
             <Section>
-              <Box
-                sx={{
-                  width: '100%',
-                  bgcolor: 'var(--fortress)',
-                  p: 1,
-                  borderRadius: '20px',
-                  display: 'flex',
-                  // justifyContent: 'space-around',
-                  alignItems: 'center',
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '20%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    fontSize: '30px',
-                    p: 2,
-                  }}
-                >
-                  BMI:
-                </Box>
-                <Box
-                  sx={{
-                    width: '80%',
-                    height: '100%',
-                    bgcolor: 'var(--light-gray)',
-                    borderRadius: '20px',
-                    p: 2,
-                    paddingLeft: 5,
-                    marginLeft: 2,
-                    marginRight: 3,
-                    fontSize: '28px',
-                    // display: 'flex',
-                    // justifyContent: 'end',
-                  }}
-                >
-                  sdv
-                </Box>
-              </Box>
               <SUIDataBox title={'BMI:'} result={123} />
             </Section>
           </Grid>
@@ -247,7 +226,128 @@ const ExercisePage = () => {
             sx={{
               p: 2,
             }}
-          ></Grid>
+          >
+            <Section className={`${style.description}`}>
+              BMR 指人體在靜止休息狀態下，維持新陳代謝所需的熱量。BMR
+              會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。
+            </Section>
+            <Section className={`${style.description}`}>
+              TDEE
+              是身體一整天下來，包括基礎代謝、活動量、吃東西所消耗的熱量。不同的生活型態需要的熱量也不一樣，當每天攝取的熱量和
+              TDEE 相等，便達到「熱量平衡」。
+            </Section>
+            <Section sx={{ height: '500px', marginTop: 5 }}>
+              <h1>飲食建議</h1>
+              <NuBox sx={{ border: NuBorder, borderRadius: NuBorderRadius }}>
+                <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>
+                  <NuBox
+                    sx={{
+                      width: '50%',
+                      borderRight: NuBorder,
+                      borderBottom: NuBorder,
+                    }}
+                  >
+                    <NuBox className={`${style.nutritionMainText}`}>
+                      全穀雜糧類
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                    <NuBox>
+                      <NuBox className={`${style.nutritionSecondaryText}`}>
+                        未精緻
+                        <span className={`${style.nutritionSecondaryNumber}`}>
+                          12
+                        </span>
+                        份
+                      </NuBox>
+                      <NuBox className={`${style.nutritionSecondaryText}`}>
+                        其他
+                        <span className={`${style.nutritionSecondaryNumber}`}>
+                          12
+                        </span>
+                        份
+                      </NuBox>
+                    </NuBox>
+                  </NuBox>
+
+                  <NuBox
+                    sx={{
+                      width: '50%',
+                      height: '100%',
+                      borderBottom: NuBorder,
+                    }}
+                  >
+                    <NuBox
+                      className={`${style.nutritionMainText}`}
+                      sx={{ borderBottom: NuBorder, height: '50%' }}
+                    >
+                      豆魚蛋肉
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                    <NuBox
+                      className={`${style.nutritionMainText}`}
+                      sx={{ height: '50%' }}
+                    >
+                      乳品類
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                  </NuBox>
+                </NuBox>
+                {/* ================================================ */}
+                <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>
+                  <NuBox sx={{ width: '50%', borderRight: NuBorder }}>
+                    <NuBox className={`${style.nutritionMainText}`}>
+                      油脂與堅果種子
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                    <NuBox>
+                      <NuBox className={`${style.nutritionSecondaryText}`}>
+                        油脂
+                        <span className={`${style.nutritionSecondaryNumber}`}>
+                          12
+                        </span>
+                        份
+                      </NuBox>
+                      <NuBox className={`${style.nutritionSecondaryText}`}>
+                        堅果種子
+                        <span className={`${style.nutritionSecondaryNumber}`}>
+                          12
+                        </span>
+                        份
+                      </NuBox>
+                    </NuBox>
+                  </NuBox>
+
+                  <NuBox
+                    sx={{
+                      width: '50%',
+                      height: '100%',
+                    }}
+                  >
+                    <NuBox
+                      className={`${style.nutritionMainText}`}
+                      sx={{ height: '50%', borderBottom: NuBorder }}
+                    >
+                      蔬菜類
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                    <NuBox
+                      className={`${style.nutritionMainText}`}
+                      sx={{ height: '50%' }}
+                    >
+                      水果類
+                      <span className={`${style.nutritionMainNumber}`}>12</span>
+                      份
+                    </NuBox>
+                  </NuBox>
+                </NuBox>
+              </NuBox>
+            </Section>
+          </Grid>
         </Grid>
       </div>
       {/* =================================================================== */}
@@ -330,7 +430,12 @@ const ExercisePage = () => {
                   paddingRight: 4,
                 }}
               >
-                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[0] }}>
+                <Box
+                  sx={{
+                    ...scheduleTitle,
+                    width: scheduleItemWdith[0],
+                  }}
+                >
                   食物種類
                 </Box>
                 <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
