@@ -7,56 +7,19 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
-import styles from './my-products.module.css';
+import tableStyles from '../member-table.module.css';
 
-function createData(name, picture, price, sid) {
-  return { name, picture, price, sid };
-}
-
-const rows = [
-  createData(
-    'Triban Essential 吸濕排汗短袖公路自行車騎行服男式',
-    '一二三',
-    6000,
-    2
-  ),
-  createData(
-    'Triban Essential 吸濕排汗短袖公路自行車騎行服男式',
-    '一二三',
-    6000,
-    3
-  ),
-  createData(
-    'Triban Essential 吸濕排汗短袖公路自行車騎行服男式',
-    '一二三',
-    6000,
-    4
-  ),
-  createData(
-    'Triban Essential 吸濕排汗短袖公路自行車騎行服男式',
-    '一二三',
-    6000,
-    5
-  ),
-  createData(
-    'Triban Essential 吸濕排汗短袖公路自行車騎行服男式',
-    '一二三',
-    6000,
-    6
-  ),
-];
-
-export default function ProductsTable() {
+export default function ProductsTable({ data }) {
   return (
     <TableContainer
-      className={`${styles['paper-container']}`}
+      className={`${tableStyles['paper-container']}`}
       component={Paper}
     >
       <Table
-        className={`${styles['table']}`}
+        className={`${tableStyles['table']}`}
         //   sx={{ minWidth: 650 }}
       >
-        <TableHead className={`${styles['table-head']}`}>
+        <TableHead className={`${tableStyles['table-head']}`}>
           <TableRow>
             <TableCell>商品名稱</TableCell>
             <TableCell>商品圖片</TableCell>
@@ -65,21 +28,27 @@ export default function ProductsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data?.rows.map((row) => (
             <TableRow
-              className={`${styles['table-body-row']}`}
+              className={`${tableStyles['table-body-row']}`}
               key={row.sid}
               //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell data-title="商品名稱 : ">{row.name}</TableCell>
-              <TableCell>{row.picture}</TableCell>
+              <TableCell>
+                <img
+                  className={`${tableStyles['table-td-img']}`}
+                  src={`http://localhost:3000/static/member/SE_00501.webp`}
+                  alt=""
+                />
+              </TableCell>
               <TableCell data-title="商品價格 : ">{row.price}$</TableCell>
               <TableCell
                 onClick={() => {
                   console.log(row.sid);
                 }}
               >
-                <DeleteIcon className={`${styles['delete-icon']}`} />
+                <DeleteIcon className={`${tableStyles['delete-icon']}`} />
               </TableCell>
             </TableRow>
           ))}

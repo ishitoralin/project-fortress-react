@@ -2,6 +2,7 @@
 import { useAuth } from '@/context/auth/useAuth';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import Loader from '../loader';
 // export default function ProtectedRouteWrapper({ children }) {
 //   const router = useRouter();
 //   const { auth, authLoading } = useAuth();
@@ -34,5 +35,5 @@ export default function ProtectedRouteWrapper({ children }) {
     };
   }, [router, auth.isLogin]);
 
-  return <>{!auth.isLogin ? <div>您權限不夠</div> : children}</>;
+  return <>{!auth.isLogin ? <Loader /> : children}</>;
 }

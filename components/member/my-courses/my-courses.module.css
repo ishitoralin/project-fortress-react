@@ -1,9 +1,0 @@
-.my-courses-container {
-  padding: 64px;
-}
-
-@media screen and (max-width: 768px) {
-  .my-courses-container {
-    padding: 10px 15px 15px 15px;
-  }
-}

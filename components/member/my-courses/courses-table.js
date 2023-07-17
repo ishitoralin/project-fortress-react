@@ -9,40 +9,7 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import tableStyles from '../member-table.module.css';
 
-function createData(name, coach, start, duration, price, sid) {
-  return { name, coach, start, duration, price, sid };
-}
-
-const rows = [
-  createData(
-    '一二三四五六七八九十一二三四五六七八',
-    '一二三',
-    '2023-03-05 11:00:00',
-    60,
-    1000,
-    2
-  ),
-  createData('一二三四五六七八', '一二三', '2023-03-05 11:00:00', 60, 10000, 6),
-  createData(
-    '一二三四五六七八九十一二三四五六七八',
-    '一二三',
-    '2023-03-05 11:00:00',
-    60,
-    10000,
-    3
-  ),
-  createData('一二三四五六七八', '一二三', '2023-03-05 11:00:00', 60, 10000, 5),
-  createData(
-    '一二三四五六七八九十一二三四五六七八',
-    '一二三',
-    '2023-03-05 11:00:00',
-    60,
-    10000,
-    4
-  ),
-];
-
-export default function CoursesTable() {
+export default function CoursesTable({ data }) {
   return (
     <TableContainer
       className={`${tableStyles['paper-container']}`}
@@ -63,7 +30,7 @@ export default function CoursesTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.rows.map((row) => (
             <TableRow
               className={`${tableStyles['table-body-row']}`}
               key={row.sid}
