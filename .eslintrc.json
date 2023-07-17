@@ -17,10 +17,17 @@
     },
     "import/resolver": {
       "alias": {
-        "map": [
-          ["@", "."]
-        ],
-        "extensions": [".js", ".jsx", ".ts", ".tsx", ".css", ".module.css", ".scss", ".json"]
+        "map": [["@", "."]],
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx",
+          ".css",
+          ".module.css",
+          ".scss",
+          ".json"
+        ]
       }
     }
   },
@@ -42,6 +49,7 @@
     "jsx-a11y/anchor-is-valid": "off",
     "react/prop-types": "off",
     "prettier/prettier": "warn",
-    "no-unused-vars": "warn"
+    "no-unused-vars": "warn",
+    "@next/next/no-img-element": "off"
   }
 }
