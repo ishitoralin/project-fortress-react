@@ -1,0 +1,10 @@
+/* member general components */
+.pagination-container {
+  margin-top: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .pagination-container {
+    margin-top: 0px;
+  }
+}

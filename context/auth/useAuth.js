@@ -6,12 +6,9 @@ export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [auth, setAuth] = useState({ isLogin: false, user: {} });
-  const [authLoading, setAuthLoading] = useState(false);
   const router = useRouter();
-  console.log(router);
   const logout = () => {
     //TODO delete cookie and delete JWT in heap here
-    console.log('logout');
     setAuth((prev) => {
       return { ...prev, isLogin: false, user: {} };
     });
@@ -30,7 +27,6 @@ export const AuthProvider = ({ children }) => {
   // };
   const checkAuth = () => {
     setAuth({ isLogin: true, user: { userId: 1 } });
-    setAuthLoading(false);
   };
 
   useEffect(() => {
