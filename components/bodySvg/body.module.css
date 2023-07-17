@@ -25,6 +25,7 @@
     transform: rotateY(180deg);
   }
 }
+
 .back {
   transform: rotateY(180deg);
   &.flipped {
@@ -60,10 +61,15 @@
 .back-lowerback:hover,
 .back-upperback:hover,
 .back-shoulder:hover {
-  fill: #ff0000;
+  /* fill: #ff0000; */
+  fill: var( --main-red);
   cursor: pointer;
 }
 
 .active {
   fill: #ff0000;
+}
+
+.inactive{
+  fill: var( --deepgrey);
 }

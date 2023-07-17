@@ -36,7 +36,7 @@ function SUICardList({ list }) {
         },
         '&::-webkit-scrollbar-thumb': {
           borderRadius: '5px',
-          backgroundColor: 'var(--main-red)',
+          backgroundColor: 'var(--deepgrey)',
           transition: '.5s',
           '&:hover': {
             filter: 'brightness(0.85)',
@@ -101,7 +101,7 @@ function CalendarCard({ date }) {
           variant="h5"
           component="div"
           sx={{
-            bgcolor: 'yellow',
+            bgcolor: 'var(--fortress)',
             p: 1,
             borderBottom: `${myBorderWidth} solid ${myBorderColor}`,
             textAlign: 'center',

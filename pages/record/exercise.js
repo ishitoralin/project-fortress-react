@@ -4,6 +4,7 @@ import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIButton from '@/components/customUI/cui-button';
+// =========================================================================
 import {
   SUICardList,
   CalendarCard,
@@ -13,13 +14,25 @@ import {
   SUISchedule,
   SUIScheduleTable,
 } from '@/components/seanUI/sui-schedule';
+// =========================================================================
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// =========================================================================
 import BodySvg from '@/components/bodySvg';
+// =========================================================================
+import FullCalendarLayout from '@/components/fullcalendar/layout';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import timeGridPlugin from '@fullcalendar/timegrid';
+
+// =========================================================================
 
 //>>> pseudo-data
 const bodypart = [
+  '常用清單',
   '三頭',
   '上背',
   '下背',
@@ -35,15 +48,21 @@ const bodypart = [
 ];
 
 const exerciseList = [
-  { workout: 'Bench sfvfvPress', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5 },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5 },
+  {
+    workout: 'Bench sfvfvPress',
+    weight: 60,
+    reps: 12,
+    sets: 5,
+    date: '2023-07-16',
+  },
+  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
 ];
 
 const exerciseCardList = Array(16).fill({
@@ -124,6 +143,9 @@ const ExercisePage = () => {
             </Section>
             <SUICardList list={exerciseCardList} />
           </Grid>
+
+          {/* ============================================================================ */}
+
           <Grid
             item
             lg={4}
@@ -131,9 +153,10 @@ const ExercisePage = () => {
             sx={{
               // outline: '3px solid blue',
               p: 2,
+              display: 'flex',
+              alignItems: 'center',
             }}
           >
-            {/* ============================================================================ */}
             <SUIScheduleTable>
               <Section>
                 <Box
@@ -146,7 +169,11 @@ const ExercisePage = () => {
                 >
                   <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
                   <CUIButton
-                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
+                    sx={{
+                      width: '35%',
+                      marginLeft: '20px',
+                      transform: 'scale(1.2)',
+                    }}
                   >
                     加入規劃
                   </CUIButton>
@@ -174,7 +201,7 @@ const ExercisePage = () => {
               </Box>
               <Section
                 sx={{
-                  height: '250px',
+                  height: '350px',
                   overflow: 'auto',
                   position: 'relative',
                   // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
@@ -187,7 +214,7 @@ const ExercisePage = () => {
                   },
                   '&::-webkit-scrollbar-thumb': {
                     borderRadius: '5px',
-                    backgroundColor: 'var(--main-red)',
+                    backgroundColor: 'var(--deepgrey)',
                     transition: '.5s',
                     '&:hover': {
                       filter: 'brightness(0.85)',
@@ -220,7 +247,7 @@ const ExercisePage = () => {
             lg={3}
             sm={12}
             sx={{
-              outline: '3px solid blue',
+              // outline: '3px solid blue',
               p: 2,
             }}
           >
@@ -234,14 +261,57 @@ const ExercisePage = () => {
             lg={9}
             sm={12}
             sx={{
-              outline: '3px solid blue',
+              // outline: '3px solid blue',
               p: 2,
             }}
           >
-            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
+            {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
             <p>
               2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p>
+            </p> */}
+
+            <FullCalendarLayout>
+              <div className="calendar-container">
+                <FullCalendar
+                  plugins={[
+                    resourceTimelinePlugin,
+                    dayGridPlugin,
+                    interactionPlugin,
+                    timeGridPlugin,
+                  ]}
+                  headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: '',
+                  }}
+                  initialView="dayGridMonth"
+                  nowIndicator={true}
+                  editable={true}
+                  selectable={true}
+                  selectMirror={true}
+                  resources={[
+                    { id: 'a', title: 'Auditorium A' },
+                    { id: 'b', title: 'Auditorium B', eventColor: 'green' },
+                    { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
+                  ]}
+                  // initialEvents={[
+                  //   { title: 'event 1', start: new Date(), resourceId: 'a' },
+                  // ]}
+                  // events={[
+                  //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
+                  //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
+                  // ]}
+
+                  events={exerciseList.map((exercise, index) => {
+                    return {
+                      title: exercise.workout,
+                      date: exercise.date,
+                      resourceId: 'a',
+                    };
+                  })}
+                />
+              </div>
+            </FullCalendarLayout>
           </Grid>
         </Grid>
       </div>
@@ -273,8 +343,8 @@ const ExercisePage = () => {
                   top: 0,
                 }}
               >
-                <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
-                <CUIDatePicker sx={{ width: '100%' }} label={'pick a date'} />
+                <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
+                <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
                 {/* <CUIButton
                     sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
                   >
