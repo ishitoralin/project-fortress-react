@@ -31,7 +31,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
 
 //>>> pseudo-data
-const bodypart = [
+const selections = [
   '常用清單',
   '三頭',
   '上背',
@@ -48,21 +48,23 @@ const bodypart = [
 ];
 
 const exerciseList = [
+  // exe: Num1=reps, Num2=sets
+  // diet: Num1=calories, Num2=protein
   {
-    workout: 'Bench sfvfvPress',
-    weight: 60,
-    reps: 12,
-    sets: 5,
+    name: 'Bench sfvfvPress',
+    quantity: 60,
+    Num1: 12,
+    Num2: 5,
     date: '2023-07-16',
   },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Bench Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Leg Press', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { workout: 'Squat', weight: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Bench Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Bench Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
 ];
 
 const exerciseCardList = Array(16).fill({
@@ -78,6 +80,7 @@ const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
+const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
 
 const scheduleTitle = {
   borderRight: myBorder,
@@ -106,14 +109,14 @@ const ExercisePage = () => {
           <Grid
             item
             lg={3}
-            sm={2}
+            sm={3}
             sx={{
               p: 2,
               display: 'flex',
-              justifyContent: 'center',
+              justifyContent: 'start',
             }}
           >
-            <Box sx={{ width: '80%' }}>
+            <Box sx={{ width: '72%' }}>
               <BodySvg />
             </Box>
           </Grid>
@@ -123,7 +126,7 @@ const ExercisePage = () => {
           <Grid
             item
             lg={5}
-            sm={0}
+            sm={5}
             sx={{
               p: 2,
             }}
@@ -138,10 +141,10 @@ const ExercisePage = () => {
               <CUISelect
                 sx={{ width: '80%' }}
                 label="部位分類"
-                options={bodypart}
+                options={selections}
               />{' '}
             </Section>
-            <SUICardList list={exerciseCardList} />
+            <SUICardList list={exerciseCardList} rowRWD={[6, 6, 4, 4, 3]} />
           </Grid>
 
           {/* ============================================================================ */}
@@ -155,9 +158,10 @@ const ExercisePage = () => {
               p: 2,
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
             }}
           >
-            <SUIScheduleTable>
+            <SUIScheduleTable sx={{ width: '100%' }}>
               <Section>
                 <Box
                   sx={{
@@ -175,7 +179,7 @@ const ExercisePage = () => {
                       transform: 'scale(1.2)',
                     }}
                   >
-                    加入規劃
+                    加入
                   </CUIButton>
                 </Box>
               </Section>
@@ -187,16 +191,27 @@ const ExercisePage = () => {
                   borderTop: myBorder,
                   bgcolor: 'var(  --steel-light-grey)',
                   boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
-                  px: 1.5,
+                  paddingLeft: 1.5,
+                  paddingRight: 4,
                 }}
               >
-                <Box sx={{ ...scheduleTitle, width: '58%' }}>type</Box>
-                <Box sx={{ ...scheduleTitle, width: '18%' }}>weight</Box>
-                <Box sx={{ ...scheduleTitle, width: '12%' }}>reps</Box>
+                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[0] }}>
+                  type
+                </Box>
+                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
+                  quantity
+                </Box>
+                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[2] }}>
+                  次數
+                </Box>
                 <Box
-                  sx={{ ...scheduleTitle, width: '12%', borderRight: 'none' }}
+                  sx={{
+                    ...scheduleTitle,
+                    width: scheduleItemWdith[3],
+                    borderRight: 'none',
+                  }}
                 >
-                  sets
+                  組數
                 </Box>
               </Box>
               <Section
@@ -223,7 +238,7 @@ const ExercisePage = () => {
                   },
                 }}
               >
-                <SUISchedule list={exerciseList} />
+                <SUISchedule list={exerciseList} width={scheduleItemWdith} />
               </Section>
             </SUIScheduleTable>
           </Grid>
@@ -304,7 +319,7 @@ const ExercisePage = () => {
 
                   events={exerciseList.map((exercise, index) => {
                     return {
-                      title: exercise.workout,
+                      title: exercise.name,
                       date: exercise.date,
                       resourceId: 'a',
                     };

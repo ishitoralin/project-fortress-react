@@ -12,7 +12,8 @@ import { styled } from '@mui/material/styles';
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 
-function SUICardList({ list }) {
+function SUICardList({ list, rowRWD = [6, 6, 4, 4, 3] }) {
+  // rowRWD: [xs,sm,md,lg,xl]
   return (
     <Paper
       sx={{
@@ -49,9 +50,9 @@ function SUICardList({ list }) {
         {list.map((item, i) => (
           <Grid
             item
-            xs={6}
+            xs={rowRWD[0]}
             // sm={4}
-            md={4}
+            md={rowRWD[2]}
             key={i}
             sx={{ display: 'flex', justifyContent: 'center', p: 1 }}
           >

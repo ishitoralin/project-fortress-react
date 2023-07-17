@@ -18,7 +18,7 @@ const SUIScheduleItem = styled(Box)(() => ({
   borderStyle: 'solid',
 }));
 
-function SUISchedule({ list }) {
+function SUISchedule({ list, width = ['58%', '18%', '12%', '12%'] }) {
   return (
     <div
       style={{
@@ -48,16 +48,16 @@ function SUISchedule({ list }) {
                 sx={{
                   borderTopLeftRadius: '30px',
                   borderBottomLeftRadius: '30px',
-                  width: '58%',
+                  width: width[0],
                 }}
               >
-                {list.workout}
+                {list.name}
               </SUIScheduleItem>
               <SUIScheduleItem sx={{ width: '18%' }}>
-                {list.weight}
+                {list.quantity}
               </SUIScheduleItem>
               <SUIScheduleItem sx={{ width: '12%' }}>
-                {list.reps}
+                {list.Num1}
               </SUIScheduleItem>
               <SUIScheduleItem
                 sx={{
@@ -68,7 +68,7 @@ function SUISchedule({ list }) {
                   borderRight: myBorder,
                 }}
               >
-                {list.sets}
+                {list.Num2}
               </SUIScheduleItem>
             </Box>
           );

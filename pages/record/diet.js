@@ -1,31 +1,141 @@
 import { Container, Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import { TextField } from '@mui/material';
+import { FormControl } from '@mui/material';
+import { Input } from '@mui/material';
+import { InputLabel } from '@mui/material';
+// =========================================================================
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
-import SUICard from '@/components/seanUI/sui-card';
+import CUIDatePicker from '@/components/customUI/cui-date-picker';
+import CUIButton from '@/components/customUI/cui-button';
+// =========================================================================
+import { SUICardList } from '@/components/seanUI/sui-card';
 import {
   SUISchedule,
   SUIScheduleTable,
 } from '@/components/seanUI/sui-schedule';
+import { SUIInputNumber, SUIDataBox } from '@/components/seanUI/sui-input';
+// =========================================================================
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// =========================================================================
 import BodySvg from '@/components/bodySvg';
+// =========================================================================
+import FullCalendarLayout from '@/components/fullcalendar/layout';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import interactionPlugin from '@fullcalendar/interaction';
+import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+import timeGridPlugin from '@fullcalendar/timegrid';
 
-const bodypart = [
-  '三頭',
-  '上背',
-  '下背',
-  '二頭',
-  '前臂',
-  '小腿',
-  '核心',
-  '肩膀',
-  '胸',
-  '腿前側',
-  '腿後側',
-  '臀部',
+// =========================================================================
+
+//>>> pseudo-data
+const selections = [
+  '南瓜子',
+  '希臘優格',
+  '扁豆',
+  '杏仁',
+  '杏仁奶',
+  '火雞胸肉',
+  '燕麥片',
+  '牛肉',
+  '白飯',
+  '脫脂奶',
+  '蛋白',
+  '蝦',
+  '豆漿',
+  '起司',
+  '雞胸肉',
+  '雞蛋',
+  '鮪魚',
+  '鴨肉',
+  '黑豆',
 ];
+
+const dietList = [
+  // exe: Num1=reps, Num2=sets
+  // diet: Num1=calories, Num2=protein
+  {
+    name: '威靈頓牛排佐沙茶醬',
+    quantity: 1,
+    Num1: 10000,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '青醬滷肉飯',
+    quantity: 20,
+    Num1: 12000,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '快炒白土司佐芝麻',
+    quantity: 60,
+    Num1: 12,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '青醬滷肉飯',
+    quantity: 20,
+    Num1: 12000,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '快炒白土司佐芝麻',
+    quantity: 60,
+    Num1: 12,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '青醬滷肉飯',
+    quantity: 20,
+    Num1: 12000,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+  {
+    name: '快炒白土司佐芝麻',
+    quantity: 60,
+    Num1: 12,
+    Num2: 5,
+    date: '2023-07-16',
+  },
+];
+
+const exerciseCardList = Array(16).fill({
+  img: '/react-imgs/record/food/火雞胸肉',
+  description: '火雞胸肉',
+});
+
+const activity = [
+  '身體活動趨於靜態(BMR x 1.2)',
+  '輕量活動(BMR x 1.375)',
+  '中度活動量(BMR x 1.55)',
+  '高度活動量(BMR x 1.72)',
+  '非常高度活動量(BMR x 1.9)',
+];
+
+const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
+//<<< pseudo-data
+
+const myBorderWidth = '2px';
+const myBorderColor = 'black';
+const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
+const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
+
+const scheduleTitle = {
+  borderRight: myBorder,
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
 const Section = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -37,38 +147,398 @@ const Section = styled(Box)(({ theme }) => ({
 
 const ExercisePage = () => {
   return (
-    <div style={{ padding: '64px' }}>
-      {/* <div sx={{ padding: '64px' }}> */}
-      <Grid container spacing={2} justifyContent="center">
-        <Grid item lg={3} sm={2} sx={{ border: '3px solid red' }}>
-          <BodySvg />
-        </Grid>
-        <Grid item lg={5} sm={4}>
-          <Section>
-            <h1>diet WIP</h1>
-            <CUISearch
-              sx={{ width: '100%' }}
-              label="搜尋運動類型"
-              placeholder="請輸入關鍵字"
-            />
-            <CUISelect key={2} label="部位分類" options={bodypart} />
-          </Section>
-        </Grid>
-        <Grid lg={4} sm={4}>
-          <SUIScheduleTable>
+    <>
+      {/* =================================================================== */}
+      {/* === page 1 ========================================================= */}
+      {/* =================================================================== */}
+      <div
+        id="page-2"
+        style={{ paddingLeft: '200px', paddingRight: '200px', height: '800px' }}
+      >
+        {/* <div sx={{ padding: '64px' }}> */}
+        <Grid container justifyContent="center">
+          <Grid
+            item
+            lg={4}
+            sm={4}
+            sx={{
+              p: 2,
+            }}
+          >
             <Section>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker sx={{ width: '80%' }} />
-              </LocalizationProvider>
-              <SUISchedule>
-                <div>123</div>
-                <div>123</div>
-              </SUISchedule>
+              <h1>規劃你的飲食</h1>
+
+              <SUIInputNumber id="age" label="年齡(yrd)" />
+
+              <SUIInputNumber id="weight" label="體重(kg)" />
+              <SUIInputNumber id="height" label="身高(cm)" />
+              <CUISelect
+                sx={{ width: '100%', m: 1 }}
+                label="活動型態"
+                options={activity}
+              />
+              <Box
+                sx={{
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'end',
+                  m: 1,
+                }}
+              >
+                <CUIButton
+                  sx={{
+                    width: '45%',
+                    marginLeft: '20px',
+                    transform: 'scale(1.2)',
+                  }}
+                >
+                  開始計算
+                </CUIButton>
+              </Box>
             </Section>
-          </SUIScheduleTable>
+            <Section>
+              <Box
+                sx={{
+                  width: '100%',
+                  bgcolor: 'var(--fortress)',
+                  p: 1,
+                  borderRadius: '20px',
+                  display: 'flex',
+                  // justifyContent: 'space-around',
+                  alignItems: 'center',
+                }}
+              >
+                <Box
+                  sx={{
+                    width: '20%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    fontSize: '30px',
+                    p: 2,
+                  }}
+                >
+                  BMI:
+                </Box>
+                <Box
+                  sx={{
+                    width: '80%',
+                    height: '100%',
+                    bgcolor: 'var(--light-gray)',
+                    borderRadius: '20px',
+                    p: 2,
+                    paddingLeft: 5,
+                    marginLeft: 2,
+                    marginRight: 3,
+                    fontSize: '28px',
+                    // display: 'flex',
+                    // justifyContent: 'end',
+                  }}
+                >
+                  sdv
+                </Box>
+              </Box>
+              <SUIDataBox title={'BMI:'} result={123} />
+            </Section>
+          </Grid>
+          <Grid
+            item
+            lg={8}
+            sm={8}
+            sx={{
+              p: 2,
+            }}
+          ></Grid>
         </Grid>
-      </Grid>
-    </div>
+      </div>
+      {/* =================================================================== */}
+      {/* === page 2 ========================================================= */}
+      {/* =================================================================== */}
+      <div id="page-2" style={{ paddingLeft: '200px', paddingRight: '200px' }}>
+        {/* <div sx={{ padding: '64px' }}> */}
+        <Grid container justifyContent="center">
+          {/* ============================================================================ */}
+          {/* ============================================================================ */}
+
+          <Grid
+            item
+            lg={7}
+            sm={8}
+            sx={{
+              p: 2,
+            }}
+          >
+            <Section>
+              <h1>規劃你的飲食</h1>
+              <CUISearch
+                sx={{ width: '40%' }}
+                label="搜尋食物類型"
+                placeholder="請輸入關鍵字"
+              />
+              <CUISelect
+                sx={{ width: '40%' }}
+                label="食物分類"
+                options={selections}
+              />
+            </Section>
+            <SUICardList list={exerciseCardList} rowRWD={[6, 6, 3, 3, 2]} />
+          </Grid>
+
+          {/* ============================================================================ */}
+
+          <Grid
+            item
+            lg={5}
+            sm={4}
+            sx={{
+              // outline: '3px solid blue',
+              p: 2,
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
+            <SUIScheduleTable sx={{ width: '100%' }}>
+              <Section>
+                <Box
+                  sx={{
+                    position: 'sticky',
+                    top: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
+                  <CUIButton
+                    sx={{
+                      width: '35%',
+                      marginLeft: '20px',
+                      transform: 'scale(1.2)',
+                    }}
+                  >
+                    加入規劃
+                  </CUIButton>
+                </Box>
+              </Section>
+              <Box
+                sx={{
+                  display: 'flex',
+                  width: '100%',
+                  height: '60px',
+                  borderTop: myBorder,
+                  bgcolor: 'var(  --steel-light-grey)',
+                  boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
+                  paddingLeft: 1.5,
+                  paddingRight: 4,
+                }}
+              >
+                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[0] }}>
+                  食物種類
+                </Box>
+                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
+                  份量
+                </Box>
+                <Box
+                  sx={{
+                    ...scheduleTitle,
+                    width: scheduleItemWdith[2],
+                    textAlign: 'center',
+                  }}
+                >
+                  卡路里 (kcal)
+                </Box>
+                <Box
+                  sx={{
+                    ...scheduleTitle,
+                    width: scheduleItemWdith[3],
+                    borderRight: 'none',
+                    textAlign: 'center',
+                  }}
+                >
+                  蛋白質 (g)
+                </Box>
+              </Box>
+              <Section
+                sx={{
+                  height: '350px',
+                  overflow: 'auto',
+                  position: 'relative',
+                  // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
+                  '&::-webkit-scrollbar': {
+                    width: 20,
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    backgroundColor: 'var(--fortress)',
+                    borderRadius: '5px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    borderRadius: '5px',
+                    backgroundColor: 'var(--deepgrey)',
+                    transition: '.5s',
+                    '&:hover': {
+                      filter: 'brightness(0.85)',
+                      backgroundColor: 'var(--main-red)',
+                    },
+                  },
+                }}
+              >
+                <SUISchedule list={dietList} />
+              </Section>
+            </SUIScheduleTable>
+          </Grid>
+        </Grid>
+      </div>
+      {/* =================================================================== */}
+      {/* === page 3 ========================================================= */}
+      {/* =================================================================== */}
+
+      <div
+        id="page-3"
+        style={{
+          paddingLeft: '200px',
+          paddingRight: '200px',
+          paddingTop: '50px',
+        }}
+      >
+        <Box
+          container
+          justifyContent="center"
+          sx={{ width: '100%', height: '100%' }}
+        >
+          {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
+            <p>
+              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
+            </p> */}
+
+          <FullCalendarLayout>
+            <div className="calendar-container">
+              <FullCalendar
+                plugins={[
+                  resourceTimelinePlugin,
+                  dayGridPlugin,
+                  interactionPlugin,
+                  timeGridPlugin,
+                ]}
+                headerToolbar={{
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: '',
+                }}
+                initialView="dayGridMonth"
+                nowIndicator={true}
+                editable={true}
+                selectable={true}
+                selectMirror={true}
+                resources={[
+                  { id: 'a', title: 'Auditorium A' },
+                  { id: 'b', title: 'Auditorium B', eventColor: 'green' },
+                  { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
+                ]}
+                // initialEvents={[
+                //   { title: 'event 1', start: new Date(), resourceId: 'a' },
+                // ]}
+                // events={[
+                //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
+                //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
+                // ]}
+
+                events={dietList.map((exercise, index) => {
+                  return {
+                    title: exercise.workout,
+                    date: exercise.date,
+                    resourceId: 'a',
+                  };
+                })}
+              />
+            </div>
+          </FullCalendarLayout>
+        </Box>
+      </div>
+
+      {/* =================================================================== */}
+      {/* === page 4 ========================================================= */}
+      {/* =================================================================== */}
+      <div
+        id="page-4"
+        style={{
+          paddingLeft: '200px',
+          paddingRight: '200px',
+          paddingTop: '50px',
+        }}
+      >
+        <Grid container justifyContent="center" sx={{ width: '100%' }}>
+          <Grid
+            item
+            lg={3}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          >
+            <Section>
+              <Box
+                sx={{
+                  top: 0,
+                }}
+              >
+                <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
+                <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
+                {/* <CUIButton
+                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
+                  >
+                    加入規劃
+                  </CUIButton> */}
+              </Box>
+              <Box sx={{ textAlign: 'center' }}>
+                {plotType.map((ele) => {
+                  return (
+                    <CUIButton
+                      key={ele}
+                      color={'fortress'}
+                      sx={{ width: '100%', mt: 1 }}
+                    >
+                      {ele}
+                    </CUIButton>
+                  );
+                })}
+                <CUIButton color={'deepgrey'} sx={{ width: '100%', mt: 1 }}>
+                  更多+
+                </CUIButton>
+              </Box>
+              <Box
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                  mt: 2,
+                }}
+              >
+                <CUIButton color={'fortress'} sx={{ width: '50%' }}>
+                  輸出PDF
+                </CUIButton>
+                <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
+              </Box>
+            </Section>
+          </Grid>
+
+          {/* ============================================================= */}
+
+          <Grid
+            item
+            lg={9}
+            sm={12}
+            sx={{
+              outline: '3px solid blue',
+              p: 2,
+            }}
+          >
+            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
+            <p>
+              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
+            </p>
+          </Grid>
+        </Grid>
+      </div>
+    </>
   );
 };
 
