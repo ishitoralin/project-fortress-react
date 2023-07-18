@@ -93,7 +93,7 @@
   width: 14%;
   height: 100px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 /* 待結帳產品列表物件(數量欄專用) */
@@ -127,7 +127,7 @@
 .checkButtonContainer {
   width: 100%;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
 }
 
@@ -145,7 +145,7 @@
   height: 100px;
   padding: 20px 0;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   font-size: 28px;
 }
@@ -154,7 +154,7 @@
   width: 100%;
   display: flex;
   overflow: scroll;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   overflow-y: hidden;
 }
@@ -187,7 +187,7 @@
 .InfoComponent1 {
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   font-size: 24px;
   padding: 0 6px;
@@ -197,7 +197,7 @@
 .InfoComponent2 {
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   font-size: 24px;
   font-weight: 700;
@@ -205,7 +205,7 @@
 .InfoComponent2 > div {
   height: 100%;
   width: 100%;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -271,17 +271,17 @@
 .PaymentMethodContainer {
   height: 100%;
   width: 100%;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
-.PaymentMethodTitle{
+.PaymentMethodTitle {
   margin: 20px;
 }
 .PaymentMethodComponent {
-  height: 100px;
+  /* height: 100px; */
   width: 100%;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -293,7 +293,18 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  /* border: 2px solid red; */
 }
+
 .PaymentMethod:hover {
   background-color: #f09651;
+}
+
+.PaymentMethodBlank {
+  width: 100%;
+  height: 100%;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
