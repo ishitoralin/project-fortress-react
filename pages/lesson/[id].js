@@ -75,7 +75,7 @@ const cardBodyTitle = {
     content: '""',
     bottom: '-0.5rem',
     height: '2px',
-    bgcolor: 'black',
+    bgcolor: 'var(--steel-grey)',
     animation: '1s ease-in-out 1.75s spread forwards',
   },
   '@keyframes spread': {
@@ -114,7 +114,7 @@ const CertainLessonPage = () => {
               瑜珈流動與冥想課程
             </Typography>
             <Typography
-              variant="h5"
+              variant="subtitle1"
               sx={{
                 marginTop: 4,
                 marginBottom: 2,
@@ -139,22 +139,34 @@ const CertainLessonPage = () => {
               <Chip
                 key={index}
                 label={tag}
+                color={'steel_grey'}
                 sx={{
-                  marginRight: '.2rem',
+                  marginRight: '.7rem',
                   marginBottom: '1rem',
-                  fontSize: '1rem',
-                  paddingInline: '.5rem',
+                  textAlign: 'center',
+                  letterSpacing: '.2rem',
+                  fontSize: '.8rem',
+                  fontWeight: 'bold',
+                  paddingBottom: '.1rem',
+                  paddingLeft: '.2rem',
                 }}
               />
             ))}
             <Typography
-              variant="h5"
-              sx={{ textAlign: 'right', fontStyle: 'oblique' }}
+              variant="h6"
+              sx={{
+                width: 'fit-content',
+                marginLeft: 'auto',
+                borderBottom: '2px solid var(--steel-grey)',
+              }}
             >
-              指導教練 &nbsp;&nbsp;{' '}
-              <Box sx={{ display: 'inline-block', fontStyle: 'normal' }}>
+              指導教練
+              <Typography
+                variant="h5"
+                sx={{ marginLeft: '1.5rem', display: 'inline-block' }}
+              >
                 可達鴨 大蔥鴨
-              </Box>
+              </Typography>
             </Typography>
           </CUICard>
         </Box>

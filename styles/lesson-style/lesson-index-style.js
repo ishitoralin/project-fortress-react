@@ -1,5 +1,7 @@
 export const mainContentStyle = {
   width: '100%',
+  willChange: 'scroll-position',
+
   backdropFilter: 'blur(50px)',
   color: 'white',
   bgcolor: 'rgba(85, 85, 85, .8)',

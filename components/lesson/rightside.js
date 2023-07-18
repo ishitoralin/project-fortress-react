@@ -66,6 +66,7 @@ const lessonData = [
 ];
 
 const rightSideStyle = {
+  // position: 'relative',
   width: '65%',
   borderRadius: '3px',
 };
@@ -132,7 +133,7 @@ const RightSide = () => {
             value={location}
             exclusive
             aria-label="lessonlocation"
-            onChange={(event, value) => setLocation(value)}
+            onChange={(event, value) => value !== null && setLocation(value)}
           >
             <UiButton value="Taipei" aria-label="Taipei">
               台北
@@ -150,7 +151,7 @@ const RightSide = () => {
           exclusive
           aria-label="displayMode"
           sx={{ marginLeft: 'auto' }}
-          onChange={(event, value) => setDisplayMode(value)}
+          onChange={(event, value) => value !== null && setDisplayMode(value)}
         >
           <UiButton
             value="list"
@@ -183,22 +184,45 @@ const RightSide = () => {
         <>
           <Box
             sx={{
+              position: 'sticky',
+              top: '7rem',
               bgcolor: '#333',
-              width: '90%',
               borderRadius: '5px',
               padding: '2%',
-              marginInline: 'auto',
             }}
           >
             <FullCalendar
+              aspectRatio={1.7}
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
-              headerToolbar={false}
+              dayMaxEventRows={2}
+              // dateAlignment
+              eventColor="var(--steel-grey)"
+              // eventShortHeight={}
+              events={[
+                {
+                  id: 1,
+                  title: 'asean',
+                  start: '2023-07-12 14:00:00',
+                  end: '2023-07-12 16:00:00',
+                },
+                {
+                  id: 2,
+                  title: 'seanseanseanseanseansean',
+                  start: '2023-07-12',
+                  url: '/',
+                },
+                {
+                  id: 3,
+                  title: 'tsean',
+                  start: '2023-07-12',
+                },
+              ]}
+              // headerToolbar={false}
             />
           </Box>
         </>
       )}
-      {/* <Box sx={{height: '50px'}}></Box> */}
     </Box>
   );
 };

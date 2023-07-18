@@ -47,7 +47,7 @@ export const imgButtonStyle = {
   top: '50%',
   zIndex: 2,
   transform: 'translate(-60%, -40%)',
-  fontSize: '.5rem',
+  fontSize: '.7rem',
   fontWeight: 'bold',
   borderWidth: '2px',
   opacity: 0,
@@ -125,7 +125,7 @@ export const tagBoxStyle = {
 
 export const tagStyle = {
   height: '1.5rem',
-  fontSize: '.2rem',
+  fontSize: '.8rem',
   bgcolor: 'var(--steel-light-grey)',
   marginRight: '.2rem',
   marginBottom: '1rem',
