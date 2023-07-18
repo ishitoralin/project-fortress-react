@@ -79,6 +79,7 @@ export default function ForgotPassword() {
                 error={formik.touched[name] && Boolean(formik.errors[name])}
                 helperText={formik.touched[name] && formik.errors[name]}
                 autoComplete="off"
+                sx={{ marginBottom: '-15px' }}
               />
             );
           })}

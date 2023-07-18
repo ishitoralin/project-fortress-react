@@ -4,6 +4,8 @@ import { Box, Collapse, Stack } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LogoIcon from '@/assets/logo';
+import { useAuth } from '@/context/auth/useAuth';
+import User from '@/assets/user';
 
 const ml2 = {
   marginLeft: '20px',
@@ -88,7 +90,15 @@ const ExpandItem = (props) => {
               backgroundColor: 'var(--main-black)',
             }}
             key={link.key}
-            href={link.href}
+            href={link.key === 'logout' ? '#' : link.href}
+            {...(link.key === 'logout'
+              ? {
+                  onClick: () => {
+                    //TODO LOGOUT
+                    props?.logout();
+                  },
+                }
+              : {})}
           >
             <Box
               sx={{
@@ -131,14 +141,26 @@ const expandData = {
   ],
   member: [
     {
+      key: 'login',
+      linkName: '登入',
+      href: '/member/login',
+    },
+    {
+      key: 'signUp',
+      linkName: '註冊',
+      href: '/member/sign-up',
+    },
+  ],
+  loginMember: [
+    {
       key: 'member',
       linkName: '會員中心',
       href: '/member',
     },
     {
-      key: 'signInUp',
-      linkName: '登入註冊',
-      href: '/member/login',
+      key: 'logout',
+      linkName: '登出',
+      href: '/member',
     },
   ],
   record: [
@@ -165,7 +187,7 @@ const getInitState = () => {
 
 export default function Navbar() {
   const [linksState, setLinksState] = useState(() => getInitState());
-
+  const { auth, logout } = useAuth();
   const toggleLink = (name) => {
     setLinksState((pre) => {
       const newState = new Map(pre);
@@ -220,13 +242,24 @@ export default function Navbar() {
               }}
             />
           </Link>
-          <ExpandItem
-            in={linksState.get('member')}
-            onClick={() => toggleLink('member')}
-            links={expandData['member']}
-          >
-            會員中心
-          </ExpandItem>
+          {auth.isLogin ? (
+            <ExpandItem
+              logout={logout}
+              in={linksState.get('loginMember')}
+              onClick={() => toggleLink('loginMember')}
+              links={expandData['loginMember']}
+            >
+              <User />
+            </ExpandItem>
+          ) : (
+            <ExpandItem
+              in={linksState.get('member')}
+              onClick={() => toggleLink('member')}
+              links={expandData['member']}
+            >
+              會員中心
+            </ExpandItem>
+          )}
         </Box>
       </ClickAwayListener>
     </Stack>
