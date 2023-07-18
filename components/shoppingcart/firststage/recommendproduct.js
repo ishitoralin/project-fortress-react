@@ -76,7 +76,7 @@ export default function RecommendProduct(props) {
                       variant="contained"
                       onClick={props.onClick}
                     >
-                      加入購物車
+                      查看商品詳情
                     </Button>
                   </WhiteTheme>
                 </CardActions>
@@ -140,7 +140,7 @@ export default function RecommendProduct(props) {
                       variant="contained"
                       onClick={props.onClick}
                     >
-                      加入購物車
+                      查看商品詳情
                     </Button>
                   </WhiteTheme>
                 </CardActions>
@@ -203,7 +203,7 @@ export default function RecommendProduct(props) {
                       variant="contained"
                       onClick={props.onClick}
                     >
-                      加入購物車
+                      查看商品詳情
                     </Button>
                   </WhiteTheme>
                 </CardActions>

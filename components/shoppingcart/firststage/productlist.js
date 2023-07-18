@@ -12,69 +12,70 @@ import createColorTheme from '@/libs/CreateColorTheme';
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
-
+const fakeDataForCart = {
+  products: [
+    {
+      id: 1,
+      photo: 'photo',
+      name: '緊身衣',
+      detail: 'abavafdasfewweg gewaef gre',
+      price: 3000,
+      quantity: 21,
+    },
+    {
+      id: 2,
+      photo: 'photo',
+      name: '布偶裝',
+      detail: 'abavafdasfewweg gewaef gre',
+      price: 2000,
+      quantity: 35,
+    },
+    {
+      id: 3,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 75,
+    },
+    {
+      id: 4,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 75,
+    },
+    {
+      id: 5,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 75,
+    },
+  ],
+};
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
-  const fakeDataForCart = {
-    products: [
-      {
-        id: 1,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-        quantity: 21,
-      },
-      {
-        id: 2,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-        quantity: 35,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-    ],
-  };
+  const [cartItems, setCartItems] = useState(fakeDataForCart.products);
+
   let totalPrice = 0;
   let totalQuantity = 0;
-  if (fakeDataForCart) {
-    for (let i = 0; i < fakeDataForCart.products.length; i++) {
-      let price = parseInt(fakeDataForCart.products[i].price);
-      let quantity = parseInt(fakeDataForCart.products[i].quantity);
-      totalPrice += price * quantity;
-    }
-
-    for (let i = 0; i < fakeDataForCart.products.length; i++) {
-      let Quantity = parseInt(fakeDataForCart.products[i].quantity);
-      totalQuantity += Quantity;
-    }
-  }
   useEffect(() => {
+    if (fakeDataForCart) {
+      for (let i = 0; i < fakeDataForCart.products.length; i++) {
+        let price = parseInt(fakeDataForCart.products[i].price);
+        let quantity = parseInt(fakeDataForCart.products[i].quantity);
+        totalPrice += price * quantity;
+      }
+
+      for (let i = 0; i < fakeDataForCart.products.length; i++) {
+        let Quantity = parseInt(fakeDataForCart.products[i].quantity);
+        totalQuantity += Quantity;
+      }
+    }
     setFinalPrice(finalPrice + totalPrice);
     setFinalQuantity(finalQuantity + totalQuantity);
   }, []);
@@ -85,6 +86,7 @@ export default function ProductList(props) {
         {fakeDataForCart.products.map((v, i) => {
           return (
             <div
+              /* 判斷商品有多少樣，奇數套用樣式1，偶數套用樣式2 */
               className={`${
                 i % 2 === 0
                   ? styles.ProductListContainer1
@@ -92,22 +94,42 @@ export default function ProductList(props) {
               }`}
               key={i}
             >
+              {/* 將map後的data塞到對應的欄位 */}
               <div className={`${styles.ProductListComponent}`}>{v.id}</div>
               <div className={`${styles.ProductListComponent}`}>{v.photo}</div>
               <div className={styles.ProductListComponentForDetail}>
                 {v.detail}
               </div>
               <div className={`${styles.ProductListComponent}`}>{v.price}</div>
+              {/* 新增可調整數量按鈕 */}
               <div className={styles.ProductListComponentForQuantity}>
-                <Button sx={{ color: 'black' }}>
+                <Button
+                  sx={{ color: 'black' }}
+                  onClick={() => {
+                    if (v.quantity > 1) {
+                      const updateItems = [...cartItems];
+                      updateItems[i].quantity = v.quantity - 1;
+                      setCartItems(updateItems);
+                    }
+                  }}
+                >
                   <RemoveIcon></RemoveIcon>
                 </Button>
                 <input
                   type="number"
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
-                  value={v.quantity}
+                  defaultValue={v.quantity}
+                  // value={quantity}
+                  // onChange={e => setFinalQuantity( e.target.value)}
                 />
-                <Button sx={{ color: 'black' }}>
+                <Button
+                  sx={{ color: 'black' }}
+                  onClick={() => {
+                    const updateItems = [...cartItems];
+                    updateItems[i].quantity = v.quantity + 1;
+                    setCartItems(updateItems);
+                  }}
+                >
                   <AddIcon></AddIcon>
                 </Button>
               </div>
