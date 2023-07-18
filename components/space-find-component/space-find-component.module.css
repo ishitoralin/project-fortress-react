@@ -1,0 +1,20 @@
+.canvas-container {
+  width: 100%;
+  padding-top: 50px;
+  display: flex;
+  justify-content: center;
+  aspect-ratio: 1 / 1;
+  position: relative;
+}
+.canvas-container svg {
+  /* outline: 1px solid green; */
+  /* position: absolute;
+    inset: 0; */
+}
+/* .canvas-container svg * {
+  width: 90%;
+  height: 90%;
+} */
+.svgClass {
+  outline: 1px solid black;
+}
