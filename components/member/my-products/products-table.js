@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import tableStyles from '../member-table.module.css';
+import Link from 'next/link';
 
 export default function ProductsTable({ data }) {
   return (
@@ -30,6 +31,8 @@ export default function ProductsTable({ data }) {
         <TableBody>
           {data?.rows.map((row) => (
             <TableRow
+              href="/member"
+              component={Link}
               className={`${tableStyles['table-body-row']}`}
               key={row.sid}
               //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -44,7 +47,8 @@ export default function ProductsTable({ data }) {
               </TableCell>
               <TableCell data-title="商品價格 : ">{row.price}$</TableCell>
               <TableCell
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   console.log(row.sid);
                 }}
               >

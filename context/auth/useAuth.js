@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
     setAuth((prev) => {
       return { ...prev, isLogin: false, user: {} };
     });
+    // router.push('/');
   };
   // const checkAuth = async () => {
   //   setLoading(true);
@@ -28,6 +29,14 @@ export const AuthProvider = ({ children }) => {
   const checkAuth = () => {
     setAuth({ isLogin: true, user: { userId: 1 } });
   };
+  // const checkAuth = async () => {
+  //   const promise = await new Promise((reslove, reject) => {
+  //     setTimeout(() => {
+  //       reslove();
+  //     }, 10000);
+  //   });
+  //   setAuth({ isLogin: true, user: { userId: 1 } });
+  // };
 
   useEffect(() => {
     //還沒接
