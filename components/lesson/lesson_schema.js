@@ -6,7 +6,7 @@ export const lessonSchema = [
   'description',
   'price',
   'enrolled',
-  'limit',
+  'capacity',
   'location',
   'time',
   'period',

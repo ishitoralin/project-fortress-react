@@ -1,10 +1,14 @@
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useState } from 'react';
 
+import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+import React from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 import LessonCard from './lesson-card';
-import WhiteTheme from '@/context/Theme/white-theme';
 
 const lessonData = [
   {
@@ -63,9 +67,7 @@ const lessonData = [
 
 const rightSideStyle = {
   width: '65%',
-  // bgcolor: 'silver',
   borderRadius: '3px',
-  // padding: '2rem',
 };
 
 const UiButton = (props) => (
@@ -83,16 +85,16 @@ const UiButton = (props) => (
       paddingInline: '1.5rem',
       fontWeight: 'bold',
       marginRight: '1rem',
-      transition: '.2s',
       ':hover': {
+        transition: '.2s',
         bgcolor: '#bbb',
       },
       '&.Mui-selected': {
-        bgcolor: 'var(--main-red)',
+        bgcolor: 'var(--steel-grey)',
         color: 'white',
       },
       '&.Mui-selected:hover': {
-        bgcolor: 'var(--main-red)',
+        bgcolor: 'var(--steel-grey)',
         filter: 'brightness(90%)',
       },
 
@@ -105,33 +107,32 @@ const UiButton = (props) => (
 
 const headerStyle = {
   position: 'sticky',
+  top: '1rem',
   display: 'flex',
   alignItems: 'center',
   width: '100%',
-  // boxSizing: 'content-box',
   padding: '1rem',
-  // height: '4rem',
-  // paddingTop: '2rem',
   marginBottom: '1rem',
-  // boxShadow: '0 10px 0 10px silver, 0 20px 5px #333',
   boxShadow: '0 3px 5px #555',
-  // transform: 'translateY(-2rem)',
   backdropFilter: 'blur(5px)',
-  top: '2rem',
   bgcolor: 'rgba(180, 180, 180, .95)',
   borderRadius: '3px',
   zIndex: 2,
 };
 
-const RightSide = () => (
-  <Box sx={rightSideStyle}>
-    <WhiteTheme>
+const RightSide = () => {
+  const [location, setLocation] = useState('Taipei');
+  const [displayMode, setDisplayMode] = useState('calendar');
+
+  return (
+    <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
         <Box>
           <ToggleButtonGroup
-            value={'Taipei'}
+            value={location}
             exclusive
-            aria-label="lesson location"
+            aria-label="lessonlocation"
+            onChange={(event, value) => setLocation(value)}
           >
             <UiButton value="Taipei" aria-label="Taipei">
               台北
@@ -145,36 +146,61 @@ const RightSide = () => (
           </ToggleButtonGroup>
         </Box>
         <ToggleButtonGroup
-          value={'list'}
+          value={displayMode}
           exclusive
-          aria-label="lesson location"
+          aria-label="displayMode"
           sx={{ marginLeft: 'auto' }}
+          onChange={(event, value) => setDisplayMode(value)}
         >
-          <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
+          <UiButton
+            value="list"
+            aria-label="list"
+            sx={{ paddingInline: '.7rem' }}
+          >
             <FormatListBulletedOutlinedIcon size="small" />
           </UiButton>
           <UiButton
             value="calendar"
+            aria-label="calendar"
             sx={{ paddingInline: '.7rem', marginRight: 0 }}
           >
             <CalendarMonthIcon />
           </UiButton>
         </ToggleButtonGroup>
       </Box>
-    </WhiteTheme>
-    {[
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-    ].map((lesson, index) => (
-      <LessonCard key={index} lesson={lesson} />
-    ))}
-  </Box>
-);
+      {displayMode === 'list' ? (
+        [
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+        ].map((lesson, index) => <LessonCard key={index} lesson={lesson} />)
+      ) : (
+        <>
+          <Box
+            sx={{
+              bgcolor: '#333',
+              width: '90%',
+              borderRadius: '5px',
+              padding: '2%',
+              marginInline: 'auto',
+            }}
+          >
+            <FullCalendar
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              headerToolbar={false}
+            />
+          </Box>
+        </>
+      )}
+      {/* <Box sx={{height: '50px'}}></Box> */}
+    </Box>
+  );
+};
 
 export default RightSide;
