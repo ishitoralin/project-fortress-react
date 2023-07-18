@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 
-function SUICardList({ list, rowRWD = [6, 6, 4, 4, 3] }) {
+function SUICardList({ type, list, rowRWD = [6, 6, 4, 4, 3] }) {
   // rowRWD: [xs,sm,md,lg,xl]
   return (
     <Paper
@@ -56,7 +56,7 @@ function SUICardList({ list, rowRWD = [6, 6, 4, 4, 3] }) {
             key={i}
             sx={{ display: 'flex', justifyContent: 'center', p: 1 }}
           >
-            <MyCard item={item} />
+            <MyCard type={type} item={item} />
           </Grid>
         ))}
       </Grid>
@@ -64,20 +64,29 @@ function SUICardList({ list, rowRWD = [6, 6, 4, 4, 3] }) {
   );
 }
 
-function MyCard({ item }) {
+function MyCard({ type, item }) {
+  let img;
+  let name;
+  if (type === 'exercise') {
+    img = '/react-imgs/record/exercise/' + item.exercise_img;
+    name = item.exercise_name;
+  } else {
+    img = '/react-imgs/record/food/' + item.food_img;
+    name = item.food_type;
+  }
+
   return (
     <Card sx={{ width: '100%', borderRadius: '20px' }}>
-      <CardMedia
-        component="img"
-        height="140"
-        image={`${item.img}.jpg`}
-        alt="Image"
-      />
+      <CardMedia component="img" height="140" image={`${img}`} alt="Image" />
       <CardContent>
         {/* <Typography variant="h6" component="div">
           {item.img}
         </Typography> */}
-        <Typography color="text.secondary">{item.description}</Typography>
+        {/* for fake data */}
+        {/* <Typography color="text.secondary">{item.description}</Typography> */}
+        <Typography color="text.secondary" sx={{ textAlign: 'center' }}>
+          {name}
+        </Typography>
       </CardContent>
     </Card>
   );

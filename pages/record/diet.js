@@ -34,6 +34,9 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // =========================================================================
 import style from './record.module.css';
+// =========================================================================
+import { useState, useEffect } from 'react';
+// =========================================================================
 
 //>>> pseudo-data
 const selections = [
@@ -160,6 +163,18 @@ const NuBox = styled(Box)(() => ({
 }));
 
 const ExercisePage = () => {
+  // ============================================================
+  const [foodType, setFoodType] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.SEAN_API_SERVER}/record/food-type`)
+      .then((r) => r.json())
+      .then((data) => {
+        setFoodType(data.rows);
+      });
+  }, []);
+
+  // console.log(foodType);
   return (
     <>
       {/* =================================================================== */}
@@ -380,7 +395,7 @@ const ExercisePage = () => {
                 options={selections}
               />
             </Section>
-            <SUICardList list={exerciseCardList} rowRWD={[6, 6, 3, 3, 2]} />
+            <SUICardList type="food" list={foodType} rowRWD={[6, 6, 3, 3, 2]} />
           </Grid>
 
           {/* ============================================================================ */}
@@ -503,11 +518,7 @@ const ExercisePage = () => {
           paddingTop: '50px',
         }}
       >
-        <Box
-          container
-          justifyContent="center"
-          sx={{ width: '100%', height: '100%' }}
-        >
+        <Box justifyContent="center" sx={{ width: '100%', height: '100%' }}>
           {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
             <p>
               2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
@@ -522,6 +533,14 @@ const ExercisePage = () => {
                   interactionPlugin,
                   timeGridPlugin,
                 ]}
+                // >>> max event show
+                dayMaxEventRows={true} // for all non-TimeGrid views
+                views={{
+                  dayGridMonth: {
+                    dayMaxEventRows: 3,
+                  },
+                }}
+                // <<< max event show
                 headerToolbar={{
                   left: 'prev,next today',
                   center: 'title',
@@ -547,7 +566,7 @@ const ExercisePage = () => {
 
                 events={dietList.map((exercise, index) => {
                   return {
-                    title: exercise.workout,
+                    title: exercise.name,
                     date: exercise.date,
                     resourceId: 'a',
                   };

@@ -27,8 +27,13 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
-
 // =========================================================================
+import { useState, useEffect } from 'react';
+// =========================================================================
+
+// >>> react use
+
+// <<< react use
 
 //>>> pseudo-data
 const selections = [
@@ -67,16 +72,17 @@ const exerciseList = [
   { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
 ];
 
-const exerciseCardList = Array(16).fill({
-  img: '/react-imgs/record/exercise/啞鈴二頭彎舉',
-  description: '啞鈴二頭彎舉',
-});
+// const exerciseCardList = Array(16).fill({
+//   img: '/react-imgs/record/exercise/啞鈴二頭彎舉',
+//   description: '啞鈴二頭彎舉',
+// });
 
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
 
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
+// >>> style
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
@@ -96,8 +102,20 @@ const Section = styled(Box)(({ theme }) => ({
   // justifyContent: 'center',
   alignItems: 'center',
 }));
+// <<< style
 
 const ExercisePage = () => {
+  // ============================================================
+  const [exeType, setExeType] = useState([]);
+
+  useEffect(() => {
+    fetch(`${process.env.SEAN_API_SERVER}/record/exercise-type`)
+      .then((r) => r.json())
+      .then((data) => {
+        setExeType(data.rows);
+      });
+  }, []);
+
   return (
     <>
       {/* =================================================================== */}
@@ -144,7 +162,11 @@ const ExercisePage = () => {
                 options={selections}
               />{' '}
             </Section>
-            <SUICardList list={exerciseCardList} rowRWD={[6, 6, 4, 4, 3]} />
+            <SUICardList
+              type="exercise"
+              list={exeType}
+              rowRWD={[6, 6, 4, 4, 3]}
+            />
           </Grid>
 
           {/* ============================================================================ */}
@@ -294,6 +316,14 @@ const ExercisePage = () => {
                     interactionPlugin,
                     timeGridPlugin,
                   ]}
+                  // >>> max event show
+                  dayMaxEventRows={true} // for all non-TimeGrid views
+                  views={{
+                    dayGridMonth: {
+                      dayMaxEventRows: 3,
+                    },
+                  }}
+                  // <<< max event show
                   headerToolbar={{
                     left: 'prev,next today',
                     center: 'title',

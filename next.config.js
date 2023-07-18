@@ -4,6 +4,11 @@ const nextConfig = {
   images: {
     domains: ['via.placeholder.com', 'localhost'],
   },
+
+  env: {
+    SEAN_API_SERVER: 'http://localhost:9009',
+  },
+
   // avoid cors with proxy
   // async rewrites() {
   //   return [
