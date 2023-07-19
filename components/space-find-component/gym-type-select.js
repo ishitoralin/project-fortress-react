@@ -1,0 +1,39 @@
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import styles from './space-find-component.module.css';
+const GYMTYPE = [
+  '棒球場',
+  '網球場',
+  '籃球場',
+  '田徑場',
+  '足球場',
+  '桌球場',
+  '羽球場',
+  '游泳池',
+  '壘球場',
+];
+export default function GymTypeSelect({ value = '', setgymType = () => {} }) {
+  const handleChange = (e) => {
+    setgymType(e.target.value);
+  };
+  return (
+    <FormControl
+      className={`${styles['gym-type-select']}`}
+      sx={{ width: '250px' }}
+    >
+      <InputLabel id="demo-simple-select-label">請選擇場地種類</InputLabel>
+      <Select
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
+        value={value}
+        label="Age"
+        onChange={handleChange}
+      >
+        {GYMTYPE.map((v) => (
+          <MenuItem key={v} value={v}>
+            {v}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
+  );
+}
