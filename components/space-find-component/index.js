@@ -3,14 +3,14 @@ import { mainContentStyle } from '@/styles/lesson-style/lesson-index';
 import { pointer } from 'd3';
 import { geoPath, geoMercator } from 'd3-geo';
 import { select } from 'd3-selection';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 // import * as topojson from 'topojson-client';
 import * as topojson from 'topojson';
 import data from '@/assets/taiwangeo.json';
 import styles from './space-find-component.module.css';
 import GymTypeSelect from './gym-type-select';
 import axios from 'axios';
-import { Box, Paper } from '@mui/material';
+import { Box, Paper, Typography } from '@mui/material';
 export default function SpaceFindComponent() {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
@@ -60,7 +60,7 @@ export default function SpaceFindComponent() {
     // const svg = select(myRef.current);
     // console.log(data);
     // svg.selectAll('.country').data(data.features)
-    const { width, height } = containerRef.current.getBoundingClientRect();
+    const { width } = containerRef.current.getBoundingClientRect();
     // console.log(width);
     // console.log(data);
     const countries = topojson.feature(data, data.objects.layer1);
@@ -171,26 +171,9 @@ export default function SpaceFindComponent() {
   });
   return (
     <Box {...mainContentStyle}>
-      <div style={{ position: 'absolute', zIndex: 10, pointerEvents: 'none' }}>
-        <div>
-          {'area:' + JSON.stringify(area?.properties?.COUNTYNAME) + '\n'}
-        </div>
-        <div>
-          {'area:' + area?.properties?.COUNTYNAME?.replace('台', '臺') + '\n'}
-        </div>
-        <div>{'gymType:' + JSON.stringify(gymType)}</div>
-        <pre>
-          {'gymData長度:' +
-            gymData.length +
-            '\n' +
-            'gymData:' +
-            JSON.stringify(gymData, null, 4) +
-            '\n'}
-        </pre>
-      </div>
       <div className={`${styles['section-container']}`}>
+        <GymTypeSelect value={gymType} setgymType={setgymType} />
         <div className={`${styles['content-container']}`}>
-          <GymTypeSelect value={gymType} setgymType={setgymType} />
           <div className={`${styles['map-container']}`} ref={containerRef}>
             <svg className={`${styles['map-svg']}`} ref={svgRef}></svg>
           </div>
@@ -213,18 +196,23 @@ export default function SpaceFindComponent() {
                     variants={item}
                   >
                     <Box className={`${styles['img-wrapper']}`}>
-                      <img src={Photo1} alt="場館圖片" />
+                      <img
+                        // crossOrigin="anonymous"
+                        src={Photo1}
+                        alt="場館圖片"
+                      />
                     </Box>
-                    <Box sx={{ marginBottom: '10px' }}>
+                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
                       名稱:
-                      <Box>{Name}</Box>
-                    </Box>
-                    <Box sx={{ marginBottom: '10px' }}>
-                      電話:<Box>{OperationTel}</Box>
-                    </Box>
-                    <Box sx={{ marginBottom: '10px' }}>
-                      地址:<Box>{Address}</Box>
-                    </Box>
+                      <Typography variant="body1">{Name}</Typography>
+                    </Typography>
+                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
+                      電話:
+                      <Typography variant="body1">{OperationTel}</Typography>
+                    </Typography>
+                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
+                      地址:<Typography variant="body1">{Address}</Typography>
+                    </Typography>
                   </Paper>
                 );
               })}

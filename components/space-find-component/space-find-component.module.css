@@ -3,17 +3,25 @@
   width: 100%;
   padding: 64px;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  align-items: flex-start;
+}
+.gym-type-select {
+  margin-bottom: 15px;
 }
 .content-container {
-  max-width: 1500px;
   width: 100%;
+  max-width: 1500px;
   display: flex;
+  align-self: center;
   justify-content: center;
   background: red;
 }
 .map-container {
-  max-width: 80%;
+  width: 80%;
+  max-width: 1000px;
+
   display: flex;
   flex-grow: 1;
   flex-shrink: 1;
@@ -36,7 +44,7 @@
   flex-grow: 1;
 }
 .info-card {
-  padding: 10px;
+  padding: 20px 15px;
 
   margin-bottom: 15px;
 }
@@ -50,8 +58,29 @@
   object-fit: cover;
   border-radius: 3px;
 }
-.gym-type-select {
-  position: absolute;
+@media screen and (max-width: 768px) {
+  .content-container {
+    flex-direction: column;
+  }
+  .map-container {
+    max-width: none;
+    margin: auto auto 15px auto;
+  }
+  .info {
+    /* padding: 15px; */
+    width: 100%;
+    max-width: none;
+    display: flex;
+    /* align-items: center; */
+    /* justify-content: space-around; */
+    height: auto;
+    overflow-y: hidden;
+  }
+  .info-card {
+    width: 30%;
+    flex-shrink: 0;
+    margin-right: 15px;
+  }
 }
 @media screen and (max-width: 500px) {
   .content-container {
@@ -59,6 +88,7 @@
   }
   .map-container {
     max-width: none;
+    margin: auto auto 15px auto;
   }
   .info {
     width: 100%;
