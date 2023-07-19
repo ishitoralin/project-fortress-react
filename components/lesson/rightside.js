@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
@@ -9,6 +9,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
+import UiButton from './UiButton';
 
 const lessonData = [
   {
@@ -70,41 +71,6 @@ const rightSideStyle = {
   width: '65%',
   borderRadius: '3px',
 };
-
-const UiButton = (props) => (
-  <ToggleButton
-    size="large"
-    {...props}
-    sx={{
-      bgcolor: '#eee',
-      color: 'var(--main-black)',
-      borderTopLeftRadius: '3px !important',
-      borderTopRightRadius: '3px !important',
-      borderBottomRightRadius: '3px !important',
-      borderBottomLeftRadius: '3px !important',
-      paddingBlock: '.5rem',
-      paddingInline: '1.5rem',
-      fontWeight: 'bold',
-      marginRight: '1rem',
-      ':hover': {
-        transition: '.2s',
-        bgcolor: '#bbb',
-      },
-      '&.Mui-selected': {
-        bgcolor: 'var(--steel-grey)',
-        color: 'white',
-      },
-      '&.Mui-selected:hover': {
-        bgcolor: 'var(--steel-grey)',
-        filter: 'brightness(90%)',
-      },
-
-      ...props.sx,
-    }}
-  >
-    {props.children}
-  </ToggleButton>
-);
 
 const headerStyle = {
   position: 'sticky',

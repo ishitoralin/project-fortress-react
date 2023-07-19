@@ -18,7 +18,7 @@ const theme = createTheme({
     main_black: { main: MAIN_BLACK, contrastText: MAIN_WHITE },
     light_gray: { main: LIGHT_GRAY },
     light_gray2: { main: LIGHT_GRAY2 },
-    main_white: { main: MAIN_WHITE },
+    main_white: { main: MAIN_WHITE, contrastText: MAIN_BLACK },
     fortress: { main: FORTRESS },
     deepgrey: { main: DEEPGREY, contrastText: MAIN_WHITE },
     light_grey: { main: LIGHT_GREY },

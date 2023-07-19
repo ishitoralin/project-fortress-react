@@ -152,22 +152,29 @@ const CertainLessonPage = () => {
                 }}
               />
             ))}
-            <Typography
-              variant="h6"
+            <Box
               sx={{
                 width: 'fit-content',
                 marginLeft: 'auto',
                 borderBottom: '2px solid var(--steel-grey)',
+                'h5, h6': {
+                  display: 'inline-block',
+                },
+                h6: {
+                  marginRight: '1rem',
+                },
+                h5: {
+                  marginLeft: '1rem',
+                },
               }}
             >
-              指導教練
-              <Typography
-                variant="h5"
-                sx={{ marginLeft: '1.5rem', display: 'inline-block' }}
-              >
-                可達鴨 大蔥鴨
-              </Typography>
-            </Typography>
+              <Typography variant="h6">指導教練</Typography>
+              {['可達鴨', '大蔥鴨'].map((name) => (
+                <Typography key={name} variant="h5">
+                  {name}
+                </Typography>
+              ))}
+            </Box>
           </CUICard>
         </Box>
         <Box sx={{ marginTop: '2rem', py: 4, width: '100%' }}>
