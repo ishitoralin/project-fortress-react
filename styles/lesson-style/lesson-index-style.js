@@ -1,9 +1,7 @@
-import getBrickBackground from "@/libs/getBrickBackground";
+import getBrickBackground from '@/libs/getBrickBackground';
 
 export const mainContentStyle = {
   width: '100%',
-  willChange: 'scroll-position',
-
   backdropFilter: 'blur(50px)',
   color: 'white',
   bgcolor: 'rgba(85, 85, 85, .8)',
@@ -15,7 +13,7 @@ export const mainContentStyle = {
 export const flexRowSpaceBetween = {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: { xs: 'space-evenly', lg: 'space-between' },
 };
 
 export const containerStyle = {
@@ -29,4 +27,11 @@ export const filterStyle = {
   position: 'sticky',
   top: '1rem',
   bgcolor: '#eee',
+  '@media (max-width: 1000px)': {
+    position: 'absolute',
+    width: '90%',
+    height: '100vh',
+    top: 0,
+    left: '-90%',
+  },
 };

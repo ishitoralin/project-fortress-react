@@ -4,6 +4,12 @@ export const cardStyle = {
   margin: 'auto',
   width: '100%',
   height: '230px',
+  '@media (max-width: 768px)': {
+    height: '200px',
+  },
+  '@media (max-width: 500px)': {
+    height: 'fit-content',
+  },
   marginBottom: '1.5rem',
   bgcolor: mainWhite,
   display: 'flex',
@@ -20,6 +26,10 @@ export const cardStyle = {
 };
 
 export const cardImgStyle = {
+  display: {
+    xs: 'none',
+    sm: 'block',
+  },
   position: 'relative',
   width: '30%',
   height: '100%',
@@ -29,7 +39,7 @@ export const cardImgStyle = {
 };
 
 export const cardBodyStyle = {
-  width: '62%',
+  width: { xs: '100%', sm: '62%' },
   padding: '1rem',
   marginLeft: 'auto',
 };
@@ -38,7 +48,7 @@ export const imgBox = {
   position: 'relative',
   width: '100%',
   height: '90%',
-  transform: 'rotateZ(-15deg) translate(10%, 10%)',
+  transform: 'rotateZ(-15deg) translate(12%, 10%)',
 };
 
 export const imgButtonStyle = {
@@ -140,7 +150,7 @@ export const iconStyle = {
 export const priceRegiBoxStyle = {
   display: 'flex',
   alignItems: 'center',
-  padding: '.25rem 5% 0rem 0rem',
+  padding: '.25rem 5% 0rem 1rem',
 };
 
 export const priceIconStyle = {
@@ -157,7 +167,7 @@ export const priceTextStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    left: '-17.5%',
+    left: {xs: '10%', sm: '-17.5%'},
     bottom: 0,
     width: '130%',
     borderBottom: '3px solid var(--main-red)',

@@ -69,6 +69,9 @@ const lessonData = [
 const rightSideStyle = {
   // position: 'relative',
   width: '65%',
+  '@media (max-width: 1000px)': {
+    width: '100%',
+  },
   borderRadius: '3px',
 };
 

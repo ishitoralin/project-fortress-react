@@ -37,7 +37,13 @@ const LessonCard = ({ lesson, coachcard }) => (
     sx={
       coachcard
         ? { ...cardStyle, height: '200px' }
-        : { ...cardStyle, width: '90%' }
+        : {
+            ...cardStyle,
+            width: '90%',
+            '@media (max-width: 600px)': {
+              width: '100%',
+            },
+          }
     }
   >
     <Box sx={cardImgStyle}>
