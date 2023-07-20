@@ -20,7 +20,7 @@ const fakeDataForCart = {
       name: '緊身衣',
       detail: 'abavafdasfewweg gewaef gre',
       price: 3000,
-      quantity: 21,
+      quantity: 2,
     },
     {
       id: 2,
@@ -28,7 +28,7 @@ const fakeDataForCart = {
       name: '布偶裝',
       detail: 'abavafdasfewweg gewaef gre',
       price: 2000,
-      quantity: 35,
+      quantity: 1,
     },
     {
       id: 3,
@@ -36,7 +36,7 @@ const fakeDataForCart = {
       name: '貓貓裝',
       detail: 'neko neko',
       price: 600,
-      quantity: 75,
+      quantity: 1,
     },
     {
       id: 4,
@@ -44,7 +44,7 @@ const fakeDataForCart = {
       name: '貓貓裝',
       detail: 'neko neko',
       price: 600,
-      quantity: 75,
+      quantity: 1,
     },
     {
       id: 5,
@@ -52,7 +52,7 @@ const fakeDataForCart = {
       name: '貓貓裝',
       detail: 'neko neko',
       price: 600,
-      quantity: 75,
+      quantity: 1,
     },
   ],
 };
@@ -60,10 +60,9 @@ export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
   const [cartItems, setCartItems] = useState(fakeDataForCart.products);
-
-  let totalPrice = 0;
-  let totalQuantity = 0;
   useEffect(() => {
+    let totalPrice = 0;
+    let totalQuantity = 0;
     if (fakeDataForCart) {
       for (let i = 0; i < fakeDataForCart.products.length; i++) {
         let price = parseInt(fakeDataForCart.products[i].price);
@@ -76,10 +75,10 @@ export default function ProductList(props) {
         totalQuantity += Quantity;
       }
     }
-    setFinalPrice(finalPrice + totalPrice);
-    setFinalQuantity(finalQuantity + totalQuantity);
-  }, []);
-
+    console.log(totalPrice, totalQuantity);
+    setFinalPrice(totalPrice);
+    setFinalQuantity(totalQuantity);
+  }, [cartItems]);
   return fakeDataForCart ? (
     <>
       <div>
@@ -120,7 +119,13 @@ export default function ProductList(props) {
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
                   defaultValue={v.quantity}
                   // value={quantity}
-                  // onChange={e => setFinalQuantity( e.target.value)}
+                  onChange={(e) => {
+                    const updateItems = [...cartItems];
+                    // console.log(typeof updateItems);
+                    v.quantity = parseInt(e.target.value);
+                    updateItems[i].quantity = v.quantity;
+                    setFinalQuantity(updateItems);
+                  }}
                 />
                 <Button
                   sx={{ color: 'black' }}
@@ -136,8 +141,16 @@ export default function ProductList(props) {
               <div className={`${styles.ProductListComponent}`}>
                 {v.price * v.quantity}
               </div>
+              {/* 刪除按鈕 */}
               <div className={`${styles.ProductListComponent}`}>
-                <Button sx={{ color: 'black' }}>
+                <Button
+                  sx={{ color: 'black' }}
+                  onClick={() => {
+                    setCartItems((prevItems) => {
+                      prevItems.filter((item) => item.id !== v.id);
+                    });
+                  }}
+                >
                   <DeleteOutlineIcon
                     sx={{ fontSize: '26px' }}
                   ></DeleteOutlineIcon>
@@ -155,9 +168,9 @@ export default function ProductList(props) {
           <div className={`${styles.countComponent}`}></div>
           <div className={`${styles.countComponent}`}></div>
           <div className={`${styles.countComponent}`}>
-            總共{totalQuantity}件
+            總共{finalQuantity}件
           </div>
-          <div className={`${styles.countComponent}`}>{totalPrice}</div>
+          <div className={`${styles.countComponent}`}>{finalPrice}</div>
           <div className={`${styles.countComponent}`}>NTD </div>
         </div>
       </div>
