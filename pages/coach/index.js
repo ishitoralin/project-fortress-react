@@ -20,6 +20,7 @@ import {
   showInfoAnimation,
 } from '@/styles/coach-style/coach-card-style';
 import CUIButton from '@/components/customUI/cui-button';
+import Link from 'next/link';
 
 const CoachListPage = () => {
   const [location, setLocation] = useState(['Taipei', 'Taichung']);
@@ -39,8 +40,14 @@ const CoachListPage = () => {
       }}
     >
       <Container sx={{ padding: '5rem' }}>
-        <Box sx={{ position: 'sticky', top: '2rem', zIndex: 5 }}>
-          <Box sx={{ bgcolor: '#eee', padding: 2, borderRadius: '5px' }}>
+        <Box sx={{ zIndex: 5 }}>
+          <Box
+            sx={{
+              bgcolor: '#eee',
+              padding: 2,
+              borderRadius: '5px',
+            }}
+          >
             <CUISearch
               placeholder="輸入教練名稱"
               color={'steel_grey'}
@@ -61,6 +68,7 @@ const CoachListPage = () => {
                 setLocation(([...preValue]) => {
                   const indexOfValue = preValue.indexOf(value);
                   if (indexOfValue === -1) return [...preValue, value];
+                  if (preValue.length === 1) return preValue;
 
                   preValue.splice(indexOfValue, 1);
                   return preValue;
@@ -147,7 +155,7 @@ const CoachListPage = () => {
                       嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
                     </Typography>
                     <CUIButton variant="outlined" color={'main_white'}>
-                      詳細資料
+                      <Link href="coach/5">詳細資料</Link>
                     </CUIButton>
                   </Box>
                 </Box>

@@ -89,7 +89,7 @@ const headerStyle = {
 
 const RightSide = () => {
   const [location, setLocation] = useState('Taipei');
-  const [displayMode, setDisplayMode] = useState('calendar');
+  const [displayMode, setDisplayMode] = useState('list');
 
   return (
     <Box sx={rightSideStyle}>

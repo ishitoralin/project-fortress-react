@@ -1,3 +1,5 @@
+const ANIMATIME = '1s';
+
 export const cardGridStyle = {
   position: 'relative',
   width: '100%',
@@ -20,6 +22,12 @@ export const coachCardBoxStyle = {
   top: '-10%',
   left: '-10%',
   transition: '.5s',
+  animation: `${ANIMATIME} move-card forwards`,
+  '@keyframes move-card': {
+    '100%': {
+      transform: 'translate3d(15rem, 0rem, 0)',
+    },
+  },
 };
 
 export const imageBoxStyle = {
@@ -35,6 +43,12 @@ export const imageBoxStyle = {
   zIndex: 2,
   ':hover': {
     boxShadow: '0 0 10px 2px rgba(200, 170, 0, 0.95)',
+  },
+  animation: `${ANIMATIME} draw-card forwards`,
+  '@keyframes draw-card': {
+    to: {
+      transform: 'translate3d(-8rem, -4rem, 0) rotateZ(0deg)',
+    },
   },
 };
 
@@ -87,12 +101,13 @@ const cardButtonStyle = {
 export const cardFrontStyle = {
   position: 'absolute',
   right: '7%',
-  bottom: '2%',
-  paddingBlock: '.5rem',
-  paddingInline: '1rem',
+  bottom: '5%',
+  // paddingBlock: '1rem',
+  paddingInline: '2rem',
+  overflow: 'hidden',
   color: 'white',
   width: '76%',
-  height: '36%',
+  height: '30%',
   borderBottomLeftRadius: '15px',
   borderBottomRightRadius: '15px',
   bgcolor: 'slategrey',
@@ -104,37 +119,40 @@ export const cardFrontStyle = {
     transition: 'opacity .5s',
     opacity: 0,
   },
+  animation: `${ANIMATIME} grow-up forwards`,
+  '@keyframes grow-up': {
+    '100%': {
+      height: '65%',
+      boxShadow: 'none',
+    },
+  },
 };
 
 export const cardInfoStyle = {
-  position: 'relative',
-  width: '100%',
-  height: '80%',
-  overflow: 'hidden',
-  textIndent: '2rem',
-  fontSize: '.9rem',
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 6,
-};
-
-export const drawImgAnimation = {
-  transform: 'translate3d(-4rem, -8rem, 0) rotateZ(0deg)',
+  // position: 'relative',
+  // width: '100%',
+  // height: '100%',
+  // overflow: 'hidden',
+  // textIndent: '2rem',
+  // fontSize: '.9rem',
+  // display: '-webkit-box',
+  // WebkitBoxOrient: 'vertical',
+  // WebkitLineClamp: 6,
 };
 
 export const cardDownAnimation = {
-  transition: '.5s .2s',
-  top: '3%',
-  left: '5%',
+  // transition: '.5s .2s',
+  // top: '3%',
+  // left: '5%',
 };
 
 export const showInfoAnimation = {
-  transition: '.5s .5s',
-  transform: 'translateY(-10%)',
-  height: '42%',
-  button: {
-    ...cardButtonStyle,
-    transition: 'opacity .5s 1s',
-    opacity: 1,
-  },
+  // transition: '.5s .5s',
+  // transform: 'translateY(-10%)',
+  // height: '42%',
+  // button: {
+  //   ...cardButtonStyle,
+  //   transition: 'opacity .5s 1s',
+  //   opacity: 1,
+  // },
 };
