@@ -230,7 +230,7 @@ export default function Navbar() {
             場地找找
           </Item>
           <Link
-            href="/"
+            href="/shoppingcart"
             onClick={closeLinks}
             style={{ ...ml2, display: 'block' }}
           >

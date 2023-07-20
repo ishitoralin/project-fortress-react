@@ -1,57 +1,54 @@
-
 /* .container{
 } */
-.container>div{
-    color:blue
+.container > div {
+  color: blue;
 }
-.Carouselimg{
+
+.Carouselimg {
   width: 100%;
   margin-top: 20px;
   padding: 0px 61px;
   display: flex;
   justify-content: space-between;
   /* position: relative; */
-  align-items: center;}
+  align-items: center;
+}
+
 .wrap {
-    width: 100% ;
-    outline: none;
-    align-items: stretch;
-  }
-.aaa{
+  width: 100%;
+  outline: none;
+  align-items: stretch;
+}
+
+.aaa {
   background-color: aliceblue;
   max-width: 200px;
-  
-  
 }
 
-.img-wrapper{
-  
-width: 100%;
-height: 1080px;
-object-fit: cover;
-
-
-
-}
-.img-wrapper img{
-
+.img-wrapper {
   width: 100%;
-  height: 1080px;
+  height: calc(100vh - var(--nav-height));
+}
+
+.img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 
   /* align-items: flex-start; */
-  object-fit: fill;
+}
 
-}
-.aa{
+.aa {
   display: flex;
-padding: 50px 115px;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-gap: 50px;
-align-self: stretch;
+  padding: 50px 115px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  align-self: stretch;
 }
-.Buttonscontainer{  
+
+.Buttonscontainer {
   border: 1px solid red;
   display: flex;
   width: 1289px;
@@ -59,9 +56,9 @@ align-self: stretch;
   justify-content: space-between;
   align-items: center;
   padding: 50px 0px;
-
 }
-.IndexButtons2{  
+
+.IndexButtons2 {
   border: 1px solid red;
   display: flex;
   flex-direction: column;
@@ -69,7 +66,8 @@ align-self: stretch;
   align-items: flex-start;
   gap: 10px;
 }
-.IndexButtons{
+
+.IndexButtons {
   border: 1px solid rgb(0, 0, 0);
   display: flex;
   width: 104px;
@@ -79,7 +77,272 @@ align-self: stretch;
   justify-content: space-between;
   align-items: center;
 }
-.aaaa{
+
+.aaaa {
   display: flex;
   justify-content: center;
+}
+
+.CardButtons {
+  display: flex;
+  width: 150px;
+  height: 50px;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 49px;
+  bottom: 47.1px;
+}
+
+.Card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  gap: -45px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.smallCard {
+  display: flex;
+  width: 390px;
+  height: 520px;
+  padding: 15px;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.BigCard2 {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.BigCard {
+  display: flex;
+  width: 642px;
+  height: 1020px;
+  padding: 10px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  flex-shrink: 0;
+}
+
+.Cardcontainer2 {
+  display: flex;
+  padding: 0px 0px 20px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.Cardcontainer {
+  display: flex;
+  padding: 10px 0px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+}
+
+.product-card-section {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 10px 100px;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.product-card-section2 {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: 10px 100px;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.BigCardText {
+  position: absolute;
+  left: 46px;
+  bottom: 117px;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  font-family: Inter;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  letter-spacing: 1.6px;
+}
+
+.img-bigCard {
+  width: 100%;
+  height: 1000px;
+  object-fit: cover;
+}
+
+.product-img-container {
+  display: flex;
+  width: 350px;
+  height: 350px;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-shrink: 0;
+}
+
+.product-img-container img {
+  width: 350px;
+  height: 350px;
+  flex-shrink: 0;
+}
+
+.product-title {
+  display: flex;
+  padding-top: 15px;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: center;
+}
+
+.product-price {
+  display: flex;
+  align-items: flex-start;
+  flex-shrink: 0;
+  width: 350px;
+}
+
+.product-content-container {
+  display: flex;
+  width: 356px;
+  height: 81px;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.smallCardButton {
+  display: flex;
+  width: 33%;
+  height: 36px;
+  padding: 8px 22px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.CardButtonContainer {
+  display: flex;
+  width: 356px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 10px;
+  
+}
+.product-detail{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+}
+.product-detail-container{
+  width: 100%;
+  height: 100%;;
+  gap: px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+}
+.sidImg{
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-content: center;
+  gap: 17px;
+  justify-content: space-between;
+  flex-direction:column;
+  padding: 38px 0px;
+
+
+}
+
+
+.productimgs{
+  display: flex;
+  width: 500px;
+  height: 500px;
+  justify-content: space-between;
+
+}
+.flexrow{
+  width: 32%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  
+
+}
+.product-detail-title{
+  width: 31%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+.product-detail-price{
+  width: 100%;
+  display: flex;
+  flex-direction:row;
+}
+.product-detail-Rating{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-self: center;
+}
+.color-selcetor{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.colorbox{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.color1{
+  width: 40px;
+  height: 40px;
+  background-color: red;}
+.color2{
+    width: 40px;
+    height: 40px;
+    background-color: blue;}
+.color3{
+      width: 40px;
+      height: 40px;
+      background-color: yellow;}
+.color4{
+      width: 40px;
+      height: 40px;
+      background-color: #ffdf8e;
 }

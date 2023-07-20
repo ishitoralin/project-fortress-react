@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Back from './back';
 import Front from './front';
 import styles from './body.module.css';
+import CUIButton from '../customUI/cui-button';
 
 export default function Body() {
   /*  motion的whileHover對於svg內的支援很差,當hover上去後,改動過的css效果會持續在那.
@@ -46,21 +47,27 @@ export default function Body() {
           />
         </div>
       </div>
-      <button
-        onClick={() => {
-          setFlipFront((prev) => !prev);
-        }}
-      >
-        翻轉
-      </button>
-      <button
-        onClick={() => {
-          setPart(null);
-        }}
-      >
-        重置部位
-      </button>
-      <div>{part && `所選部位${part}`}</div>
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <CUIButton
+          onClick={() => {
+            setFlipFront((prev) => !prev);
+          }}
+          color={'fortress'}
+          sx={{ m: 1 }}
+        >
+          翻轉
+        </CUIButton>
+        <CUIButton
+          onClick={() => {
+            setPart(null);
+          }}
+          color={'light_grey'}
+          sx={{ m: 1 }}
+        >
+          重置部位
+        </CUIButton>
+        <div>{part && `所選部位: ${part}`}</div>
+      </div>
     </>
   );
 }

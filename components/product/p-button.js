@@ -9,7 +9,7 @@ export default function PButton(...props) {
       <div className={styles.aaaa}>
         <div className={`${styles['Buttonscontainer']}`}>
           <div className={`${styles['IndexButtons2']}`}>
-            <Link href="aaa">
+            <Link href="product/category/index">
               <Button
                 className={`${styles['IndexButtons']}`}
                 sx={

@@ -13,6 +13,7 @@ import core from '@/public/lesson-img/core.jpg';
 import functional from '@/public/lesson-img/functional.jpg';
 import hiit from '@/public/lesson-img/HIIT.jpg';
 import oxgen1 from '@/public/lesson-img/oxgen1.jpg';
+import Link from 'next/link';
 
 const bannerData = [
   {
@@ -278,7 +279,7 @@ const Banner = () => {
                   variant="outlined"
                   sx={buttonStyle}
                 >
-                  了解更多
+                  <Link href="/lesson/5">了解更多</Link>
                 </Button>
               </Box>
               <Image

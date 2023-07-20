@@ -1,13 +1,14 @@
 /* 商品列表、總計欄、結帳按鈕，之後用fetch從DB抓資料 */
 import React from 'react';
 import { useState, useEffect } from 'react';
-import styles from './shoppingcart.module.css';
+import styles from '@/styles/shoppingcart.module.css';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 //Import button
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
+
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
@@ -41,6 +42,22 @@ export default function ProductList(props) {
         price: 600,
         quantity: 75,
       },
+      {
+        id: 4,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+        quantity: 75,
+      },
+      {
+        id: 5,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+        quantity: 75,
+      },
     ],
   };
   let totalPrice = 0;
@@ -62,92 +79,26 @@ export default function ProductList(props) {
     setFinalQuantity(finalQuantity + totalQuantity);
   }, []);
 
-  const sessionContainer = {
-    width: '100%',
-    padding: '0 200px',
-  };
-  const ProductListContainer = {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid rgba(0,0,0,0.15)',
-    fontSize: '25px',
-  };
-
-  // 待結帳產品列表物件
-  const ProductListComponent = {
-    width: '14%',
-    height: '100px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-  const ProductListComponentForDetail = {
-    width: '14%',
-    height: '100px',
-    display: 'flex',
-    justifyContent: 'start',
-    alignItems: 'center',
-  };
-  // 待結帳產品列表物件(數量欄專用)
-  const ProductListComponentForQuantity = {
-    width: '14%',
-    height: '100px',
-    padding: '30px',
-    display: 'flex',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    // border: '2px solid red',
-  };
-
-  // 結帳欄容器
-  const countContainer = {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    fontSize: '25px',
-    borderBottom: '1px solid rgba(0,0,0,0.15)',
-  };
-  //結帳欄物件
-  const countComponent = {
-    width: '14%',
-    height: '100px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  };
-
-  const checkButtonContainer = {
-    width: '100%',
-    display: 'flex',
-    justifyContent: 'end',
-    alignItems: 'center',
-    // border: '2px solid red',
-  };
-
-  const checkButtonComponent = {
-    width: '15%',
-    height: '100px',
-    marginLeft: '10px',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-    // border: '2px solid red',
-  };
-
   return fakeDataForCart ? (
     <>
-      <div style={sessionContainer}>
+      <div>
         {fakeDataForCart.products.map((v, i) => {
           return (
-            <div style={ProductListContainer} key={i}>
-              <div style={ProductListComponent}>{v.id}</div>
-              <div style={ProductListComponent}>{v.photo}</div>
-              <div style={ProductListComponentForDetail}>{v.detail}</div>
-              <div style={ProductListComponent}>{v.price}</div>
-              <div style={ProductListComponentForQuantity}>
+            <div
+              className={`${
+                i % 2 === 0
+                  ? styles.ProductListContainer1
+                  : styles.ProductListContainer2
+              }`}
+              key={i}
+            >
+              <div className={`${styles.ProductListComponent}`}>{v.id}</div>
+              <div className={`${styles.ProductListComponent}`}>{v.photo}</div>
+              <div className={styles.ProductListComponentForDetail}>
+                {v.detail}
+              </div>
+              <div className={`${styles.ProductListComponent}`}>{v.price}</div>
+              <div className={styles.ProductListComponentForQuantity}>
                 <Button sx={{ color: 'black' }}>
                   <RemoveIcon></RemoveIcon>
                 </Button>
@@ -160,8 +111,10 @@ export default function ProductList(props) {
                   <AddIcon></AddIcon>
                 </Button>
               </div>
-              <div style={ProductListComponent}>{v.price * v.quantity}</div>
-              <div style={ProductListComponent}>
+              <div className={`${styles.ProductListComponent}`}>
+                {v.price * v.quantity}
+              </div>
+              <div className={`${styles.ProductListComponent}`}>
                 <Button sx={{ color: 'black' }}>
                   <DeleteOutlineIcon
                     sx={{ fontSize: '26px' }}
@@ -173,21 +126,23 @@ export default function ProductList(props) {
         })}
       </div>
       {/* 產品總計欄位 */}
-      <div style={sessionContainer}>
-        <div style={countContainer}>
-          <div style={countComponent}>總計</div>
-          <div style={countComponent}></div>
-          <div style={countComponent}></div>
-          <div style={countComponent}></div>
-          <div style={countComponent}>總共{totalQuantity}件</div>
-          <div style={countComponent}>{totalPrice}</div>
-          <div style={countComponent}>NTD </div>
+      <div>
+        <div className={styles.countContainer}>
+          <div className={`${styles.countComponent}`}>總計</div>
+          <div className={`${styles.countComponent}`}></div>
+          <div className={`${styles.countComponent}`}></div>
+          <div className={`${styles.countComponent}`}></div>
+          <div className={`${styles.countComponent}`}>
+            總共{totalQuantity}件
+          </div>
+          <div className={`${styles.countComponent}`}>{totalPrice}</div>
+          <div className={`${styles.countComponent}`}>NTD </div>
         </div>
       </div>
       {/* 結帳按鈕 */}
-      <div style={sessionContainer}>
-        <div style={checkButtonContainer}>
-          <div style={checkButtonComponent}>
+      <div>
+        <div className={`${styles.checkButtonContainer}`}>
+          <div className={`${styles.checkButtonComponent}`}>
             <WhiteTheme>
               <Button
                 sx={{
@@ -204,7 +159,7 @@ export default function ProductList(props) {
               </Button>
             </WhiteTheme>
           </div>
-          <div style={checkButtonComponent}>
+          <div className={`${`${styles.checkButtonComponent}`}`}>
             <RedTheme>
               <Button
                 sx={{

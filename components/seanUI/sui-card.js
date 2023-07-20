@@ -12,30 +12,47 @@ import { styled } from '@mui/material/styles';
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 
-function SUICardList({ list }) {
+function SUICardList({ list, rowRWD = [6, 6, 4, 4, 3] }) {
+  // rowRWD: [xs,sm,md,lg,xl]
   return (
-    <div
-      style={{
+    <Paper
+      sx={{
         display: 'flex',
-        backgroundColor: 'pink',
-        borderRadius: '20px',
+        backgroundColor: 'var(--steel-light-grey)',
+        // borderRadius: '20px',
         width: '100%',
         height: '500px',
         marginTop: '1.5rem',
         overflow: 'auto',
         position: 'relative',
-        border: `${myBorderWidth} solid ${myBorderColor}`,
-        padding: '1rem',
+        // border: `${myBorderWidth} solid ${myBorderColor}`,
+        padding: '0.5rem',
         // outline: `${myBorderWidth} solid blue`,
+        '&::-webkit-scrollbar': {
+          width: 20,
+        },
+        '&::-webkit-scrollbar-track': {
+          backgroundColor: 'var(--fortress)',
+          borderRadius: '5px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          borderRadius: '5px',
+          backgroundColor: 'var(--deepgrey)',
+          transition: '.5s',
+          '&:hover': {
+            filter: 'brightness(0.85)',
+            backgroundColor: 'var(--main-red)',
+          },
+        },
       }}
     >
       <Grid container>
         {list.map((item, i) => (
           <Grid
             item
-            xs={12}
-            sm={6}
-            md={3}
+            xs={rowRWD[0]}
+            // sm={4}
+            md={rowRWD[2]}
             key={i}
             sx={{ display: 'flex', justifyContent: 'center', p: 1 }}
           >
@@ -43,7 +60,7 @@ function SUICardList({ list }) {
           </Grid>
         ))}
       </Grid>
-    </div>
+    </Paper>
   );
 }
 
@@ -68,19 +85,48 @@ function MyCard({ item }) {
 
 // function Calendar
 
-function CalendarCard() {
+function CalendarCard({ date }) {
   return (
-    <Card sx={{ width: '100px' }}>
-      <CardContent>
-        <Typography variant="h5" component="div">
-          Title
+    <Card
+      sx={{
+        // width: '100%',
+        border: `${myBorderWidth} solid ${myBorderColor}`,
+        borderRadius: '20px',
+        height: '15rem',
+        p: 0,
+        m: 2,
+      }}
+    >
+      <CardContent sx={{ p: 0 }}>
+        <Typography
+          variant="h5"
+          component="div"
+          sx={{
+            bgcolor: 'var(--fortress)',
+            p: 1,
+            borderBottom: `${myBorderWidth} solid ${myBorderColor}`,
+            textAlign: 'center',
+          }}
+        >
+          {date}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          This is the content of the card.
+        <Typography variant="body2" color="text.secondary" sx={{ p: 0, m: 0 }}>
+          This is the content of
+          twerfawfawfawfwqal;jijhfnalkjfhnawlkjfhbnawlkjgrbnhe card.
         </Typography>
       </CardContent>
     </Card>
   );
 }
 
-export { SUICardList };
+function CalendarCardList({ dates }) {
+  return (
+    <>
+      {dates.map((date, i) => {
+        return <CalendarCard key={i} date={date} />;
+      })}
+    </>
+  );
+}
+
+export { SUICardList, CalendarCardList, CalendarCard };

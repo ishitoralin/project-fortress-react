@@ -1,5 +1,7 @@
 export const mainContentStyle = {
   width: '100%',
+  willChange: 'scroll-position',
+
   backdropFilter: 'blur(50px)',
   color: 'white',
   bgcolor: 'rgba(85, 85, 85, .8)',
@@ -23,6 +25,6 @@ export const filterStyle = {
   maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
   overflowY: 'auto',
   position: 'sticky',
-  top: '2rem',
+  top: '1rem',
   bgcolor: '#eee',
 };

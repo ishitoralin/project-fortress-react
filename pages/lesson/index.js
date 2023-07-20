@@ -5,7 +5,7 @@ import {
   flexRowSpaceBetween,
   containerStyle,
   filterStyle,
-} from '@/styles/lesson-style/lesson-index';
+} from '@/styles/lesson-style/lesson-index-style';
 
 import { Box, Chip, Container, Typography } from '@mui/material';
 import Banner from '@/components/lesson/banner';
@@ -24,10 +24,14 @@ const LessionPage = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('http://localhost:3001/lesson/tags');
-      const datas = await res.json();
-      setTagsMap(datas);
-      setTags(datas);
+      try {
+        const res = await fetch('http://localhost:3001/lesson/tags');
+        const datas = await res.json();
+        setTagsMap(datas);
+        setTags(datas);
+      } catch (ex) {
+        setTags(['目前沒有標籤可選取']);
+      }
     })();
   }, []);
 
@@ -46,6 +50,7 @@ const LessionPage = () => {
           <Box sx={flexRowSpaceBetween}>
             <CUIFilter
               sx={filterStyle}
+              color={'steel_grey'}
               label="篩選器"
               items={[
                 <CUISearch
