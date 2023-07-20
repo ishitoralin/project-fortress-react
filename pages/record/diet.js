@@ -30,12 +30,13 @@ import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // =========================================================================
 import style from './record.module.css';
 // =========================================================================
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 // =========================================================================
 
 //>>> pseudo-data
@@ -115,11 +116,6 @@ const dietList = [
   },
 ];
 
-const exerciseCardList = Array(16).fill({
-  img: '/react-imgs/record/food/火雞胸肉',
-  description: '火雞胸肉',
-});
-
 const activity = [
   '身體活動趨於靜態(BMR x 1.2)',
   '輕量活動(BMR x 1.375)',
@@ -131,6 +127,7 @@ const activity = [
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
+//>>> style
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
@@ -162,19 +159,52 @@ const NuBox = styled(Box)(() => ({
   width: '100%',
 }));
 
+//<<< style
+
 const ExercisePage = () => {
   // ============================================================
+  const foodInit = { key: 0, value: '全部', label: '全部' };
+  const router = useRouter();
   const [foodType, setFoodType] = useState([]);
+  const [foodCategory, setFoodCategory] = useState([foodInit]);
+  const foodCategorys = useRef([foodInit]); //=== for selection options
 
+  // >>> initiallize
   useEffect(() => {
+    // TODO: debounce
+    fetch(`${process.env.SEAN_API_SERVER}/record/food-category`)
+      .then((r) => r.json())
+      .then((data) => {
+        data.data.unshift(foodInit);
+        foodCategorys.current = data.data;
+      });
+
     fetch(`${process.env.SEAN_API_SERVER}/record/food-type`)
       .then((r) => r.json())
       .then((data) => {
         setFoodType(data.rows);
       });
   }, []);
+  // <<< initiallize
+  //TODO: search keyword
 
-  // console.log(foodType);
+  //>>> filter by food category
+  useEffect(() => {
+    fetch(
+      `${process.env.SEAN_API_SERVER}/record/food-type/food-category/${foodCategory[0].key}`
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        setFoodType(data.data);
+      });
+  }, [foodCategory]);
+  //<<< filter by food category
+  const handleFoodCategorySelection = (e) => {
+    // router.push(`?food-category=` + e.target.value);
+    setFoodCategory(
+      foodCategorys.current.filter((x) => x.value === e.target.value)
+    );
+  };
   return (
     <>
       {/* =================================================================== */}
@@ -200,7 +230,7 @@ const ExercisePage = () => {
             }}
           >
             <Section>
-              <h1>規劃你的飲食</h1>
+              <h1>計算你的基礎代謝率</h1>
 
               <SUIInputNumber id="age" label="年齡(yrd)" />
 
@@ -384,15 +414,20 @@ const ExercisePage = () => {
           >
             <Section>
               <h1>規劃你的飲食</h1>
+              <CUISelect
+                sx={{ width: '40%' }}
+                label="食物分類"
+                // TODO: default value, on click
+                defaultValue={foodCategorys.current[0].value}
+                options={foodCategorys.current}
+                onChange={(e) => {
+                  handleFoodCategorySelection(e);
+                }}
+              />
               <CUISearch
                 sx={{ width: '40%' }}
                 label="搜尋食物類型"
                 placeholder="請輸入關鍵字"
-              />
-              <CUISelect
-                sx={{ width: '40%' }}
-                label="食物分類"
-                options={selections}
               />
             </Section>
             <SUICardList type="food" list={foodType} rowRWD={[6, 6, 3, 3, 2]} />

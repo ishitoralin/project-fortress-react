@@ -28,30 +28,15 @@ import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
 // =========================================================================
-
-// >>> react use
-
-// <<< react use
-
+import {
+  useDebounce,
+  useDebounceHH,
+} from '@/components/customHook/useDebounce';
+// =========================================================================
 //>>> pseudo-data
-const selections = [
-  '常用清單',
-  '三頭',
-  '上背',
-  '下背',
-  '二頭',
-  '前臂',
-  '小腿',
-  '核心',
-  '肩膀',
-  '胸',
-  '腿前側',
-  '腿後側',
-  '臀部',
-];
-
 const exerciseList = [
   // exe: Num1=reps, Num2=sets
   // diet: Num1=calories, Num2=protein
@@ -71,11 +56,6 @@ const exerciseList = [
   { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
   { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
 ];
-
-// const exerciseCardList = Array(16).fill({
-//   img: '/react-imgs/record/exercise/啞鈴二頭彎舉',
-//   description: '啞鈴二頭彎舉',
-// });
 
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
 
@@ -106,15 +86,72 @@ const Section = styled(Box)(({ theme }) => ({
 
 const ExercisePage = () => {
   // ============================================================
+  const exerciseInit = { key: 0, value: '全部', label: '全部' };
+  // const router = useRouter();
   const [exeType, setExeType] = useState([]);
+  const [bodyPart, setBodyPart] = useState([exerciseInit]);
+  const bodyParts = useRef([exerciseInit]); //=== for selection options
+  const [keyword, setKeyword] = useState('');
 
+  // >>> initiallize
   useEffect(() => {
-    fetch(`${process.env.SEAN_API_SERVER}/record/exercise-type`)
+    // TODO: debounce
+    fetch(`${process.env.SEAN_API_SERVER}/record/body-part`) //=== for selection options
+      .then((r) => r.json())
+      .then((data) => {
+        data.data.unshift(exerciseInit);
+        bodyParts.current = data.data;
+      });
+
+    fetch(`${process.env.SEAN_API_SERVER}/record/exercise-type`) //=== exercise list
       .then((r) => r.json())
       .then((data) => {
         setExeType(data.rows);
+        // console.log(data.row);
       });
   }, []);
+
+  // console.log(bodyParts); //TODO: 第一次render Array(1)???
+  // <<< initiallize
+
+  // TODO: apply filter to bodySVG
+  // >>> filter by body part
+  useDebounceHH(
+    () => {
+      // === for selection and search
+      fetch(
+        `${process.env.SEAN_API_SERVER}/record/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+      )
+        .then((r) => r.json())
+        .then((data) => {
+          setExeType(data.data);
+        });
+    },
+    500,
+    [bodyPart, keyword]
+  );
+
+  // useEffect(() => {
+  //   // === for selection and search
+  //   fetch(
+  //     `${process.env.SEAN_API_SERVER}/record/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+  //   )
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       setExeType(data.data);
+  //     });
+  // }, [bodyPart, keyword]);
+
+  // >>> filter by body part
+
+  const handleBodypartSelection = (e) => {
+    setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
+  };
+
+  // useDebounce(debounceHandleSearch);
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
+  };
 
   return (
     <>
@@ -151,16 +188,23 @@ const ExercisePage = () => {
           >
             <Section>
               <h1>規劃你的訓練</h1>
+              <CUISelect
+                sx={{ width: '50%' }}
+                label="部位分類"
+                defaultValue={bodyParts.current[0].value}
+                options={bodyParts.current}
+                onChange={(e) => {
+                  handleBodypartSelection(e);
+                }}
+              />
               <CUISearch
-                sx={{ width: '80%' }}
+                sx={{ width: '50%' }}
                 label="搜尋運動類型"
                 placeholder="請輸入關鍵字"
+                onChange={(e) => {
+                  handleSearch(e);
+                }}
               />
-              <CUISelect
-                sx={{ width: '80%' }}
-                label="部位分類"
-                options={selections}
-              />{' '}
             </Section>
             <SUICardList
               type="exercise"
@@ -284,6 +328,7 @@ const ExercisePage = () => {
             lg={3}
             sm={12}
             sx={{
+              height: '100%',
               // outline: '3px solid blue',
               p: 2,
             }}
@@ -298,65 +343,67 @@ const ExercisePage = () => {
             lg={9}
             sm={12}
             sx={{
-              // outline: '3px solid blue',
+              outline: '3px solid blue',
               p: 2,
+              height: '700px',
             }}
           >
             {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
             <p>
               2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
             </p> */}
+            <Box sx={{}}>
+              <FullCalendarLayout sx={{}}>
+                <div className="calendar-container">
+                  <FullCalendar
+                    plugins={[
+                      resourceTimelinePlugin,
+                      dayGridPlugin,
+                      interactionPlugin,
+                      timeGridPlugin,
+                    ]}
+                    // >>> max event show
+                    dayMaxEventRows={true} // for all non-TimeGrid views
+                    views={{
+                      dayGridMonth: {
+                        dayMaxEventRows: 3,
+                      },
+                    }}
+                    // <<< max event show
+                    headerToolbar={{
+                      left: 'prev,next today',
+                      center: 'title',
+                      right: '',
+                    }}
+                    initialView="dayGridMonth"
+                    nowIndicator={true}
+                    editable={true}
+                    selectable={true}
+                    selectMirror={true}
+                    resources={[
+                      { id: 'a', title: 'Auditorium A' },
+                      { id: 'b', title: 'Auditorium B', eventColor: 'green' },
+                      { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
+                    ]}
+                    // initialEvents={[
+                    //   { title: 'event 1', start: new Date(), resourceId: 'a' },
+                    // ]}
+                    // events={[
+                    //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
+                    //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
+                    // ]}
 
-            <FullCalendarLayout>
-              <div className="calendar-container">
-                <FullCalendar
-                  plugins={[
-                    resourceTimelinePlugin,
-                    dayGridPlugin,
-                    interactionPlugin,
-                    timeGridPlugin,
-                  ]}
-                  // >>> max event show
-                  dayMaxEventRows={true} // for all non-TimeGrid views
-                  views={{
-                    dayGridMonth: {
-                      dayMaxEventRows: 3,
-                    },
-                  }}
-                  // <<< max event show
-                  headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: '',
-                  }}
-                  initialView="dayGridMonth"
-                  nowIndicator={true}
-                  editable={true}
-                  selectable={true}
-                  selectMirror={true}
-                  resources={[
-                    { id: 'a', title: 'Auditorium A' },
-                    { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-                    { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-                  ]}
-                  // initialEvents={[
-                  //   { title: 'event 1', start: new Date(), resourceId: 'a' },
-                  // ]}
-                  // events={[
-                  //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
-                  //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
-                  // ]}
-
-                  events={exerciseList.map((exercise, index) => {
-                    return {
-                      title: exercise.name,
-                      date: exercise.date,
-                      resourceId: 'a',
-                    };
-                  })}
-                />
-              </div>
-            </FullCalendarLayout>
+                    events={exerciseList.map((exercise, index) => {
+                      return {
+                        title: exercise.name,
+                        date: exercise.date,
+                        resourceId: 'a',
+                      };
+                    })}
+                  />
+                </div>
+              </FullCalendarLayout>
+            </Box>
           </Grid>
         </Grid>
       </div>
@@ -365,7 +412,7 @@ const ExercisePage = () => {
       {/* === page 3 ========================================================= */}
       {/* =================================================================== */}
       <div
-        id="page-2"
+        id="page-3"
         style={{
           paddingLeft: '200px',
           paddingRight: '200px',

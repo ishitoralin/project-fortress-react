@@ -47,7 +47,7 @@ function SUICardList({ type, list, rowRWD = [6, 6, 4, 4, 3] }) {
       }}
     >
       <Grid container>
-        {list.map((item, i) => (
+        {list?.map((item, i) => (
           <Grid
             item
             xs={rowRWD[0]}
@@ -76,14 +76,9 @@ function MyCard({ type, item }) {
   }
 
   return (
-    <Card sx={{ width: '100%', borderRadius: '20px' }}>
-      <CardMedia component="img" height="140" image={`${img}`} alt="Image" />
+    <Card sx={{ width: '100%', height: '220px', borderRadius: '20px' }}>
+      <CardMedia component="img" height="150" image={`${img}`} alt="Image" />
       <CardContent>
-        {/* <Typography variant="h6" component="div">
-          {item.img}
-        </Typography> */}
-        {/* for fake data */}
-        {/* <Typography color="text.secondary">{item.description}</Typography> */}
         <Typography color="text.secondary" sx={{ textAlign: 'center' }}>
           {name}
         </Typography>
