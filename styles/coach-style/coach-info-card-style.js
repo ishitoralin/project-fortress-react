@@ -20,7 +20,7 @@ export const coachCardBoxStyle = {
   width: '100%',
   height: '100%',
   top: '-10%',
-  left: '-10%',
+  left: '-34%',
   transition: '.5s',
   animation: `${ANIMATIME} move-card forwards`,
   '@keyframes move-card': {
@@ -32,11 +32,11 @@ export const coachCardBoxStyle = {
 
 export const imageBoxStyle = {
   position: 'absolute',
-  left: '20%',
-  top: '23%',
+  left: '15%',
+  top: '25%',
   transform: 'rotateZ(-10deg)',
-  width: '55%',
-  height: '55%',
+  width: '50%',
+  height: '50%',
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   cursor: 'pointer',
   transition: '.5s',

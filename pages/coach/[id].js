@@ -19,7 +19,7 @@ const CoachPage = () => {
   return (
     <Box
       sx={{
-        // p: 4,
+        py: 4,
         position: 'relative',
         width: '100%',
         // height: '100%',
@@ -39,32 +39,39 @@ const CoachPage = () => {
         backgroundAttachment: 'fixed',
       }}
     >
-      <Container sx={{}}>
+      <Container
+        sx={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          flexWrap: 'wrap',
+        }}
+      >
         {/* <CUICard sx={{ bgcolor: 'rgba(220, 220, 220, 0.95)', height: '90vh' }}> */}
         <Box
           sx={{
             padding: 2,
             display: 'inline-block',
             verticalAlign: 'top',
+            // width: 0,
             position: 'sticky',
             top: '1rem',
-            border: '2px solid grey',
+            // border: '2px solid grey',
             aspectRatio: '9 / 12',
             height: 'calc(100vh - var(--nav-height) - var(--footer-height))',
           }}
         >
+          <Box sx={imageBoxStyle}>
+            <Image
+              fill
+              alt="coach-img"
+              style={{
+                objectFit: 'cover',
+                objectPosition: 'top center',
+              }}
+              src={'/coach-img/emily.jpg'}
+            ></Image>
+          </Box>
           <Box sx={cardGridStyle}>
-            <Box sx={imageBoxStyle}>
-              <Image
-                fill
-                alt="coach-img"
-                style={{
-                  objectFit: 'cover',
-                  objectPosition: 'top center',
-                }}
-                src={'/coach-img/emily.jpg'}
-              ></Image>
-            </Box>
             <Box sx={coachCardBoxStyle}>
               <Box sx={cardBehindStyle}>
                 <Typography sx={cardTitleStyle} variant="h5">
@@ -79,11 +86,13 @@ const CoachPage = () => {
         </Box>
         <Box
           sx={{
-            width: '50%',
+            // width: '60%',
+            flexGrow: 1,
+            zIndex: 5,
             // height: '200vh',
             // marginLeft: '10%',
-            border: '2px solid tan',
-            display: 'inline-block',
+            // border: '2px solid tan',
+            // display: 'inline-block',
           }}
         >
           {[...Array(10)].map((value, index) => (
