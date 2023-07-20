@@ -1,10 +1,15 @@
-import { Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { useState } from 'react';
 
+import { Box, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 
+import React from 'react';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+
 import LessonCard from './lesson-card';
-import WhiteTheme from '@/context/Theme/white-theme';
+import UiButton from './UiButton';
 
 const lessonData = [
   {
@@ -62,76 +67,39 @@ const lessonData = [
 ];
 
 const rightSideStyle = {
+  // position: 'relative',
   width: '65%',
-  // bgcolor: 'silver',
   borderRadius: '3px',
-  // padding: '2rem',
 };
-
-const UiButton = (props) => (
-  <ToggleButton
-    size="large"
-    {...props}
-    sx={{
-      bgcolor: '#eee',
-      color: 'var(--main-black)',
-      borderTopLeftRadius: '3px !important',
-      borderTopRightRadius: '3px !important',
-      borderBottomRightRadius: '3px !important',
-      borderBottomLeftRadius: '3px !important',
-      paddingBlock: '.5rem',
-      paddingInline: '1.5rem',
-      fontWeight: 'bold',
-      marginRight: '1rem',
-      transition: '.2s',
-      ':hover': {
-        bgcolor: '#bbb',
-      },
-      '&.Mui-selected': {
-        bgcolor: 'var(--main-red)',
-        color: 'white',
-      },
-      '&.Mui-selected:hover': {
-        bgcolor: 'var(--main-red)',
-        filter: 'brightness(90%)',
-      },
-
-      ...props.sx,
-    }}
-  >
-    {props.children}
-  </ToggleButton>
-);
 
 const headerStyle = {
   position: 'sticky',
+  top: '1rem',
   display: 'flex',
   alignItems: 'center',
   width: '100%',
-  // boxSizing: 'content-box',
   padding: '1rem',
-  // height: '4rem',
-  // paddingTop: '2rem',
   marginBottom: '1rem',
-  // boxShadow: '0 10px 0 10px silver, 0 20px 5px #333',
   boxShadow: '0 3px 5px #555',
-  // transform: 'translateY(-2rem)',
   backdropFilter: 'blur(5px)',
-  top: '2rem',
   bgcolor: 'rgba(180, 180, 180, .95)',
   borderRadius: '3px',
   zIndex: 2,
 };
 
-const RightSide = () => (
-  <Box sx={rightSideStyle}>
-    <WhiteTheme>
+const RightSide = () => {
+  const [location, setLocation] = useState('Taipei');
+  const [displayMode, setDisplayMode] = useState('list');
+
+  return (
+    <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
         <Box>
           <ToggleButtonGroup
-            value={'Taipei'}
+            value={location}
             exclusive
-            aria-label="lesson location"
+            aria-label="lessonlocation"
+            onChange={(event, value) => value !== null && setLocation(value)}
           >
             <UiButton value="Taipei" aria-label="Taipei">
               台北
@@ -145,36 +113,84 @@ const RightSide = () => (
           </ToggleButtonGroup>
         </Box>
         <ToggleButtonGroup
-          value={'list'}
+          value={displayMode}
           exclusive
-          aria-label="lesson location"
+          aria-label="displayMode"
           sx={{ marginLeft: 'auto' }}
+          onChange={(event, value) => value !== null && setDisplayMode(value)}
         >
-          <UiButton value="list" sx={{ paddingInline: '.7rem' }}>
+          <UiButton
+            value="list"
+            aria-label="list"
+            sx={{ paddingInline: '.7rem' }}
+          >
             <FormatListBulletedOutlinedIcon size="small" />
           </UiButton>
           <UiButton
             value="calendar"
+            aria-label="calendar"
             sx={{ paddingInline: '.7rem', marginRight: 0 }}
           >
             <CalendarMonthIcon />
           </UiButton>
         </ToggleButtonGroup>
       </Box>
-    </WhiteTheme>
-    {[
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-      ...lessonData,
-    ].map((lesson, index) => (
-      <LessonCard key={index} lesson={lesson} />
-    ))}
-  </Box>
-);
+      {displayMode === 'list' ? (
+        [
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+          ...lessonData,
+        ].map((lesson, index) => <LessonCard key={index} lesson={lesson} />)
+      ) : (
+        <>
+          <Box
+            sx={{
+              position: 'sticky',
+              top: '7rem',
+              bgcolor: '#333',
+              borderRadius: '5px',
+              padding: '2%',
+            }}
+          >
+            <FullCalendar
+              aspectRatio={1.7}
+              plugins={[dayGridPlugin]}
+              initialView="dayGridMonth"
+              dayMaxEventRows={2}
+              // dateAlignment
+              eventColor="var(--steel-grey)"
+              // eventShortHeight={}
+              events={[
+                {
+                  id: 1,
+                  title: 'asean',
+                  start: '2023-07-12 14:00:00',
+                  end: '2023-07-12 16:00:00',
+                },
+                {
+                  id: 2,
+                  title: 'seanseanseanseanseansean',
+                  start: '2023-07-12',
+                  url: '/',
+                },
+                {
+                  id: 3,
+                  title: 'tsean',
+                  start: '2023-07-12',
+                },
+              ]}
+              // headerToolbar={false}
+            />
+          </Box>
+        </>
+      )}
+    </Box>
+  );
+};
 
 export default RightSide;

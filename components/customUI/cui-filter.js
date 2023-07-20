@@ -4,7 +4,7 @@ import { styled } from '@mui/material/styles';
 import CUIButton from './cui-button';
 
 const Item = styled(Box)(() => ({
-  padding: '1.5rem',
+  padding: '1.2rem 1.5rem',
 }));
 
 const Filter = ({ noButton = false, ...props }) => {
