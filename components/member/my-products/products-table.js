@@ -31,19 +31,19 @@ export default function ProductsTable({ data }) {
         <TableBody>
           {data?.rows.map((row) => (
             <TableRow
-              href="/member"
-              component={Link}
               className={`${tableStyles['table-body-row']}`}
               key={row.sid}
               //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell data-title="商品名稱 : ">{row.name}</TableCell>
               <TableCell>
-                <img
-                  className={`${tableStyles['table-td-img']}`}
-                  src={`http://localhost:3000/static/member/SE_00501.webp`}
-                  alt=""
-                />
+                <Link href={`/product`}>
+                  <img
+                    className={`${tableStyles['table-td-img']}`}
+                    src={`/static/member/SE_00501.webp`}
+                    alt=""
+                  />
+                </Link>
               </TableCell>
               <TableCell data-title="商品價格 : ">{row.price}$</TableCell>
               <TableCell
