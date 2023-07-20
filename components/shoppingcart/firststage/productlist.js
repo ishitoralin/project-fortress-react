@@ -1,5 +1,6 @@
 /* 商品列表、總計欄、結帳按鈕，之後用fetch從DB抓資料 */
 import React from 'react';
+import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -59,19 +60,24 @@ const fakeDataForCart = {
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
-  const [cartItems, setCartItems] = useState(fakeDataForCart.products);
+  const [cartItems, setCartItems] = useState([]);
+  useEffect(() => {
+    //fetch()
+    setCartItems(fakeDataForCart.products);
+  }, []);
+
   useEffect(() => {
     let totalPrice = 0;
     let totalQuantity = 0;
-    if (fakeDataForCart) {
-      for (let i = 0; i < fakeDataForCart.products.length; i++) {
-        let price = parseInt(fakeDataForCart.products[i].price);
-        let quantity = parseInt(fakeDataForCart.products[i].quantity);
+    if (cartItems) {
+      for (let i = 0; i < cartItems.length; i++) {
+        let price = parseInt(cartItems[i].price);
+        let quantity = parseInt(cartItems[i].quantity);
         totalPrice += price * quantity;
       }
 
-      for (let i = 0; i < fakeDataForCart.products.length; i++) {
-        let Quantity = parseInt(fakeDataForCart.products[i].quantity);
+      for (let i = 0; i < cartItems.length; i++) {
+        let Quantity = parseInt(cartItems[i].quantity);
         totalQuantity += Quantity;
       }
     }
@@ -79,10 +85,32 @@ export default function ProductList(props) {
     setFinalPrice(totalPrice);
     setFinalQuantity(totalQuantity);
   }, [cartItems]);
-  return fakeDataForCart ? (
+
+  const minus = (cartItems, id) => {
+    return cartItems.map((v, i) => {
+      if (v.id === id) return { ...v, quantity: v.quantity - 1 };
+      return { ...v };
+    });
+  };
+
+  const add = (cartItems, id) => {
+    return cartItems.map((v, i) => {
+      if (v.id === id) return { ...v, quantity: v.quantity + 1 };
+      return { ...v };
+    });
+  };
+
+  const remove = (cartItems, id) => {
+    console.log(cartItems, id);
+    return cartItems.filter((v) => {
+      return v.id !== id;
+    });
+  };
+
+  return cartItems.length > 0 ? (
     <>
       <div>
-        {fakeDataForCart.products.map((v, i) => {
+        {cartItems.map((v, i) => {
           return (
             <div
               /* 判斷商品有多少樣，奇數套用樣式1，偶數套用樣式2 */
@@ -106,9 +134,10 @@ export default function ProductList(props) {
                   sx={{ color: 'black' }}
                   onClick={() => {
                     if (v.quantity > 1) {
-                      const updateItems = [...cartItems];
-                      updateItems[i].quantity = v.quantity - 1;
-                      setCartItems(updateItems);
+                      setCartItems(minus(cartItems, v.id));
+                    }
+                    if (v.quantity === 1) {
+                      setCartItems(remove(cartItems, v.id));
                     }
                   }}
                 >
@@ -117,22 +146,18 @@ export default function ProductList(props) {
                 <input
                   type="number"
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
-                  defaultValue={v.quantity}
-                  // value={quantity}
+                  // defaultValue={v.quantity}
+                  value={v.quantity}
                   onChange={(e) => {
-                    const updateItems = [...cartItems];
-                    // console.log(typeof updateItems);
-                    v.quantity = parseInt(e.target.value);
-                    updateItems[i].quantity = v.quantity;
-                    setFinalQuantity(updateItems);
+                    // const updateItems = [...cartItems];
+                    // v.quantity = parseInt(e.target.value);
+                    // setFinalQuantity(update(cartItems, v.id));
                   }}
                 />
                 <Button
                   sx={{ color: 'black' }}
                   onClick={() => {
-                    const updateItems = [...cartItems];
-                    updateItems[i].quantity = v.quantity + 1;
-                    setCartItems(updateItems);
+                    setCartItems(add(cartItems, v.id));
                   }}
                 >
                   <AddIcon></AddIcon>
@@ -146,9 +171,7 @@ export default function ProductList(props) {
                 <Button
                   sx={{ color: 'black' }}
                   onClick={() => {
-                    setCartItems((prevItems) => {
-                      prevItems.filter((item) => item.id !== v.id);
-                    });
+                    setCartItems(remove(cartItems, v.id));
                   }}
                 >
                   <DeleteOutlineIcon
@@ -190,7 +213,9 @@ export default function ProductList(props) {
                 variant="contained"
                 onClick={props.onClick}
               >
-                返回首頁
+                <Link href="/" sx={{ width: '100%' }}>
+                  返回首頁
+                </Link>
               </Button>
             </WhiteTheme>
           </div>
@@ -208,7 +233,7 @@ export default function ProductList(props) {
                 variant="contained"
                 onClick={props.onClick}
               >
-                確認購買
+                <Link href="/shoppingcart/secondstage">確認購買</Link>
               </Button>
             </RedTheme>
           </div>
@@ -216,6 +241,6 @@ export default function ProductList(props) {
       </div>
     </>
   ) : (
-    '尚未購買商品'
+    <div className={styles.noItem}>尚未選取商品</div>
   );
 }
