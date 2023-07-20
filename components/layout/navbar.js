@@ -248,7 +248,7 @@ export default function Navbar() {
                 <User />
               </Link>
               <Item
-                href="javascript:;"
+                href="/"
                 onClick={() => {
                   logout();
                 }}

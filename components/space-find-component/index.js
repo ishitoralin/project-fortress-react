@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import { mainContentStyle } from '@/styles/lesson-style/lesson-index';
 import { pointer } from 'd3';
 import { geoPath, geoMercator } from 'd3-geo';
 import { select } from 'd3-selection';
@@ -11,27 +10,42 @@ import styles from './space-find-component.module.css';
 import GymTypeSelect from './gym-type-select';
 import axios from 'axios';
 import { Box, Paper, Typography } from '@mui/material';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
 export default function SpaceFindComponent() {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
-  const [area, setArea] = useState(null);
   const [gymData, setGymData] = useState([]);
   const [gymType, setgymType] = useState('棒球場');
-  const searchGymData = async () => {
+  const searchGymData = async (city) => {
     setGymData(() => {
       return [];
     });
 
     try {
       console.time('start');
-      let city;
-      if (area?.properties?.COUNTYNAME) {
-        city = area.properties.COUNTYNAME.replace('台', '臺');
-      }
+      city = city.replace('台', '臺');
+      console.log(
+        `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`
+      );
       const res = await axios.get(
         `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`
       );
-      setGymData((prev) => res.data);
+
+      res.data.map(async (el, i) => {
+        try {
+          await fetch(el.Photo1, { mode: 'no-cors' });
+        } catch (err) {
+          res.data.forEach((el, i2) => {
+            if (i === i2) {
+              res.data[i].Photo1 = '';
+              console.log(res.data[i].Name);
+            }
+          });
+        }
+      });
+      console.log(res.data);
+      setGymData(() => res.data);
       console.timeEnd('start');
     } catch (error) {
       console.log(error);
@@ -56,37 +70,23 @@ export default function SpaceFindComponent() {
     hide: { opacity: 0 },
   };
   const renderMap = () => {
-    let countyname = area?.properties?.COUNTYNAME || '';
-    // const svg = select(myRef.current);
-    // console.log(data);
-    // svg.selectAll('.country').data(data.features)
-    const { width } = containerRef.current.getBoundingClientRect();
-    // console.log(width);
-    // console.log(data);
-    const countries = topojson.feature(data, data.objects.layer1);
-    // console.log(countries);
+    let countyname = '';
 
+    const { width } = containerRef.current.getBoundingClientRect();
+
+    const countries = topojson.feature(data, data.objects.layer1);
     // const projection = geoMercator().center([123, 24]).scale(5000);
-    // const projection = geoMercator()
-    //   .center([121.5173399, 25.0475613])
-    //   .scale(50000);
+    // const projection = geoMercator().center([121.5173399, 25.0475613]).scale(50000);
 
     const projection = geoMercator()
       .center([123, 24])
       .fitSize([(width * 1.6) / 2, (width * 1.5) / 2], countries);
     //原始版
-
-    // const projection = geoMercator()
-    //   .center([124, 24.097239])
-    //   .fitSize([width / 3, width / 3], countries);
-
+    // const projection = geoMercator().center([124, 24.097239]).fitSize([width / 3, width / 3], countries);
     // const projection = geoMercator().center([121.5, 25.03]).scale(30000);
     const geoGenerator = geoPath().projection(projection);
-    //const container = select(containerRef.current); 先選中外層DIV
-
     const svg = select(svgRef.current); //先選中svg
     svg.on('click', function (e, d) {
-      setArea(null);
       setGymData([]);
       countyname = '';
       select(this)
@@ -94,7 +94,7 @@ export default function SpaceFindComponent() {
         .selectAll('path')
         .transition()
         .attr('transform', 'translate(0 , 0)')
-        .style('fill', 'black')
+        .style('fill', '#0a0a0a')
         .style('stroke', 'white');
     });
     svg
@@ -109,21 +109,19 @@ export default function SpaceFindComponent() {
       .attr('d', (feature) => {
         return geoGenerator(feature);
       }) //在每個個別的元素上加上自己的d和路徑數據
-      .style('fill', 'black') //填滿黑色
+      .style('fill', '#0a0a0a') //填滿黑色
       .style('stroke', 'white') //填滿白色
       .style('cursor', 'pointer') //游標提示
       .on('click', function (e, d) {
         e.stopPropagation();
-        console.log(d.properties.COUNTYNAME, area?.properties?.COUNTYNAME);
         if (d.properties.COUNTYNAME !== countyname) {
-          //TODO換成真的找資料
-
-          searchGymData();
-          //TODO END
-          setArea({ ...d });
+          searchGymData(d.properties.COUNTYNAME);
           countyname = d.properties.COUNTYNAME;
-          svg.selectAll('path').style('fill', 'black').style('stroke', 'white');
-          select(this).style('fill', 'red').style('stroke', 'red');
+          svg
+            .selectAll('path')
+            .style('fill', '#0a0a0a')
+            .style('stroke', 'white');
+          select(this).style('fill', '#ea0000').style('stroke', '#ea0000');
           svg
             .transition()
             .selectAll('path')
@@ -134,10 +132,12 @@ export default function SpaceFindComponent() {
               }) scale(3)`
             );
         } else {
-          setArea(null);
           setGymData([]);
           countyname = '';
-          svg.selectAll('path').style('fill', 'black').style('stroke', 'white');
+          svg
+            .selectAll('path')
+            .style('fill', '#0a0a0a')
+            .style('stroke', 'white');
           svg
             .select('g')
             .selectAll('path')
@@ -153,7 +153,6 @@ export default function SpaceFindComponent() {
   useEffect(() => {
     renderMap();
     // searchGymData();
-
     window.addEventListener('resize', cleanMap);
     window.addEventListener('resize', renderMap);
     return () => {
@@ -166,60 +165,64 @@ export default function SpaceFindComponent() {
     cleanMap();
     renderMap();
   }, [gymType]);
-  useEffect(() => {
-    console.log(area?.properties?.COUNTYNAME);
-  });
+
   return (
-    <Box {...mainContentStyle}>
-      <div className={`${styles['section-container']}`}>
+    <div className={`${styles['section-container']}`}>
+      <div className={`${styles['content-container']}`}>
         <GymTypeSelect value={gymType} setgymType={setgymType} />
-        <div className={`${styles['content-container']}`}>
-          <div className={`${styles['map-container']}`} ref={containerRef}>
-            <svg className={`${styles['map-svg']}`} ref={svgRef}></svg>
-          </div>
-          {gymData.length > 0 ? (
-            <motion.div
-              className={`${styles['info']}`}
-              variants={container}
-              initial="hidden"
-              animate="show"
-              exit="hide"
-            >
-              {gymData.map((el) => {
-                const { GymID, Name, OperationTel, Address, Photo1, LatLng } =
-                  el;
-                return (
-                  <Paper
-                    component={motion.div}
-                    className={`${styles['info-card']}`}
-                    key={GymID}
-                    variants={item}
-                  >
-                    <Box className={`${styles['img-wrapper']}`}>
-                      <img
-                        // crossOrigin="anonymous"
-                        src={Photo1}
-                        alt="場館圖片"
-                      />
-                    </Box>
-                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
-                      名稱:
-                      <Typography variant="body1">{Name}</Typography>
-                    </Typography>
-                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
-                      電話:
-                      <Typography variant="body1">{OperationTel}</Typography>
-                    </Typography>
-                    <Typography variant="h6" sx={{ marginBottom: '10px' }}>
-                      地址:<Typography variant="body1">{Address}</Typography>
-                    </Typography>
-                  </Paper>
-                );
-              })}
-            </motion.div>
-          ) : undefined}
+        <div className={`${styles['map-container']}`} ref={containerRef}>
+          <svg className={`${styles['map-svg']}`} ref={svgRef}></svg>
         </div>
+        {gymData.length > 0 ? (
+          <motion.div
+            className={`${styles['info']}`}
+            variants={container}
+            initial="hidden"
+            animate="show"
+            exit="hide"
+          >
+            {gymData.map((el) => {
+              const { GymID, Name, OperationTel, Address, Photo1, LatLng } = el;
+              return (
+                <Paper
+                  component={motion.div}
+                  className={`${styles['info-card']}`}
+                  key={GymID}
+                  variants={item}
+                >
+                  <Box className={`${styles['info-content']}`}>
+                    <Typography
+                      variant="h5"
+                      sx={{ marginBottom: '10px', fontWeight: '900' }}
+                    >
+                      {Name}
+                    </Typography>
+                    <Box sx={{ display: 'flex' }}>
+                      <PhoneAndroidIcon />
+                      <Typography variant="body1" sx={{ marginBottom: '10px' }}>
+                        {OperationTel}
+                      </Typography>
+                    </Box>
+                    <Box sx={{ display: 'flex' }}>
+                      <LocationOnIcon />
+                      <Typography variant="body1" sx={{ marginBottom: '10px' }}>
+                        {Address}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box className={`${styles['img-wrapper']}`}>
+                    <img
+                      // crossOrigin="anonymous"
+                      src={Photo1}
+                      alt="場館圖片"
+                    />
+                  </Box>
+                </Paper>
+              );
+            })}
+          </motion.div>
+        ) : undefined}
       </div>
-    </Box>
+    </div>
   );
 }
