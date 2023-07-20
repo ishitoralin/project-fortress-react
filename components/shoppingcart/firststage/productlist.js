@@ -9,6 +9,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 //Import button
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
+import SCmodal from '../SCmodal';
 
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
@@ -61,6 +62,17 @@ export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
   const [cartItems, setCartItems] = useState([]);
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+    console.log(open);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   useEffect(() => {
     //fetch()
     setCartItems(fakeDataForCart.products);
@@ -101,14 +113,26 @@ export default function ProductList(props) {
   };
 
   const remove = (cartItems, id) => {
-    console.log(cartItems, id);
     return cartItems.filter((v) => {
       return v.id !== id;
     });
   };
 
+  const update = (cartItems, id, value) => {
+    return cartItems.map((v, i) => {
+      if (v.id === id) return { ...v, quantity: value };
+      return { ...v };
+    });
+  };
+
   return cartItems.length > 0 ? (
     <>
+      <div>
+        <Button variant="outlined" onClick={handleClickOpen}>
+          213123
+        </Button>
+        <SCmodal>213123</SCmodal>
+      </div>
       <div>
         {cartItems.map((v, i) => {
           return (
@@ -146,12 +170,13 @@ export default function ProductList(props) {
                 <input
                   type="number"
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
-                  // defaultValue={v.quantity}
                   value={v.quantity}
                   onChange={(e) => {
-                    // const updateItems = [...cartItems];
-                    // v.quantity = parseInt(e.target.value);
-                    // setFinalQuantity(update(cartItems, v.id));
+                    const value = parseInt(e.target.value);
+                    if (isNaN(value)) {
+                      return;
+                    }
+                    setCartItems(update(cartItems, v.id, value));
                   }}
                 />
                 <Button
