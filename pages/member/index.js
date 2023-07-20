@@ -179,13 +179,16 @@ export default function Index() {
         <Box className={styles['button-container']}>
           <CUIButton
             sx={{ marginRight: '10px' }}
+            color={'main_white'}
             onClick={() => {
               formik.setValues(data);
             }}
           >
             重置
           </CUIButton>
-          <CUIButton type="submit">儲存並變更</CUIButton>
+          <CUIButton type="submit" color={'steel_grey'}>
+            儲存並變更
+          </CUIButton>
         </Box>
       </form>
     </div>

@@ -71,7 +71,6 @@ export default function SpaceFindComponent() {
   };
   const renderMap = () => {
     let countyname = '';
-
     const { width } = containerRef.current.getBoundingClientRect();
 
     const countries = topojson.feature(data, data.objects.layer1);
