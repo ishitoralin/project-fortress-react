@@ -5,9 +5,12 @@ import {
   flexRowSpaceBetween,
   containerStyle,
   filterStyle,
+  showFilterStyle,
 } from '@/styles/lesson-style/lesson-index-style';
 
-import { Box, Chip, Container, Typography } from '@mui/material';
+import { Box, Chip, Container, Typography, IconButton } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import Banner from '@/components/lesson/banner';
 import RightSide from '@/components/lesson/rightside';
 
@@ -17,10 +20,31 @@ import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
+const filterIconStyle = {
+  visibility: 'hidden',
+  '@media (max-width: 1000px)': {
+    visibility: 'visible',
+    transition: '.2s',
+    ':hover': {
+      transform: 'scale(1.2)',
+    },
+  },
+};
+
 const LessionPage = () => {
   const [tags, setTags] = useState([]);
   const [tagsMap, setTagsMap] = useState();
   const [selectTags, setSelecTags] = useState([]);
+
+  const [filterShow, setFilterShow] = useState(false);
+
+  const showFilter = () => {
+    setFilterShow(true);
+  };
+
+  const closeFilter = () => {
+    setFilterShow(false);
+  };
 
   useEffect(() => {
     (async () => {
@@ -49,7 +73,16 @@ const LessionPage = () => {
           </Typography>
           <Box sx={flexRowSpaceBetween}>
             <CUIFilter
-              sx={filterStyle}
+              sx={
+                filterShow
+                  ? { ...filterStyle, ...showFilterStyle }
+                  : filterStyle
+              }
+              filterIcon={
+                <IconButton sx={filterIconStyle} onClick={closeFilter}>
+                  <CancelIcon />
+                </IconButton>
+              }
               color={'steel_grey'}
               label="篩選器"
               items={[
@@ -104,7 +137,7 @@ const LessionPage = () => {
                 <CUISlider key={'slider'} label="價格範圍" />,
               ]}
             />
-            <RightSide />
+            <RightSide showFilter={showFilter} />
           </Box>
         </Container>
       </Box>

@@ -2,10 +2,9 @@ import getBrickBackground from '@/libs/getBrickBackground';
 
 export const mainContentStyle = {
   width: '100%',
-  backdropFilter: 'blur(50px)',
+  position: 'relative',
   color: 'white',
-  bgcolor: 'rgba(85, 85, 85, .8)',
-  boxShadow: '0 -5px 15px #333',
+  bgcolor: 'rgb(85, 85, 85)',
   backgroundImage: getBrickBackground(),
   backgroundAttachment: 'fixed',
 };
@@ -20,6 +19,17 @@ export const containerStyle = {
   p: '2rem',
 };
 
+const filterMediaQueryStyle = {
+  position: 'fixed',
+  width: { xs: '100%', sm: '50%' },
+  maxHeight: 'unset',
+  transition: { xs: '.5s', sm: '1s' },
+  height: 'calc(100vh - var(--nav-height))',
+  top: 'var(--nav-height)',
+  left: '-100%',
+  zIndex: 10,
+};
+
 export const filterStyle = {
   width: '27%',
   maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
@@ -27,11 +37,12 @@ export const filterStyle = {
   position: 'sticky',
   top: '1rem',
   bgcolor: '#eee',
+  '@media (max-width: 1000px)': filterMediaQueryStyle,
+};
+
+export const showFilterStyle = {
   '@media (max-width: 1000px)': {
-    position: 'absolute',
-    width: '90%',
-    height: '100vh',
-    top: 0,
-    left: '-90%',
+    ...filterMediaQueryStyle,
+    left: 0,
   },
 };

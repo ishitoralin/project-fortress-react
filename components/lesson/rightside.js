@@ -1,8 +1,9 @@
 import { useState } from 'react';
 
-import { Box, ToggleButtonGroup } from '@mui/material';
+import { Box, IconButton, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 import React from 'react';
 import FullCalendar from '@fullcalendar/react';
@@ -67,7 +68,6 @@ const lessonData = [
 ];
 
 const rightSideStyle = {
-  // position: 'relative',
   width: '65%',
   '@media (max-width: 1000px)': {
     width: '100%',
@@ -90,7 +90,25 @@ const headerStyle = {
   zIndex: 2,
 };
 
-const RightSide = () => {
+const filterIconStyle = {
+  visibility: 'hidden',
+  position: 'absolute',
+  top: '120%',
+  left: '.5rem',
+  bgcolor: 'var(--steel-grey)',
+  color: 'white',
+  borderRadius: '50%',
+  transition: 'transform .2s',
+  ':hover': {
+    transform: 'scale(1.2)',
+    bgcolor: 'var(--steel-grey)',
+  },
+  '@media (max-width: 1000px)': {
+    visibility: 'visible',
+  },
+};
+
+const RightSide = ({ showFilter }) => {
   const [location, setLocation] = useState('Taipei');
   const [displayMode, setDisplayMode] = useState('list');
 
@@ -137,6 +155,9 @@ const RightSide = () => {
             <CalendarMonthIcon />
           </UiButton>
         </ToggleButtonGroup>
+        <IconButton size="large" sx={filterIconStyle} onClick={showFilter}>
+          <FilterAltIcon />
+        </IconButton>
       </Box>
       {displayMode === 'list' ? (
         [

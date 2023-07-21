@@ -167,7 +167,7 @@ export const priceTextStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    left: {xs: '10%', sm: '-17.5%'},
+    left: { xs: '10%', sm: '-17.5%' },
     bottom: 0,
     width: '130%',
     borderBottom: '3px solid var(--main-red)',

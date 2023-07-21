@@ -63,6 +63,7 @@ const bannerStyle = {
   height: '80vmin',
   minHeight: '300px',
   minWidth: '380px',
+  zIndex: 0,
 };
 
 const arrowStyle = {
@@ -117,7 +118,7 @@ const lessonInfoBoxStyle = {
   position: 'absolute',
   inset: { xs: '10% 5%', sm: '15% 10%', md: '20% 15%' },
   padding: { xs: '1% 2%', sm: '2% 3%', md: '3% 5%' },
-  border: '2px solid white',
+  border: { xs: 'none', sm: '2px solid white' },
   zIndex: 1,
   ':before': {
     top: '-20%',
@@ -139,17 +140,18 @@ const lessonTitleStyle = {
 
 const lessonDescriptStyle = {
   color: 'white',
-  marginTop: '1rem',
-  height: '50%',
+  marginTop: '0.5rem',
+  maxHeight: '60%',
+  height: 'fit-content',
   overflow: 'hidden',
-  paddingInline: { xs: '2.5rem', md: '6rem' },
+  paddingInline: '2rem',
   zIndex: 1,
 };
 
 const buttonStyle = {
   position: 'absolute',
-  left: { xs: '3%', sm: '10%' },
-  bottom: { xs: '3%', sm: '10%' },
+  left: { xs: '3%', sm: '7%' },
+  bottom: { xs: '3%', sm: '7%' },
   boxShadow: 'none',
   borderWidth: '3px',
   borderRadius: '30px',
