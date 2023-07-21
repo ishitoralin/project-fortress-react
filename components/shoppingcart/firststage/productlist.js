@@ -1,6 +1,5 @@
 /* 商品列表、總計欄、結帳按鈕，之後用fetch從DB抓資料 */
 import React from 'react';
-import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
@@ -10,8 +9,6 @@ import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import Dialog from '@/components/shoppingcart/Dialog';
 
-const WhiteTheme = createColorTheme('#FFF');
-const RedTheme = createColorTheme('#FF0000');
 const fakeDataForCart = {
   products: [
     {
@@ -32,6 +29,30 @@ const fakeDataForCart = {
     },
     {
       id: 3,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 1,
+    },
+    {
+      id: 4,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 1,
+    },
+    {
+      id: 4,
+      photo: 'photo',
+      name: '貓貓裝',
+      detail: 'neko neko',
+      price: 600,
+      quantity: 1,
+    },
+    {
+      id: 4,
       photo: 'photo',
       name: '貓貓裝',
       detail: 'neko neko',
@@ -230,48 +251,7 @@ export default function ProductList(props) {
           <div className={`${styles.countComponent}`}>NTD </div>
         </div>
       </div>
-      {/* 結帳按鈕 */}
-      <div>
-        <div className={`${styles.checkButtonContainer}`}>
-          <div className={`${styles.checkButtonComponent}`}>
-            <WhiteTheme>
-              <Button
-                sx={{
-                  width: '100%',
-                  ':hover': {
-                    opacity: '.7',
-                    bgcolor: 'var(--light-gray2)',
-                  },
-                }}
-                variant="contained"
-                onClick={props.onClick}
-              >
-                <Link href="/" sx={{ width: '100%' }}>
-                  返回首頁
-                </Link>
-              </Button>
-            </WhiteTheme>
-          </div>
-          <div className={`${`${styles.checkButtonComponent}`}`}>
-            <RedTheme>
-              <Button
-                sx={{
-                  width: '100%',
-                  ':hover': {
-                    opacity: '.7',
-                    bgcolor: 'var(--main-red)',
-                  },
-                }}
-                // color={props.color}
-                variant="contained"
-                onClick={props.onClick}
-              >
-                <Link href="/shoppingcart/secondstage">確認購買</Link>
-              </Button>
-            </RedTheme>
-          </div>
-        </div>
-      </div>
+
     </>
   ) : (
     <div className={styles.noItem}>尚未選取商品</div>

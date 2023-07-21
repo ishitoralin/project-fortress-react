@@ -22,14 +22,16 @@ import {
 
 export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const spaceBetween = 0;
+  const slidesPerView = 3;
   return (
     <>
       <div>
         <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
         <div className={`${styles.recommendProductContainer}`}></div>
         <Swiper
-          spaceBetween={50}
-          slidesPerView={4}
+          spaceBetween={spaceBetween}
+          slidesPerView={slidesPerView}
           onSlideChange={() => console.log('slide change')}
           onSwiper={(swiper) => console.log(swiper)}
         >
@@ -37,7 +39,7 @@ export default function RecommendProduct(props) {
             return (
               <SwiperSlide key={i}>
                 <div className={`${styles.recommendProductComponent}`} key={i}>
-                  <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                  <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
                     <CardMedia
                       sx={{ height: '140px' }}
                       // image={`/SCphoto/capoo${i}.png`}
@@ -100,8 +102,8 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
-            spaceBetween={50}
-            slidesPerView={4}
+            spaceBetween={spaceBetween}
+            slidesPerView={slidesPerView}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
@@ -112,7 +114,7 @@ export default function RecommendProduct(props) {
                     className={`${styles.recommendProductComponent}`}
                     key={i}
                   >
-                    <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                    <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
                       <CardMedia
                         sx={{ height: '140px' }}
                         // image={`/SCphoto/capoo${i}.png`}
@@ -176,8 +178,8 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
-            spaceBetween={50}
-            slidesPerView={4}
+            spaceBetween={spaceBetween}
+            slidesPerView={slidesPerView}
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
@@ -188,7 +190,7 @@ export default function RecommendProduct(props) {
                     className={`${styles.recommendProductComponent}`}
                     key={i}
                   >
-                    <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                    <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
                       <CardMedia
                         sx={{ height: '140px' }}
                         // image={`/SCphoto/capoo${i}.png`}
