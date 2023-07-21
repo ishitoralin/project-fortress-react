@@ -1,7 +1,7 @@
 .section-container {
   position: relative;
   width: 100%;
-  padding: 64px;
+  padding: 20px 64px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,10 +14,14 @@
   display: flex;
   align-self: center;
   justify-content: center;
+  background: var(--main-white);
+  padding: 15px;
+  border-radius: 3px;
 }
 .gym-type-select {
+  position: relative;
+  width: 150px;
   z-index: 2;
-  margin-bottom: 10px;
 }
 .map-container {
   width: 80%;
@@ -98,7 +102,7 @@
     padding: 15px;
   }
   .content-container {
-    padding: 0;
+    /* padding: 0; */
     flex-direction: column;
   }
   .gym-type-select {

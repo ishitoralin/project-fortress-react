@@ -91,7 +91,7 @@ export default function Login() {
               />
             );
           })}
-          <CUIButton fullWidth type="submit">
+          <CUIButton fullWidth type="submit" color={'steel_grey'}>
             登入
           </CUIButton>
           <Box>

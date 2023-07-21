@@ -27,7 +27,17 @@ export const AuthProvider = ({ children }) => {
   //   }
   // };
   const checkAuth = () => {
-    setAuth({ isLogin: true, user: { userId: 1 } });
+    if (Math.random() > 0.5) {
+      setAuth({
+        isLogin: true,
+        user: { userId: 1, icon: '/icons/hero_icon1.jpg' },
+      });
+    } else {
+      setAuth({
+        isLogin: true,
+        user: { userId: 1, icon: '' },
+      });
+    }
   };
   // const checkAuth = async () => {
   //   const promise = await new Promise((reslove, reject) => {
@@ -51,13 +61,13 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => useContext(AuthContext);
-export function ProtectedRoute({ children }) {
-  const { auth } = useAuth();
-  const router = useRouter();
-  useEffect(() => {
-    if (auth.isLogin) {
-      router.push('/');
-    }
-  }, [auth.isLogin]);
-  return <>{auth.isLogin ? children : <>12121</>}</>;
-}
+// export function ProtectedRoute({ children }) {
+//   const { auth } = useAuth();
+//   const router = useRouter();
+//   useEffect(() => {
+//     if (auth.isLogin) {
+//       router.push('/');
+//     }
+//   }, [auth.isLogin]);
+//   return <>{auth.isLogin ? children : <></>}</>;
+// }

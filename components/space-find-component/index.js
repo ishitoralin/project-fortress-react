@@ -168,7 +168,11 @@ export default function SpaceFindComponent() {
   return (
     <div className={`${styles['section-container']}`}>
       <div className={`${styles['content-container']}`}>
-        <GymTypeSelect value={gymType} setgymType={setgymType} />
+        <GymTypeSelect
+          value={gymType}
+          setgymType={setgymType}
+          setGymData={setGymData}
+        />
         <div className={`${styles['map-container']}`} ref={containerRef}>
           <svg className={`${styles['map-svg']}`} ref={svgRef}></svg>
         </div>

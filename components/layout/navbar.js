@@ -244,9 +244,32 @@ export default function Navbar() {
           </Link>
           {auth.isLogin ? (
             <>
-              <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
-                <User />
-              </Link>
+              {auth.user?.icon ? (
+                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                  <div
+                    style={{
+                      width: '45px',
+                      height: '45px',
+                    }}
+                  >
+                    <img
+                      src={auth.user.icon}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '999%',
+                      }}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                  <User />
+                </Link>
+              )}
+
               <Item
                 href="/"
                 onClick={() => {

@@ -105,7 +105,7 @@ export default function SignUp() {
               />
             );
           })}
-          <CUIButton fullWidth type="submit">
+          <CUIButton fullWidth type="submit" color={'steel_grey'}>
             註冊
           </CUIButton>
           <Box>

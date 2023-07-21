@@ -8,6 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import tableStyles from '../member-table.module.css';
+import Link from 'next/link';
 
 export default function CoursesTable({ data }) {
   return (
@@ -36,7 +37,9 @@ export default function CoursesTable({ data }) {
               key={row.sid}
               //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
-              <TableCell data-title="課程名稱 : ">{row.name}</TableCell>
+              <TableCell data-title="課程名稱 : ">
+                <Link href="/lesson/1">{row.name}</Link>
+              </TableCell>
               <TableCell data-title="擔當教練 : ">{row.coach}</TableCell>
               <TableCell data-title="開始時間 : ">{row.start}</TableCell>
               <TableCell data-title="課程時長 : ">{row.duration}小時</TableCell>
