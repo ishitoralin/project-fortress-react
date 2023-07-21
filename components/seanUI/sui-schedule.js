@@ -18,7 +18,7 @@ const SUIScheduleItem = styled(Box)(() => ({
   borderStyle: 'solid',
 }));
 
-function SUISchedule({ list, width = ['58%', '18%', '12%', '12%'] }) {
+function SUISchedule({ type, list, width = ['58%', '18%', '12%', '12%'] }) {
   return (
     <div
       style={{
@@ -34,6 +34,16 @@ function SUISchedule({ list, width = ['58%', '18%', '12%', '12%'] }) {
         }}
       >
         {list.map((list, i) => {
+          let Num1;
+          let Num2;
+          if (type === 'exercise') {
+            Num1 = list.reps;
+            Num2 = list.sets;
+          } else {
+            Num1 = list.calories;
+            Num2 = list.protein;
+          }
+
           return (
             <Box
               key={i}
@@ -56,9 +66,7 @@ function SUISchedule({ list, width = ['58%', '18%', '12%', '12%'] }) {
               <SUIScheduleItem sx={{ width: '18%' }}>
                 {list.quantity}
               </SUIScheduleItem>
-              <SUIScheduleItem sx={{ width: '12%' }}>
-                {list.Num1}
-              </SUIScheduleItem>
+              <SUIScheduleItem sx={{ width: '12%' }}>{Num1}</SUIScheduleItem>
               <SUIScheduleItem
                 sx={{
                   width: '12%',
@@ -68,7 +76,7 @@ function SUISchedule({ list, width = ['58%', '18%', '12%', '12%'] }) {
                   borderRight: myBorder,
                 }}
               >
-                {list.Num2}
+                {Num2}
               </SUIScheduleItem>
             </Box>
           );

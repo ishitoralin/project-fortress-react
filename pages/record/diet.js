@@ -68,50 +68,50 @@ const dietList = [
   {
     name: '威靈頓牛排佐沙茶醬',
     quantity: 1,
-    Num1: 10000,
-    Num2: 5,
+    calories: 10000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
 ];
@@ -172,14 +172,14 @@ const ExercisePage = () => {
   // >>> initiallize
   useEffect(() => {
     // TODO: debounce
-    fetch(`${process.env.SEAN_API_SERVER}/record/food-category`)
+    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-category`)
       .then((r) => r.json())
       .then((data) => {
         data.data.unshift(foodInit);
         foodCategorys.current = data.data;
       });
 
-    fetch(`${process.env.SEAN_API_SERVER}/record/food-type`)
+    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-type`)
       .then((r) => r.json())
       .then((data) => {
         setFoodType(data.rows);
@@ -191,7 +191,7 @@ const ExercisePage = () => {
   //>>> filter by food category
   useEffect(() => {
     fetch(
-      `${process.env.SEAN_API_SERVER}/record/food-type/food-category/${foodCategory[0].key}`
+      `${process.env.SEAN_API_SERVER}/food-type/food-type/food-category/${foodCategory[0].key}`
     )
       .then((r) => r.json())
       .then((data) => {
@@ -535,7 +535,7 @@ const ExercisePage = () => {
                   },
                 }}
               >
-                <SUISchedule list={dietList} />
+                <SUISchedule type="food" list={dietList} />
               </Section>
             </SUIScheduleTable>
           </Grid>

@@ -31,10 +31,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 // =========================================================================
-import {
-  useDebounce,
-  useDebounceHH,
-} from '@/components/customHook/useDebounce';
+import { useDebounceHH } from '@/components/customHook/useDebounce';
 // =========================================================================
 //>>> pseudo-data
 const exerciseList = [
@@ -43,18 +40,18 @@ const exerciseList = [
   {
     name: 'Bench sfvfvPress',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    reps: 12,
+    sets: 5,
     date: '2023-07-16',
   },
-  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Bench Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Bench Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Leg Press', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, Num1: 12, Num2: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Bench Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Bench Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
+  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
 ];
 
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
@@ -96,14 +93,14 @@ const ExercisePage = () => {
   // >>> initiallize
   useEffect(() => {
     // TODO: debounce
-    fetch(`${process.env.SEAN_API_SERVER}/record/body-part`) //=== for selection options
+    fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`) //=== for selection options
       .then((r) => r.json())
       .then((data) => {
         data.data.unshift(exerciseInit);
         bodyParts.current = data.data;
       });
 
-    fetch(`${process.env.SEAN_API_SERVER}/record/exercise-type`) //=== exercise list
+    fetch(`${process.env.SEAN_API_SERVER}/exe-type/exercise-type`) //=== exercise list
       .then((r) => r.json())
       .then((data) => {
         setExeType(data.rows);
@@ -120,21 +117,21 @@ const ExercisePage = () => {
     () => {
       // === for selection and search
       fetch(
-        `${process.env.SEAN_API_SERVER}/record/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+        `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
       )
         .then((r) => r.json())
         .then((data) => {
           setExeType(data.data);
         });
     },
-    500,
+    1000,
     [bodyPart, keyword]
   );
 
   // useEffect(() => {
   //   // === for selection and search
   //   fetch(
-  //     `${process.env.SEAN_API_SERVER}/record/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+  //     `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
   //   )
   //     .then((r) => r.json())
   //     .then((data) => {
@@ -262,10 +259,10 @@ const ExercisePage = () => {
                 }}
               >
                 <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[0] }}>
-                  type
+                  運動種類
                 </Box>
                 <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
-                  quantity
+                  重量
                 </Box>
                 <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[2] }}>
                   次數
@@ -304,7 +301,11 @@ const ExercisePage = () => {
                   },
                 }}
               >
-                <SUISchedule list={exerciseList} width={scheduleItemWdith} />
+                <SUISchedule
+                  type="exercise"
+                  list={exerciseList}
+                  width={scheduleItemWdith}
+                />
               </Section>
             </SUIScheduleTable>
           </Grid>
@@ -328,7 +329,6 @@ const ExercisePage = () => {
             lg={3}
             sm={12}
             sx={{
-              height: '100%',
               // outline: '3px solid blue',
               p: 2,
             }}
@@ -343,67 +343,66 @@ const ExercisePage = () => {
             lg={9}
             sm={12}
             sx={{
-              outline: '3px solid blue',
+              // outline: '3px solid blue',
               p: 2,
-              height: '700px',
             }}
           >
             {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
             <p>
               2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
             </p> */}
-            <Box sx={{}}>
-              <FullCalendarLayout sx={{}}>
-                <div className="calendar-container">
-                  <FullCalendar
-                    plugins={[
-                      resourceTimelinePlugin,
-                      dayGridPlugin,
-                      interactionPlugin,
-                      timeGridPlugin,
-                    ]}
-                    // >>> max event show
-                    dayMaxEventRows={true} // for all non-TimeGrid views
-                    views={{
-                      dayGridMonth: {
-                        dayMaxEventRows: 3,
-                      },
-                    }}
-                    // <<< max event show
-                    headerToolbar={{
-                      left: 'prev,next today',
-                      center: 'title',
-                      right: '',
-                    }}
-                    initialView="dayGridMonth"
-                    nowIndicator={true}
-                    editable={true}
-                    selectable={true}
-                    selectMirror={true}
-                    resources={[
-                      { id: 'a', title: 'Auditorium A' },
-                      { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-                      { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-                    ]}
-                    // initialEvents={[
-                    //   { title: 'event 1', start: new Date(), resourceId: 'a' },
-                    // ]}
-                    // events={[
-                    //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
-                    //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
-                    // ]}
 
-                    events={exerciseList.map((exercise, index) => {
-                      return {
-                        title: exercise.name,
-                        date: exercise.date,
-                        resourceId: 'a',
-                      };
-                    })}
-                  />
-                </div>
-              </FullCalendarLayout>
-            </Box>
+            <FullCalendarLayout>
+              <div className="calendar-container">
+                <FullCalendar
+                  height={'700px'}
+                  plugins={[
+                    resourceTimelinePlugin,
+                    dayGridPlugin,
+                    interactionPlugin,
+                    timeGridPlugin,
+                  ]}
+                  // >>> max event show
+                  dayMaxEventRows={true} // for all non-TimeGrid views
+                  views={{
+                    dayGridMonth: {
+                      dayMaxEventRows: 3,
+                    },
+                  }}
+                  // <<< max event show
+                  headerToolbar={{
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: '',
+                  }}
+                  initialView="dayGridMonth"
+                  nowIndicator={true}
+                  editable={true}
+                  selectable={true}
+                  selectMirror={true}
+                  resources={[
+                    { id: 'a', title: 'Auditorium A' },
+                    { id: 'b', title: 'Auditorium B', eventColor: 'green' },
+                    { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
+                  ]}
+                  // initialEvents={[
+                  //   { title: 'event 1', start: new Date(), resourceId: 'a' },
+                  // ]}
+                  // events={[
+                  //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
+                  //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
+                  // ]}
+
+                  events={exerciseList.map((exercise, index) => {
+                    return {
+                      title: exercise.name,
+                      date: exercise.date,
+                      resourceId: 'a',
+                    };
+                  })}
+                />
+              </div>
+            </FullCalendarLayout>
           </Grid>
         </Grid>
       </div>
