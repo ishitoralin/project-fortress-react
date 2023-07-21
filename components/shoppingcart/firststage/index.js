@@ -6,9 +6,8 @@ import SpatialProduct from './spatialproduct';
 import RecommendProduct from './recommendproduct';
 import Box from '@mui/material/Box';
 import getBrickBackground from '@/libs/getBrickBackground';
-import SCmodal from '../SCmodal';
+import SCmodal from '../Dialog';
 export default function FirstStageComponent() {
-
   return (
     <>
       <Box

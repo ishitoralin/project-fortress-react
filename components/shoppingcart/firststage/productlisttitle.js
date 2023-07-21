@@ -4,7 +4,7 @@ export default function ProductListTitle() {
   return (
     <div>
       <div className={`${styles.ProductionTitleContainer}`}>
-        <div className={`${styles.ProductionTitleComponent}`}>產品編號</div>
+        <div className={`${styles.ProductionTitleComponent}`}>序號</div>
         <div className={`${styles.ProductionTitleComponentInfo}`}>商品資訊</div>
         <div className={`${styles.ProductionTitleComponent}`}>單價</div>
         <div className={`${styles.ProductionTitleComponent}`}>數量</div>

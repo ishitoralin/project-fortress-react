@@ -6,18 +6,16 @@ import styles from '@/styles/shoppingcart.module.css';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-//Import button
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
-import SCmodal from '../SCmodal';
+import Dialog from '@/components/shoppingcart/Dialog';
 
-//Import button
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
 const fakeDataForCart = {
   products: [
     {
-      id: 1,
+      id: 19,
       photo: 'photo',
       name: '緊身衣',
       detail: 'abavafdasfewweg gewaef gre',
@@ -49,7 +47,7 @@ const fakeDataForCart = {
       quantity: 1,
     },
     {
-      id: 5,
+      id: 25,
       photo: 'photo',
       name: '貓貓裝',
       detail: 'neko neko',
@@ -63,13 +61,17 @@ export default function ProductList(props) {
   const [finalQuantity, setFinalQuantity] = useState(0);
   const [cartItems, setCartItems] = useState([]);
   const [open, setOpen] = useState(false);
+  const [currentID, setCurrentID] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState();
 
-  const handleClickOpen = () => {
+  const handleClickOpen = (id, i) => {
     setOpen(true);
-    console.log(open);
+    setCurrentID(id);
+    setCurrentIndex(i + 1);
   };
 
   const handleClose = () => {
+    setCurrentID();
     setOpen(false);
   };
 
@@ -128,12 +130,6 @@ export default function ProductList(props) {
   return cartItems.length > 0 ? (
     <>
       <div>
-        <Button variant="outlined" onClick={handleClickOpen}>
-          213123
-        </Button>
-        <SCmodal>213123</SCmodal>
-      </div>
-      <div>
         {cartItems.map((v, i) => {
           return (
             <div
@@ -146,7 +142,7 @@ export default function ProductList(props) {
               key={i}
             >
               {/* 將map後的data塞到對應的欄位 */}
-              <div className={`${styles.ProductListComponent}`}>{v.id}</div>
+              <div className={`${styles.ProductListComponent}`}>{i + 1}</div>
               <div className={`${styles.ProductListComponent}`}>{v.photo}</div>
               <div className={styles.ProductListComponentForDetail}>
                 {v.detail}
@@ -161,7 +157,7 @@ export default function ProductList(props) {
                       setCartItems(minus(cartItems, v.id));
                     }
                     if (v.quantity === 1) {
-                      setCartItems(remove(cartItems, v.id));
+                      handleClickOpen(parseInt(v.id), i);
                     }
                   }}
                 >
@@ -196,7 +192,7 @@ export default function ProductList(props) {
                 <Button
                   sx={{ color: 'black' }}
                   onClick={() => {
-                    setCartItems(remove(cartItems, v.id));
+                    handleClickOpen(parseInt(v.id), i);
                   }}
                 >
                   <DeleteOutlineIcon
@@ -208,6 +204,18 @@ export default function ProductList(props) {
           );
         })}
       </div>
+      {open && (
+        <Dialog
+          currentID={currentID}
+          setCurrentID={setCurrentID}
+          handleClose={handleClose}
+          remove={remove}
+          cartItems={cartItems}
+          setCartItems={setCartItems}
+          open={open}
+          currentIndex={currentIndex}
+        ></Dialog>
+      )}
       {/* 產品總計欄位 */}
       <div>
         <div className={styles.countContainer}>

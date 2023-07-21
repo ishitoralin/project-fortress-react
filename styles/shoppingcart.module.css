@@ -165,7 +165,6 @@
 .recommendProductContainer {
   width: 100%;
   display: flex;
-  overflow: scroll;
   justify-content: flex-start;
   align-items: center;
   overflow-y: hidden;
