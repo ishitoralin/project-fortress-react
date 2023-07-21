@@ -5,7 +5,8 @@ import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
-import Swiper from 'swiper';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
 
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
@@ -22,198 +23,233 @@ import {
 export default function RecommendProduct(props) {
   const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   return (
-    <div>
-      <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
-      <div className={`${styles.recommendProductContainer}`}>
-        {fakeDataForCards.map((v, i) => {
-          return (
-            <div className={`${styles.recommendProductComponent}`} key={i}>
-              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: '140px' }}
-                  // image={`/SCphoto/capoo${i}.png`}
-                  image="/SCphoto/capoo${i}.png"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <Box
+    <>
+      <div>
+        <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
+        <div className={`${styles.recommendProductContainer}`}></div>
+        <Swiper
+          spaceBetween={50}
+          slidesPerView={4}
+          onSlideChange={() => console.log('slide change')}
+          onSwiper={(swiper) => console.log(swiper)}
+        >
+          {fakeDataForCards.map((v, i) => {
+            return (
+              <SwiperSlide key={i}>
+                <div className={`${styles.recommendProductComponent}`} key={i}>
+                  <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                    <CardMedia
+                      sx={{ height: '140px' }}
+                      // image={`/SCphoto/capoo${i}.png`}
+                      image="/SCphoto/capoo${i}.png"
+                      title="green iguana"
+                    />
+                    <CardContent>
+                      <Typography gutterBottom variant="h5" component="div">
+                        <Box
+                          sx={{
+                            m: 'auto',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          <Box>產品名稱{v}</Box>
+                          <FavoriteBorderIcon></FavoriteBorderIcon>
+                        </Box>
+                      </Typography>
+                      <Typography variant="body2" color="text.secondary">
+                        產品敘述 Lizards are a widespread group of squamate
+                        reptiles, with over 6,000 species
+                      </Typography>
+                    </CardContent>
+                    <CardActions
                       sx={{
-                        m: 'auto',
+                        margin: 'auto',
                         display: 'flex',
                         justifyContent: 'space-between',
                         alignItems: 'center',
+                        p: '16px',
                       }}
                     >
-                      <Box>產品名稱{v}</Box>
-                      <FavoriteBorderIcon></FavoriteBorderIcon>
-                    </Box>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    產品敘述 Lizards are a widespread group of squamate
-                    reptiles, with over 6,000 species
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    margin: 'auto',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    p: '16px',
-                  }}
-                >
-                  Price
-                  <WhiteTheme>
-                    <Button
-                      size="small"
-                      sx={{
-                        // width: '10%',
-                        ':hover': {
-                          opacity: '.7',
-                          bgcolor: 'var(--main-red)',
-                        },
-                      }}
-                      // color={props.color}
-                      variant="contained"
-                      onClick={props.onClick}
-                    >
-                      查看商品詳情
-                    </Button>
-                  </WhiteTheme>
-                </CardActions>
-              </CUICard>
-            </div>
-          );
-        })}
+                      Price
+                      <WhiteTheme>
+                        <Button
+                          size="small"
+                          sx={{
+                            // width: '10%',
+                            ':hover': {
+                              opacity: '.7',
+                              bgcolor: 'var(--main-red)',
+                            },
+                          }}
+                          // color={props.color}
+                          variant="contained"
+                          onClick={props.onClick}
+                        >
+                          查看商品詳情
+                        </Button>
+                      </WhiteTheme>
+                    </CardActions>
+                  </CUICard>
+                </div>
+              </SwiperSlide>
+            );
+          })}
+        </Swiper>
+        <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
+        <div className={`${styles.recommendProductContainer}`}>
+          <Swiper
+            spaceBetween={50}
+            slidesPerView={4}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {fakeDataForCards.map((v, i) => {
+              return (
+                <SwiperSlide key={i}>
+                  <div
+                    className={`${styles.recommendProductComponent}`}
+                    key={i}
+                  >
+                    <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                      <CardMedia
+                        sx={{ height: '140px' }}
+                        // image={`/SCphoto/capoo${i}.png`}
+                        image="/SCphoto/capoo${i}.png"
+                        title="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          <Box
+                            sx={{
+                              m: 'auto',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Box>產品名稱{v}</Box>
+                            <FavoriteBorderIcon></FavoriteBorderIcon>
+                          </Box>
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          產品敘述 Lizards are a widespread group of squamate
+                          reptiles, with over 6,000 species
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          margin: 'auto',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          p: '16px',
+                        }}
+                      >
+                        Price
+                        <WhiteTheme>
+                          <Button
+                            size="small"
+                            sx={{
+                              // width: '10%',
+                              ':hover': {
+                                opacity: '.7',
+                                bgcolor: 'var(--main-red)',
+                              },
+                            }}
+                            // color={props.color}
+                            variant="contained"
+                            onClick={props.onClick}
+                          >
+                            查看商品詳情
+                          </Button>
+                        </WhiteTheme>
+                      </CardActions>
+                    </CUICard>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
+        <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
+        <div className={`${styles.recommendProductContainer}`}>
+          <Swiper
+            spaceBetween={50}
+            slidesPerView={4}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {fakeDataForCards.map((v, i) => {
+              return (
+                <SwiperSlide key={i}>
+                  <div
+                    className={`${styles.recommendProductComponent}`}
+                    key={i}
+                  >
+                    <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
+                      <CardMedia
+                        sx={{ height: '140px' }}
+                        // image={`/SCphoto/capoo${i}.png`}
+                        image="/SCphoto/capoo${i}.png"
+                        title="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          <Box
+                            sx={{
+                              m: 'auto',
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            <Box>產品名稱{v}</Box>
+                            <FavoriteBorderIcon></FavoriteBorderIcon>
+                          </Box>
+                        </Typography>
+                        <Typography variant="body2" color="text.secondary">
+                          產品敘述 Lizards are a widespread group of squamate
+                          reptiles, with over 6,000 species
+                        </Typography>
+                      </CardContent>
+                      <CardActions
+                        sx={{
+                          margin: 'auto',
+                          display: 'flex',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                          p: '16px',
+                        }}
+                      >
+                        Price
+                        <WhiteTheme>
+                          <Button
+                            size="small"
+                            sx={{
+                              // width: '10%',
+                              ':hover': {
+                                opacity: '.7',
+                                bgcolor: 'var(--main-red)',
+                              },
+                            }}
+                            // color={props.color}
+                            variant="contained"
+                            onClick={props.onClick}
+                          >
+                            查看商品詳情
+                          </Button>
+                        </WhiteTheme>
+                      </CardActions>
+                    </CUICard>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
       </div>
-
-      <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
-      <div className={`${styles.recommendProductContainer}`}>
-        {fakeDataForCards.map((v, i) => {
-          return (
-            <div className={`${styles.recommendProductComponent}`} key={i}>
-              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: '140px' }}
-                  // image={`/SCphoto/capoo${i}.png`}
-                  image="/SCphoto/capoo${i}.png"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <Box
-                      sx={{
-                        m: 'auto',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Box>產品名稱{v}</Box>
-                      <FavoriteBorderIcon></FavoriteBorderIcon>
-                    </Box>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    產品敘述 Lizards are a widespread group of squamate
-                    reptiles, with over 6,000 species
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    margin: 'auto',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Button size="small">Price</Button>
-                  <WhiteTheme>
-                    <Button
-                      size="small"
-                      sx={{
-                        // width: '10%',
-                        ':hover': {
-                          opacity: '.7',
-                          bgcolor: 'var(--main-red)',
-                        },
-                      }}
-                      // color={props.color}
-                      variant="contained"
-                      onClick={props.onClick}
-                    >
-                      查看商品詳情
-                    </Button>
-                  </WhiteTheme>
-                </CardActions>
-              </CUICard>
-            </div>
-          );
-        })}
-      </div>
-      <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
-      <div className={`${styles.recommendProductContainer}`}>
-        {fakeDataForCards.map((v, i) => {
-          return (
-            <div className={`${styles.recommendProductComponent}`} key={i}>
-              <CUICard sx={{ maxWidth: 345, minWidth: 345 }}>
-                <CardMedia
-                  sx={{ height: '140px' }}
-                  // image={`/SCphoto/capoo${i}.png`}
-                  image="/SCphoto/capoo${i}.png"
-                  title="green iguana"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    <Box
-                      sx={{
-                        m: 'auto',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                      }}
-                    >
-                      <Box>產品名稱{v}</Box>
-                      <FavoriteBorderIcon></FavoriteBorderIcon>
-                    </Box>
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    產品敘述 Lizards are a widespread group of squamate
-                    reptiles, with over 6,000 species
-                  </Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    margin: 'auto',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                  }}
-                >
-                  <Button size="small">Price</Button>
-                  <WhiteTheme>
-                    <Button
-                      size="small"
-                      sx={{
-                        // width: '10%',
-                        ':hover': {
-                          opacity: '.7',
-                          bgcolor: 'var(--main-red)',
-                        },
-                      }}
-                      // color={props.color}
-                      variant="contained"
-                      onClick={props.onClick}
-                    >
-                      查看商品詳情
-                    </Button>
-                  </WhiteTheme>
-                </CardActions>
-              </CUICard>
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 }
