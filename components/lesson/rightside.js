@@ -174,15 +174,15 @@ const RightSide = ({ showFilter }) => {
         <>
           <Box
             sx={{
-              position: 'sticky',
-              top: '7rem',
+              width: '100%',
+              marginTop: '3rem',
               bgcolor: '#333',
               borderRadius: '5px',
-              padding: '2%',
+              padding: { xs: '0.5rem', md: '2rem' },
             }}
           >
             <FullCalendar
-              aspectRatio={1.7}
+              // aspectRatio={1.7}
               plugins={[dayGridPlugin]}
               initialView="dayGridMonth"
               dayMaxEventRows={2}
@@ -213,6 +213,7 @@ const RightSide = ({ showFilter }) => {
           </Box>
         </>
       )}
+      {/* <Box sx={{height: '2000px'}}></Box> */}
     </Box>
   );
 };

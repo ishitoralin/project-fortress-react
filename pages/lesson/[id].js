@@ -4,6 +4,8 @@ import CUICard from '@/components/customUI/cui-card';
 import Image from 'next/image';
 import LessonCard from '@/components/lesson/lesson-card';
 
+import getBrickBackground from '@/libs/getBrickBackground';
+
 const containerStyle = { py: '2rem' };
 
 const cardBoxStyle = {
@@ -96,7 +98,7 @@ const CertainLessonPage = () => {
       sx={{
         backgroundColor: 'var(--deepgrey)',
         backgroundAttachment: 'fixed',
-        backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(3) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 30%, 0.95)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 35%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
+        backgroundImage: getBrickBackground(),
       }}
     >
       <Container sx={containerStyle}>
