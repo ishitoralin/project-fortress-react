@@ -127,32 +127,3 @@ export const cardFrontStyle = {
     },
   },
 };
-
-export const cardInfoStyle = {
-  // position: 'relative',
-  // width: '100%',
-  // height: '100%',
-  // overflow: 'hidden',
-  // textIndent: '2rem',
-  // fontSize: '.9rem',
-  // display: '-webkit-box',
-  // WebkitBoxOrient: 'vertical',
-  // WebkitLineClamp: 6,
-};
-
-export const cardDownAnimation = {
-  // transition: '.5s .2s',
-  // top: '3%',
-  // left: '5%',
-};
-
-export const showInfoAnimation = {
-  // transition: '.5s .5s',
-  // transform: 'translateY(-10%)',
-  // height: '42%',
-  // button: {
-  //   ...cardButtonStyle,
-  //   transition: 'opacity .5s 1s',
-  //   opacity: 1,
-  // },
-};

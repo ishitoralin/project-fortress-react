@@ -7,38 +7,30 @@ import {
   cardGridStyle,
   cardBehindStyle,
   cardFrontStyle,
-  cardInfoStyle,
   cardTitleStyle,
 } from '@/styles/coach-style/coach-info-card-style';
 
 import getBrickBackground from '@/libs/getBrickBackground';
+import BrickWallPaper from '@/components/brick-background';
 import LessonCard from '@/components/lesson/lesson-card';
-import CUICard from '@/components/customUI/cui-card';
+
+import useCheckCSS from '@/hooks/useCheckCSS';
 
 const CoachPage = () => {
+  const cardRatioStyle = useCheckCSS('aspect-ratio', 1)
+    ? { aspectRatio: '9 / 12' }
+    : { width: '480px' };
+
   return (
-    <Box
-      sx={{
-        py: 4,
-        position: 'relative',
-        width: '100%',
-        // height: '100%',
-        ':before': {
-          //   content: '""',
-          position: 'absolute',
-          width: '80%',
-          height: '82%',
-          top: '9%',
-          left: '10%',
-          border: '3px solid white',
-        },
-        backgroundImage: getBrickBackground({
-          rotate: -5,
-          brickColor: 'hsl(0, 0%, 20%)',
-        }),
-        backgroundAttachment: 'fixed',
-      }}
-    >
+    <Box sx={{ py: 4 }}>
+      <BrickWallPaper
+        brickstyle={{
+          scale: 2,
+          rotate: 7,
+          brickColor: 'hsl(100, 0%, 30%)',
+          strokeColor: 'hsl(100, 0%, 20%)',
+        }}
+      />
       <Container
         sx={{
           display: 'flex',
@@ -46,18 +38,15 @@ const CoachPage = () => {
           flexWrap: 'wrap',
         }}
       >
-        {/* <CUICard sx={{ bgcolor: 'rgba(220, 220, 220, 0.95)', height: '90vh' }}> */}
         <Box
           sx={{
             padding: 2,
             display: 'inline-block',
             verticalAlign: 'top',
-            // width: 0,
             position: 'sticky',
             top: '1rem',
-            // border: '2px solid grey',
-            aspectRatio: '9 / 12',
             height: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+            ...cardRatioStyle,
           }}
         >
           <Box sx={imageBoxStyle}>
@@ -86,13 +75,8 @@ const CoachPage = () => {
         </Box>
         <Box
           sx={{
-            // width: '60%',
             flexGrow: 1,
             zIndex: 5,
-            // height: '200vh',
-            // marginLeft: '10%',
-            // border: '2px solid tan',
-            // display: 'inline-block',
           }}
         >
           {[...Array(10)].map((value, index) => (
@@ -114,7 +98,6 @@ const CoachPage = () => {
             />
           ))}
         </Box>
-        {/* </CUICard> */}
       </Container>
     </Box>
   );

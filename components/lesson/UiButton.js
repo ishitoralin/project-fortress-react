@@ -1,5 +1,4 @@
 import { ToggleButton } from '@mui/material';
-import { defaults } from 'lodash';
 
 const UiButton = (props) => (
   <ToggleButton
