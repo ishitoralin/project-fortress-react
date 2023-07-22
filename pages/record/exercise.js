@@ -14,6 +14,8 @@ import {
   SUISchedule,
   SUIScheduleTable,
 } from '@/components/seanUI/sui-schedule';
+import SeanCalendar from '@/components/recordPage/calendar';
+import getCurrentMonthDates from '@/components/seanUI/sui-getCurrentMonth';
 // =========================================================================
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -31,7 +33,10 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 // =========================================================================
-import { useDebounceHH } from '@/components/customHook/useDebounce';
+import {
+  useDebounceHH,
+  useDebounce,
+} from '@/components/customHook/useDebounce';
 // =========================================================================
 //>>> pseudo-data
 const exerciseList = [
@@ -85,10 +90,17 @@ const ExercisePage = () => {
   // ============================================================
   const exerciseInit = { key: 0, value: '全部', label: '全部' };
   // const router = useRouter();
-  const [exeType, setExeType] = useState([]);
-  const [bodyPart, setBodyPart] = useState([exerciseInit]);
+  const [exeType, setExeType] = useState([]); //=== for exercise-type cards
+  const [bodyPart, setBodyPart] = useState([exerciseInit]); //=== for exercise body-part filter
   const bodyParts = useRef([exerciseInit]); //=== for selection options
-  const [keyword, setKeyword] = useState('');
+  const [keyword, setKeyword] = useState(''); //=== for search keyword
+  const [exerciseRecord, setExerciseRecord] = useState([]);
+  const [exerciseStartEnd, setExerciseStartEnd] = useState(
+    getCurrentMonthDates()
+  ); //=== the start and end date for the calendar
+
+  // console.log(getCurrentMonthDates());
+  // console.log('!!!');
 
   // >>> initiallize
   useEffect(() => {
@@ -99,53 +111,42 @@ const ExercisePage = () => {
         data.data.unshift(exerciseInit);
         bodyParts.current = data.data;
       });
-
-    fetch(`${process.env.SEAN_API_SERVER}/exe-type/exercise-type`) //=== exercise list
-      .then((r) => r.json())
-      .then((data) => {
-        setExeType(data.rows);
-        // console.log(data.row);
-      });
   }, []);
 
-  // console.log(bodyParts); //TODO: 第一次render Array(1)???
+  useEffect(() => {
+    //QUESTION: member id是在後端驗證，所以前端不用傳id?
+    fetch(
+      `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
+    ) //=== for exercise record
+      .then((r) => r.json())
+      .then((data) => {
+        setExerciseRecord(data.data);
+        // console.log(exerciseStartEnd.start, exerciseStartEnd.end);
+        // console.log('!!!!');
+      });
+  }, [exerciseStartEnd]);
+
   // <<< initiallize
 
   // TODO: apply filter to bodySVG
   // >>> filter by body part
-  useDebounceHH(
-    () => {
-      // === for selection and search
-      fetch(
-        `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
-      )
-        .then((r) => r.json())
-        .then((data) => {
-          setExeType(data.data);
-        });
-    },
-    1000,
-    [bodyPart, keyword]
-  );
-
-  // useEffect(() => {
-  //   // === for selection and search
-  //   fetch(
-  //     `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
-  //   )
-  //     .then((r) => r.json())
-  //     .then((data) => {
-  //       setExeType(data.data);
-  //     });
-  // }, [bodyPart, keyword]);
-
+  useDebounceHH(() => {
+    // === for selection and search
+    fetch(
+      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        setExeType(data.data);
+      });
+  }, [bodyPart, keyword]);
   // >>> filter by body part
 
   const handleBodypartSelection = (e) => {
     setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
   };
 
-  // useDebounce(debounceHandleSearch);
+  // TODO: on composition end
   const handleSearch = (e) => {
     setKeyword(e.target.value);
   };
@@ -198,10 +199,12 @@ const ExercisePage = () => {
                 sx={{ width: '50%' }}
                 label="搜尋運動類型"
                 placeholder="請輸入關鍵字"
+                // value={keyword}
                 onChange={(e) => {
                   handleSearch(e);
                 }}
               />
+              {/* <input /> */}
             </Section>
             <SUICardList
               type="exercise"
@@ -347,62 +350,67 @@ const ExercisePage = () => {
               p: 2,
             }}
           >
-            {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
-            <p>
-              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p> */}
-
-            <FullCalendarLayout>
-              <div className="calendar-container">
-                <FullCalendar
-                  height={'700px'}
-                  plugins={[
-                    resourceTimelinePlugin,
-                    dayGridPlugin,
-                    interactionPlugin,
-                    timeGridPlugin,
-                  ]}
-                  // >>> max event show
-                  dayMaxEventRows={true} // for all non-TimeGrid views
-                  views={{
-                    dayGridMonth: {
-                      dayMaxEventRows: 3,
+            {/* TODO: 1.月曆顯示：每一天的總運動項目/Total Valumn */}
+            {/*TODO 2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動 */}
+            <SeanCalendar
+              list={exerciseRecord}
+              updateStartEnd={setExerciseStartEnd}
+            />
+            {/* <FullCalendarLayout>
+              <FullCalendar
+                height={'700px'}
+                plugins={[
+                  resourceTimelinePlugin,
+                  dayGridPlugin,
+                  interactionPlugin,
+                  timeGridPlugin,
+                ]}
+                // >>> max event show
+                dayMaxEventRows={true} // for all non-TimeGrid views
+                views={{
+                  dayGridMonth: {
+                    dayMaxEventRows: 3,
+                  },
+                }}
+                // <<< max event show
+                headerToolbar={{
+                  left: 'prev,next today',
+                  center: 'title',
+                  right: '',
+                }}
+                initialView="dayGridMonth"
+                nowIndicator={true}
+                editable={true}
+                selectable={true}
+                selectMirror={true}
+                //TODO: different color for different body part?
+                // resources={[
+                //   { id: 'a', title: 'Auditorium A' },
+                //   { id: 'b', title: 'Auditorium B', eventColor: 'green' },
+                //   { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
+                // ]}
+                // initialEvents={[
+                //   { title: 'event 1', start: new Date(), resourceId: 'a' },
+                // ]}
+                // events={[
+                //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
+                //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
+                // ]}
+                // TODO: input for real data
+                events={exerciseList.map((exercise, index) => {
+                  return {
+                    // TODO: id:exerciseSid
+                    title: exercise.name,
+                    date: exercise.date,
+                    backgroundColor: 'lightgreen',
+                    editable: true,
+                    extendedProps: {
+                      dataDump: 'you can store accessory here',
                     },
-                  }}
-                  // <<< max event show
-                  headerToolbar={{
-                    left: 'prev,next today',
-                    center: 'title',
-                    right: '',
-                  }}
-                  initialView="dayGridMonth"
-                  nowIndicator={true}
-                  editable={true}
-                  selectable={true}
-                  selectMirror={true}
-                  resources={[
-                    { id: 'a', title: 'Auditorium A' },
-                    { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-                    { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-                  ]}
-                  // initialEvents={[
-                  //   { title: 'event 1', start: new Date(), resourceId: 'a' },
-                  // ]}
-                  // events={[
-                  //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
-                  //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
-                  // ]}
-
-                  events={exerciseList.map((exercise, index) => {
-                    return {
-                      title: exercise.name,
-                      date: exercise.date,
-                      resourceId: 'a',
-                    };
-                  })}
-                />
-              </div>
-            </FullCalendarLayout>
+                  };
+                })}
+              />
+            </FullCalendarLayout> */}
           </Grid>
         </Grid>
       </div>

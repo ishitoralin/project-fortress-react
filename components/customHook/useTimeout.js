@@ -11,7 +11,7 @@ export default function useTimeout(callback, delay = 1000) {
 
   // === everytime dalay change will reset the timer
   const set = useCallback(() => {
-    timeoutRef.current = setTimeout(() => callbackRef.current, delay);
+    timeoutRef.current = setTimeout(() => callbackRef.current(), delay);
   }, [delay]);
 
   // === if timeoutRef.current exist, clear it
@@ -33,7 +33,7 @@ export default function useTimeout(callback, delay = 1000) {
   }, [clear, set]);
 
   // 回傳重置和清除定時器的函式
-  return [reset, clear];
+  return { reset, clear };
 }
 
 //================================================================
