@@ -10,7 +10,7 @@ import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
-import UiButton from './UiButton';
+import UiButton from '../hh/UiButton';
 
 const lessonData = [
   {

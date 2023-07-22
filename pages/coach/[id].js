@@ -11,7 +11,7 @@ import {
 } from '@/styles/coach-style/coach-info-card-style';
 
 import getBrickBackground from '@/libs/getBrickBackground';
-import BrickWallPaper from '@/components/brick-background';
+import BrickWallPaper from '@/components/brick-wallpaper';
 import LessonCard from '@/components/lesson/lesson-card';
 
 import useCheckCSS from '@/hooks/useCheckCSS';
