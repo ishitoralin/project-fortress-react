@@ -1,3 +1,7 @@
+const cardRatioStyle = CSS.supports('aspect-ratio', 1)
+  ? { aspectRatio: '9 / 12' }
+  : { height: '500px' };
+
 export const cardGridStyle = {
   position: 'relative',
   width: '100%',
@@ -11,6 +15,7 @@ export const cardGridStyle = {
     left: '11%',
     border: '3px solid white',
   },
+  ...cardRatioStyle,
 };
 
 export const coachCardBoxStyle = {

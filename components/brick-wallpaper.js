@@ -19,6 +19,7 @@ const BrickWallPaper = (props) => {
         top: 0,
         left: 0,
         zIndex: -1,
+        pointerEvents: 'none',
         backgroundImage: getBrickBackground(wallpaperStyle),
       }}
     ></Box>

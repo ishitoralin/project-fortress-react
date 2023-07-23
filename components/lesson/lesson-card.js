@@ -46,7 +46,7 @@ const LessonCard = ({ lesson, coachcard }) => (
           }
     }
   >
-    <Box sx={cardImgStyle}>
+    <Box sx={coachcard ? { ...cardImgStyle, width: '28%' } : cardImgStyle}>
       <Box sx={imgBox}>
         <Button
           variant="outlined"
@@ -65,7 +65,13 @@ const LessonCard = ({ lesson, coachcard }) => (
         />
       </Box>
     </Box>
-    <Box sx={cardBodyStyle}>
+    <Box
+      sx={
+        coachcard
+          ? { ...cardBodyStyle, width: { xs: '100%', sm: '65%' } }
+          : cardBodyStyle
+      }
+    >
       <Typography variant="h5" sx={cardTitleStyle}>
         {lesson.lessonName}
       </Typography>

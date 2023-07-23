@@ -84,10 +84,12 @@ export const imgButtonStyle = {
 };
 
 export const imgStyle = {
+  // not mui component
   width: '100%',
   height: '100%',
   filter: 'brightness(90%)',
   objectFit: 'cover',
+  objectPosition: 'top center',
   transition: '.5s',
 };
 
