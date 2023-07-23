@@ -8,7 +8,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import Dialog from '@/components/shoppingcart/Dialog';
-
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 const fakeDataForCart = {
   products: [
     {
@@ -240,15 +240,15 @@ export default function ProductList(props) {
       {/* 產品總計欄位 */}
       <div>
         <div className={styles.countContainer}>
-          <div className={`${styles.countComponent}`}>總計</div>
-          <div className={`${styles.countComponent}`}></div>
-          <div className={`${styles.countComponent}`}></div>
-          <div className={`${styles.countComponent}`}></div>
-          <div className={`${styles.countComponent}`}>
+          <div className={`${styles.countBlankComponent}`}>總計</div>
+          <div className={`${styles.countBlankComponent}`}></div>
+          <div className={`${styles.countBlankComponent}`}></div>
+          <div className={`${styles.countBlankComponent}`}></div>
+          <div className={`${styles.countBlankComponent}`}>
             總共{finalQuantity}件
           </div>
           <div className={`${styles.countComponent}`}>{finalPrice}</div>
-          <div className={`${styles.countComponent}`}>NTD </div>
+          <div className={`${styles.countBlankComponent}`}>NTD </div>
         </div>
       </div>
     </>

@@ -32,6 +32,8 @@ import {
 } from '@/styles/shoppingcart-style/recommandproduct';
 export default function RecommendProduct(props) {
   const [favor, setFavor] = useState(false);
+  const [favorTarget, setFavorTarget] = useState(-1);
+  // TODO 之後從資料庫fetch熱門商品時，要加上sid:1~3，分別代表本季新品、熱門商品及推薦課程，否則FavorIcon會有bug
   const fakeDataForCart = {
     products: [
       {
@@ -124,17 +126,23 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
+                            {/* TODO fix favor Icon tmr */}
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
-                                console.log(i + 1, v.id);
                                 favor ? setFavor(false) : setFavor(true);
+                                const targetIndex = i;
+                                setFavorTarget(targetIndex);
                               }}
                             >
-                              {favor ? (
-                                <FavoriteIcon></FavoriteIcon>
+                              {favor && favorTarget === i ? (
+                                <FavoriteIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteIcon>
                               ) : (
-                                <FavoriteBorderIcon></FavoriteBorderIcon>
+                                <FavoriteBorderIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteBorderIcon>
                               )}
                             </Box>
                           </Box>
@@ -194,10 +202,34 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
-                            <FavoriteBorderIcon sx={FavorIconStyle} />
+                            {/* TODO fix favor Icon tmr */}
+                            <Box
+                              sx={FavorIconStyle}
+                              onClick={() => {
+                                favor ? setFavor(false) : setFavor(true);
+                                const targetIndex = i;
+                                setFavorTarget(targetIndex);
+                              }}
+                            >
+                              {favor && favorTarget === i ? (
+                                <FavoriteIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteIcon>
+                              ) : (
+                                <FavoriteBorderIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteBorderIcon>
+                              )}
+                            </Box>
                           </Box>
                         </Typography>
-                        <Typography variant="body2" color="text.secondary">
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
+                          sx={{
+                            overflow: 'hidden',
+                          }}
+                        >
                           {v.detail}
                         </Typography>
                       </CardContent>

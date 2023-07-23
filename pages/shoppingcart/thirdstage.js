@@ -1,7 +1,7 @@
 import React from 'react'
-// import ThirdStageComponent from '@/components/shoppingcart/thirdstage'
-export default function ThirdStage() {
+
+export default function thirdstage() {
   return (
-    <div>ThirdStage</div>
+    <div>thirdstage</div>
   )
 }

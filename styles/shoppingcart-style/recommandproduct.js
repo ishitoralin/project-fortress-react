@@ -45,15 +45,31 @@ export const priceStyle = {
   alignItems: 'center',
   paddingBottom: '3px',
   fontStyle: 'italic',
-  borderBottom: '1px solid #DFDFDF',
+  borderBottom: '1px solid red',
   transition: '0.5s',
+  fontSize: '24px',
 
+  '::before': {
+    content: `'$'`,
+    display: 'block',
+    color: 'black',
+  },
   ':hover': {
     cursor: 'pointer',
     fontStyle: '30px',
     transition: '0.5s',
     transform: 'translateX(-3px) translateY(-3px)',
-    boxShadow: '1px 1px 0 rgba(1, 1, 0, 0.1)',
+    boxShadow:
+      '0 0 5px rgba(0, 0, 0, 0.5),0 0 10px rgba(0, 0, 0, 0.3),0 0 20px rgba(0, 0, 0, 0.2),0 0 30px rgba(1, 1, 0, 0.1)',
+    // '::after': {
+    //   content: `''`,
+    //   color: 'black',
+    //   width: '20px',
+    //   height: '20px',
+    //   opacity: '0.5',
+    //   border: '1px solid red',
+    //   transition: '0.5s',
+    // },
   },
 };
 
