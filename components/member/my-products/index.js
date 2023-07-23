@@ -4,6 +4,7 @@ import ProductsTable from './products-table';
 import MemberPagenation from '../member-pagenation';
 import { Typography } from '@mui/material';
 import Link from 'next/link';
+import CUICard from '@/components/customUI/cui-card';
 
 function createData(name, picture, price, sid) {
   return { name, picture, price, sid };
@@ -66,11 +67,27 @@ export default function MyProducts() {
 
   return (
     <div className={`${styles['my-container']}`}>
-      {data?.rows.length > 0 ? (
+      {/* {data?.rows.length > 0 ? 
+      (
         <>
           <ProductsTable data={data} />
           <MemberPagenation data={data} />
         </>
+      )  */}
+      {data?.rows.length > 0 ? (
+        <CUICard
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-around',
+            flexWrap: 'wrap',
+          }}
+        >
+          {data.rows.map((el, i) => (
+            <div key={el.sid} style={{ width: '30%', flexShrink: '0' }}>
+              <CUICard sx={{}}>123</CUICard>
+            </div>
+          ))}
+        </CUICard>
       ) : (
         <>
           <div className={`${styles['guide-to']}`}>

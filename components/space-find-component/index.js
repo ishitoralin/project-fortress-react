@@ -23,11 +23,8 @@ export default function SpaceFindComponent() {
     });
 
     try {
-      console.time('start');
       city = city.replace('台', '臺');
-      console.log(
-        `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`
-      );
+
       const res = await axios.get(
         `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`
       );
@@ -39,14 +36,12 @@ export default function SpaceFindComponent() {
           res.data.forEach((el, i2) => {
             if (i === i2) {
               res.data[i].Photo1 = '';
-              console.log(res.data[i].Name);
             }
           });
         }
       });
-      console.log(res.data);
+
       setGymData(() => res.data);
-      console.timeEnd('start');
     } catch (error) {
       console.log(error);
     }
@@ -126,9 +121,9 @@ export default function SpaceFindComponent() {
             .selectAll('path')
             .attr(
               'transform',
-              `translate(-${(pointer(e)[0] * 3) / 2 + pointer(e)[0]} , -${
-                (pointer(e)[1] * 3) / 2
-              }) scale(3)`
+              `translate(-${pointer(e)[0] * 1} , -${
+                pointer(e)[1] * 0.8
+              }) scale(2)`
             );
         } else {
           setGymData([]);

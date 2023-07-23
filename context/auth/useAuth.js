@@ -5,7 +5,11 @@ import { useRouter } from 'next/router';
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [auth, setAuth] = useState({ isLogin: false, user: {} });
+  const [auth, setAuth] = useState({
+    isLogin: false,
+    user: {},
+    accessToken: '',
+  });
   const router = useRouter();
   const logout = () => {
     //TODO delete cookie and delete JWT in heap here
@@ -13,6 +17,27 @@ export const AuthProvider = ({ children }) => {
       return { ...prev, isLogin: false, user: {} };
     });
     // router.push('/');
+  };
+  const login = async (values) => {
+    try {
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/auth/login`,
+        JSON.stringify(values),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+      setAuth({
+        isLogin: true,
+        user: res.data.user,
+        accessToken: res.data.accessToken,
+      });
+      return res.data.message;
+    } catch (err) {
+      return err.response.data.message;
+    }
   };
   // const checkAuth = async () => {
   //   setLoading(true);
@@ -26,35 +51,14 @@ export const AuthProvider = ({ children }) => {
   //     setLoading(false);
   //   }
   // };
-  const checkAuth = () => {
-    if (Math.random() > 0.5) {
-      setAuth({
-        isLogin: true,
-        user: { userId: 1, icon: '/icons/hero_icon1.jpg' },
-      });
-    } else {
-      setAuth({
-        isLogin: true,
-        user: { userId: 1, icon: '' },
-      });
-    }
-  };
-  // const checkAuth = async () => {
-  //   const promise = await new Promise((reslove, reject) => {
-  //     setTimeout(() => {
-  //       reslove();
-  //     }, 10000);
-  //   });
-  //   setAuth({ isLogin: true, user: { userId: 1 } });
-  // };
 
   useEffect(() => {
     //還沒接
-    checkAuth();
+    // checkAuth();
   }, []);
-  const isLogin = () => auth.isLogin;
+
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout, isLogin }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout, login }}>
       {children}
     </AuthContext.Provider>
   );
