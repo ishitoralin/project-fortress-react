@@ -8,7 +8,7 @@ import React, { useEffect, useRef } from 'react';
 
 export default function DialogModal(props) {
   const idRef = useRef(props.currentIndex);
-  console.log(props.open && !!props.currentID);
+  // console.log(props.open && !!props.currentID);
   return (
     <Dialog
       open={props.open && !!props.currentID}

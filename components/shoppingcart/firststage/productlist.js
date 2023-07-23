@@ -15,7 +15,7 @@ const fakeDataForCart = {
       id: 19,
       photo: 'photo',
       name: '緊身衣',
-      detail: 'abavafdasfewweg gewaef gre',
+      detail: 'abavafd asfewweg gewaef gre',
       price: 3000,
       quantity: 2,
     },
@@ -44,7 +44,7 @@ const fakeDataForCart = {
       quantity: 1,
     },
     {
-      id: 4,
+      id: 5,
       photo: 'photo',
       name: '貓貓裝',
       detail: 'neko neko',
@@ -52,7 +52,7 @@ const fakeDataForCart = {
       quantity: 1,
     },
     {
-      id: 4,
+      id: 6,
       photo: 'photo',
       name: '貓貓裝',
       detail: 'neko neko',
@@ -60,7 +60,7 @@ const fakeDataForCart = {
       quantity: 1,
     },
     {
-      id: 4,
+      id: 323,
       photo: 'photo',
       name: '貓貓裝',
       detail: 'neko neko',
@@ -251,7 +251,6 @@ export default function ProductList(props) {
           <div className={`${styles.countComponent}`}>NTD </div>
         </div>
       </div>
-
     </>
   ) : (
     <div className={styles.noItem}>尚未選取商品</div>

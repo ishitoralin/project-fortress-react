@@ -1,5 +1,5 @@
 /* 精選商品欄位 */
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
 //Import button
 const WhiteTheme = createColorTheme('#FFF');
@@ -20,85 +21,154 @@ import {
   Typography,
 } from '@mui/material';
 
+import {
+  CUICardStyle,
+  CardMediaStyle,
+  CheckButton,
+  ProductNameAndIcon,
+  CardActionsStyle,
+  priceStyle,
+  FavorIconStyle,
+} from '@/styles/shoppingcart-style/recommandproduct';
 export default function RecommendProduct(props) {
-  const fakeDataForCards = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const [favor, setFavor] = useState(false);
+  const fakeDataForCart = {
+    products: [
+      {
+        id: 19,
+        photo: 'photo',
+        name: '緊身衣',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 3000,
+      },
+      {
+        id: 24,
+        photo: 'photo',
+        name: '布偶裝',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 2000,
+      },
+      {
+        id: 3,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 4,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 5,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 6,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 323,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 25,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+    ],
+  };
+
   const spaceBetween = 0;
   const slidesPerView = 3;
+
   return (
     <>
       <div>
         <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
-        <div className={`${styles.recommendProductContainer}`}></div>
-        <Swiper
-          spaceBetween={spaceBetween}
-          slidesPerView={slidesPerView}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
-        >
-          {fakeDataForCards.map((v, i) => {
-            return (
-              <SwiperSlide key={i}>
-                <div className={`${styles.recommendProductComponent}`} key={i}>
-                  <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
-                    <CardMedia
-                      sx={{ height: '140px' }}
-                      // image={`/SCphoto/capoo${i}.png`}
-                      image="/SCphoto/capoo${i}.png"
-                      title="green iguana"
-                    />
-                    <CardContent>
-                      <Typography gutterBottom variant="h5" component="div">
-                        <Box
+        <div className={`${styles.recommendProductContainer}`}>
+          <Swiper
+            spaceBetween={spaceBetween}
+            slidesPerView={slidesPerView}
+            onSlideChange={() => console.log('slide change')}
+            onSwiper={(swiper) => console.log(swiper)}
+          >
+            {fakeDataForCart.products.map((v, i) => {
+              return (
+                <SwiperSlide key={i}>
+                  <div
+                    className={`${styles.recommendProductComponent}`}
+                    key={i}
+                  >
+                    <CUICard sx={CUICardStyle}>
+                      <CardMedia
+                        sx={CardMediaStyle}
+                        image="/SCphoto/capoo${i}.png"
+                        title="green iguana"
+                      />
+                      <CardContent>
+                        <Typography gutterBottom variant="h5" component="div">
+                          <Box sx={ProductNameAndIcon}>
+                            <Box>{v.name}</Box>
+                            <Box
+                              sx={FavorIconStyle}
+                              onClick={() => {
+                                console.log(i + 1, v.id);
+                                favor ? setFavor(false) : setFavor(true);
+                              }}
+                            >
+                              {favor ? (
+                                <FavoriteIcon></FavoriteIcon>
+                              ) : (
+                                <FavoriteBorderIcon></FavoriteBorderIcon>
+                              )}
+                            </Box>
+                          </Box>
+                        </Typography>
+                        <Typography
+                          variant="body2"
+                          color="text.secondary"
                           sx={{
-                            m: 'auto',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
+                            overflow: 'hidden',
                           }}
                         >
-                          <Box>產品名稱{v}</Box>
-                          <FavoriteBorderIcon></FavoriteBorderIcon>
-                        </Box>
-                      </Typography>
-                      <Typography variant="body2" color="text.secondary">
-                        產品敘述 Lizards are a widespread group of squamate
-                        reptiles, with over 6,000 species
-                      </Typography>
-                    </CardContent>
-                    <CardActions
-                      sx={{
-                        margin: 'auto',
-                        display: 'flex',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
-                        p: '16px',
-                      }}
-                    >
-                      Price
-                      <WhiteTheme>
-                        <Button
-                          size="small"
-                          sx={{
-                            // width: '10%',
-                            ':hover': {
-                              opacity: '.7',
-                              bgcolor: 'var(--main-red)',
-                            },
-                          }}
-                          // color={props.color}
-                          variant="contained"
-                          onClick={props.onClick}
-                        >
-                          查看商品詳情
-                        </Button>
-                      </WhiteTheme>
-                    </CardActions>
-                  </CUICard>
-                </div>
-              </SwiperSlide>
-            );
-          })}
-        </Swiper>
+                          {v.detail}
+                        </Typography>
+                      </CardContent>
+                      <CardActions sx={CardActionsStyle}>
+                        <Box sx={priceStyle}>{v.price}</Box>
+                        <WhiteTheme>
+                          <Button
+                            size="small"
+                            sx={CheckButton}
+                            variant="contained"
+                            onClick={props.onClick}
+                          >
+                            查看商品詳情
+                          </Button>
+                        </WhiteTheme>
+                      </CardActions>
+                    </CUICard>
+                  </div>
+                </SwiperSlide>
+              );
+            })}
+          </Swiper>
+        </div>
         <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
@@ -107,59 +177,36 @@ export default function RecommendProduct(props) {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {fakeDataForCards.map((v, i) => {
+            {fakeDataForCart.products.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
                   <div
                     className={`${styles.recommendProductComponent}`}
                     key={i}
                   >
-                    <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
+                    <CUICard sx={CUICardStyle}>
                       <CardMedia
-                        sx={{ height: '140px' }}
-                        // image={`/SCphoto/capoo${i}.png`}
+                        sx={CardMediaStyle}
                         image="/SCphoto/capoo${i}.png"
                         title="green iguana"
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                          <Box
-                            sx={{
-                              m: 'auto',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Box>產品名稱{v}</Box>
-                            <FavoriteBorderIcon></FavoriteBorderIcon>
+                          <Box sx={ProductNameAndIcon}>
+                            <Box>{v.name}</Box>
+                            <FavoriteBorderIcon sx={FavorIconStyle} />
                           </Box>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          產品敘述 Lizards are a widespread group of squamate
-                          reptiles, with over 6,000 species
+                          {v.detail}
                         </Typography>
                       </CardContent>
-                      <CardActions
-                        sx={{
-                          margin: 'auto',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          p: '16px',
-                        }}
-                      >
-                        Price
+                      <CardActions sx={CardActionsStyle}>
+                        <Box sx={priceStyle}>{v.price}</Box>
                         <WhiteTheme>
                           <Button
                             size="small"
-                            sx={{
-                              // width: '10%',
-                              ':hover': {
-                                opacity: '.7',
-                                bgcolor: 'var(--main-red)',
-                              },
-                            }}
+                            sx={CheckButton}
                             // color={props.color}
                             variant="contained"
                             onClick={props.onClick}
@@ -183,59 +230,39 @@ export default function RecommendProduct(props) {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {fakeDataForCards.map((v, i) => {
+            {fakeDataForCart.products.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
                   <div
                     className={`${styles.recommendProductComponent}`}
                     key={i}
                   >
-                    <CUICard sx={{ maxWidth: 320, minWidth: 320 }}>
+                    <CUICard sx={CUICardStyle}>
                       <CardMedia
-                        sx={{ height: '140px' }}
+                        sx={CardMediaStyle}
                         // image={`/SCphoto/capoo${i}.png`}
                         image="/SCphoto/capoo${i}.png"
                         title="green iguana"
                       />
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
-                          <Box
-                            sx={{
-                              m: 'auto',
-                              display: 'flex',
-                              justifyContent: 'space-between',
-                              alignItems: 'center',
-                            }}
-                          >
-                            <Box>產品名稱{v}</Box>
-                            <FavoriteBorderIcon></FavoriteBorderIcon>
+                          <Box sx={ProductNameAndIcon}>
+                            <Box>{v.name}</Box>
+                            <FavoriteBorderIcon
+                              sx={FavorIconStyle}
+                            ></FavoriteBorderIcon>
                           </Box>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
-                          產品敘述 Lizards are a widespread group of squamate
-                          reptiles, with over 6,000 species
+                          {v.detail}
                         </Typography>
                       </CardContent>
-                      <CardActions
-                        sx={{
-                          margin: 'auto',
-                          display: 'flex',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                          p: '16px',
-                        }}
-                      >
-                        Price
+                      <CardActions sx={CardActionsStyle}>
+                        <Box sx={priceStyle}>{v.price}</Box>
                         <WhiteTheme>
                           <Button
                             size="small"
-                            sx={{
-                              // width: '10%',
-                              ':hover': {
-                                opacity: '.7',
-                                bgcolor: 'var(--main-red)',
-                              },
-                            }}
+                            sx={CheckButton}
                             // color={props.color}
                             variant="contained"
                             onClick={props.onClick}
