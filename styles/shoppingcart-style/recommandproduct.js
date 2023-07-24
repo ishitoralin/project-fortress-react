@@ -1,3 +1,41 @@
+import getBrickBackground from '@/libs/getBrickBackground';
+
+// index
+export const indexBackground = {
+  bgcolor: 'var(--deepgrey)',
+  backgroundImage: getBrickBackground({
+    scale: 2,
+    rotate: 7,
+    brickColor: 'hsl(100, 0%, 30%)',
+    strokeColor: 'hsl(100, 0%, 20%)',
+  }),
+  backgroundAttachment: 'fixed',
+  zIndex: '10',
+};
+
+export const indexContainer = {
+  margin: '0 150px',
+  padding: '0 50px',
+  backgroundColor: 'white',
+  zIndex: '20',
+  '@media screen and (max-width: 768px)': {
+    fontSize: '16px',
+    margin: '0 75px',
+  },
+  '@media screen and (max-width: 576px)': {
+    fontSize: '16px',
+    margin: '0',
+  },
+};
+
+export const checkbutton = {
+  backgroundColor: 'white',
+  zIndex: '30',
+  position: 'sticky',
+  bottom: '0',
+};
+
+// first page recommanded products
 export const CUICardStyle = {
   maxWidth: '90%',
   minWidth: '90%',
@@ -20,6 +58,10 @@ export const CheckButton = {
   ':hover': {
     opacity: '.7',
     bgcolor: 'var(--main-red)',
+  },
+  '@media screen and (max-width:996)': {
+    width: '50px',
+    overflow: 'hidden',
   },
 };
 
@@ -61,15 +103,9 @@ export const priceStyle = {
     transform: 'translateX(-3px) translateY(-3px)',
     boxShadow:
       '0 0 5px rgba(0, 0, 0, 0.5),0 0 10px rgba(0, 0, 0, 0.3),0 0 20px rgba(0, 0, 0, 0.2),0 0 30px rgba(1, 1, 0, 0.1)',
-    // '::after': {
-    //   content: `''`,
-    //   color: 'black',
-    //   width: '20px',
-    //   height: '20px',
-    //   opacity: '0.5',
-    //   border: '1px solid red',
-    //   transition: '0.5s',
-    // },
+  },
+  '@media screen and (max-width: 767px)': {
+    fontSize: '16px',
   },
 };
 

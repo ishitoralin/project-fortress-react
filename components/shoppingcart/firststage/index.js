@@ -1,72 +1,32 @@
-import React, { useState } from 'react';
 import ShoppingState from './shoppingstate';
 import ProductListTitle from './productlisttitle';
 import ProductList from './productlist';
 import SpatialProduct from './spatialproduct';
 import RecommendProduct from './recommendproduct';
 import Box from '@mui/material/Box';
-import getBrickBackground from '@/libs/getBrickBackground';
 import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
+import {
+  indexBackground,
+  indexContainer,
+  checkbutton,
+} from '@/styles/shoppingcart-style/recommandproduct';
 export default function FirstStageComponent() {
   return (
     <>
-      <Box
-        sx={{
-          bgcolor: 'var(--deepgrey)',
-          backgroundImage: getBrickBackground({
-            scale: 2,
-            rotate: 7,
-            brickColor: 'hsl(100, 0%, 30%)',
-            strokeColor: 'hsl(100, 0%, 20%)',
-          }),
-          backgroundAttachment: 'fixed',
-          zIndex: '10',
-        }}
-      >
-        <Box
-          sx={{
-            margin: '0 150px',
-            padding: '0 50px',
-            backgroundColor: 'white',
-            zIndex: '20',
-          }}
-        >
+      <Box sx={indexBackground}>
+        <Box sx={indexContainer}>
           <ShoppingState></ShoppingState>
           <ProductListTitle></ProductListTitle>
           <ProductList></ProductList>
         </Box>
       </Box>
-      <Box
-        sx={{
-          bgcolor: 'var(--deepgrey)',
-          backgroundImage: getBrickBackground({
-            scale: 2,
-            rotate: 7,
-            brickColor: 'hsl(100, 0%, 30%)',
-            strokeColor: 'hsl(100, 0%, 20%)',
-          }),
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        <Box
-          sx={{
-            margin: '0 150px',
-            padding: '0 50px',
-            backgroundColor: 'white',
-          }}
-        >
+      <Box sx={indexBackground}>
+        <Box sx={indexContainer}>
           <SpatialProduct></SpatialProduct>
           <RecommendProduct></RecommendProduct>
         </Box>
       </Box>
-      <Box
-        sx={{
-          backgroundColor: 'white',
-          zIndex: '30',
-          position: 'sticky',
-          bottom: '0',
-        }}
-      >
+      <Box sx={checkbutton}>
         <CheckButton></CheckButton>
       </Box>
     </>

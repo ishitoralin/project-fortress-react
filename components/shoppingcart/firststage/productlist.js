@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import Dialog from '@/components/shoppingcart/Dialog';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
 const fakeDataForCart = {
   products: [
     {
@@ -84,7 +85,6 @@ export default function ProductList(props) {
   const [open, setOpen] = useState(false);
   const [currentID, setCurrentID] = useState(0);
   const [currentIndex, setCurrentIndex] = useState();
-
   const handleClickOpen = (id, i) => {
     setOpen(true);
     setCurrentID(id);
@@ -240,17 +240,21 @@ export default function ProductList(props) {
       {/* 產品總計欄位 */}
       <div>
         <div className={styles.countContainer}>
-          <div className={`${styles.countBlankComponent}`}>總計</div>
+          <div className={`${styles.countComponent}`}>總計</div>
           <div className={`${styles.countBlankComponent}`}></div>
-          <div className={`${styles.countBlankComponent}`}></div>
-          <div className={`${styles.countBlankComponent}`}></div>
-          <div className={`${styles.countBlankComponent}`}>
-            總共{finalQuantity}件
+          <div className={`${styles.countComponentForQuantity}`}>
+            {finalQuantity}
           </div>
-          <div className={`${styles.countComponent}`}>{finalPrice}</div>
-          <div className={`${styles.countBlankComponent}`}>NTD </div>
+          <div className={`${styles.countComponentForNumber}`}>
+            {finalPrice}
+          </div>
+          <div className={`${styles.countComponent}`}>NTD </div>
         </div>
       </div>
+      {/* <CheckButton
+        finalQuantity={finalQuantity}
+        finalPrice={finalPrice}
+      ></CheckButton> */}
     </>
   ) : (
     <div className={styles.noItem}>尚未選取商品</div>

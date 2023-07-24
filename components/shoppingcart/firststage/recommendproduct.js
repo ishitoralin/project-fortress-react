@@ -34,8 +34,8 @@ export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
-  // const [favorTarget, setFavorTarget] = useState(-1);
 
+  // data from database
   const fakeDataForCart1 = {
     products: [
       {
@@ -224,14 +224,21 @@ export default function RecommendProduct(props) {
     return setRecommandProduct(newData);
   }, []);
   useEffect(() => {
-    // TODO fetch data
-    return setPopularProducts(fakeDataForCart2.products);
+    // TODO fetch data then push into newData
+    const newData = fakeDataForCart2.products.map((v, i) => {
+      return { ...v, isFavor: false };
+    });
+    return setPopularProducts(newData);
   }, []);
   useEffect(() => {
-    // TODO fetch data
-    return setRecommandLesson(fakeDataForCart3.products);
+    // TODO fetch data then push into newData
+    const newData = fakeDataForCart3.products.map((v, i) => {
+      return { ...v, isFavor: false };
+    });
+    return setRecommandLesson(newData);
   }, []);
 
+  // 收藏按鈕
   const changeFavorState = (items, id) => {
     return items.map((v, i) => {
       if (v.id === id) {
@@ -241,10 +248,24 @@ export default function RecommendProduct(props) {
       }
     });
   };
-
+  const [slidesPerView, setSlidesPerView] = useState(3);
   const spaceBetween = 0;
-  const slidesPerView = 3;
-
+  const handleScreenResize = () => {
+    if (996 < window.innerWidth) {
+      setSlidesPerView(3);
+    } else if (414 <= window.innerWidth <= 996) {
+      setSlidesPerView(2);
+    } else if (window.innerWidth < 414) {
+      setSlidesPerView(1);
+    }
+  };
+  useEffect(() => {
+    handleScreenResize();
+    window.addEventListener('resize', handleScreenResize);
+    return () => {
+      window.removeEventListener('resize', handleScreenResize);
+    };
+  }, []);
   return (
     <>
       <div>
