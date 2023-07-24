@@ -19,12 +19,15 @@ export const indexContainer = {
   backgroundColor: 'white',
   zIndex: '20',
   '@media screen and (max-width: 768px)': {
-    fontSize: '16px',
     margin: '0 75px',
   },
   '@media screen and (max-width: 576px)': {
-    fontSize: '16px',
     margin: '0',
+    padding: '0 30px',
+  },
+  '@media screen and (max-width: 414px)': {
+    margin: '0',
+    padding: '0 15px',
   },
 };
 

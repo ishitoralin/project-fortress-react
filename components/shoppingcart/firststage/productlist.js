@@ -171,8 +171,8 @@ export default function ProductList(props) {
               {/* 將map後的data塞到對應的欄位 */}
               <div className={`${styles.ProductListComponent2} `}>{i + 1}</div>
 
-              <div className={`${styles.ProductListComponent1}`}>
-                <div className={`${styles.ProductListComponent1}`}>
+              <div className={`${styles.ProductListComponent3}`}>
+                <div className={`${styles.ProductListComponentForPhoto}`}>
                   {v.photo}
                 </div>
                 <div className={styles.ProductListComponentForDetail}>
@@ -184,7 +184,7 @@ export default function ProductList(props) {
               {/* 新增可調整數量按鈕 */}
               <div className={styles.ProductListComponentForQuantity}>
                 <Button
-                  sx={{ color: 'black' }}
+                  sx={{ color: 'black', padding: '0' }}
                   onClick={() => {
                     if (v.quantity > 1) {
                       setCartItems(minus(cartItems, v.id));
@@ -208,8 +208,12 @@ export default function ProductList(props) {
                     setCartItems(update(cartItems, v.id, value));
                   }}
                 />
+                {/* TODO Button 寬度設定 */}
                 <Button
-                  sx={{ color: 'black', width: '30px' }}
+                  sx={{
+                    color: 'black',
+                    padding: '0',
+                  }}
                   onClick={() => {
                     setCartItems(add(cartItems, v.id));
                   }}
