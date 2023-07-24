@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
-
+import { jwtTokenUrl, loginUrl, logoutUrl } from './config';
 import axios from 'axios';
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useRouter } from 'next/router';
 export const AuthContext = createContext(null);
 
@@ -11,24 +12,59 @@ export const AuthProvider = ({ children }) => {
     accessToken: '',
   });
   const router = useRouter();
-  const logout = () => {
-    //TODO delete cookie and delete JWT in heap here
-    setAuth((prev) => {
-      return { ...prev, isLogin: false, user: {} };
+  const refreshAuthLogic = (failedRequest) =>
+    axios
+      .get(jwtTokenUrl, { skipAuthRefresh: true })
+      .then((tokenRefreshResponse) => {
+        // localStorage.setItem('token', tokenRefreshResponse.data.token)
+        // failedRequest.response.config.headers['Authorization'] =
+        //   'Bearer ' + tokenRefreshResponse.data.token
+        failedRequest.response.config.headers['Authorization'] =
+          tokenRefreshResponse.data.accessToken;
+        console.log(tokenRefreshResponse);
+        // setAuth(
+        //   {isLogin: true,
+        //   user: {},
+        //   accessToken: '',
+        // })
+        return Promise.resolve();
+      })
+      .catch((e) => {
+        // TODO: handle redirect to login page
+        // setFetchError(e.message)
+        //window.location.reload(false)
+      });
+  const logout = async () => {
+    setAuth({
+      isLogin: false,
+      user: {},
+      accessToken: '',
     });
+    try {
+      const res = await axios.get(logoutUrl);
+      return res.data.message;
+    } catch (err) {
+      return err.response.data.message;
+    }
+    //TODO delete cookie and delete JWT in heap here
+
     // router.push('/');
+  };
+
+  const init = (axios) => {
+    // Instantiate the interceptor
+    createAuthRefreshInterceptor(axios, refreshAuthLogic, {
+      statusCodes: [401, 403],
+    });
   };
   const login = async (values) => {
     try {
-      const res = await axios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/auth/login`,
-        JSON.stringify(values),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      );
+      const res = await axios.post(loginUrl, JSON.stringify(values), {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
       setAuth({
         isLogin: true,
         user: res.data.user,
@@ -51,14 +87,21 @@ export const AuthProvider = ({ children }) => {
   //     setLoading(false);
   //   }
   // };
-
+  useEffect(() => {
+    if (auth?.accessToken)
+      //TODO remove console
+      console.log(
+        "set  axios.defaults.headers.common['Authorization'] = auth.accessToken;"
+      );
+    axios.defaults.headers.common['Authorization'] = auth.accessToken;
+  }, [auth?.accessToken]);
   useEffect(() => {
     //還沒接
     // checkAuth();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout, login }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout, login, init }}>
       {children}
     </AuthContext.Provider>
   );
