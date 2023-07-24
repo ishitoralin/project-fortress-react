@@ -75,3 +75,55 @@ export const useAuth = () => useContext(AuthContext);
 //   }, [auth.isLogin]);
 //   return <>{auth.isLogin ? children : <></>}</>;
 // }
+/* 
+<button
+        onClick={async () => {
+          // const email = ;
+          // const password = ;
+          const values = { email: 'mail62055@test.com', password: 'test1234' };
+          console.log({ email: 'mail62055@test.com', password: 'test1234' });
+          try {
+            const data = await axios.post(
+              'http://localhost:3001/api/auth/login',
+              JSON.stringify({
+                email: 'mail62055@test.com',
+                password: 'test1234',
+              }),
+              {
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                withCredentials: true,
+              }
+            );
+            console.log(data);
+          } catch (err) {
+            console.log(err.response.data);
+          }
+        }}
+      >
+        test
+      </button>
+      <button
+        onClick={async () => {
+          console.log(auth);
+          try {
+            const data = await axios.get(
+              'http://localhost:3001/api/auth/test',
+
+              {
+                headers: {
+                  Authorization: `Bearer ${auth.auth.accessToken}`,
+                },
+                withCredentials: true,
+              }
+            );
+            console.log(data);
+          } catch (err) {
+            console.log(err.response);
+          }
+        }}
+      >
+        test2
+      </button>
+*/
