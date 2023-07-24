@@ -1,5 +1,5 @@
 /* 精選商品欄位 */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
@@ -31,10 +31,12 @@ import {
   FavorIconStyle,
 } from '@/styles/shoppingcart-style/recommandproduct';
 export default function RecommendProduct(props) {
-  const [favor, setFavor] = useState(false);
-  const [favorTarget, setFavorTarget] = useState(-1);
-  // TODO 之後從資料庫fetch熱門商品時，要加上sid:1~3，分別代表本季新品、熱門商品及推薦課程，否則FavorIcon會有bug
-  const fakeDataForCart = {
+  const [recommandProduct, setRecommandProduct] = useState([]);
+  const [popularProducts, setPopularProducts] = useState([]);
+  const [recommandLesson, setRecommandLesson] = useState([]);
+  // const [favorTarget, setFavorTarget] = useState(-1);
+
+  const fakeDataForCart1 = {
     products: [
       {
         id: 19,
@@ -94,6 +96,151 @@ export default function RecommendProduct(props) {
       },
     ],
   };
+  const fakeDataForCart2 = {
+    products: [
+      {
+        id: 19,
+        photo: 'photo',
+        name: '緊身衣',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 3000,
+      },
+      {
+        id: 24,
+        photo: 'photo',
+        name: '布偶裝',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 2000,
+      },
+      {
+        id: 3,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 4,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 5,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 6,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 323,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 25,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+    ],
+  };
+  const fakeDataForCart3 = {
+    products: [
+      {
+        id: 19,
+        photo: 'photo',
+        name: '緊身衣',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 3000,
+      },
+      {
+        id: 24,
+        photo: 'photo',
+        name: '布偶裝',
+        detail: 'abavafdasfewweg gewaef gre',
+        price: 2000,
+      },
+      {
+        id: 3,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 4,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 5,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 6,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 323,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+      {
+        id: 25,
+        photo: 'photo',
+        name: '貓貓裝',
+        detail: 'neko neko',
+        price: 600,
+      },
+    ],
+  };
+  useEffect(() => {
+    // TODO fetch data then push into newData
+    const newData = fakeDataForCart1.products.map((v, i) => {
+      return { ...v, isFavor: false };
+    });
+    return setRecommandProduct(newData);
+  }, []);
+  useEffect(() => {
+    // TODO fetch data
+    return setPopularProducts(fakeDataForCart2.products);
+  }, []);
+  useEffect(() => {
+    // TODO fetch data
+    return setRecommandLesson(fakeDataForCart3.products);
+  }, []);
+
+  const changeFavorState = (items, id) => {
+    return items.map((v, i) => {
+      if (v.id === id) {
+        return { ...v, isFavor: !v.isFavor };
+      } else {
+        return { ...v };
+      }
+    });
+  };
 
   const spaceBetween = 0;
   const slidesPerView = 3;
@@ -109,7 +256,7 @@ export default function RecommendProduct(props) {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {fakeDataForCart.products.map((v, i) => {
+            {recommandProduct.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
                   <div
@@ -126,16 +273,16 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
-                            {/* TODO fix favor Icon tmr */}
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
-                                favor ? setFavor(false) : setFavor(true);
-                                const targetIndex = i;
-                                setFavorTarget(targetIndex);
+                                setRecommandProduct(
+                                  changeFavorState(recommandProduct, v.id)
+                                );
+                                console.log();
                               }}
                             >
-                              {favor && favorTarget === i ? (
+                              {v.isFavor ? (
                                 <FavoriteIcon
                                   sx={FavorIconStyle}
                                 ></FavoriteIcon>
@@ -185,7 +332,7 @@ export default function RecommendProduct(props) {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {fakeDataForCart.products.map((v, i) => {
+            {popularProducts.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
                   <div
@@ -202,16 +349,16 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
-                            {/* TODO fix favor Icon tmr */}
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
-                                favor ? setFavor(false) : setFavor(true);
-                                const targetIndex = i;
-                                setFavorTarget(targetIndex);
+                                setPopularProducts(
+                                  changeFavorState(popularProducts, v.id)
+                                );
+                                console.log();
                               }}
                             >
-                              {favor && favorTarget === i ? (
+                              {v.isFavor ? (
                                 <FavoriteIcon
                                   sx={FavorIconStyle}
                                 ></FavoriteIcon>
@@ -262,7 +409,7 @@ export default function RecommendProduct(props) {
             onSlideChange={() => console.log('slide change')}
             onSwiper={(swiper) => console.log(swiper)}
           >
-            {fakeDataForCart.products.map((v, i) => {
+            {recommandLesson.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
                   <div
@@ -280,9 +427,25 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
-                            <FavoriteBorderIcon
+                            <Box
                               sx={FavorIconStyle}
-                            ></FavoriteBorderIcon>
+                              onClick={() => {
+                                setRecommandLesson(
+                                  changeFavorState(recommandLesson, v.id)
+                                );
+                                console.log();
+                              }}
+                            >
+                              {v.isFavor ? (
+                                <FavoriteIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteIcon>
+                              ) : (
+                                <FavoriteBorderIcon
+                                  sx={FavorIconStyle}
+                                ></FavoriteBorderIcon>
+                              )}
+                            </Box>
                           </Box>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
