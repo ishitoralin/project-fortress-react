@@ -35,11 +35,15 @@ const CoachEditPage = () => {
       <Container sx={{ p: 4 }}>
         <CUICard
           sx={{
+            position: 'relative',
             p: 4,
             bgcolor: '#eee',
             display: 'flex',
-            // flexDirection: {xs: 'column', md: 'row'},
-            // flexWrap: 'wrap',
+            flexDirection: {
+              xs: 'column',
+              sm: 'row',
+            },
+            flexWrap: 'wrap',
           }}
         >
           <CUICard
@@ -47,8 +51,8 @@ const CoachEditPage = () => {
               borderRadius: '5px',
               overflow: 'hidden',
               position: 'relative',
-              height: '200px',
-              width: '200px',
+              height: { xs: '150px', sm: '200px' },
+              width: { xs: '150px', sm: '200px' },
             }}
           >
             <Image
@@ -67,14 +71,19 @@ const CoachEditPage = () => {
               flexDirection: 'column',
               flex: 1,
               justifyContent: 'space-evenly',
-              padding: 2,
-              marginLeft: '2rem',
+              paddingBlock: 2,
+              marginLeft: { xs: 0, sm: '2rem' },
             }}
           >
             <Box
               sx={{
                 display: 'flex',
-                flexWrap: 'wrap-reverse',
+                flex: 1,
+                justifyContent: 'space-between',
+                flexDirection: {
+                  xs: 'column-reverse',
+                  md: 'row',
+                },
               }}
             >
               <Box>
@@ -86,6 +95,7 @@ const CoachEditPage = () => {
                     color="steel_grey"
                     inputProps={{
                       style: {
+                        display: 'block',
                         padding: 0,
                         fontSize: '1.5rem',
                       },
@@ -98,6 +108,12 @@ const CoachEditPage = () => {
               <Box
                 sx={{
                   marginLeft: 'auto',
+                  position: {
+                    xs: 'absolute',
+                    sm: 'static',
+                  },
+                  top: '3rem',
+                  right: '3rem',
                 }}
               >
                 {isEdit ? (
@@ -125,7 +141,16 @@ const CoachEditPage = () => {
                 )}
               </Box>
             </Box>
-            <Box sx={{ marginTop: '1rem' }}>
+            <Box
+              sx={{
+                width: '100%',
+                marginTop: '1rem',
+                display: {
+                  xs: 'none',
+                  md: 'block',
+                },
+              }}
+            >
               {isEdit ? (
                 <TextField
                   color="steel_grey"
@@ -143,7 +168,34 @@ const CoachEditPage = () => {
               )}
             </Box>
           </Box>
+          <Box
+            sx={{
+              width: '100%',
+              display: {
+                xs: 'block',
+                md: 'none',
+              },
+              marginTop: '1rem',
+            }}
+          >
+            {isEdit ? (
+              <TextField
+                color="steel_grey"
+                sx={{ width: '100%' }}
+                variant="standard"
+                multiline
+                value={
+                  '嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！'
+                }
+              />
+            ) : (
+              <Typography>
+                嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
+              </Typography>
+            )}
+          </Box>
         </CUICard>
+
         <CUICard sx={{ bgcolor: '#eee', marginTop: '2rem', p: 4 }}>
           <Typography
             variant="h5"
