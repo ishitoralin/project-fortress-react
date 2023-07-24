@@ -108,10 +108,14 @@ const filterIconStyle = {
   },
 };
 
-const RightSide = ({ showFilter }) => {
-  const [location, setLocation] = useState('Taipei');
-  const [displayMode, setDisplayMode] = useState('list');
-
+const RightSide = ({
+  lessons,
+  showFilter,
+  location,
+  setLocation,
+  displayMode,
+  setDisplayMode,
+}) => {
   return (
     <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>

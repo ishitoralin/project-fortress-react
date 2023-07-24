@@ -31,12 +31,35 @@ const filterIconStyle = {
   },
 };
 
-const LessionPage = () => {
-  const [tags, setTags] = useState([]);
-  const [tagsMap, setTagsMap] = useState();
+export const getStaticProps = async () => {
+  let tags = null;
+  try {
+    const res = await fetch('http://localhost:3001/lesson/tags');
+    tags = await res.json();
+  } catch (ex) {
+    tags = ['目前沒有標籤可選取'];
+  }
+  return { props: { tags } };
+};
+
+const DEFAULTLOCATION = 'Taipei';
+const DEFAULTDISPLAYMODE = 'list';
+
+const LESSON_BASEURL = 'http://localhost:3001/lesson';
+
+const LessionPage = (props) => {
+  const [lessons, setLessons] = useState([]);
+  const [location, setLocation] = useState(DEFAULTLOCATION);
+  const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
+
+  const [tags, setTags] = useState(props.tags);
   const [selectTags, setSelecTags] = useState([]);
 
   const [filterShow, setFilterShow] = useState(false);
+
+  const [queryObj, setQueryObj] = useState({
+    location,
+  });
 
   const showFilter = () => {
     setFilterShow(true);
@@ -46,18 +69,17 @@ const LessionPage = () => {
     setFilterShow(false);
   };
 
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch('http://localhost:3001/lesson/tags');
-        const datas = await res.json();
-        setTagsMap(datas);
-        setTags(datas);
-      } catch (ex) {
-        setTags(['目前沒有標籤可選取']);
-      }
-    })();
-  }, []);
+  const queryLessons = async () => {
+    const baseUrl = `${LESSON_BASEURL}?`;
+    const fetchUrl = Object.entries(queryObj).reduce(
+      (url, [key, value]) => `${url}${key}=${value}&`,
+      baseUrl
+    );
+    const res = await fetch(fetchUrl);
+    const datas = await res.json();
+
+    setLessons(datas);
+  };
 
   return (
     <Box>
@@ -120,7 +142,7 @@ const LessionPage = () => {
                           const newTags = [...tags, tag];
                           newTags.sort(
                             (t1, t2) =>
-                              tagsMap.indexOf(t1) - tagsMap.indexOf(t2)
+                              props.tags.indexOf(t1) - props.tags.indexOf(t2)
                           );
                           setTags(newTags);
                           setSelecTags(newState);
@@ -137,7 +159,14 @@ const LessionPage = () => {
                 <CUISlider key={'slider'} label="價格範圍" />,
               ]}
             />
-            <RightSide showFilter={showFilter} />
+            <RightSide
+              showFilter={showFilter}
+              location={location}
+              setLocation={setLocation}
+              displayMode={displayMode}
+              setDisplayMode={setDisplayMode}
+              lessons={lessons}
+            />
           </Box>
         </Container>
       </Box>
