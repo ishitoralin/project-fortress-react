@@ -3,12 +3,10 @@ import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import styles from '@/styles/shoppingcart.module.css';
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
 import {} from '@/components/shoppingcart/firststage/productlist';
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
-  // const fakeDataForCart = {
   //   products: [
   //     {
   //       id: 19,
@@ -106,20 +104,6 @@ export default function CheckButton(props) {
 
   return (
     <>
-      {/* 產品總計欄位
-      <div>
-        <div className={styles.countContainer}>
-          <div className={`${styles.countComponent}`}>總計</div>
-          <div className={`${styles.countBlankComponent}`}></div>
-          <div className={`${styles.countComponentForQuantity}`}>
-            {finalQuantity}
-          </div>
-          <div className={`${styles.countComponentForNumber}`}>
-            {finalPrice}
-          </div>
-          <div className={`${styles.countComponent}`}>NTD </div>
-        </div>
-      </div> */}
       {/* 結帳按鈕 */}
       <div className={`${styles.checkButtonContainer}`}>
         <div className={`${styles.checkButtonComponent}`}>
@@ -145,7 +129,7 @@ export default function CheckButton(props) {
           <RedTheme>
             <Button
               sx={{
-                width: '300px',
+                width: '200px',
                 ':hover': {
                   opacity: '.7',
                   bgcolor: 'var(--main-red)',

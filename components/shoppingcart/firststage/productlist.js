@@ -6,10 +6,15 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+
 import createColorTheme from '@/libs/CreateColorTheme';
 import Dialog from '@/components/shoppingcart/Dialog';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
+import SpatialProduct from './spatialproduct';
+import RecommendProduct from './recommendproduct';
+import { checkbutton } from '@/styles/shoppingcart-style/recommandproduct';
 const fakeDataForCart = {
   products: [
     {
@@ -24,7 +29,7 @@ const fakeDataForCart = {
       id: 2,
       photo: 'photo',
       name: '布偶裝',
-      detail: 'abavafdasfewweg gewaef gre',
+      detail: 'abavafd asfewweg gewaef gre',
       price: 2000,
       quantity: 1,
     },
@@ -78,6 +83,7 @@ const fakeDataForCart = {
     },
   ],
 };
+
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
@@ -163,12 +169,18 @@ export default function ProductList(props) {
               key={i}
             >
               {/* 將map後的data塞到對應的欄位 */}
-              <div className={`${styles.ProductListComponent}`}>{i + 1}</div>
-              <div className={`${styles.ProductListComponent}`}>{v.photo}</div>
-              <div className={styles.ProductListComponentForDetail}>
-                {v.detail}
+              <div className={`${styles.ProductListComponent2} `}>{i + 1}</div>
+
+              <div className={`${styles.ProductListComponent1}`}>
+                <div className={`${styles.ProductListComponent1}`}>
+                  {v.photo}
+                </div>
+                <div className={styles.ProductListComponentForDetail}>
+                  {v.detail}
+                </div>
               </div>
-              <div className={`${styles.ProductListComponent}`}>{v.price}</div>
+
+              <div className={`${styles.ProductListComponent1}`}>{v.price}</div>
               {/* 新增可調整數量按鈕 */}
               <div className={styles.ProductListComponentForQuantity}>
                 <Button
@@ -197,7 +209,7 @@ export default function ProductList(props) {
                   }}
                 />
                 <Button
-                  sx={{ color: 'black' }}
+                  sx={{ color: 'black', width: '30px' }}
                   onClick={() => {
                     setCartItems(add(cartItems, v.id));
                   }}
@@ -205,11 +217,11 @@ export default function ProductList(props) {
                   <AddIcon></AddIcon>
                 </Button>
               </div>
-              <div className={`${styles.ProductListComponent}`}>
+              <div className={`${styles.ProductListComponent1}`}>
                 {v.price * v.quantity}
               </div>
               {/* 刪除按鈕 */}
-              <div className={`${styles.ProductListComponent}`}>
+              <div className={`${styles.ProductListComponent2} `}>
                 <Button
                   sx={{ color: 'black' }}
                   onClick={() => {
@@ -237,24 +249,25 @@ export default function ProductList(props) {
           currentIndex={currentIndex}
         ></Dialog>
       )}
-      {/* 產品總計欄位 */}
-      <div>
-        <div className={styles.countContainer}>
-          <div className={`${styles.countComponent}`}>總計</div>
-          <div className={`${styles.countBlankComponent}`}></div>
-          <div className={`${styles.countComponentForQuantity}`}>
-            {finalQuantity}
+      <SpatialProduct></SpatialProduct>
+      <RecommendProduct></RecommendProduct>
+      <Box sx={checkbutton}>
+        {/* 產品總計欄位 */}
+        <div>
+          <div className={styles.countContainer}>
+            <div className={`${styles.countComponent}`}>總計：</div>
+            <div className={`${styles.countComponentForQuantity}`}>
+              {finalQuantity}
+            </div>
+            <div className={`${styles.countComponentForNumber}`}>
+              {finalPrice}
+            </div>
+            <div className={`${styles.countBlankComponent}`}>
+              <CheckButton></CheckButton>
+            </div>
           </div>
-          <div className={`${styles.countComponentForNumber}`}>
-            {finalPrice}
-          </div>
-          <div className={`${styles.countComponent}`}>NTD </div>
         </div>
-      </div>
-      {/* <CheckButton
-        finalQuantity={finalQuantity}
-        finalPrice={finalPrice}
-      ></CheckButton> */}
+      </Box>
     </>
   ) : (
     <div className={styles.noItem}>尚未選取商品</div>

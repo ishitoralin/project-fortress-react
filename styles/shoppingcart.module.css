@@ -14,6 +14,12 @@
   height: 30px;
   text-align: center;
   font-size: 24px;
+  @media screen and (max-width: 996px) {
+    height: 50px;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+  }
 }
 
 /* shoppingstage */
@@ -34,8 +40,10 @@
   justify-content: center;
   align-items: center;
   font-size: 25px;
+  @media screen and (max-width: 600px) {
+    height: 50px;
+  }
 }
-
 /* shoppinglisttitle */
 /* 購物車產品標題物件容器 */
 .ProductionTitleContainer {
@@ -94,19 +102,44 @@
 }
 
 /* 待結帳產品列表物件 */
-.ProductListComponent {
+/*  */
+.ProductListComponent1 {
+  /* 商品資訊&數量&單價用 */
   width: 14%;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 996px) {
+    font-size: 20px;
+  }
 }
+/* 序號&刪除按鈕用 */
+.ProductListComponent2 {
+  width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    display: none;
+  }
+}
+
 .ProductListComponentForDetail {
   width: 14%;
   height: 100px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 20px;
+
+  @media screen and (max-width: 996px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 600px) {
+    display: none;
+  }
 }
 /* 待結帳產品列表物件(數量欄專用) */
 .ProductListComponentForQuantity {
@@ -141,16 +174,20 @@
 }
 .countComponentForQuantity {
   width: 14%;
-  height: 100px;
+  /* height: 100px; */
   display: flex;
   justify-content: center;
   align-items: center;
+  border-bottom: 1px solid #dfdfdf;
+  font-style: italic;
 }
-.countComponentForQuantity::before{
+.countComponentForQuantity::before {
   content: '總共';
+  margin-right: 10px;
 }
-.countComponentForQuantity::after{
-  content: '件';
+.countComponentForQuantity::after {
+  content: '件商品';
+  margin-left: 10px;
 }
 .countComponentForNumber {
   width: 14%;
@@ -160,7 +197,7 @@
   align-items: center;
 }
 .countComponentForNumber::before {
-  content: '$';
+  content: '合計 $';
   color: black;
 }
 .countBlankComponent {
@@ -184,7 +221,6 @@
 }
 
 .checkButtonComponent {
-  width: 15%;
   height: 70px;
   margin-left: 10px;
   display: flex;
@@ -357,7 +393,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  /* border: 2px solid red; */
 }
 
 .PaymentMethod:hover {
@@ -379,4 +414,33 @@
 
 .favorite-icon:hover {
   fill: red;
+}
+
+@media screen and (max-width: 996px) {
+  .ShoppingState996 {
+    font-size: 20px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .ShoppingState600 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .productListTitle996 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .productListTitleWords996 {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .productListTitleWords576 {
+    display: none;
+  }
 }
