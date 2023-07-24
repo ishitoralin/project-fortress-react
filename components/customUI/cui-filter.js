@@ -16,7 +16,7 @@ const labelWithIconStyle = {
 };
 
 const Item = styled(Box)(() => ({
-  padding: '1.2rem 1.5rem',
+  padding: '1.2rem 2rem',
 }));
 
 const Filter = ({ noButton = false, ...props }) => {

@@ -152,7 +152,7 @@ export const iconStyle = {
 export const priceRegiBoxStyle = {
   display: 'flex',
   alignItems: 'center',
-  padding: '.25rem 5% 0rem 1rem',
+  padding: '.25rem 5% 0 0',
 };
 
 export const priceIconStyle = {
