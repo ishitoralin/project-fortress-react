@@ -53,8 +53,7 @@ export const cardBehindStyle = {
   padding: '2rem',
   textAlign: 'right',
   borderRadius: '15px',
-  bgcolor: 'slategrey',
-  zIndex: 1,
+  bgcolor: 'var(--steel-grey)',
 };
 
 export const cardTitleStyle = {
@@ -67,7 +66,7 @@ export const cardTitleStyle = {
 const cardButtonStyle = {
   position: 'absolute',
   right: '5%',
-  bottom: '0%',
+  bottom: '-3%',
   borderWidth: '3px',
   overflow: 'hidden',
   ':before': {

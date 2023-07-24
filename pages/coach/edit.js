@@ -9,8 +9,10 @@ import {
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
-import getBrickBackground from '@/libs/getBrickBackground';
+
 import CUICard from '@/components/customUI/cui-card';
+import BrickWallPaper from '@/components/brick-wallpaper';
+
 import Image from 'next/image';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -28,21 +30,16 @@ const CoachEditPage = () => {
   const [isEdit, setIsEdit] = useState(false);
 
   return (
-    <Box
-      sx={{
-        backgroundImage: getBrickBackground({
-          brickColor: 'hsl(0, 0%, 20%)',
-          rotate: 10,
-          scale: 1.75,
-        }),
-      }}
-    >
+    <Box>
+      <BrickWallPaper scale={1.75} rotate={5} />
       <Container sx={{ p: 4 }}>
         <CUICard
           sx={{
             p: 4,
             bgcolor: '#eee',
             display: 'flex',
+            // flexDirection: {xs: 'column', md: 'row'},
+            // flexWrap: 'wrap',
           }}
         >
           <CUICard
@@ -77,6 +74,7 @@ const CoachEditPage = () => {
             <Box
               sx={{
                 display: 'flex',
+                flexWrap: 'wrap-reverse',
               }}
             >
               <Box>

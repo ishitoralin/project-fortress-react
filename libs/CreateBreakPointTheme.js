@@ -1,15 +1,23 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default function createBreakPointTheme(values) {
-  const theme = createTheme({
-    breakpoints: {
-      values: {
-        th: 1000,
-      },
-    },
-  });
-
+export default function createBreakPointTheme(value) {
   return function CustomTheme({ children }) {
-    return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+    return (
+      <ThemeProvider
+        theme={(theme) =>
+          createTheme({
+            ...theme,
+            breakpoints: {
+              values: {
+                ...theme.breakpoints.values,
+                ...value,
+              },
+            },
+          })
+        }
+      >
+        {children}
+      </ThemeProvider>
+    );
   };
 }

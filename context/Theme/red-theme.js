@@ -1,14 +1,8 @@
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { MAIN_RED } from '@/assets/color-code';
+import createColorTheme from '@/libs/CreateColorTheme';
 
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: MAIN_RED,
-    },
-  },
-});
+const ColorTheme = createColorTheme(MAIN_RED);
 
 export default function RedTheme({ children }) {
-  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+  return <ColorTheme>{children}</ColorTheme>;
 }

@@ -2,6 +2,12 @@ const ANIMATIME = '1s';
 
 export const cardGridStyle = {
   position: 'relative',
+  transform: {
+    xs: 'translateX(0%)',
+    sm: 'translateX(20%)',
+    md: 'translateX(50%)',
+    th: 'translateX(0%)',
+  },
   width: { xs: '80%', lg: '90%' },
   height: { xs: '80%', lg: '90%' },
   ':before': {
@@ -21,8 +27,8 @@ export const coachCardBoxStyle = {
   position: 'absolute',
   width: '100%',
   height: '100%',
-  top: { md: '15%', lg: '-15%' },
-  left: { xs: '-35%', md: '-65%', lg: '-25%' },
+  top: { th: '8%', lg: '-10%' },
+  left: { xs: '-70%', sm: '-35%', th: '-65%', lg: '-25%' },
   transition: '.5s',
   animation: `${ANIMATIME} move-card forwards`,
   '@keyframes move-card': {
@@ -34,11 +40,11 @@ export const coachCardBoxStyle = {
 
 export const imageBoxStyle = {
   position: 'absolute',
-  left: '30%',
-  top: { md: '5%', lg: '25%' },
+  left: { xs: '30%', sm: '40%', md: '65%', th: '30%' },
+  top: { xs: '0%', th: '5%', lg: '25%' },
   transform: 'rotateZ(-10deg)',
-  width: { xs: '40%', md: '35%', lg: '45%' },
-  height: { md: '35%', lg: '45%' },
+  width: { xs: '30%', sm: '40%', th: '35%', lg: '45%' },
+  height: { xs: '30%', sm: '40%', th: '35%', lg: '45%' },
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   transition: '.5s',
   zIndex: 1,
@@ -77,12 +83,15 @@ export const cardFrontStyle = {
   color: 'white',
   width: '76%',
   height: '30%',
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+  overflowY: 'scroll',
   borderBottomLeftRadius: '15px',
   borderBottomRightRadius: '15px',
   bgcolor: 'var(--steel-grey)',
   boxShadow: '0 -6px 3px -3px rgba(0, 0, 0, 0.2)',
   transition: '.5s',
-  // zIndex: 2,
   animation: `${ANIMATIME} grow-up forwards`,
   '@keyframes grow-up': {
     '100%': {
