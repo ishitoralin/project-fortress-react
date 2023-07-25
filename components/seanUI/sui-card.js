@@ -7,13 +7,36 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { useState } from 'react';
+
+import { ExeCardDialog } from './sui-card-dialog';
 
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 
-function SUICardList({ type, list, rowRWD = [6, 6, 4, 4, 3] }) {
+// === 右手邊的計畫表
+function SUICardList({
+  type,
+  list,
+  rowRWD = [6, 6, 4, 4, 3],
+  exerciseScheduleList,
+  setExerciseScheduleList,
+}) {
   // rowRWD: [xs,sm,md,lg,xl]
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedItem, setSelectedItem] = useState(null);
+
+  // Create a function to handle opening the dialog and setting the selected item:
+  const handleDialogOpen = (item) => {
+    setSelectedItem(item);
+    setDialogOpen(true);
+  };
+
+  // Create a function to handle closing the dialog:
+  const handleDialogClose = () => {
+    setDialogOpen(false);
+  };
+
   return (
     <Paper
       sx={{
@@ -54,12 +77,31 @@ function SUICardList({ type, list, rowRWD = [6, 6, 4, 4, 3] }) {
             // sm={4}
             md={rowRWD[2]}
             key={i}
-            sx={{ display: 'flex', justifyContent: 'center', p: 1 }}
+            sx={{
+              display: 'flex',
+              justifyContent: 'center',
+              p: 1,
+            }}
           >
-            <MyCard type={type} item={item} />
+            <Box
+              onClick={() => handleDialogOpen(item)}
+              sx={{ cursor: 'pointer', width: '100%' }}
+            >
+              <MyCard type={type} item={item} />
+            </Box>
           </Grid>
         ))}
       </Grid>
+      {list.length > 0 && type === 'exercise' && (
+        <ExeCardDialog
+          open={dialogOpen}
+          onClose={handleDialogClose}
+          item={selectedItem}
+          setItem={setSelectedItem}
+          exerciseScheduleList={exerciseScheduleList}
+          setExerciseScheduleList={setExerciseScheduleList}
+        />
+      )}
     </Paper>
   );
 }
@@ -68,7 +110,7 @@ function MyCard({ type, item }) {
   let img;
   let name;
   if (type === 'exercise') {
-    img = '/react-imgs/record/exercise/' + item.exercise_img;
+    img = '/react-imgs/record/exercise/' + item.img;
     name = item.exercise_name;
   } else {
     img = '/react-imgs/record/food/' + item.food_img;

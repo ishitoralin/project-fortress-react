@@ -161,7 +161,7 @@ const NuBox = styled(Box)(() => ({
 
 //<<< style
 
-const ExercisePage = () => {
+const DietPage = () => {
   // ============================================================
   const foodInit = { key: 0, value: '全部', label: '全部' };
   const router = useRouter();
@@ -511,32 +511,7 @@ const ExercisePage = () => {
                   蛋白質 (g)
                 </Box>
               </Box>
-              <Section
-                sx={{
-                  height: '350px',
-                  overflow: 'auto',
-                  position: 'relative',
-                  // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
-                  '&::-webkit-scrollbar': {
-                    width: 20,
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: 'var(--fortress)',
-                    borderRadius: '5px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    borderRadius: '5px',
-                    backgroundColor: 'var(--deepgrey)',
-                    transition: '.5s',
-                    '&:hover': {
-                      filter: 'brightness(0.85)',
-                      backgroundColor: 'var(--main-red)',
-                    },
-                  },
-                }}
-              >
-                <SUISchedule type="food" list={dietList} />
-              </Section>
+              <SUISchedule type="food" list={dietList} />
             </SUIScheduleTable>
           </Grid>
         </Grid>
@@ -599,10 +574,10 @@ const ExercisePage = () => {
                 //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
                 // ]}
 
-                events={dietList.map((exercise, index) => {
+                events={dietList.map((diet, index) => {
                   return {
-                    title: exercise.name,
-                    date: exercise.date,
+                    title: diet.name,
+                    date: diet.date,
                     resourceId: 'a',
                   };
                 })}
@@ -701,4 +676,4 @@ const ExercisePage = () => {
   );
 };
 
-export default ExercisePage;
+export default DietPage;

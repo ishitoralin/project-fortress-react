@@ -5,6 +5,7 @@ import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
 import React, { useRef, useEffect } from 'react';
 // import { formatDate } from 'fullcalendar';
@@ -59,6 +60,13 @@ export default function SeanCalendar({ list, updateStartEnd }) {
             interactionPlugin,
             timeGridPlugin,
           ]}
+          select={(e) => console.log(e.startStr)}
+          //>>> for select event
+          eventClick={(e) => {
+            console.log(dayjs(e.event.start).format('YYYY-MM-DD'));
+            // console.log(e.event.extendedProps.dataDump);
+          }}
+          //<<< for select event
           // >>> max event show
           dayMaxEventRows={true} // for all non-TimeGrid views
           views={{
@@ -96,7 +104,7 @@ export default function SeanCalendar({ list, updateStartEnd }) {
               title: ele.name,
               date: formatDate(ele.date),
 
-              backgroundColor: 'lightgreen',
+              backgroundColor: 'green',
               editable: true,
               extendedProps: {
                 dataDump: 'you can store accessory here',

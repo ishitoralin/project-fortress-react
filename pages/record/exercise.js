@@ -1,5 +1,6 @@
-import { Container, Grid, Paper, Box } from '@mui/material';
+import { Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import dayjs from 'dayjs';
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
@@ -17,18 +18,18 @@ import {
 import SeanCalendar from '@/components/recordPage/calendar';
 import getCurrentMonthDates from '@/components/seanUI/sui-getCurrentMonth';
 // =========================================================================
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // =========================================================================
 import BodySvg from '@/components/bodySvg';
 // =========================================================================
-import FullCalendarLayout from '@/components/fullcalendar/layout';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import timeGridPlugin from '@fullcalendar/timegrid';
+// import FullCalendarLayout from '@/components/fullcalendar/layout';
+// import FullCalendar from '@fullcalendar/react';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import interactionPlugin from '@fullcalendar/interaction';
+// import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+// import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
@@ -39,26 +40,6 @@ import {
 } from '@/components/customHook/useDebounce';
 // =========================================================================
 //>>> pseudo-data
-const exerciseList = [
-  // exe: Num1=reps, Num2=sets
-  // diet: Num1=calories, Num2=protein
-  {
-    name: 'Bench sfvfvPress',
-    quantity: 60,
-    reps: 12,
-    sets: 5,
-    date: '2023-07-16',
-  },
-  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Bench Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Bench Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Leg Press', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-  { name: 'Squat', quantity: 60, reps: 12, sets: 5, date: '2023-07-16' },
-];
-
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
 
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
@@ -68,7 +49,7 @@ const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
-const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
+const scheduleItemWdith = ['48%', '18%', '12%', '22%'];
 
 const scheduleTitle = {
   borderRight: myBorder,
@@ -88,19 +69,46 @@ const Section = styled(Box)(({ theme }) => ({
 
 const ExercisePage = () => {
   // ============================================================
-  const exerciseInit = { key: 0, value: '全部', label: '全部' };
+  const today = dayjs(new Date()).format('YYYY-MM-DD');
+  const exerciseInit = { key: 0, value: '全部', label: '全部' }; //=== exercise type的初始值
   // const router = useRouter();
   const [exeType, setExeType] = useState([]); //=== for exercise-type cards
   const [bodyPart, setBodyPart] = useState([exerciseInit]); //=== for exercise body-part filter
   const bodyParts = useRef([exerciseInit]); //=== for selection options
   const [keyword, setKeyword] = useState(''); //=== for search keyword
-  const [exerciseRecord, setExerciseRecord] = useState([]);
+  const [exerciseRecord, setExerciseRecord] = useState([]); //=== exercise record for calendar
   const [exerciseStartEnd, setExerciseStartEnd] = useState(
     getCurrentMonthDates()
   ); //=== the start and end date for the calendar
+  const [scheduleDate, setScheduleDate] = useState(today);
+  const [exerciseScheduleList, setExerciseScheduleList] = useState([
+    // exe: Num1=reps, Num2=sets
+    // diet: Num1=calories, Num2=protein
+    { id: 1, sid: 1, name: '槓鈴深蹲', quantity: 60, reps: 12, sets: 5 },
+    { id: 2, sid: 2, name: '槓鈴臥推', quantity: 60, reps: 12, sets: 5 },
+  ]);
 
-  // console.log(getCurrentMonthDates());
-  // console.log('!!!');
+  const handleAddSchedule = (list, date) => {
+    list.map((ele) => {
+      // console.log(ele);
+      const data = { ...ele, date };
+      // console.log(data);
+      fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+        .then((r) => r.json())
+        .then((data) => {
+          console.log(data);
+        });
+      // .catch((error) => {
+      //   console.error('Error:', error);
+      // });
+    });
+  };
 
   // >>> initiallize
   useEffect(() => {
@@ -114,7 +122,6 @@ const ExercisePage = () => {
   }, []);
 
   useEffect(() => {
-    //QUESTION: member id是在後端驗證，所以前端不用傳id?
     fetch(
       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
     ) //=== for exercise record
@@ -206,10 +213,13 @@ const ExercisePage = () => {
               />
               {/* <input /> */}
             </Section>
+            {/* === For exercise card list === */}
             <SUICardList
               type="exercise"
               list={exeType}
               rowRWD={[6, 6, 4, 4, 3]}
+              exerciseScheduleList={exerciseScheduleList}
+              setExerciseScheduleList={setExerciseScheduleList}
             />
           </Grid>
 
@@ -228,6 +238,7 @@ const ExercisePage = () => {
             }}
           >
             <SUIScheduleTable sx={{ width: '100%' }}>
+              {/* TODO: 把按鈕跟datepicker夾到SUISchedule */}
               <Section>
                 <Box
                   sx={{
@@ -237,15 +248,28 @@ const ExercisePage = () => {
                     alignItems: 'center',
                   }}
                 >
-                  <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
+                  <CUIDatePicker
+                    sx={{ width: '80%' }}
+                    label={'pick a date'}
+                    format={'YYYY-MM-DD'}
+                    // defaultValue={today}
+                    value={scheduleDate}
+                    onChange={(e) => {
+                      console.log(new Date());
+                      setScheduleDate(e);
+                    }}
+                  />
                   <CUIButton
                     sx={{
                       width: '35%',
                       marginLeft: '20px',
                       transform: 'scale(1.2)',
                     }}
+                    onClick={(e) => {
+                      handleAddSchedule(exerciseScheduleList, scheduleDate);
+                    }}
                   >
-                    加入
+                    加入規劃
                   </CUIButton>
                 </Box>
               </Section>
@@ -253,7 +277,7 @@ const ExercisePage = () => {
                 sx={{
                   display: 'flex',
                   width: '100%',
-                  height: '40px',
+                  height: '50px',
                   borderTop: myBorder,
                   bgcolor: 'var(  --steel-light-grey)',
                   boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
@@ -280,36 +304,13 @@ const ExercisePage = () => {
                   組數
                 </Box>
               </Box>
-              <Section
-                sx={{
-                  height: '350px',
-                  overflow: 'auto',
-                  position: 'relative',
-                  // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
-                  '&::-webkit-scrollbar': {
-                    width: 20,
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: 'var(--fortress)',
-                    borderRadius: '5px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    borderRadius: '5px',
-                    backgroundColor: 'var(--deepgrey)',
-                    transition: '.5s',
-                    '&:hover': {
-                      filter: 'brightness(0.85)',
-                      backgroundColor: 'var(--main-red)',
-                    },
-                  },
-                }}
-              >
-                <SUISchedule
-                  type="exercise"
-                  list={exerciseList}
-                  width={scheduleItemWdith}
-                />
-              </Section>
+
+              <SUISchedule
+                type="exercise"
+                scheduleList={exerciseScheduleList}
+                setScheduleList={setExerciseScheduleList}
+                width={scheduleItemWdith}
+              />
             </SUIScheduleTable>
           </Grid>
         </Grid>
@@ -356,61 +357,6 @@ const ExercisePage = () => {
               list={exerciseRecord}
               updateStartEnd={setExerciseStartEnd}
             />
-            {/* <FullCalendarLayout>
-              <FullCalendar
-                height={'700px'}
-                plugins={[
-                  resourceTimelinePlugin,
-                  dayGridPlugin,
-                  interactionPlugin,
-                  timeGridPlugin,
-                ]}
-                // >>> max event show
-                dayMaxEventRows={true} // for all non-TimeGrid views
-                views={{
-                  dayGridMonth: {
-                    dayMaxEventRows: 3,
-                  },
-                }}
-                // <<< max event show
-                headerToolbar={{
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: '',
-                }}
-                initialView="dayGridMonth"
-                nowIndicator={true}
-                editable={true}
-                selectable={true}
-                selectMirror={true}
-                //TODO: different color for different body part?
-                // resources={[
-                //   { id: 'a', title: 'Auditorium A' },
-                //   { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-                //   { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-                // ]}
-                // initialEvents={[
-                //   { title: 'event 1', start: new Date(), resourceId: 'a' },
-                // ]}
-                // events={[
-                //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
-                //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
-                // ]}
-                // TODO: input for real data
-                events={exerciseList.map((exercise, index) => {
-                  return {
-                    // TODO: id:exerciseSid
-                    title: exercise.name,
-                    date: exercise.date,
-                    backgroundColor: 'lightgreen',
-                    editable: true,
-                    extendedProps: {
-                      dataDump: 'you can store accessory here',
-                    },
-                  };
-                })}
-              />
-            </FullCalendarLayout> */}
           </Grid>
         </Grid>
       </div>
@@ -444,11 +390,6 @@ const ExercisePage = () => {
               >
                 <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
                 <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
-                {/* <CUIButton
-                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
-                  >
-                    加入規劃
-                  </CUIButton> */}
               </Box>
               <Box sx={{ textAlign: 'center' }}>
                 {plotType.map((ele) => {
