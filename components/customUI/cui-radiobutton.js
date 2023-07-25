@@ -6,8 +6,8 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
 export default function CUIRadioButtons(props) {
-  const { ...ContainerFormStyle } = props.ContainerFormStyle;
-  const { ...ButtonFormStyle } = props.ButtonFormStyle;
+  const ContainerFormStyle = props.ContainerFormStyle || {};
+  const ButtonFormStyle = props.ButtonFormStyle || {};
   return (
     <>
       <FormControl sx={{ ...ContainerFormStyle }}>
@@ -22,25 +22,33 @@ export default function CUIRadioButtons(props) {
               <>
                 <Box
                   sx={{
+                    width: `${100 / props.RadioButtonArray.length}` + '%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    borderLeft: '1px solid black',
-                    // paddingLeft: '30px',
-                    margin: 'auto',
+                    borderLeft: `${i === 0 ? 'none' : '1px solid #D9D9D9'}`,
                   }}
                 >
-                  <FormControlLabel
-                    key={i}
-                    value={v.value}
-                    control={<Radio />}
-                    label={v.label}
-                  />
-                  {v.src === '' ? (
-                    v.Icon
-                  ) : (
-                    <img src={v.src} alt={v.alt} width={v.width}></img>
-                  )}
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <FormControlLabel
+                      // sx={{ position: 'absolute' }}
+                      key={i}
+                      value={v.value}
+                      control={<Radio />}
+                      label={v.label}
+                    />
+                    {v.src === '' ? (
+                      v.Icon
+                    ) : (
+                      <img src={v.src} alt={v.alt} width={v.width}></img>
+                    )}
+                  </div>
                 </Box>
               </>
             );

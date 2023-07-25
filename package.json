@@ -45,7 +45,7 @@
     "react-slick": "^0.29.0",
     "sass": "^1.63.6",
     "slick-carousel": "^1.8.1",
-    "swiper": "^10.0.3",
+    "swiper": "^10.0.4",
     "topojson": "^3.0.2",
     "topojson-client": "^3.1.0",
     "validator": "^13.9.0",
