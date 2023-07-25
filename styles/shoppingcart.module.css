@@ -408,6 +408,7 @@
 }
 /* 推薦商品元件 */
 .recommendProductComponent {
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

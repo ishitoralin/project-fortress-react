@@ -15,7 +15,10 @@ import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
 import SpatialProduct from './spatialproduct';
 import RecommendProduct from './recommendproduct';
 import { checkbutton } from '@/styles/shoppingcart-style/recommandproduct';
-import { indexContainer } from '@/styles/shoppingcart-style/recommandproduct';
+import {
+  indexContainer,
+  AddAndReduceButton,
+} from '@/styles/shoppingcart-style/recommandproduct';
 const fakeDataForCart = {
   products: [
     {
@@ -185,7 +188,7 @@ export default function ProductList(props) {
               {/* 新增可調整數量按鈕 */}
               <div className={styles.ProductListComponentForQuantity}>
                 <Button
-                  sx={{ color: 'black', padding: '0' }}
+                  sx={AddAndReduceButton}
                   onClick={() => {
                     if (v.quantity > 1) {
                       setCartItems(minus(cartItems, v.id));
@@ -211,10 +214,7 @@ export default function ProductList(props) {
                 />
                 {/* TODO Button 寬度設定 */}
                 <Button
-                  sx={{
-                    color: 'black',
-                    padding: '0',
-                  }}
+                  sx={AddAndReduceButton}
                   onClick={() => {
                     setCartItems(add(cartItems, v.id));
                   }}

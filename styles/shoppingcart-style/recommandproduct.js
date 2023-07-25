@@ -37,6 +37,9 @@ export const checkbutton = {
   zIndex: '30',
   position: 'sticky',
   bottom: '0',
+  '@media screen and (max-width:996)': {
+    padding: '0',
+  },
 };
 
 // first page recommanded products
@@ -70,7 +73,8 @@ export const CheckButton = {
 };
 
 export const ProductNameAndIcon = {
-  m: 'auto',
+  height: '100%',
+  margin: 'auto',
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
@@ -116,4 +120,16 @@ export const priceStyle = {
 export const FavorIconStyle = {
   fill: 'red',
   ':hover': { cursor: 'pointer' },
+};
+
+export const AddAndReduceButton = {
+  minWidth: '64px',
+  color: 'black',
+  padding: '0',
+  '@media screen and (max-width:1200px)': {
+    minWidth: '40px',
+  },
+  '@media screen and (max-width:768px)': {
+    minWidth: '32px',
+  },
 };

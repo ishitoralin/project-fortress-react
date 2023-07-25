@@ -334,7 +334,7 @@ export default function RecommendProduct(props) {
                             variant="contained"
                             onClick={props.onClick}
                           >
-                            查看商品詳情
+                            查看商品
                           </Button>
                         </WhiteTheme>
                       </CardActions>
@@ -366,7 +366,7 @@ export default function RecommendProduct(props) {
                         image="/SCphoto/capoo${i}.png"
                         title="green iguana"
                       />
-                      <CardContent>
+                      <CardContent sx={{ height: '100%' }}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box>{v.name}</Box>
@@ -391,13 +391,7 @@ export default function RecommendProduct(props) {
                             </Box>
                           </Box>
                         </Typography>
-                        <Typography
-                          variant="body2"
-                          color="text.secondary"
-                          sx={{
-                            overflow: 'hidden',
-                          }}
-                        >
+                        <Typography variant="body2" color="text.secondary">
                           {v.detail}
                         </Typography>
                       </CardContent>
@@ -407,11 +401,10 @@ export default function RecommendProduct(props) {
                           <Button
                             size="small"
                             sx={CheckButton}
-                            // color={props.color}
                             variant="contained"
                             onClick={props.onClick}
                           >
-                            查看商品詳情
+                            查看商品
                           </Button>
                         </WhiteTheme>
                       </CardActions>
@@ -483,7 +476,7 @@ export default function RecommendProduct(props) {
                             variant="contained"
                             onClick={props.onClick}
                           >
-                            查看商品詳情
+                            查看商品
                           </Button>
                         </WhiteTheme>
                       </CardActions>
