@@ -10,6 +10,7 @@ import CUISelect from '@/components/customUI/cui-select';
 import CUIButton from '@/components/customUI/cui-button';
 import { Box } from '@mui/material';
 import axios from 'axios';
+import { useAuth } from '@/context/auth/useAuth';
 
 const validationSchema = yup.object({
   mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
@@ -31,6 +32,7 @@ export default function Index() {
   };
   const [data, setData] = useState(initialData);
   const [displayData, setDisplayData] = useState(initialData);
+  const { auth } = useAuth();
   const formik = useFormik({
     initialValues: formikInitialData,
     validationSchema: validationSchema,
@@ -43,7 +45,23 @@ export default function Index() {
     },
   });
   useEffect(() => {
-    console.log('fetch');
+    console.log(auth.accessToken);
+   /*  const fetchMemberData = async () => {
+      try {
+        const data = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth.accessToken}`,
+            },
+            withCredentials: true,
+          }
+        );
+        console.log(data);
+      } catch (err) {
+        console.log(err.response);
+      }
+    }; */
     setData({
       sex: '不透露',
       address: '台北市北投區復興二路29號',

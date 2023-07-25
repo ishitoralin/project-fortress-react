@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
-import { jwtTokenUrl, loginUrl, logoutUrl } from './config';
+import { jwtTokenUrl, loginUrl, logoutUrl, checkAuthUrl } from './config';
 import axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useRouter } from 'next/router';
@@ -53,10 +53,12 @@ export const AuthProvider = ({ children }) => {
 
   const init = (axios) => {
     // Instantiate the interceptor
+    console.log('work');
     createAuthRefreshInterceptor(axios, refreshAuthLogic, {
       statusCodes: [401, 403],
     });
   };
+  init(axios);
   const login = async (values) => {
     try {
       const res = await axios.post(loginUrl, JSON.stringify(values), {
@@ -75,18 +77,25 @@ export const AuthProvider = ({ children }) => {
       return err.response.data.message;
     }
   };
-  // const checkAuth = async () => {
-  //   setLoading(true);
-  //   const res = await axios.get('api/users/check-login', {
-  //     withCredentials: true,
-  //   });
+  const checkAuth = async () => {
+    /* const res = await axios.get(checkAuthUrl, {
+      withCredentials: true,
+    });
 
-  //   if (res.data.message === 'authorized') {
-  //     const user = res.data.user;
-  //     setAuth({ isLogin: true, user });
-  //     setLoading(false);
-  //   }
-  // };
+    if (res.data.message === 'authorized') {
+      const user = res.data.user;
+      setAuth({ isLogin: true, user });
+      // setLoading(false);
+    } */
+    try {
+      const { data } = await axios.get(checkAuthUrl);
+      console.log(data.message);
+      // if (data.message) setAuth(true)
+    } catch (err) {
+      console.log(err.response.data);
+    }
+  };
+
   useEffect(() => {
     if (auth?.accessToken)
       //TODO remove console
@@ -97,9 +106,8 @@ export const AuthProvider = ({ children }) => {
   }, [auth?.accessToken]);
   useEffect(() => {
     //還沒接
-    // checkAuth();
+    checkAuth();
   }, []);
-
   return (
     <AuthContext.Provider value={{ auth, setAuth, logout, login, init }}>
       {children}
