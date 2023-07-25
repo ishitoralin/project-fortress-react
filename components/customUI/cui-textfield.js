@@ -25,6 +25,7 @@ export default function CUITextField(prop) {
           name={prop.name}
           type={showPassword ? 'text' : 'password'}
           value={prop.value}
+          required={prop.required}
           onChange={prop.onChange}
           onBlur={prop.onBlur}
           autoComplete={prop.autoComplete}
