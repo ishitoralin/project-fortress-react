@@ -15,6 +15,7 @@ import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
 import SpatialProduct from './spatialproduct';
 import RecommendProduct from './recommendproduct';
 import { checkbutton } from '@/styles/shoppingcart-style/recommandproduct';
+import { indexContainer } from '@/styles/shoppingcart-style/recommandproduct';
 const fakeDataForCart = {
   products: [
     {
@@ -156,7 +157,7 @@ export default function ProductList(props) {
 
   return cartItems.length > 0 ? (
     <>
-      <div>
+      <div className={`${styles.ProductListStyles}`}>
         {cartItems.map((v, i) => {
           return (
             <div
@@ -253,22 +254,32 @@ export default function ProductList(props) {
           currentIndex={currentIndex}
         ></Dialog>
       )}
-      <SpatialProduct></SpatialProduct>
-      <RecommendProduct></RecommendProduct>
+      <Box sx={indexContainer}>
+        <SpatialProduct></SpatialProduct>
+      </Box>
+      <Box sx={indexContainer}>
+        <RecommendProduct></RecommendProduct>
+      </Box>
       <Box sx={checkbutton}>
         {/* 產品總計欄位 */}
         <div>
           <div className={styles.countContainer}>
-            <div className={`${styles.countComponent}`}>總計：</div>
-            <div className={`${styles.countComponentForQuantity}`}>
-              {finalQuantity}
+            {/* button 以外的元件 */}
+            <div className={`${styles.countComponentWithoutButton}`}>
+              <div className={`${styles.countComponent}`}>總計：</div>
+              <div className={`${styles.countComponentForQuantity}`}>
+                {finalQuantity}
+              </div>
+              <div className={`${styles.countComponentForNumber}`}>
+                {finalPrice}
+              </div>
             </div>
-            <div className={`${styles.countComponentForNumber}`}>
-              {finalPrice}
-            </div>
-            <div className={`${styles.countBlankComponent}`}>
+            {/* 只包含button的元件 */}
+            {/* <div className={`${styles.countButtonContainer}`}> */}
+            <div className={`${styles.countButtonComponent}`}>
               <CheckButton></CheckButton>
             </div>
+            {/* </div> */}
           </div>
         </div>
       </Box>

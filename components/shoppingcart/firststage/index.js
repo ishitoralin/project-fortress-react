@@ -14,8 +14,8 @@ export default function FirstStageComponent() {
         <Box sx={indexContainer}>
           <ShoppingState></ShoppingState>
           <ProductListTitle></ProductListTitle>
-          <ProductList></ProductList>
         </Box>
+        <ProductList></ProductList>
       </Box>
     </>
   );

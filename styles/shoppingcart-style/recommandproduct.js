@@ -32,6 +32,7 @@ export const indexContainer = {
 };
 
 export const checkbutton = {
+  margin: '0',
   backgroundColor: 'white',
   zIndex: '30',
   position: 'sticky',
