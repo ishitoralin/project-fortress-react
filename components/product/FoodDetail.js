@@ -17,7 +17,7 @@ import {
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
-export default function Index() {
+export default function FoodDetail() {
   const router = useRouter();
 
   if (typeof window !== 'undefined') {
@@ -42,42 +42,6 @@ export default function Index() {
                 <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
                 <Typography variant="h6">4.8(150)</Typography>
               </div>
-            </div>
-            <div className={`${styles['color-selcetor']}`}>
-              <Typography variant="h6">顏色</Typography>
-              <div className={`${styles['colorbox']}`}>
-                <Paper className={`${styles['color1']}`} />
-                <Paper className={`${styles['color2']}`} />
-                <Paper className={`${styles['color3']}`} />
-                <Paper className={`${styles['color4']}`} />
-              </div>
-            </div>
-            <div className={`${styles['size-selector']}`}>
-              <Typography variant="h6">尺寸</Typography>
-
-              <Stack direction="row" spacing={2}>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  S
-                </Button>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  M
-                </Button>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  L
-                </Button>
-              </Stack>
             </div>
             <div className={`${styles['quantity']}`}>
               <Typography variant="h6">數量:</Typography>
