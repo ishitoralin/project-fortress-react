@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
-import useCurrentLocation from '@/hooks/useCurrentLocation';
 
 import {
   mainContentStyle,
@@ -52,8 +51,7 @@ const LESSON_BASEURL = 'http://localhost:3001/lesson';
 const LessionPage = (props) => {
   const router = useRouter();
   const [lessons, setLessons] = useState([]);
-  const [location, setLocation] = useState(router.query.location || 'taipei');
-
+  const [location, setLocation] = useState('taipei');
   const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
 
   const [tags, setTags] = useState(props.tags);
