@@ -7,12 +7,12 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import WhiteTheme from '@/context/Theme/white-theme';
 
-import absImg from '@/public/lesson-img/abs.jpg';
-import abs1Img from '@/public/lesson-img/abs1.jpg';
-import core from '@/public/lesson-img/core.jpg';
-import functional from '@/public/lesson-img/functional.jpg';
-import hiit from '@/public/lesson-img/HIIT.jpg';
-import oxgen1 from '@/public/lesson-img/oxgen1.jpg';
+import absImg from '@/public/lesson-img/core-abdominal.jpg';
+import abs1Img from '@/public/lesson-img/pilates.jpg';
+import core from '@/public/lesson-img/boxing-techniques.jpg';
+import functional from '@/public/lesson-img/bench-press.jpg';
+import hiit from '@/public/lesson-img/muscle-hypertrophy.jpg';
+import oxgen1 from '@/public/lesson-img/long-distance-running.jpg';
 import Link from 'next/link';
 
 import getBrickBackground from '@/libs/getBrickBackground';

@@ -31,7 +31,7 @@ export const cardImgStyle = {
     sm: 'block',
   },
   position: 'relative',
-  width: '30%',
+  width: '25%',
   height: '100%',
   overflow: 'hidden',
   boxShadow: '1px 0 7px #555',
@@ -39,7 +39,7 @@ export const cardImgStyle = {
 };
 
 export const cardBodyStyle = {
-  width: { xs: '100%', sm: '62%' },
+  width: { xs: '100%', sm: '65%' },
   padding: '1rem',
   marginLeft: 'auto',
 };
@@ -96,6 +96,9 @@ export const imgStyle = {
 export const cardTitleStyle = {
   display: 'inline-block',
   width: '90%',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
   textAlign: 'center',
   fontWeight: 'bold',
 };

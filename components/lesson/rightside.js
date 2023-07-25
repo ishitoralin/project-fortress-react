@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import { Box, IconButton, ToggleButtonGroup } from '@mui/material';
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -11,61 +9,6 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
 import UiButton from '../hh/UiButton';
-
-const lessonData = [
-  {
-    lessonName: '水阻划船入門',
-    img: '/lesson-img/abs.jpg',
-    time: '2024/05/06 14:00',
-    description:
-      '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-    coachName: '蔡岱峯',
-    price: '600',
-    enrolled: 10,
-    limit: 20,
-    tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-    location: '台北館',
-  },
-  {
-    lessonName: '水阻划船入門',
-    img: '/lesson-img/abs1.jpg',
-    time: '2024/05/06 14:00',
-    description:
-      '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-    coachName: '蔡岱峯',
-    price: '600',
-    enrolled: 10,
-    limit: 20,
-    tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-    location: '台北館',
-  },
-  {
-    lessonName: '水阻划船入門',
-    img: '/lesson-img/core.jpg',
-    time: '2024/05/06 14:00',
-    description:
-      '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-    coachName: '蔡岱峯',
-    price: '600',
-    enrolled: 10,
-    limit: 20,
-    tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-    location: '台北館',
-  },
-  {
-    lessonName: '水阻划船入門',
-    img: '/lesson-img/functional.jpg',
-    time: '2024/05/06 14:00',
-    description:
-      '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-    coachName: '蔡岱峯',
-    price: '600',
-    enrolled: 10,
-    limit: 20,
-    tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-    location: '台北館',
-  },
-];
 
 const rightSideStyle = {
   width: '65%',
@@ -126,13 +69,13 @@ const RightSide = ({
             aria-label="lessonlocation"
             onChange={(event, value) => value !== null && setLocation(value)}
           >
-            <UiButton value="Taipei" aria-label="Taipei">
+            <UiButton value="taipei" aria-label="taipei">
               台北
             </UiButton>
-            <UiButton value="Taichung" aria-label="Taichung">
+            <UiButton value="taichung" aria-label="taichung">
               台中
             </UiButton>
-            <UiButton value="Kaohsiung" aria-label="Kaohsiung">
+            <UiButton value="kaohsiung" aria-label="kaohsiung">
               高雄
             </UiButton>
           </ToggleButtonGroup>
@@ -164,16 +107,9 @@ const RightSide = ({
         </IconButton>
       </Box>
       {displayMode === 'list' ? (
-        [
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-          ...lessonData,
-        ].map((lesson, index) => <LessonCard key={index} lesson={lesson} />)
+        lessons.map((lessons, index) => (
+          <LessonCard key={index} lessons={lessons} />
+        ))
       ) : (
         <>
           <Box

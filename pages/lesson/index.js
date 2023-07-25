@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import useCurrentLocation from '@/hooks/useCurrentLocation';
 
 import {
   mainContentStyle,
@@ -32,24 +34,26 @@ const filterIconStyle = {
 };
 
 export const getStaticProps = async () => {
-  let tags = null;
+  const data = {};
   try {
     const res = await fetch('http://localhost:3001/lesson/tags');
-    tags = await res.json();
+    data.tags = await res.json();
   } catch (ex) {
-    tags = ['目前沒有標籤可選取'];
+    data.tags = ['目前沒有標籤可選取'];
   }
-  return { props: { tags } };
+
+  return { props: data };
 };
 
-const DEFAULTLOCATION = 'Taipei';
 const DEFAULTDISPLAYMODE = 'list';
 
 const LESSON_BASEURL = 'http://localhost:3001/lesson';
 
 const LessionPage = (props) => {
+  const router = useRouter();
   const [lessons, setLessons] = useState([]);
-  const [location, setLocation] = useState(DEFAULTLOCATION);
+  const [location, setLocation] = useState(router.query.location || 'taipei');
+
   const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
 
   const [tags, setTags] = useState(props.tags);
@@ -57,9 +61,9 @@ const LessionPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false);
 
-  const [queryObj, setQueryObj] = useState({
+  const queryObj = {
     location,
-  });
+  };
 
   const showFilter = () => {
     setFilterShow(true);
@@ -75,11 +79,31 @@ const LessionPage = (props) => {
       (url, [key, value]) => `${url}${key}=${value}&`,
       baseUrl
     );
-    const res = await fetch(fetchUrl);
-    const datas = await res.json();
+    try {
+      const res = await fetch(fetchUrl);
+      const datas = await res.json();
 
-    setLessons(datas);
+      setLessons(datas);
+      return true;
+    } catch (error) {
+      return false;
+    }
   };
+
+  const pushRouter = () => {
+    const queryString = Object.entries(queryObj).reduce(
+      (url, [key, value]) => `${url}${key}=${value}&`,
+      '?'
+    );
+    router.push(queryString, undefined, { shallow: true });
+  };
+
+  useEffect(() => {
+    (async () => {
+      const res = await queryLessons();
+      res && pushRouter();
+    })();
+  }, [location]);
 
   return (
     <Box>
@@ -159,14 +183,16 @@ const LessionPage = (props) => {
                 <CUISlider key={'slider'} label="價格範圍" />,
               ]}
             />
-            <RightSide
-              showFilter={showFilter}
-              location={location}
-              setLocation={setLocation}
-              displayMode={displayMode}
-              setDisplayMode={setDisplayMode}
-              lessons={lessons}
-            />
+            {lessons.length && (
+              <RightSide
+                showFilter={showFilter}
+                location={location}
+                setLocation={setLocation}
+                displayMode={displayMode}
+                setDisplayMode={setDisplayMode}
+                lessons={lessons}
+              />
+            )}
           </Box>
         </Container>
       </Box>

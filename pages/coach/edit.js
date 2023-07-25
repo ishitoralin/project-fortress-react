@@ -16,6 +16,8 @@ import BrickWallPaper from '@/components/brick-wallpaper';
 import Image from 'next/image';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import Layout from '@/components/layout/layout';
+import ProtectedRouteWrapper from '@/components/protected-route';
 
 const iconStyle = {
   bgcolor: 'var(--steel-grey)',
@@ -213,5 +215,11 @@ const CoachEditPage = () => {
     </Box>
   );
 };
+
+CoachEditPage.getlayout = (page) => (
+  <ProtectedRouteWrapper>
+    <Layout>{page}</Layout>
+  </ProtectedRouteWrapper>
+);
 
 export default CoachEditPage;
