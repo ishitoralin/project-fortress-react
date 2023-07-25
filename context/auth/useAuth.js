@@ -16,6 +16,7 @@ export const AuthProvider = ({ children }) => {
     axios
       .get(jwtTokenUrl, { skipAuthRefresh: true })
       .then((tokenRefreshResponse) => {
+        console.log('L19');
         // localStorage.setItem('token', tokenRefreshResponse.data.token)
         // failedRequest.response.config.headers['Authorization'] =
         //   'Bearer ' + tokenRefreshResponse.data.token
@@ -53,7 +54,6 @@ export const AuthProvider = ({ children }) => {
 
   const init = (axios) => {
     // Instantiate the interceptor
-    console.log('work');
     createAuthRefreshInterceptor(axios, refreshAuthLogic, {
       statusCodes: [401, 403],
     });
@@ -88,11 +88,14 @@ export const AuthProvider = ({ children }) => {
       // setLoading(false);
     } */
     try {
-      const { data } = await axios.get(checkAuthUrl);
-      console.log(data.message);
+      console.log('L93');
+      const data = await axios.get(checkAuthUrl, { withCredentials: true });
+      console.log(data);
+
       // if (data.message) setAuth(true)
     } catch (err) {
-      console.log(err.response.data);
+      console.log(err.response);
+      console.log('L96');
     }
   };
 
