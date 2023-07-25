@@ -5,6 +5,7 @@ export default function Footer() {
     <div
       style={{
         height: 'var(--footer-height)',
+        overflow: 'hidden',
         padding: '.5rem',
         width: '100%',
         position: 'absolute',

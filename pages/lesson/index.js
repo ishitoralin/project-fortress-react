@@ -1,13 +1,18 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import useCurrentLocation from '@/hooks/useCurrentLocation';
 
 import {
   mainContentStyle,
   flexRowSpaceBetween,
   containerStyle,
   filterStyle,
+  showFilterStyle,
 } from '@/styles/lesson-style/lesson-index-style';
 
-import { Box, Chip, Container, Typography } from '@mui/material';
+import { Box, Chip, Container, Typography, IconButton } from '@mui/material';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import Banner from '@/components/lesson/banner';
 import RightSide from '@/components/lesson/rightside';
 
@@ -17,23 +22,88 @@ import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
-const LessionPage = () => {
-  const [tags, setTags] = useState([]);
-  const [tagsMap, setTagsMap] = useState();
+const filterIconStyle = {
+  visibility: 'hidden',
+  '@media (max-width: 1000px)': {
+    visibility: 'visible',
+    transition: '.2s',
+    ':hover': {
+      transform: 'scale(1.2)',
+    },
+  },
+};
+
+export const getStaticProps = async () => {
+  const data = {};
+  try {
+    const res = await fetch('http://localhost:3001/lesson/tags');
+    data.tags = await res.json();
+  } catch (ex) {
+    data.tags = ['目前沒有標籤可選取'];
+  }
+
+  return { props: data };
+};
+
+const DEFAULTDISPLAYMODE = 'list';
+
+const LESSON_BASEURL = 'http://localhost:3001/lesson';
+
+const LessionPage = (props) => {
+  const router = useRouter();
+  const [lessons, setLessons] = useState([]);
+  const [location, setLocation] = useState(router.query.location || 'taipei');
+
+  const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
+
+  const [tags, setTags] = useState(props.tags);
   const [selectTags, setSelecTags] = useState([]);
+
+  const [filterShow, setFilterShow] = useState(false);
+
+  const queryObj = {
+    location,
+  };
+
+  const showFilter = () => {
+    setFilterShow(true);
+  };
+
+  const closeFilter = () => {
+    setFilterShow(false);
+  };
+
+  const queryLessons = async () => {
+    const baseUrl = `${LESSON_BASEURL}?`;
+    const fetchUrl = Object.entries(queryObj).reduce(
+      (url, [key, value]) => `${url}${key}=${value}&`,
+      baseUrl
+    );
+    try {
+      const res = await fetch(fetchUrl);
+      const datas = await res.json();
+
+      setLessons(datas);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
+  const pushRouter = () => {
+    const queryString = Object.entries(queryObj).reduce(
+      (url, [key, value]) => `${url}${key}=${value}&`,
+      '?'
+    );
+    router.push(queryString, undefined, { shallow: true });
+  };
 
   useEffect(() => {
     (async () => {
-      try {
-        const res = await fetch('http://localhost:3001/lesson/tags');
-        const datas = await res.json();
-        setTagsMap(datas);
-        setTags(datas);
-      } catch (ex) {
-        setTags(['目前沒有標籤可選取']);
-      }
+      const res = await queryLessons();
+      res && pushRouter();
     })();
-  }, []);
+  }, [location]);
 
   return (
     <Box>
@@ -49,7 +119,16 @@ const LessionPage = () => {
           </Typography>
           <Box sx={flexRowSpaceBetween}>
             <CUIFilter
-              sx={filterStyle}
+              sx={
+                filterShow
+                  ? { ...filterStyle, ...showFilterStyle }
+                  : filterStyle
+              }
+              filterIcon={
+                <IconButton sx={filterIconStyle} onClick={closeFilter}>
+                  <CancelIcon />
+                </IconButton>
+              }
               color={'steel_grey'}
               label="篩選器"
               items={[
@@ -87,7 +166,7 @@ const LessionPage = () => {
                           const newTags = [...tags, tag];
                           newTags.sort(
                             (t1, t2) =>
-                              tagsMap.indexOf(t1) - tagsMap.indexOf(t2)
+                              props.tags.indexOf(t1) - props.tags.indexOf(t2)
                           );
                           setTags(newTags);
                           setSelecTags(newState);
@@ -104,7 +183,16 @@ const LessionPage = () => {
                 <CUISlider key={'slider'} label="價格範圍" />,
               ]}
             />
-            <RightSide />
+            {lessons.length && (
+              <RightSide
+                showFilter={showFilter}
+                location={location}
+                setLocation={setLocation}
+                displayMode={displayMode}
+                setDisplayMode={setDisplayMode}
+                lessons={lessons}
+              />
+            )}
           </Box>
         </Container>
       </Box>

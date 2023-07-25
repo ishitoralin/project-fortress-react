@@ -1,3 +1,7 @@
+const cardRatioStyle = CSS.supports('aspect-ratio', 1)
+  ? { aspectRatio: '9 / 12' }
+  : { height: '500px' };
+
 export const cardGridStyle = {
   position: 'relative',
   width: '100%',
@@ -11,6 +15,7 @@ export const cardGridStyle = {
     left: '11%',
     border: '3px solid white',
   },
+  ...cardRatioStyle,
 };
 
 export const coachCardBoxStyle = {
@@ -48,8 +53,7 @@ export const cardBehindStyle = {
   padding: '2rem',
   textAlign: 'right',
   borderRadius: '15px',
-  bgcolor: 'slategrey',
-  zIndex: 1,
+  bgcolor: 'var(--steel-grey)',
 };
 
 export const cardTitleStyle = {
@@ -62,7 +66,7 @@ export const cardTitleStyle = {
 const cardButtonStyle = {
   position: 'absolute',
   right: '5%',
-  bottom: '0%',
+  bottom: '-3%',
   borderWidth: '3px',
   overflow: 'hidden',
   ':before': {
@@ -95,7 +99,7 @@ export const cardFrontStyle = {
   height: '36%',
   borderBottomLeftRadius: '15px',
   borderBottomRightRadius: '15px',
-  bgcolor: 'slategrey',
+  bgcolor: 'var(--steel-grey)',
   boxShadow: '0 -6px 3px -3px rgba(0, 0, 0, 0.2)',
   transition: '.5s',
   zIndex: 3,
@@ -110,12 +114,23 @@ export const cardInfoStyle = {
   position: 'relative',
   width: '100%',
   height: '80%',
-  overflow: 'hidden',
+  overflow: 'auto',
   textIndent: '2rem',
   fontSize: '.9rem',
-  display: '-webkit-box',
-  WebkitBoxOrient: 'vertical',
-  WebkitLineClamp: 6,
+  '::-webkit-scrollbar': {
+    display: 'none',
+  },
+
+  backgroundImage: `
+    linear-gradient(var(--steel-grey) 30%, hsla(0,0%,100%,0)),
+    linear-gradient(hsla(0,0%,100%,0), var(--steel-grey) 70%),
+    radial-gradient(at top, rgba(255,255,255,.5), transparent 70%),
+    radial-gradient(at bottom, rgba(255,255,255,.5), transparent 70%)`,
+
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'top, bottom, top, bottom',
+  backgroundSize: '100% 3rem, 100% 3rem, 100% 1rem, 100% 1rem',
+  backgroundAttachment: 'local, local, scroll, scroll',
 };
 
 export const drawImgAnimation = {

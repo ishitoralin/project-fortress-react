@@ -4,6 +4,12 @@ export const cardStyle = {
   margin: 'auto',
   width: '100%',
   height: '230px',
+  '@media (max-width: 768px)': {
+    height: '200px',
+  },
+  '@media (max-width: 500px)': {
+    height: 'fit-content',
+  },
   marginBottom: '1.5rem',
   bgcolor: mainWhite,
   display: 'flex',
@@ -20,8 +26,12 @@ export const cardStyle = {
 };
 
 export const cardImgStyle = {
+  display: {
+    xs: 'none',
+    sm: 'block',
+  },
   position: 'relative',
-  width: '30%',
+  width: '25%',
   height: '100%',
   overflow: 'hidden',
   boxShadow: '1px 0 7px #555',
@@ -29,7 +39,7 @@ export const cardImgStyle = {
 };
 
 export const cardBodyStyle = {
-  width: '62%',
+  width: { xs: '100%', sm: '65%' },
   padding: '1rem',
   marginLeft: 'auto',
 };
@@ -38,7 +48,7 @@ export const imgBox = {
   position: 'relative',
   width: '100%',
   height: '90%',
-  transform: 'rotateZ(-15deg) translate(10%, 10%)',
+  transform: 'rotateZ(-15deg) translate(12%, 10%)',
 };
 
 export const imgButtonStyle = {
@@ -74,16 +84,21 @@ export const imgButtonStyle = {
 };
 
 export const imgStyle = {
+  // not mui component
   width: '100%',
   height: '100%',
   filter: 'brightness(90%)',
   objectFit: 'cover',
+  objectPosition: 'top center',
   transition: '.5s',
 };
 
 export const cardTitleStyle = {
   display: 'inline-block',
   width: '90%',
+  overflow: 'hidden',
+  whiteSpace: 'nowrap',
+  textOverflow: 'ellipsis',
   textAlign: 'center',
   fontWeight: 'bold',
 };
@@ -140,7 +155,7 @@ export const iconStyle = {
 export const priceRegiBoxStyle = {
   display: 'flex',
   alignItems: 'center',
-  padding: '.25rem 5% 0rem 0rem',
+  padding: '.25rem 5% 0 0',
 };
 
 export const priceIconStyle = {
@@ -157,7 +172,7 @@ export const priceTextStyle = {
   ':before': {
     content: '""',
     position: 'absolute',
-    left: '-17.5%',
+    left: { xs: '10%', sm: '-17.5%' },
     bottom: 0,
     width: '130%',
     borderBottom: '3px solid var(--main-red)',

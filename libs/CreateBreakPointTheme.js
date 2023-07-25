@@ -1,16 +1,16 @@
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-export default function createColorTheme(color) {
+export default function createBreakPointTheme(value) {
   return function CustomTheme({ children }) {
     return (
       <ThemeProvider
         theme={(theme) =>
           createTheme({
             ...theme,
-            palette: {
-              ...theme.palette,
-              primary: {
-                main: color,
+            breakpoints: {
+              values: {
+                ...theme.breakpoints.values,
+                ...value,
               },
             },
           })

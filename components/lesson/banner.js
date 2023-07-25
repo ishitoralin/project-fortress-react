@@ -7,13 +7,15 @@ import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
 import WhiteTheme from '@/context/Theme/white-theme';
 
-import absImg from '@/public/lesson-img/abs.jpg';
-import abs1Img from '@/public/lesson-img/abs1.jpg';
-import core from '@/public/lesson-img/core.jpg';
-import functional from '@/public/lesson-img/functional.jpg';
-import hiit from '@/public/lesson-img/HIIT.jpg';
-import oxgen1 from '@/public/lesson-img/oxgen1.jpg';
+import absImg from '@/public/lesson-img/core-abdominal.jpg';
+import abs1Img from '@/public/lesson-img/pilates.jpg';
+import core from '@/public/lesson-img/boxing-techniques.jpg';
+import functional from '@/public/lesson-img/bench-press.jpg';
+import hiit from '@/public/lesson-img/muscle-hypertrophy.jpg';
+import oxgen1 from '@/public/lesson-img/long-distance-running.jpg';
 import Link from 'next/link';
+
+import getBrickBackground from '@/libs/getBrickBackground';
 
 const bannerData = [
   {
@@ -58,17 +60,19 @@ const bannerStyle = {
   position: 'sticky',
   overflow: 'hidden',
   top: 0,
-  height: '80vh',
+  height: '80vmin',
+  minHeight: '300px',
+  minWidth: '380px',
+  zIndex: 0,
 };
 
 const arrowStyle = {
-  '--gap': '2rem',
+  '--gap': { xs: '.2rem', md: '2rem' },
   position: 'absolute',
-  borderRadius: '8px',
   top: 'calc( 47.5% - .5em )',
   color: 'lightgrey',
-  fontSize: '125px',
-  zIndex: 1,
+  fontSize: { xs: '6rem', sm: '10rem' },
+  zIndex: 2,
   transition: '.2s',
   cursor: 'pointer',
   ':hover': {
@@ -86,7 +90,7 @@ const carouselStyle = {
 };
 
 const pesudoElementStyle = {
-  content: '""',
+  content: { xs: 'none', md: '""' },
   position: 'absolute',
   backdropFilter: 'blur(10px)',
   width: '40%',
@@ -94,7 +98,10 @@ const pesudoElementStyle = {
   border: '3px solid white',
   transition: '1s',
   pointerEvents: 'none',
-  backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(1.5) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 100%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
+  backgroundImage: getBrickBackground({
+    scale: 1.5,
+    strokeColor: 'hsla(38, 0%, 100%, 1)',
+  }),
 };
 
 const pesudoHoverStyle = {
@@ -107,11 +114,11 @@ const pesudoHoverStyle = {
   opacity: '0.1',
 };
 
-const lessonInfoStyle = {
+const lessonInfoBoxStyle = {
   position: 'absolute',
-  inset: '20% 15%',
-  padding: '3% 5%',
-  border: '2px solid white',
+  inset: { xs: '10% 5%', sm: '15% 10%', md: '20% 15%' },
+  padding: { xs: '1% 2%', sm: '2% 3%', md: '3% 5%' },
+  border: { xs: 'none', sm: '2px solid white' },
   zIndex: 1,
   ':before': {
     top: '-20%',
@@ -126,10 +133,25 @@ const lessonInfoStyle = {
   ':hover:after, :hover:before': pesudoHoverStyle,
 };
 
+const lessonTitleStyle = {
+  color: 'white',
+  zIndex: 1,
+};
+
+const lessonDescriptStyle = {
+  color: 'white',
+  marginTop: '0.5rem',
+  maxHeight: '60%',
+  height: 'fit-content',
+  overflow: 'hidden',
+  paddingInline: '2rem',
+  zIndex: 1,
+};
+
 const buttonStyle = {
   position: 'absolute',
-  left: '10%',
-  bottom: '10%',
+  left: { xs: '3%', sm: '7%' },
+  bottom: { xs: '3%', sm: '7%' },
   boxShadow: 'none',
   borderWidth: '3px',
   borderRadius: '30px',
@@ -246,25 +268,11 @@ const Banner = () => {
               key={item}
               sx={{ position: 'relative', width: '100%', height: '100%' }}
             >
-              <Box sx={lessonInfoStyle}>
-                <Typography
-                  variant={'h4'}
-                  sx={{
-                    color: 'white',
-                    zIndex: 1,
-                  }}
-                >
+              <Box sx={lessonInfoBoxStyle}>
+                <Typography variant={'h4'} sx={lessonTitleStyle}>
                   {bannerData[item]['title']}
                 </Typography>
-                <Typography
-                  variant={'h5'}
-                  sx={{
-                    color: 'white',
-                    marginTop: '1rem',
-                    paddingInline: '6rem',
-                    zIndex: 1,
-                  }}
-                >
+                <Typography variant={'h5'} sx={lessonDescriptStyle}>
                   {bannerData[item]['description']}
                 </Typography>
                 <Button

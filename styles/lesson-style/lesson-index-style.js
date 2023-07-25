@@ -1,30 +1,48 @@
+import getBrickBackground from '@/libs/getBrickBackground';
+
 export const mainContentStyle = {
   width: '100%',
-  willChange: 'scroll-position',
-
-  backdropFilter: 'blur(50px)',
+  position: 'relative',
   color: 'white',
-  bgcolor: 'rgba(85, 85, 85, .8)',
-  boxShadow: '0 -5px 15px #333',
-  backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(4) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 100%, 0)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 40%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
+  bgcolor: 'rgb(85, 85, 85)',
+  backgroundImage: getBrickBackground(),
   backgroundAttachment: 'fixed',
 };
 
 export const flexRowSpaceBetween = {
   display: 'flex',
   flexDirection: 'row',
-  justifyContent: 'space-between',
+  justifyContent: { xs: 'space-evenly', lg: 'space-between' },
 };
 
 export const containerStyle = {
   p: '2rem',
 };
 
+const filterMediaQueryStyle = {
+  position: 'fixed',
+  width: { xs: '100%', sm: '50%' },
+  maxHeight: 'unset',
+  transition: { xs: '.5s', sm: '1s' },
+  height: 'calc(100vh - var(--nav-height))',
+  top: 'var(--nav-height)',
+  left: '-100%',
+  zIndex: 10,
+};
+
 export const filterStyle = {
-  width: '27%',
+  width: { md: '30%', lg: '27%' },
   maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
   overflowY: 'auto',
   position: 'sticky',
   top: '1rem',
   bgcolor: '#eee',
+  '@media (max-width: 1000px)': filterMediaQueryStyle,
+};
+
+export const showFilterStyle = {
+  '@media (max-width: 1000px)': {
+    ...filterMediaQueryStyle,
+    left: 0,
+  },
 };

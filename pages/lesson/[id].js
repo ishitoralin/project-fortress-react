@@ -3,6 +3,7 @@ import CUICard from '@/components/customUI/cui-card';
 
 import Image from 'next/image';
 import LessonCard from '@/components/lesson/lesson-card';
+import BrickWallPaper from '@/components/brick-wallpaper';
 
 const containerStyle = { py: '2rem' };
 
@@ -13,22 +14,7 @@ const cardBoxStyle = {
   '--contentCard-radius': 'clamp(5px, .5rem, 15px)',
 
   position: 'relative',
-  overflow: 'hidden',
   height: 'var(--bigCard-height)',
-  bgcolor: 'rgba(255, 255, 255, 0)',
-  width: '100%',
-  margin: 'auto',
-  ':after': {
-    content: '""',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    zIndex: 2,
-    pointerEvents: 'none',
-    // boxShadow: 'inset 0 0 15px #fff',
-  },
 };
 
 const imgBoxStyle = {
@@ -54,7 +40,7 @@ const cardBodyStyle = {
   width: 'var(--contentCard-width)',
   right: '-100%',
   bottom: '0',
-  padding: 4,
+  padding: { xs: 2, sm: 3, md: 4 },
   borderRadius: 'var(--contentCard-radius)',
   bgcolor: 'rgba(235, 235, 235, 0.97)',
   animation: '1.5s ease-out 0.5s slide-left forwards',
@@ -92,13 +78,8 @@ const cardBodyTitle = {
 
 const CertainLessonPage = () => {
   return (
-    <Box
-      sx={{
-        backgroundColor: 'var(--deepgrey)',
-        backgroundAttachment: 'fixed',
-        backgroundImage: `url("data:image/svg+xml,<svg id='patternId' width='100%' height='100%' xmlns='http://www.w3.org/2000/svg'><defs><pattern id='a' patternUnits='userSpaceOnUse' width='30' height='30' patternTransform='scale(3) rotate(0)'><rect x='0' y='0' width='100%' height='100%' fill='hsla(25, 0%, 30%, 0.95)'/><path d='M0 22.5h30v15H0zm15-15h30v15H15m-30-15h30v15h-30zm15-15h30v15H0z'  stroke-width='1.5' stroke='hsla(38, 0%, 35%, 1)' fill='none'/></pattern></defs><rect width='800%' height='800%' transform='translate(0,-14)' fill='url(%23a)'/></svg>")`,
-      }}
-    >
+    <Box>
+      <BrickWallPaper />
       <Container sx={containerStyle}>
         <Box sx={cardBoxStyle}>
           <CUICard sx={imgBoxStyle}>
@@ -116,8 +97,8 @@ const CertainLessonPage = () => {
             <Typography
               variant="subtitle1"
               sx={{
-                marginTop: 4,
-                marginBottom: 2,
+                marginTop: { xs: 2, sm: 3, md: 4 },
+                marginBottom: { xs: 1, sm: 2 },
                 paddingInline: 2,
                 textIndent: '2rem',
               }}
@@ -141,8 +122,8 @@ const CertainLessonPage = () => {
                 label={tag}
                 color={'steel_grey'}
                 sx={{
-                  marginRight: '.7rem',
-                  marginBottom: '1rem',
+                  marginRight: { xs: '.5rem', sm: '.7rem' },
+                  marginBottom: { xs: '.5rem', sm: '1rem' },
                   textAlign: 'center',
                   letterSpacing: '.2rem',
                   fontSize: '.8rem',
@@ -178,7 +159,7 @@ const CertainLessonPage = () => {
           </CUICard>
         </Box>
         <Box sx={{ marginTop: '2rem', py: 4, width: '100%' }}>
-          <Grid container sx={{ justifyContent: 'start', gap: '2rem' }}>
+          <Grid container sx={{ justifyContent: 'center', gap: '2rem' }}>
             {Array(10)
               .fill({
                 lessonName: '水阻划船入門',
@@ -209,8 +190,8 @@ const CertainLessonPage = () => {
                   key={index}
                   item
                   xs={12}
-                  sm={12}
-                  md={5.75}
+                  sm={11}
+                  md={8}
                   lg={5.75}
                   xl={5.75}
                 >
