@@ -48,10 +48,13 @@ const DEFAULTDISPLAYMODE = 'list';
 
 const LESSON_BASEURL = 'http://localhost:3001/lesson';
 
+const queryDatasCache = new Map();
+
 const LessionPage = (props) => {
   const router = useRouter();
   const [lessons, setLessons] = useState([]);
-  const [location, setLocation] = useState('taipei');
+  const [queryObject, setQueryObject] = useState({});
+  const location = queryObject.location;
   const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
 
   const [tags, setTags] = useState(props.tags);
@@ -59,49 +62,70 @@ const LessionPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false);
 
-  const queryObj = {
-    location,
+  const setLocation = (newLocation) => {
+    setQueryObject((prev) => ({ ...prev, location: newLocation }));
   };
 
-  const showFilter = () => {
-    setFilterShow(true);
-  };
+  const showFilter = () => setFilterShow(true);
 
-  const closeFilter = () => {
-    setFilterShow(false);
-  };
+  const closeFilter = () => setFilterShow(false);
 
-  const queryLessons = async () => {
-    const baseUrl = `${LESSON_BASEURL}?`;
+  const queryLessons = async (baseUrl, queryObj) => {
+    const response = {};
     const fetchUrl = Object.entries(queryObj).reduce(
       (url, [key, value]) => `${url}${key}=${value}&`,
-      baseUrl
+      `${baseUrl}?`
     );
     try {
       const res = await fetch(fetchUrl);
       const datas = await res.json();
 
-      setLessons(datas);
-      return true;
+      response.success = true;
+      response.datas = datas;
     } catch (error) {
-      return false;
+      response.success = false;
+      response.error = error;
     }
+
+    return response;
   };
 
-  const pushRouter = () => {
-    const queryString = Object.entries(queryObj).reduce(
-      (url, [key, value]) => `${url}${key}=${value}&`,
-      '?'
+  const pushRouter = (queryObj) => {
+    router.push(
+      {
+        pathname: '',
+        query: queryObj,
+      },
+      undefined,
+      { shallow: true }
     );
-    router.push(queryString, undefined, { shallow: true });
   };
 
   useEffect(() => {
+    if (Object.keys(queryObject).length === 0) return;
+    const cacheLessonDatas = queryDatasCache.get(JSON.stringify(queryObject));
+    if (cacheLessonDatas) {
+      setLessons(cacheLessonDatas);
+      pushRouter(queryObject);
+      return;
+    }
     (async () => {
-      const res = await queryLessons();
-      res && pushRouter();
+      const res = await queryLessons(LESSON_BASEURL, queryObject);
+      if (!res.success) throw new Error(res.error);
+      setLessons(res.datas);
+      queryDatasCache.set(JSON.stringify(queryObject), res.datas);
+      pushRouter(queryObject);
     })();
-  }, [location]);
+  }, [queryObject]);
+
+  // get query string from search bar and init location with taipei
+  useEffect(() => {
+    if (!router.isReady) return;
+    setQueryObject({
+      ...router.query,
+      location: router.query.location || 'taipei',
+    });
+  }, [router.isReady]);
 
   return (
     <Box>
