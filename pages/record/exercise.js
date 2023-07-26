@@ -51,7 +51,7 @@ const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
 const scheduleItemWdith = ['48%', '18%', '12%', '22%'];
 
-const scheduleTitle = {
+const scheduleTitleStyle = {
   borderRight: myBorder,
   display: 'flex',
   justifyContent: 'center',
@@ -84,15 +84,39 @@ const ExercisePage = () => {
   const [exerciseScheduleList, setExerciseScheduleList] = useState([
     // exe: Num1=reps, Num2=sets
     // diet: Num1=calories, Num2=protein
-    { id: 1, sid: 1, name: '槓鈴深蹲', quantity: 60, reps: 12, sets: 5 },
-    { id: 2, sid: 2, name: '槓鈴臥推', quantity: 60, reps: 12, sets: 5 },
+    {
+      id: 1,
+      sid: 1,
+      exercise_name: '槓鈴深蹲',
+      exercise_description: 'asdffasfv',
+      quantity: 60,
+      reps: 12,
+      sets: 5,
+      img: '槓鈴深蹲.jpg',
+      vid: null,
+    },
+    {
+      id: 2,
+      sid: 2,
+      exercise_name: '槓鈴臥推',
+      exercise_description: 'asdffasfv',
+      quantity: 60,
+      reps: 12,
+      sets: 5,
+      img: '槓鈴臥推.jpg',
+      vid: null,
+    },
   ]);
-
+  const [editDate, setEditDAte] = useState('');
+  const editing = exerciseRecord.some((item) => item.date === editDate); //=== 判斷現在是否正在編輯月曆中某一天的運動, 當天有行程=ture
+  // console.log(editing);
+  // =============================================================
+  // console.log(exerciseScheduleList);
+  // FIXME: how to fetch multiple data, instead of using map?
   const handleAddSchedule = (list, date) => {
+    let dataAdded = 0;
     list.map((ele) => {
-      // console.log(ele);
       const data = { ...ele, date };
-      // console.log(data);
       fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
         method: 'POST',
         headers: {
@@ -102,11 +126,8 @@ const ExercisePage = () => {
       })
         .then((r) => r.json())
         .then((data) => {
-          console.log(data);
+          dataAdded += data.result.affectedRows;
         });
-      // .catch((error) => {
-      //   console.error('Error:', error);
-      // });
     });
   };
 
@@ -122,14 +143,13 @@ const ExercisePage = () => {
   }, []);
 
   useEffect(() => {
+    // console.log(exerciseRecord);
     fetch(
       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
     ) //=== for exercise record
       .then((r) => r.json())
       .then((data) => {
         setExerciseRecord(data.data);
-        // console.log(exerciseStartEnd.start, exerciseStartEnd.end);
-        // console.log('!!!!');
       });
   }, [exerciseStartEnd]);
 
@@ -149,14 +169,18 @@ const ExercisePage = () => {
   }, [bodyPart, keyword]);
   // >>> filter by body part
 
+  // >>> filter exercise by body part
   const handleBodypartSelection = (e) => {
     setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
   };
+  // <<< filter exercise by body part
 
+  // >>> search by keyword
   // TODO: on composition end
   const handleSearch = (e) => {
     setKeyword(e.target.value);
   };
+  // <<< search by keyword
 
   return (
     <>
@@ -211,7 +235,6 @@ const ExercisePage = () => {
                   handleSearch(e);
                 }}
               />
-              {/* <input /> */}
             </Section>
             {/* === For exercise card list === */}
             <SUICardList
@@ -239,76 +262,17 @@ const ExercisePage = () => {
           >
             <SUIScheduleTable sx={{ width: '100%' }}>
               {/* TODO: 把按鈕跟datepicker夾到SUISchedule */}
-              <Section>
-                <Box
-                  sx={{
-                    position: 'sticky',
-                    top: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <CUIDatePicker
-                    sx={{ width: '80%' }}
-                    label={'pick a date'}
-                    format={'YYYY-MM-DD'}
-                    // defaultValue={today}
-                    value={scheduleDate}
-                    onChange={(e) => {
-                      console.log(new Date());
-                      setScheduleDate(e);
-                    }}
-                  />
-                  <CUIButton
-                    sx={{
-                      width: '35%',
-                      marginLeft: '20px',
-                      transform: 'scale(1.2)',
-                    }}
-                    onClick={(e) => {
-                      handleAddSchedule(exerciseScheduleList, scheduleDate);
-                    }}
-                  >
-                    加入規劃
-                  </CUIButton>
-                </Box>
-              </Section>
-              <Box
-                sx={{
-                  display: 'flex',
-                  width: '100%',
-                  height: '50px',
-                  borderTop: myBorder,
-                  bgcolor: 'var(  --steel-light-grey)',
-                  boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
-                  paddingLeft: 1.5,
-                  paddingRight: 4,
-                }}
-              >
-                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[0] }}>
-                  運動種類
-                </Box>
-                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
-                  重量
-                </Box>
-                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[2] }}>
-                  次數
-                </Box>
-                <Box
-                  sx={{
-                    ...scheduleTitle,
-                    width: scheduleItemWdith[3],
-                    borderRight: 'none',
-                  }}
-                >
-                  組數
-                </Box>
-              </Box>
 
               <SUISchedule
                 type="exercise"
+                scheduleTitleStyle={scheduleTitleStyle}
                 scheduleList={exerciseScheduleList}
                 setScheduleList={setExerciseScheduleList}
+                scheduleItemWdith={scheduleItemWdith}
+                scheduleDate={scheduleDate}
+                setScheduleDate={setScheduleDate}
+                exerciseScheduleList={exerciseScheduleList}
+                handleAddSchedule={handleAddSchedule}
                 width={scheduleItemWdith}
               />
             </SUIScheduleTable>
@@ -351,11 +315,12 @@ const ExercisePage = () => {
               p: 2,
             }}
           >
-            {/* TODO: 1.月曆顯示：每一天的總運動項目/Total Valumn */}
             {/*TODO 2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動 */}
+            {/* TODO: 用"edigitng"變數來判斷是否要編輯某一天的運動 */}
             <SeanCalendar
               list={exerciseRecord}
               updateStartEnd={setExerciseStartEnd}
+              setDate={setEditDAte}
             />
           </Grid>
         </Grid>

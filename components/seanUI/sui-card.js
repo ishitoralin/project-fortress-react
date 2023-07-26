@@ -19,23 +19,23 @@ function SUICardList({
   type,
   list,
   rowRWD = [6, 6, 4, 4, 3],
+  // rowRWD: [xs,sm,md,lg,xl]
   exerciseScheduleList,
   setExerciseScheduleList,
 }) {
-  // rowRWD: [xs,sm,md,lg,xl]
+  // >>> dialog control
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
-  // Create a function to handle opening the dialog and setting the selected item:
-  const handleDialogOpen = (item) => {
-    setSelectedItem(item);
-    setDialogOpen(true);
-  };
-
-  // Create a function to handle closing the dialog:
   const handleDialogClose = () => {
     setDialogOpen(false);
+    // console.log(dialogOpen);
   };
+
+  const handleDialogOpen = (item) => {
+    setSelectedItem({ ...item, sets: null, reps: null, quantity: null });
+    setDialogOpen(true);
+  };
+  // <<< dialog control
 
   return (
     <Paper
@@ -84,7 +84,10 @@ function SUICardList({
             }}
           >
             <Box
-              onClick={() => handleDialogOpen(item)}
+              onClick={() => {
+                handleDialogOpen(item);
+                // console.log(item);
+              }}
               sx={{ cursor: 'pointer', width: '100%' }}
             >
               <MyCard type={type} item={item} />

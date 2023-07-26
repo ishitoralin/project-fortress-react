@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import React, { useRef, useEffect } from 'react';
 // import { formatDate } from 'fullcalendar';
 
-export default function SeanCalendar({ list, updateStartEnd }) {
+export default function SeanCalendar({ list, updateStartEnd, setDate }) {
   //   console.log(list);
   const calendarRef = useRef(null);
 
@@ -60,10 +60,10 @@ export default function SeanCalendar({ list, updateStartEnd }) {
             interactionPlugin,
             timeGridPlugin,
           ]}
-          select={(e) => console.log(e.startStr)}
+          select={(e) => setDate(e.startStr)}
           //>>> for select event
           eventClick={(e) => {
-            console.log(dayjs(e.event.start).format('YYYY-MM-DD'));
+            setDate(dayjs(e.event.start).format('YYYY-MM-DD'));
             // console.log(e.event.extendedProps.dataDump);
           }}
           //<<< for select event
@@ -82,7 +82,7 @@ export default function SeanCalendar({ list, updateStartEnd }) {
           }}
           initialView="dayGridMonth"
           nowIndicator={true}
-          editable={true}
+          // editable={true}
           selectable={true}
           selectMirror={true}
           //TODO: different color for different body part?
@@ -105,7 +105,7 @@ export default function SeanCalendar({ list, updateStartEnd }) {
               date: formatDate(ele.date),
 
               backgroundColor: 'green',
-              editable: true,
+              // editable: true,
               extendedProps: {
                 dataDump: 'you can store accessory here',
               },

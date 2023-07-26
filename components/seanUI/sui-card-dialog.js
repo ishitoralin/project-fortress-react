@@ -23,44 +23,63 @@ function ExeCardDialog({
   exerciseScheduleList,
   setExerciseScheduleList,
 }) {
+  // console.log(item);
   const customTransitionDuration = 500; // milliseconds
-
+  // console.log(item)
   const inputDefault = {
-    weight: { error: false, text: '' },
+    quantity: { error: false, text: '' },
     reps: { error: false, text: '' },
     sets: { error: false, text: '' },
   }; //=== for input validation
-  const [input, setInput] = useState(inputDefault);
+  const [input, setInputExam] = useState(inputDefault);
 
   const handleSubmit = (event) => {
+    // TODO: edit if id exist
     event.preventDefault(); // Prevent default form submission behavior
-    // Add your form submission logic here
-    // console.log(
-    //   item.sid,
-    //   item.exercise_name,
-    //   Number(item.weight),
-    //   Number(item.reps),
-    //   Number(item.sets)
-    // );
-    setExerciseScheduleList([
-      ...exerciseScheduleList,
-      {
-        id: crypto.randomUUID(),
-        sid: item.sid,
-        name: item.exercise_name,
-        quantity: item.weight,
-        reps: item.reps,
-        sets: item.sets,
-      },
-    ]);
+
+    // if exerciseScheduleList has obj.id equal to item.id, then its editing
+    // else its adding
+    const isID = exerciseScheduleList.some((obj) => obj.id === item.id);
+
+    // console.log(!!item.id, isID);
+    if (isID) {
+      setExerciseScheduleList(
+        [...exerciseScheduleList].map((obj) => {
+          obj.id === item.id
+            ? {
+                ...obj,
+                quantity: item.quantity,
+                reps: item.reps,
+                sets: item.sets,
+              }
+            : obj;
+        })
+      );
+    } else {
+      setExerciseScheduleList([
+        ...exerciseScheduleList,
+        {
+          id: crypto.randomUUID(),
+          sid: item.sid,
+          exercise_name: item.exercise_name,
+          exercise_description: item.exercise_description,
+          img: item.img,
+          vid: item.vid,
+          quantity: item.quantity,
+          reps: item.reps,
+          sets: item.sets,
+        },
+      ]);
+    }
+
     // console.log(exerciseScheduleList[0]);
     onClose();
   };
 
+  // === handle dialog的各種close方式
   const handleClose = () => {
     onClose();
-    setInput({ ...inputDefault });
-    // console.log(inputDefault);
+    setInputExam({ ...inputDefault });
   };
 
   return (
@@ -73,34 +92,37 @@ function ExeCardDialog({
     >
       <DialogContent>
         {/* {console.log(item)} */}
+        {/* TODO:要改成影片 */}
         <img
           src={'/react-imgs/record/exercise/' + item?.img}
           alt="Item"
           style={{ width: '100%' }}
         />
+        {/* TODO: how to give default value? */}
         <CUITextField
           label="重量(kg)"
           type="number"
-          helperText={input.weight.text}
-          error={input.weight.error}
+          helperText={input.quantity.text}
+          // value={item.quantity || '0'}
+          error={input.quantity.error}
           onChange={(e) => {
-            const weight = e.target.value;
-            if (regexP.test(weight)) {
-              setInput((prevInput) => ({
+            const quantity = e.target.value;
+            if (regexP.test(quantity)) {
+              setInputExam((prevInput) => ({
                 ...prevInput,
-                weight: {
+                quantity: {
                   text: '',
                   error: false,
                 },
               }));
               setItem((prevItem) => ({
                 ...prevItem,
-                weight: weight,
+                quantity: quantity,
               }));
             } else {
-              setInput((prevInput) => ({
+              setInputExam((prevInput) => ({
                 ...prevInput,
-                weight: {
+                quantity: {
                   text: pHelperText,
                   error: true,
                 },
@@ -118,7 +140,7 @@ function ExeCardDialog({
           onChange={(e) => {
             const reps = e.target.value;
             if (regexPInt.test(reps)) {
-              setInput((prevInput) => ({
+              setInputExam((prevInput) => ({
                 ...prevInput,
                 reps: {
                   text: '',
@@ -130,7 +152,7 @@ function ExeCardDialog({
                 reps: reps,
               }));
             } else {
-              setInput((prevInput) => ({
+              setInputExam((prevInput) => ({
                 ...prevInput,
                 reps: {
                   text: pIHelperText,
@@ -151,7 +173,7 @@ function ExeCardDialog({
           onChange={(e) => {
             const sets = e.target.value;
             if (regexPInt.test(sets)) {
-              setInput((prevInput) => ({
+              setInputExam((prevInput) => ({
                 ...prevInput,
                 sets: {
                   text: '',
@@ -163,7 +185,7 @@ function ExeCardDialog({
                 sets: sets,
               }));
             } else {
-              setInput((prevInput) => ({
+              setInputExam((prevInput) => ({
                 ...prevInput,
                 sets: {
                   text: pIHelperText,
@@ -179,7 +201,9 @@ function ExeCardDialog({
         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
           {' '}
           <CUIButton
-            onClick={handleClose}
+            onClick={() => {
+              onClose();
+            }}
             color={'light_grey'}
             sx={{ width: '35%', mx: 1 }}
           >
@@ -192,10 +216,10 @@ function ExeCardDialog({
             }}
             onClick={handleSubmit}
             disabled={
-              input.weight.error ||
+              input.quantity.error ||
               input.reps.error ||
               input.sets.error ||
-              !regexP.test(item?.weight) ||
+              !regexP.test(item?.quantity) ||
               !regexPInt.test(item.reps) ||
               !regexPInt.test(item.sets)
             }
