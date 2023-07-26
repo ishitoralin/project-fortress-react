@@ -14,6 +14,18 @@
   height: 30px;
   text-align: center;
   font-size: 24px;
+  @media screen and (max-width: 996px) {
+    height: 50px;
+    font-size: 20px;
+    width: 30px;
+    height: 30px;
+  }
+  @media screen and (max-width: 576px) {
+    height: 50px;
+    font-size: 18px;
+    width: 20px;
+    height: 30px;
+  }
 }
 
 /* shoppingstage */
@@ -34,8 +46,35 @@
   justify-content: center;
   align-items: center;
   font-size: 25px;
-}
 
+  @media screen and (max-width: 996px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 576px) {
+    height: 50px;
+    font-size: 18px;
+  }
+  @media screen and (max-width: 414px) {
+    font-size: 12px;
+    height: 30px;
+  }
+}
+/* for RemoveCircleOutlineIcon*/
+
+.ShoppingState414 {
+  @media screen and (max-width: 576px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 414px) {
+    font-size: 14px;
+  }
+}
+/* for buyer & payment & east icon*/
+@media screen and (max-width: 576px) {
+  .ShoppingState576 {
+    display: none;
+  }
+}
 /* shoppinglisttitle */
 /* 購物車產品標題物件容器 */
 .ProductionTitleContainer {
@@ -45,6 +84,18 @@
   align-items: center;
   border-bottom: 2px solid #000;
   font-size: 25px;
+  @media screen and (max-width: 996px) {
+    font-size: 18px;
+  }
+  /* @media screen and (max-width: 768px) {
+    font-size: 16px;
+  } */
+  @media screen and (max-width: 576px) {
+    font-size: 18px;
+  }
+  @media screen and (max-width: 414px) {
+    font-size: 14px;
+  }
 }
 /* 購物車產品物件1 */
 .ProductionTitleComponent {
@@ -53,6 +104,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 414px) {
+    height: 30px;
+  }
 }
 /* 購物車產品物件2(詳細資訊欄專用) */
 .ProductionTitleComponentInfo {
@@ -61,8 +115,55 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 996px) {
+    width: 42%;
+  }
+  @media screen and (max-width: 414px) {
+    height: 30px;
+  }
+}
+/* 購物車產品物件3(序號及刪除專用) */
+.ProductionTitleComponentOrderAndDelete {
+  width: 14%;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    display: none;
+  }
+}
+.noItem {
+  width: 100%;
+  height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 36px;
+  color: #dfdfdf;
+  border-bottom: 1px solid #dfdfdf;
+  margin: 0 0 30px 0;
 }
 
+
+/*  */
+.ProductListStyles{
+  margin: 0 150px;
+  padding: 0 50px;
+  background-color: #fff;
+  z-index: '20';
+  @media screen and (max-width:768px) {
+    margin: 0 75px;
+  }
+  @media screen and (max-width:576px) {
+    margin: 0 30px;
+    padding: 0 30px;
+  }
+  @media screen and (max-width:414px) {
+    margin: 0px;
+    padding: 15px;
+  }
+}
 .ProductListContainer1 {
   width: 100%;
   display: flex;
@@ -82,19 +183,75 @@
 }
 
 /* 待結帳產品列表物件 */
-.ProductListComponent {
+/*  */
+.ProductListComponent1 {
+  /* 商品資訊&數量&單價用 */
   width: 14%;
   height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
+  @media screen and (max-width: 996px) {
+    font-size: 20px;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 16px;
+  }
 }
-.ProductListComponentForDetail {
+
+.ProductListComponent3 {
+  /* 商品資訊&數量&單價用 */
+  width: 28%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    font-size: 20px;
+    width: 42%;
+  }
+}
+
+/* 序號&刪除按鈕用 */
+.ProductListComponent2 {
   width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    display: none;
+  }
+}
+.ProductListComponentPhoto {
+  width: 50%;
   height: 100px;
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  font-size: 20px;
+
+  @media screen and (max-width: 996px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 576px) {
+    display: none;
+  }
+}
+.ProductListComponentForDetail {
+  width: 50%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+
+  @media screen and (max-width: 996px) {
+    font-size: 16px;
+  }
+  @media screen and (max-width: 576px) {
+    display: none;
+  }
 }
 /* 待結帳產品列表物件(數量欄專用) */
 .ProductListComponentForQuantity {
@@ -110,10 +267,28 @@
 .countContainer {
   width: 100%;
   display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 24px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  @media screen and (max-width: 996px) {
+    font-size: 20px;
+    flex-direction: column;
+  }
+  @media screen and (max-width: 576px) {
+    font-size: 20px;
+  }
+}
+
+.countComponentWithoutButton {
+  width: 100%;
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 25px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  margin-right: 30px;
+  @media screen and (max-width: 768px) {
+    justify-content: space-around;
+  }
 }
 /* 結帳欄物件 */
 .countComponent {
@@ -122,45 +297,118 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
+  @media screen and (max-width: 996px) {
+    height: 50px;
+  }
 }
+.countComponentForQuantity {
+  width: 14%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 1px solid #dfdfdf;
+  font-style: italic;
+  white-space: nowrap;
+}
+.countComponentForQuantity::before {
+  content: '總共';
+  margin-right: 10px;
+}
+.countComponentForQuantity::after {
+  content: '件';
+  margin-left: 10px;
+}
+.countComponentForNumber {
+  width: 14%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  white-space: nowrap;
+  @media screen and (max-width:996px) {
+    height: 0px;
+
+  }
+}
+.countComponentForNumber::before {
+  content: '合計 $';
+  color: black;
+}
+.countButtonContainer {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    height: 50px;
+  }
+}
+
+.countButtonComponent {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @media screen and (max-width: 996px) {
+    width: 100%;
+    height: 50px;
+  }
+  @media screen and (max-width: 576px) {
+    width: 100%;
+  }
+}
+
+
+
 
 .checkButtonContainer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  @media screen and (max-width:996px){
+    justify-content: center;
+
+    
+  }
 }
 
-.checkButtonComponent {
-  width: 15%;
-  height: 100px;
-  margin-left: 10px;
+.spatialProductContainer {
+  width: 100%;
+  padding: 30px 0;
   display: flex;
-  justify-content: center;
-  align-items: center;
+  justify-content: start;
+  align-items: end;
+  font-size: 50px;
+  font-weight: 700;
 }
+
 /* 推薦商品標題 */
 .recommendProductTitle {
   width: 100%;
   height: 100px;
-  padding: 20px 0;
+  padding: 0 0 0 0;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-size: 28px;
+  border-top: 1px solid #dfdfdf;
 }
 /* 推薦商品元件容器 */
 .recommendProductContainer {
   width: 100%;
+  height: 450px;
   display: flex;
-  overflow: scroll;
   justify-content: flex-start;
-  align-items: center;
+  align-items: start;
   overflow-y: hidden;
 }
 /* 推薦商品元件 */
 .recommendProductComponent {
-  margin: 20px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -293,7 +541,6 @@
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  /* border: 2px solid red; */
 }
 
 .PaymentMethod:hover {
@@ -307,4 +554,34 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.favorite-icon {
+  fill: black;
+}
+
+.favorite-icon:hover {
+  fill: red;
+}
+
+.buttonContainer a {
+  white-space: nowrap;
+}
+
+@media screen and (max-width: 996px) {
+  .productListTitle996 {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 996px) {
+  .productListTitleWords996 {
+    font-size: 20px;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .productListTitleWords576 {
+    display: none;
+  }
 }

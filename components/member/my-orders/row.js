@@ -12,6 +12,7 @@ import {
 import Collapse from '@mui/material/Collapse';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import styles from '../member-table.module.css';
 
 export default function Row(props) {
   const { row } = props;
@@ -30,40 +31,54 @@ export default function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.name}
+          {row.sid}
         </TableCell>
-        <TableCell align="right">{row.calories}</TableCell>
-        <TableCell align="right">{row.fat}</TableCell>
-        <TableCell align="right">{row.carbs}</TableCell>
-        <TableCell align="right">{row.protein}</TableCell>
+        {/*  sid,
+    buytime,
+    buy_time,
+    pay_time,
+    method_sid,
+    , */}
+        <TableCell align="right">{row.buy_time}</TableCell>
+        <TableCell align="right">{row.pay_time}</TableCell>
+        <TableCell align="right">{row.method_sid}</TableCell>
+        <TableCell align="right">{row.payment}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
-                History
+                詳細細節
               </Typography>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell>Date</TableCell>
-                    <TableCell>Customer</TableCell>
-                    <TableCell align="right">Amount</TableCell>
-                    <TableCell align="right">Total price ($)</TableCell>
+                    <TableCell align="center">商品編號</TableCell>
+                    <TableCell>商品名稱</TableCell>
+                    <TableCell>商品圖片</TableCell>
+                    <TableCell align="right">單價</TableCell>
+                    <TableCell align="right">數量</TableCell>
+                    <TableCell align="right">小計</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.history.map((historyRow) => (
-                    <TableRow key={historyRow.date}>
-                      <TableCell component="th" scope="row">
-                        {historyRow.date}
+                  {row.detail.map((detail) => (
+                    <TableRow key={detail.item_sid}>
+                      <TableCell component="th" scope="row" align="center">
+                        {detail.item_sid}
                       </TableCell>
-                      <TableCell>{historyRow.customerId}</TableCell>
-                      <TableCell align="right">{historyRow.amount}</TableCell>
-                      <TableCell align="right">
-                        {Math.round(historyRow.amount * row.price * 100) / 100}
+                      <TableCell>{detail.product_name}</TableCell>
+                      <TableCell>
+                        <img
+                          className={styles['td-img']}
+                          src={detail.picture}
+                          alt="商品圖片"
+                        />
                       </TableCell>
+                      <TableCell align="right">{detail.price}</TableCell>
+                      <TableCell align="right">{detail.quantity}</TableCell>
+                      <TableCell align="right">{detail.amount}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

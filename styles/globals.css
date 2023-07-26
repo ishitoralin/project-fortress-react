@@ -38,6 +38,7 @@ body {
   min-width: 400px;
   /* overflow: hidden; */
   height: 100vh;
+  scrollbar-gutter: auto;
 }
 
 main {

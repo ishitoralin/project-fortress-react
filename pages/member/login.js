@@ -13,6 +13,9 @@ import CUIButton from '@/components/customUI/cui-button';
 import GoogleSvg from '@/public/icons/google-svg.svg';
 import useLoginNavigate from '@/hooks/useLoginNavigate';
 import { useAuth } from '@/context/auth/useAuth';
+import useFirebase from '@/utils/useFirebase';
+import CUINonstyleButton from '@/components/customUI/cui-nonstyle-button';
+import axios from 'axios';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -26,8 +29,9 @@ const validationSchema = yup.object({
     .required('密碼為必填欄位'),
 });
 export default function Login() {
+  const { loginGoogle } = useFirebase();
   useLoginNavigate();
-  const { setAuth } = useAuth();
+  const { login } = useAuth();
   const filed = [
     {
       label: '電子信箱',
@@ -47,11 +51,38 @@ export default function Login() {
   const formik = useFormik({
     initialValues: { email: '', password: '' },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
-      setAuth({ isLogin: true, user: {} });
+    onSubmit: async (values, { setFieldError }) => {
+      //TODO拿掉console
+
+      const result = await login(values);
+      console.log(result);
+
+      // console.log(JSON.stringify(values, null, 2));
     },
   });
+  const handleGoogleLogin = async (providerData) => {
+    // setLoading(true)
+    //TODO拿掉console
+    console.log(providerData);
+
+    /* const res = await axios.post(
+      'api/users/google-login',
+      providerData
+    )
+
+    console.log(res)
+
+    if (res.data.message === 'success') {
+      const newAuth = {
+        isAuth: true,
+        userId: res.data.user.id,
+      }
+
+      setAuth(newAuth)
+    } else {
+      alert('有錯誤')
+    } */
+  };
   return (
     <>
       <div className={`${styles.bg}`}></div>
@@ -86,24 +117,30 @@ export default function Login() {
                 onBlur={formik.handleBlur}
                 error={formik.touched[name] && Boolean(formik.errors[name])}
                 helperText={formik.touched[name] && formik.errors[name]}
-                autoComplete="off"
+                // autoComplete="off"
                 sx={{ marginBottom: '-15px' }}
               />
             );
           })}
-          <CUIButton fullWidth type="submit">
+          <CUIButton fullWidth type="submit" color={'steel_grey'}>
             登入
           </CUIButton>
-          <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="span" sx={{ color: DEEPGREY }}>
               第三方登入
             </Typography>
-            <img
-              src={GoogleSvg.src}
-              width={25}
-              alt="google登入"
-              className={styles['google-login']}
-            />
+            <CUINonstyleButton
+              onClick={() => {
+                loginGoogle(handleGoogleLogin);
+              }}
+            >
+              <img
+                src={GoogleSvg.src}
+                width={25}
+                alt="google登入"
+                className={styles['google-login']}
+              />
+            </CUINonstyleButton>
           </Box>
           <div className={styles['back-cover']}></div>
           <div className={styles['front-cover']}></div>

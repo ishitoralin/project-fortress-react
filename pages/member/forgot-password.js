@@ -4,30 +4,50 @@ import * as yup from 'yup';
 import MemberLayout from '@/components/layout/memberLayout';
 import styles from '@/styles/member.module.css';
 import Logo from '@/assets/logo';
-import { DEEPGREY, MAIN_BLACK } from '@/assets/color-code';
-import { Box, Typography } from '@mui/material';
+import { MAIN_BLACK } from '@/assets/color-code';
+import { Typography } from '@mui/material';
 import AuthLink from '@/components/member/auth/auth-link';
 import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
-import GoogleSvg from '@/public/icons/google-svg.svg';
+import useLoginNavigate from '@/hooks/useLoginNavigate';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
     .email('錯誤的信箱格式')
     .required('信箱為必填欄位'),
-  name: yup.string('請輸入姓名').required('姓名為必填欄位'),
-  password: yup
-    .string('請輸入密碼')
-    .matches(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/, '密碼需有1個英文字和1個數字')
-    .min(6, '密碼長度需介於6-8個字')
-    .max(8, '密碼長度需介於6-8個字')
-    .required('密碼為必填欄位'),
-  confirmpassword: yup
-    .string('請再次輸入密碼')
-    .test('passwords-match', '密碼需相符', function (value) {
-      return this.parent.password === value;
-    }),
+  // .test(
+  //   'email_async_validation',
+  //   '此信箱已使用', // YUP always throws this error
+  //   (value, a) => {
+  //     console.log(a);
+  //     return new Promise((resolve, reject) => {
+  //       new Promise((res, rej) => {
+  //         res({ data: { message: '錯誤' } });
+  //       })
+  //         .then((res) => {
+  //           console.log(res);
+  //           const { message } = res.data; // I want this error message to be shown in form.
+  //           resolve(true);使用resolve(true) 表驗證成功 resolve(false) 表驗證失敗
+  //         })
+  //         .catch((e) => {
+  //           console.log(e);
+  //         });
+  //     });
+  //   }
+  // ),
+  // name: yup.string('請輸入姓名').required('姓名為必填欄位'),
+  // password: yup
+  //   .string('請輸入密碼')
+  //   .matches(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/, '密碼需有1個英文字和1個數字')
+  //   .min(6, '密碼長度需介於6-8個字')
+  //   .max(8, '密碼長度需介於6-8個字')
+  //   .required('密碼為必填欄位'),
+  // confirmpassword: yup
+  //   .string('請再次輸入密碼')
+  //   .test('passwords-match', '密碼需相符', function (value) {
+  //     return this.parent.password === value;
+  //   }),
 });
 export default function ForgotPassword() {
   const filed = [
@@ -39,10 +59,14 @@ export default function ForgotPassword() {
       value: '',
     },
   ];
+  useLoginNavigate();
+
   const formik = useFormik({
     initialValues: { email: '' },
     validationSchema: validationSchema,
-    onSubmit: (values) => {},
+    onSubmit: (values) => {
+      console.log(values);
+    },
   });
   return (
     <>
@@ -83,7 +107,7 @@ export default function ForgotPassword() {
               />
             );
           })}
-          <CUIButton fullWidth type="submit">
+          <CUIButton fullWidth type="submit" color={'steel_grey'}>
             送出驗證信
           </CUIButton>
           <div className={styles['back-cover']}></div>

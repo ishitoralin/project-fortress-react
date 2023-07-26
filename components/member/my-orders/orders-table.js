@@ -16,11 +16,11 @@ export default function OrdersTable({ data }) {
         <TableHead>
           <TableRow>
             <TableCell />
-            <TableCell>課程名稱</TableCell>
-            <TableCell align="right"></TableCell>
-            <TableCell align="right">教練</TableCell>
-            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-            <TableCell align="right">取消收藏</TableCell>
+            <TableCell>訂單編號</TableCell>
+            <TableCell align="right">購買日期</TableCell>
+            <TableCell align="right">付款時間</TableCell>
+            <TableCell align="right">付款方式</TableCell>
+            <TableCell align="right">總金額</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

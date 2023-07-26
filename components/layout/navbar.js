@@ -243,21 +243,49 @@ export default function Navbar() {
             />
           </Link>
           {auth.isLogin ? (
-            <ExpandItem
-              logout={logout}
-              in={linksState.get('loginMember')}
-              onClick={() => toggleLink('loginMember')}
-              links={expandData['loginMember']}
-            >
-              <User />
-            </ExpandItem>
+            <>
+              {auth.user?.icon ? (
+                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                  <div
+                    style={{
+                      width: '45px',
+                      height: '45px',
+                    }}
+                  >
+                    <img
+                      src={auth.user.icon}
+                      alt=""
+                      style={{
+                        width: '100%',
+                        height: '100%',
+                        objectFit: 'cover',
+                        borderRadius: '999%',
+                      }}
+                    />
+                  </div>
+                </Link>
+              ) : (
+                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                  <User />
+                </Link>
+              )}
+
+              <Item
+                href="/"
+                onClick={() => {
+                  logout();
+                }}
+              >
+                登出
+              </Item>
+            </>
           ) : (
             <ExpandItem
               in={linksState.get('member')}
               onClick={() => toggleLink('member')}
               links={expandData['member']}
             >
-              會員中心
+              登入/註冊
             </ExpandItem>
           )}
         </Box>

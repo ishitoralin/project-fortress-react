@@ -8,7 +8,7 @@ export default function Payment() {
   const ContainerFormStyle = {
     width: '100%',
     margin: 'auto',
-    padding: '20px',
+    padding: '20px 0',
   };
   const ButtonFormStyle = {
     margin: 'auto',
@@ -27,7 +27,7 @@ export default function Payment() {
       overFlow: 'hidden',
     },
     {
-      label: 'CreditCards',
+      label: '信用卡',
       value: 'CreditCards',
       src: '/shoppingcart/creditcard.png',
       Icon: null,
@@ -35,14 +35,14 @@ export default function Payment() {
       width: '100px',
     },
     {
-      label: 'Delivery',
+      label: '貨到付款',
       value: 'Delivery',
       src: '',
       Icon: <LocalShippingIcon sx={{ fontSize: '70px' }}></LocalShippingIcon>,
       alt: '無法顯示圖片',
     },
     {
-      label: 'ATM',
+      label: 'ATM轉帳',
       value: 'ATM',
       src: '',
       Icon: <LocalAtmIcon sx={{ fontSize: '70px' }}></LocalAtmIcon>,

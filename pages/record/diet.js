@@ -30,10 +30,14 @@ import interactionPlugin from '@fullcalendar/interaction';
 import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
 import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
+// import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+// import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // =========================================================================
 import style from './record.module.css';
+// =========================================================================
+import { useState, useEffect, useRef } from 'react';
+import { useRouter } from 'next/router';
+// =========================================================================
 
 //>>> pseudo-data
 const selections = [
@@ -64,58 +68,53 @@ const dietList = [
   {
     name: '威靈頓牛排佐沙茶醬',
     quantity: 1,
-    Num1: 10000,
-    Num2: 5,
+    calories: 10000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '青醬滷肉飯',
     quantity: 20,
-    Num1: 12000,
-    Num2: 5,
+    calories: 12000,
+    protein: 5,
     date: '2023-07-16',
   },
   {
     name: '快炒白土司佐芝麻',
     quantity: 60,
-    Num1: 12,
-    Num2: 5,
+    calories: 12,
+    protein: 5,
     date: '2023-07-16',
   },
 ];
-
-const exerciseCardList = Array(16).fill({
-  img: '/react-imgs/record/food/火雞胸肉',
-  description: '火雞胸肉',
-});
 
 const activity = [
   '身體活動趨於靜態(BMR x 1.2)',
@@ -128,6 +127,7 @@ const activity = [
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
+//>>> style
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
@@ -159,7 +159,52 @@ const NuBox = styled(Box)(() => ({
   width: '100%',
 }));
 
-const ExercisePage = () => {
+//<<< style
+
+const DietPage = () => {
+  // ============================================================
+  const foodInit = { key: 0, value: '全部', label: '全部' };
+  const router = useRouter();
+  const [foodType, setFoodType] = useState([]);
+  const [foodCategory, setFoodCategory] = useState([foodInit]);
+  const foodCategorys = useRef([foodInit]); //=== for selection options
+
+  // >>> initiallize
+  useEffect(() => {
+    // TODO: debounce
+    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-category`)
+      .then((r) => r.json())
+      .then((data) => {
+        data.data.unshift(foodInit);
+        foodCategorys.current = data.data;
+      });
+
+    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-type`)
+      .then((r) => r.json())
+      .then((data) => {
+        setFoodType(data.rows);
+      });
+  }, []);
+  // <<< initiallize
+  //TODO: search keyword
+
+  //>>> filter by food category
+  useEffect(() => {
+    fetch(
+      `${process.env.SEAN_API_SERVER}/food-type/food-type/food-category/${foodCategory[0].key}`
+    )
+      .then((r) => r.json())
+      .then((data) => {
+        setFoodType(data.data);
+      });
+  }, [foodCategory]);
+  //<<< filter by food category
+  const handleFoodCategorySelection = (e) => {
+    // router.push(`?food-category=` + e.target.value);
+    setFoodCategory(
+      foodCategorys.current.filter((x) => x.value === e.target.value)
+    );
+  };
   return (
     <>
       {/* =================================================================== */}
@@ -185,7 +230,7 @@ const ExercisePage = () => {
             }}
           >
             <Section>
-              <h1>規劃你的飲食</h1>
+              <h1>計算你的基礎代謝率</h1>
 
               <SUIInputNumber id="age" label="年齡(yrd)" />
 
@@ -369,18 +414,23 @@ const ExercisePage = () => {
           >
             <Section>
               <h1>規劃你的飲食</h1>
+              <CUISelect
+                sx={{ width: '40%' }}
+                label="食物分類"
+                // TODO: default value, on click
+                defaultValue={foodCategorys.current[0].value}
+                options={foodCategorys.current}
+                onChange={(e) => {
+                  handleFoodCategorySelection(e);
+                }}
+              />
               <CUISearch
                 sx={{ width: '40%' }}
                 label="搜尋食物類型"
                 placeholder="請輸入關鍵字"
               />
-              <CUISelect
-                sx={{ width: '40%' }}
-                label="食物分類"
-                options={selections}
-              />
             </Section>
-            <SUICardList list={exerciseCardList} rowRWD={[6, 6, 3, 3, 2]} />
+            <SUICardList type="food" list={foodType} rowRWD={[6, 6, 3, 3, 2]} />
           </Grid>
 
           {/* ============================================================================ */}
@@ -461,32 +511,7 @@ const ExercisePage = () => {
                   蛋白質 (g)
                 </Box>
               </Box>
-              <Section
-                sx={{
-                  height: '350px',
-                  overflow: 'auto',
-                  position: 'relative',
-                  // margin: '0 0 1px 0', // Negative margin to keep scrollbar inside
-                  '&::-webkit-scrollbar': {
-                    width: 20,
-                  },
-                  '&::-webkit-scrollbar-track': {
-                    backgroundColor: 'var(--fortress)',
-                    borderRadius: '5px',
-                  },
-                  '&::-webkit-scrollbar-thumb': {
-                    borderRadius: '5px',
-                    backgroundColor: 'var(--deepgrey)',
-                    transition: '.5s',
-                    '&:hover': {
-                      filter: 'brightness(0.85)',
-                      backgroundColor: 'var(--main-red)',
-                    },
-                  },
-                }}
-              >
-                <SUISchedule list={dietList} />
-              </Section>
+              <SUISchedule type="food" list={dietList} />
             </SUIScheduleTable>
           </Grid>
         </Grid>
@@ -503,11 +528,7 @@ const ExercisePage = () => {
           paddingTop: '50px',
         }}
       >
-        <Box
-          container
-          justifyContent="center"
-          sx={{ width: '100%', height: '100%' }}
-        >
+        <Box justifyContent="center" sx={{ width: '100%', height: '100%' }}>
           {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
             <p>
               2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
@@ -522,6 +543,14 @@ const ExercisePage = () => {
                   interactionPlugin,
                   timeGridPlugin,
                 ]}
+                // >>> max event show
+                dayMaxEventRows={true} // for all non-TimeGrid views
+                views={{
+                  dayGridMonth: {
+                    dayMaxEventRows: 3,
+                  },
+                }}
+                // <<< max event show
                 headerToolbar={{
                   left: 'prev,next today',
                   center: 'title',
@@ -545,10 +574,10 @@ const ExercisePage = () => {
                 //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
                 // ]}
 
-                events={dietList.map((exercise, index) => {
+                events={dietList.map((diet, index) => {
                   return {
-                    title: exercise.workout,
-                    date: exercise.date,
+                    title: diet.name,
+                    date: diet.date,
                     resourceId: 'a',
                   };
                 })}
@@ -647,4 +676,4 @@ const ExercisePage = () => {
   );
 };
 
-export default ExercisePage;
+export default DietPage;

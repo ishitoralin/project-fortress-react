@@ -13,7 +13,9 @@
 .delete-icon:hover {
   fill: red;
 }
-
+.td-img {
+  max-width: 200px;
+}
 @media screen and (max-width: 500px) {
   .paper-container {
     box-shadow: none !important;
