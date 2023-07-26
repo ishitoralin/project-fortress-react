@@ -60,6 +60,8 @@ const LessonCard = ({ lessons, coachcard }) => (
           className="lesson_card_img"
           alt="lessonImg"
           src={`/lesson-img/${lessons.img}`}
+          placeholder="blur"
+          blurDataURL={lessons.img_base64}
           fill
           style={imgStyle}
         />

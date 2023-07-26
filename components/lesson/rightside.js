@@ -9,6 +9,8 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
 import UiButton from '../hh/UiButton';
+import { isArray } from 'lodash';
+import CUICard from '../customUI/cui-card';
 
 const rightSideStyle = {
   width: '65%',
@@ -59,6 +61,7 @@ const RightSide = ({
   displayMode,
   setDisplayMode,
 }) => {
+  if (!isArray(lessons)) throw new Error('lessons should be Array type');
   return (
     <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
@@ -107,9 +110,23 @@ const RightSide = ({
         </IconButton>
       </Box>
       {displayMode === 'list' ? (
-        lessons.map((lessons, index) => (
-          <LessonCard key={index} lessons={lessons} />
-        ))
+        lessons.length === 0 ? (
+          <CUICard
+            sx={{
+              p: 2,
+              bgcolor: 'var(--steel-grey)',
+              color: 'white',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            目前沒有符合條件的課程
+          </CUICard>
+        ) : (
+          lessons.map((lessons, index) => (
+            <LessonCard key={index} lessons={lessons} />
+          ))
+        )
       ) : (
         <>
           <Box

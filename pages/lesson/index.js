@@ -158,14 +158,18 @@ const LessionPage = (props) => {
                   key={'search'}
                   color={'steel_grey'}
                   label="課程關鍵字"
-                  placeholder="請輸入關鍵字"
+                  placeholder="教練名稱、課程名稱..."
                 />,
                 <>
                   <CUISelect
                     key={'select'}
                     color={'steel_grey'}
                     label="課程標籤"
+                    value=""
                     options={tags}
+                    SelectProps={{
+                      onOpen: (e) => e.target.blur(),
+                    }}
                     onChange={(event) => {
                       const newSelect = [...selectTags, event.target.value];
                       const newTags = tags.filter(
@@ -205,16 +209,14 @@ const LessionPage = (props) => {
                 <CUISlider key={'slider'} label="價格範圍" />,
               ]}
             />
-            {lessons.length && (
-              <RightSide
-                showFilter={showFilter}
-                location={location}
-                setLocation={setLocation}
-                displayMode={displayMode}
-                setDisplayMode={setDisplayMode}
-                lessons={lessons}
-              />
-            )}
+            <RightSide
+              showFilter={showFilter}
+              location={location}
+              setLocation={setLocation}
+              displayMode={displayMode}
+              setDisplayMode={setDisplayMode}
+              lessons={lessons}
+            />
           </Box>
         </Container>
       </Box>
