@@ -27,7 +27,6 @@ export default function ProtectedRouteWrapper({ children }) {
   const { auth } = useAuth();
   const [firstRender, setFirstRender] = useState(false);
   useEffect(() => {
-    console.log(firstRender);
     if (!auth.isLogin && firstRender) {
       router.push('/member/login');
     }
