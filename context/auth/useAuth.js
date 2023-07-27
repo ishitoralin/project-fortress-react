@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }) => {
         console.log('tokenRefreshResponse:', tokenRefreshResponse);
         failedRequest.response.config.headers['Authorization'] =
           tokenRefreshResponse.data.accessToken;
+        console.log(tokenRefreshResponse.data.user, 'L29');
         setAuth({
           isLogin: true,
           user: tokenRefreshResponse.data.user,

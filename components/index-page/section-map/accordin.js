@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import styles from './section-map.module.css';
 export default function Accordin({ locations, setLocation, location }) {
   const handleChange = (panel) => () => {
@@ -27,12 +29,21 @@ export default function Accordin({ locations, setLocation, location }) {
           </AccordionSummary>
           <AccordionDetails className={`${styles.detail}`}>
             {el?.transportation &&
-              el?.transportation
-                .split(',')
-                .map((el2, i2) => (
-                  <Typography key={i2 + 'transportation'}>{el2}</Typography>
-                ))}
-            <Typography>{el.tel}</Typography>
+              el?.transportation.split(',').map((el2, i2) => (
+                <Fragment key={i2 + 'transportation'}>
+                  <Typography>
+                    <LocationOnIcon
+                      fontSize="small"
+                      style={{ marginRight: '5px' }}
+                    />
+                    {el2}
+                  </Typography>
+                </Fragment>
+              ))}
+            <Typography>
+              <LocalPhoneIcon fontSize="small" style={{ marginRight: '5px' }} />
+              {el.tel}
+            </Typography>
           </AccordionDetails>
         </Accordion>
       ))}

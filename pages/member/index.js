@@ -12,6 +12,7 @@ import { Box } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '@/context/auth/useAuth';
 import dayjs from 'dayjs';
+import { Toaster, toast } from 'react-hot-toast';
 
 const validationSchema = yup.object({
   mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
@@ -42,9 +43,9 @@ export default function Index() {
       const valuesCopied = { ...values };
       delete valuesCopied['name'];
       delete valuesCopied['email'];
-      //抹掉不必要欄位 valuesCopied為要 UPDATE的資料
+      //抹掉不必要欄位 valuesCopied為要 patch的資料
       console.log(JSON.stringify(valuesCopied, null, 2));
-      const res = await axios.post(
+      const res = await axios.patch(
         `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member`,
         { ...valuesCopied },
         {
@@ -53,8 +54,10 @@ export default function Index() {
           },
         }
       );
-
-      console.log(res.data);
+      setData((prev) => {
+        return { ...prev, ...valuesCopied };
+      });
+      toast.success(`${res.data.message}`);
     },
   });
   useEffect(() => {
@@ -146,7 +149,7 @@ export default function Index() {
                   if (e === 'Invalid Date') {
                     formik.setValues((v) => {
                       console.log('L138', v);
-                      return { ...v, [name]: undefined };
+                      return { ...v, [name]: '' };
                     });
                     return;
                   }
@@ -198,6 +201,7 @@ export default function Index() {
             color={'main_white'}
             onClick={() => {
               formik.setValues(data);
+              toast.success('重置成功');
             }}
           >
             重置
@@ -207,6 +211,30 @@ export default function Index() {
           </CUIButton>
         </Box>
       </form>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: '',
+          duration: 5000,
+          style: {
+            fontSize: '1.25rem',
+            color: '#000',
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 2000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
     </div>
   );
 }
