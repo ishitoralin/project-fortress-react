@@ -4,15 +4,24 @@
   color: blue;
 }
 
-.Carouselimg {
+/* .Carouselimg {
   width: 100%;
   margin-top: 20px;
   padding: 0px 61px;
   display: flex;
   justify-content: space-between;
-  /* position: relative; */
+   position: relative; 
   align-items: center;
-}
+  @media screen and (max-width: 414px) {
+    width: 100%;
+    margin-top: 20px;
+    padding: 0px 61px;
+    display: flex;
+    justify-content: space-between;
+     position: relative; 
+    align-items: center;
+  }
+} */
 
 .mySwiper {
   display: flex;
@@ -21,6 +30,25 @@
   width: 100%;
   height: calc(100vh - var(--nav-height));
   outline: none;
+
+  @media screen and (max-width: 414px) {
+    display: none;
+
+  }
+}
+
+.mySwipermodil {
+  display: none;
+
+
+  @media screen and (max-width: 414px) {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+    outline: none;
+  }
 }
 
 .aaa {
@@ -32,6 +60,21 @@
   width: 100%;
   height: 100%;
   height: calc(100vh - var(--nav-height));
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  aspect-ratio: 1920 / 900;
+  object-position: center center;
+
+  @media screen and (max-width: 414px) {
+    width: 100%;
+    height: calc(100vh - var(--nav-height));
+    object-fit: fill;
+    aspect-ratio: 414 / 183;
+    object-position: center center;
+  }
+
+
 }
 
 .img-wrapper img {
@@ -40,7 +83,17 @@
   object-fit: fill;
   aspect-ratio: 1920 / 900;
   object-position: center center;
+
   /* align-items: flex-start; */
+  @media screen and (max-width: 414px) {
+    display: flex;
+    width: 414px;
+    height: 183.58px;
+    object-fit: fill;
+    aspect-ratio: 414 / 183;
+    object-position: center center;
+
+  }
 }
 
 .aa {
@@ -86,6 +139,7 @@
 .aaaa {
   display: flex;
   justify-content: center;
+
 }
 
 .CardButtons {
