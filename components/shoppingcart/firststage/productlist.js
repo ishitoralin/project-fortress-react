@@ -19,6 +19,7 @@ import {
   indexContainer,
   AddAndReduceButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
+// const fakeDataForCart = { products: [] };
 const fakeDataForCart = {
   products: [
     {
@@ -285,6 +286,8 @@ export default function ProductList(props) {
       </Box>
     </>
   ) : (
-    <div className={styles.noItem}>尚未選取商品</div>
+    <Box sx={indexContainer}>
+      <div className={styles.noItem}>尚未選取商品</div>
+    </Box>
   );
 }
