@@ -32,6 +32,7 @@ function SUICardList({
   };
 
   const handleDialogOpen = (item) => {
+    // console.log(item);
     setSelectedItem({ ...item, sets: null, reps: null, quantity: null });
     setDialogOpen(true);
   };
@@ -95,12 +96,12 @@ function SUICardList({
           </Grid>
         ))}
       </Grid>
-      {list.length > 0 && type === 'exercise' && (
+      {list?.length > 0 && type === 'exercise' && dialogOpen && (
         <ExeCardDialog
           open={dialogOpen}
           onClose={handleDialogClose}
           item={selectedItem}
-          setItem={setSelectedItem}
+          setSelectedItem={setSelectedItem}
           exerciseScheduleList={exerciseScheduleList}
           setExerciseScheduleList={setExerciseScheduleList}
         />

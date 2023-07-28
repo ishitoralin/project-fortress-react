@@ -29,8 +29,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
         .subtract(1, 'day')
         .format('YYYY-MM-DD');
       updateStartEnd({ start: startOfMonth, end: endOfMonth });
-      //   console.log('Start of Current Month:', startOfMonth);
-      //   console.log('End of Current Month:', endOfMonth);
     };
 
     calendarApi.on('datesSet', handleDatesSet);

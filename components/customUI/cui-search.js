@@ -13,6 +13,7 @@ export default function CUISearch(props) {
         value={props.value}
         onClick={props.onClick}
         onChange={props.onChange}
+        onCompositionEnd={props.onCompositionEnd}
         placeholder={props.placeholder}
         endAdornment={
           <InputAdornment position="end">

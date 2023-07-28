@@ -38,6 +38,7 @@ import {
   useDebounceHH,
   useDebounce,
 } from '@/components/customHook/useDebounce';
+import useUpdateEffect from '@/components/customHook/useUpdateEffect';
 // =========================================================================
 //>>> pseudo-data
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
@@ -69,7 +70,7 @@ const Section = styled(Box)(({ theme }) => ({
 
 const ExercisePage = () => {
   // ============================================================
-  const today = dayjs(new Date()).format('YYYY-MM-DD');
+  // const today = dayjs(new Date()).format('YYYY-MM-DD');
   const exerciseInit = { key: 0, value: '全部', label: '全部' }; //=== exercise type的初始值
   // const router = useRouter();
   const [exeType, setExeType] = useState([]); //=== for exercise-type cards
@@ -80,55 +81,59 @@ const ExercisePage = () => {
   const [exerciseStartEnd, setExerciseStartEnd] = useState(
     getCurrentMonthDates()
   ); //=== the start and end date for the calendar
-  const [scheduleDate, setScheduleDate] = useState(today);
-  const [exerciseScheduleList, setExerciseScheduleList] = useState([
-    // exe: Num1=reps, Num2=sets
-    // diet: Num1=calories, Num2=protein
-    {
-      id: 1,
-      sid: 1,
-      exercise_name: '槓鈴深蹲',
-      exercise_description: 'asdffasfv',
-      quantity: 60,
-      reps: 12,
-      sets: 5,
-      img: '槓鈴深蹲.jpg',
-      vid: null,
-    },
-    {
-      id: 2,
-      sid: 2,
-      exercise_name: '槓鈴臥推',
-      exercise_description: 'asdffasfv',
-      quantity: 60,
-      reps: 12,
-      sets: 5,
-      img: '槓鈴臥推.jpg',
-      vid: null,
-    },
-  ]);
-  const [editDate, setEditDAte] = useState('');
-  const editing = exerciseRecord.some((item) => item.date === editDate); //=== 判斷現在是否正在編輯月曆中某一天的運動, 當天有行程=ture
+  const [scheduleDate, setScheduleDate] = useState(null); // useState(today);
+  const [exerciseScheduleList, setExerciseScheduleList] = useState([]);
+  const [editDate, setEditDate] = useState(null);
+  // let editing = exerciseRecord.some((item) => item.date === editDate); //=== 判斷現在是否正在編輯月曆中某一天的運動, 當天有行程=ture
+  const [editing, setEditing] = useState(false);
+  useEffect(() => {
+    setEditing(exerciseRecord.some((item) => item.date === editDate));
+  }, [exerciseRecord, editDate]);
+  // console.log(editing, editDate);
+  // console.log(scheduleDate);
   // console.log(editing);
   // =============================================================
-  // console.log(exerciseScheduleList);
-  // FIXME: how to fetch multiple data, instead of using map?
   const handleAddSchedule = (list, date) => {
-    let dataAdded = 0;
-    list.map((ele) => {
-      const data = { ...ele, date };
-      fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
-        method: 'POST',
+    // console.log('test');
+    // console.log(editing, editDate);
+    let dataAdded;
+    if (editing) {
+      // TODO:邏輯要想好
+      // console.log('editing');
+      fetch(`${process.env.SEAN_API_SERVER}/exercise-record/delete-record`, {
+        method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ date }),
       })
         .then((r) => r.json())
-        .then((data) => {
-          dataAdded += data.result.affectedRows;
-        });
-    });
+        .then((data) => console.log(data));
+    }
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (!!date) {
+      list.map((item) => {
+        const data = { ...item, date };
+        fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        })
+          .then((r) => r.json())
+          .then((data) => {
+            dataAdded += data.result.affectedRows;
+          });
+      });
+      setExerciseScheduleList([]);
+      setScheduleDate(undefined);
+      window.alert('added');
+    } else {
+      console.log('no date');
+    }
+
+    setEditing(false); //=== reset editing
   };
 
   // >>> initiallize
@@ -143,7 +148,6 @@ const ExercisePage = () => {
   }, []);
 
   useEffect(() => {
-    // console.log(exerciseRecord);
     fetch(
       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
     ) //=== for exercise record
@@ -174,13 +178,33 @@ const ExercisePage = () => {
     setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
   };
   // <<< filter exercise by body part
-
   // >>> search by keyword
   // TODO: on composition end
   const handleSearch = (e) => {
     setKeyword(e.target.value);
   };
   // <<< search by keyword
+  // >>> get the exercise-schedule when selecting date
+  useDebounceHH(
+    () => {
+      editing && setScheduleDate(editDate);
+      if (editing) {
+        fetch(
+          `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${editDate}/${editDate}`
+        ) //=== for exercise record
+          .then((r) => r.json())
+          .then((data) => {
+            // console.log(data.data);
+            setExerciseScheduleList(data.data);
+          });
+      } else {
+        setExerciseScheduleList([]);
+      }
+    },
+    [editing, editDate],
+    100
+  );
+  // <<< get the exercise-schedule when selecting date
 
   return (
     <>
@@ -231,7 +255,10 @@ const ExercisePage = () => {
                 label="搜尋運動類型"
                 placeholder="請輸入關鍵字"
                 // value={keyword}
+                // onCompositionEnd={(e) => console.log('123')}
                 onChange={(e) => {
+                  console.log(e.nativeEvent.composed);
+                  // console.log(e);
                   handleSearch(e);
                 }}
               />
@@ -264,16 +291,22 @@ const ExercisePage = () => {
               {/* TODO: 把按鈕跟datepicker夾到SUISchedule */}
 
               <SUISchedule
-                type="exercise"
+                // >>> style
                 scheduleTitleStyle={scheduleTitleStyle}
+                scheduleItemWdith={scheduleItemWdith}
+                // <<< style
+                type="exercise"
+                editing={editing}
+                setEditing={setEditing}
+                // >>> 規劃暫存清單
                 scheduleList={exerciseScheduleList}
                 setScheduleList={setExerciseScheduleList}
-                scheduleItemWdith={scheduleItemWdith}
+                // <<< 規劃暫存清單
+                // >>> 要加入規劃的時間
                 scheduleDate={scheduleDate}
                 setScheduleDate={setScheduleDate}
-                exerciseScheduleList={exerciseScheduleList}
-                handleAddSchedule={handleAddSchedule}
-                width={scheduleItemWdith}
+                // <<< 要加入規劃的時間
+                handleAddSchedule={handleAddSchedule} //=== fetch DB
               />
             </SUIScheduleTable>
           </Grid>
@@ -320,7 +353,7 @@ const ExercisePage = () => {
             <SeanCalendar
               list={exerciseRecord}
               updateStartEnd={setExerciseStartEnd}
-              setDate={setEditDAte}
+              setDate={setEditDate}
             />
           </Grid>
         </Grid>

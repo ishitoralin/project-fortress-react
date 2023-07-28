@@ -1,14 +1,21 @@
 import { Container, Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { TextField } from '@mui/material';
-import { FormControl } from '@mui/material';
+import {
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 import { Input } from '@mui/material';
 import { InputLabel } from '@mui/material';
+
 // =========================================================================
 import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIButton from '@/components/customUI/cui-button';
+import CUITextField from '@/components/customUI/cui-textfield';
 // =========================================================================
 import { SUICardList } from '@/components/seanUI/sui-card';
 import {
@@ -117,11 +124,11 @@ const dietList = [
 ];
 
 const activity = [
-  '身體活動趨於靜態(BMR x 1.2)',
-  '輕量活動(BMR x 1.375)',
-  '中度活動量(BMR x 1.55)',
-  '高度活動量(BMR x 1.72)',
-  '非常高度活動量(BMR x 1.9)',
+  { value: 1.2, label: '身體活動趨於靜態(BMR x 1.2)' },
+  { value: 1.375, label: '輕量活動(BMR x 1.375)' },
+  { value: 1.55, label: '中度活動量(BMR x 1.55)' },
+  { value: 1.72, label: '高度活動量(BMR x 1.72)' },
+  { value: 1.9, label: '非常高度活動量(BMR x 1.9)' },
 ];
 
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
@@ -162,12 +169,33 @@ const NuBox = styled(Box)(() => ({
 //<<< style
 
 const DietPage = () => {
-  // ============================================================
+  // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  const inputDefault = {
+    age: { value: null, error: false, text: '' },
+    height: { value: null, error: false, text: '' },
+    weight: { value: null, error: false, text: '' },
+  };
+  const pHelperText = '請輸入正數';
+  const pIHelperText = '請輸入正整數';
+  // regular expression for positive Integer, cant be zero
+  const regexPInt = /^[1-9]\d*$/;
+  // regular expression for positive number, cant be zero
+  const regexP = /^(?!0\d)(?:\d*\.\d+|\d+)$/;
+  const [bodyData, setBodyData] = useState(inputDefault); //=== for input
+  const [gender, setGender] = useState(''); // State to hold the selected gender
+
+  const handleGenderRadio = (event) => {
+    setGender(event.target.value);
+  };
+  //========
   const foodInit = { key: 0, value: '全部', label: '全部' };
-  const router = useRouter();
+  // const router = useRouter();
   const [foodType, setFoodType] = useState([]);
   const [foodCategory, setFoodCategory] = useState([foodInit]);
   const foodCategorys = useRef([foodInit]); //=== for selection options
+  const [multiplier, setMultiplier] = useState(null);
+
+  // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   // >>> initiallize
   useEffect(() => {
@@ -231,15 +259,129 @@ const DietPage = () => {
           >
             <Section>
               <h1>計算你的基礎代謝率</h1>
+              <FormControl component="fieldset">
+                <RadioGroup
+                  name="gender"
+                  value={gender}
+                  onChange={handleGenderRadio}
+                >
+                  <Grid container direction="row" alignItems="center">
+                    <Grid item>
+                      <FormControlLabel
+                        value="male"
+                        control={<Radio />}
+                        label="Male"
+                      />
+                    </Grid>
+                    <Grid item>
+                      <FormControlLabel
+                        value="female"
+                        control={<Radio />}
+                        label="Female"
+                      />
+                    </Grid>
+                  </Grid>
+                </RadioGroup>
+              </FormControl>
+              <CUITextField
+                id="age"
+                label="年齡(yrd)"
+                type="number"
+                helperText={bodyData.age.text}
+                error={bodyData.age.error}
+                onChange={(e) => {
+                  // >>> if pass exam, setSelectedItem, else setInputExam give error
+                  const value = e.target.value;
+                  // console.log(bodyData);
+                  if (regexPInt.test(value)) {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        age: { value: value, error: false, text: '' },
+                      };
+                    });
+                  } else {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        age: { value: '', error: true, text: pIHelperText },
+                      };
+                    });
+                  }
+                  // <<< if pass exam, setSelectedItem, else setInputExam give error
+                }}
+              />
 
-              <SUIInputNumber id="age" label="年齡(yrd)" />
+              <CUITextField
+                id="weight"
+                label="身高(cm)"
+                type="number"
+                helperText={bodyData.height.text}
+                error={bodyData.height.error}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (regexP.test(value)) {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        height: { value: value, error: false, text: '' },
+                      };
+                    });
+                  } else {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        height: {
+                          value: '',
+                          error: true,
+                          text: pHelperText,
+                        },
+                      };
+                    });
+                  }
+                }}
+              />
 
-              <SUIInputNumber id="weight" label="體重(kg)" />
-              <SUIInputNumber id="height" label="身高(cm)" />
+              <CUITextField
+                id="weight"
+                label="體重(kg)"
+                type="number"
+                helperText={bodyData.weight.text}
+                error={bodyData.weight.error}
+                onChange={(e) => {
+                  // >>> if pass exam, setSelectedItem, else setInputExam give error
+                  const value = e.target.value;
+                  if (regexP.test(value)) {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        weight: { value: value, error: false, text: '' },
+                      };
+                    });
+                  } else {
+                    setBodyData((prev) => {
+                      return {
+                        ...prev,
+                        weight: {
+                          value: '',
+                          error: true,
+                          text: pHelperText,
+                        },
+                      };
+                    });
+                  }
+                  // <<< if pass exam, setSelectedItem, else setInputExam give error
+                }}
+              />
+
               <CUISelect
                 sx={{ width: '100%', m: 1 }}
                 label="活動型態"
                 options={activity}
+                onChange={(e) => {
+                  setMultiplier(e.target.value);
+                  // console.log(multiplier);
+                }}
               />
               <Box
                 sx={{
@@ -249,6 +391,7 @@ const DietPage = () => {
                   m: 1,
                 }}
               >
+                {/* {console.log(multiplier)} */}
                 <CUIButton
                   sx={{
                     width: '45%',
@@ -445,233 +588,16 @@ const DietPage = () => {
               display: 'flex',
               alignItems: 'center',
             }}
-          >
-            <SUIScheduleTable sx={{ width: '100%' }}>
-              <Section>
-                <Box
-                  sx={{
-                    position: 'sticky',
-                    top: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                  }}
-                >
-                  <CUIDatePicker sx={{ width: '80%' }} label={'pick a date'} />
-                  <CUIButton
-                    sx={{
-                      width: '35%',
-                      marginLeft: '20px',
-                      transform: 'scale(1.2)',
-                    }}
-                  >
-                    加入規劃
-                  </CUIButton>
-                </Box>
-              </Section>
-              <Box
-                sx={{
-                  display: 'flex',
-                  width: '100%',
-                  height: '60px',
-                  borderTop: myBorder,
-                  bgcolor: 'var(  --steel-light-grey)',
-                  boxShadow: 'rgba(0, 0, 0, 0.3) 0 15px 15px',
-                  paddingLeft: 1.5,
-                  paddingRight: 4,
-                }}
-              >
-                <Box
-                  sx={{
-                    ...scheduleTitle,
-                    width: scheduleItemWdith[0],
-                  }}
-                >
-                  食物種類
-                </Box>
-                <Box sx={{ ...scheduleTitle, width: scheduleItemWdith[1] }}>
-                  份量
-                </Box>
-                <Box
-                  sx={{
-                    ...scheduleTitle,
-                    width: scheduleItemWdith[2],
-                    textAlign: 'center',
-                  }}
-                >
-                  卡路里 (kcal)
-                </Box>
-                <Box
-                  sx={{
-                    ...scheduleTitle,
-                    width: scheduleItemWdith[3],
-                    borderRight: 'none',
-                    textAlign: 'center',
-                  }}
-                >
-                  蛋白質 (g)
-                </Box>
-              </Box>
-              <SUISchedule type="food" list={dietList} />
-            </SUIScheduleTable>
-          </Grid>
+          ></Grid>
         </Grid>
       </div>
       {/* =================================================================== */}
       {/* === page 3 ========================================================= */}
       {/* =================================================================== */}
 
-      <div
-        id="page-3"
-        style={{
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          paddingTop: '50px',
-        }}
-      >
-        <Box justifyContent="center" sx={{ width: '100%', height: '100%' }}>
-          {/* <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
-            <p>
-              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p> */}
-
-          <FullCalendarLayout>
-            <div className="calendar-container">
-              <FullCalendar
-                plugins={[
-                  resourceTimelinePlugin,
-                  dayGridPlugin,
-                  interactionPlugin,
-                  timeGridPlugin,
-                ]}
-                // >>> max event show
-                dayMaxEventRows={true} // for all non-TimeGrid views
-                views={{
-                  dayGridMonth: {
-                    dayMaxEventRows: 3,
-                  },
-                }}
-                // <<< max event show
-                headerToolbar={{
-                  left: 'prev,next today',
-                  center: 'title',
-                  right: '',
-                }}
-                initialView="dayGridMonth"
-                nowIndicator={true}
-                editable={true}
-                selectable={true}
-                selectMirror={true}
-                resources={[
-                  { id: 'a', title: 'Auditorium A' },
-                  { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-                  { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-                ]}
-                // initialEvents={[
-                //   { title: 'event 1', start: new Date(), resourceId: 'a' },
-                // ]}
-                // events={[
-                //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
-                //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
-                // ]}
-
-                events={dietList.map((diet, index) => {
-                  return {
-                    title: diet.name,
-                    date: diet.date,
-                    resourceId: 'a',
-                  };
-                })}
-              />
-            </div>
-          </FullCalendarLayout>
-        </Box>
-      </div>
-
       {/* =================================================================== */}
       {/* === page 4 ========================================================= */}
       {/* =================================================================== */}
-      <div
-        id="page-4"
-        style={{
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          paddingTop: '50px',
-        }}
-      >
-        <Grid container justifyContent="center" sx={{ width: '100%' }}>
-          <Grid
-            item
-            lg={3}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <Section>
-              <Box
-                sx={{
-                  top: 0,
-                }}
-              >
-                <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
-                <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
-                {/* <CUIButton
-                    sx={{ width: '35%', ml: 'auto', transform: 'scale(1.2)' }}
-                  >
-                    加入規劃
-                  </CUIButton> */}
-              </Box>
-              <Box sx={{ textAlign: 'center' }}>
-                {plotType.map((ele) => {
-                  return (
-                    <CUIButton
-                      key={ele}
-                      color={'fortress'}
-                      sx={{ width: '100%', mt: 1 }}
-                    >
-                      {ele}
-                    </CUIButton>
-                  );
-                })}
-                <CUIButton color={'deepgrey'} sx={{ width: '100%', mt: 1 }}>
-                  更多+
-                </CUIButton>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  mt: 2,
-                }}
-              >
-                <CUIButton color={'fortress'} sx={{ width: '50%' }}>
-                  輸出PDF
-                </CUIButton>
-                <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
-              </Box>
-            </Section>
-          </Grid>
-
-          {/* ============================================================= */}
-
-          <Grid
-            item
-            lg={9}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
-            <p>
-              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p>
-          </Grid>
-        </Grid>
-      </div>
     </>
   );
 };

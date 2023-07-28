@@ -1,12 +1,11 @@
-import { Dialog, DialogContent, Box } from '@mui/material';
-import { useState } from 'react';
+import { Dialog, DialogContent, Box, DialogTitle } from '@mui/material';
+import { useEffect, useState } from 'react';
 import Zoom from '@mui/material/Zoom';
 import CUITextField from '../customUI/cui-textfield';
 import CUIButton from '../customUI/cui-button';
 
 // regular expression for positive Integer, cant be zero
 const regexPInt = /^[1-9]\d*$/;
-// const regexP = /^\d+(\.\d+)?$/;
 // regular expression for positive number, cant be zero
 const regexP = /^(?!0\d)(?:\d*\.\d+|\d+)$/;
 
@@ -19,7 +18,7 @@ function ExeCardDialog({
   open,
   onClose,
   item,
-  setItem,
+  setSelectedItem,
   exerciseScheduleList,
   setExerciseScheduleList,
 }) {
@@ -39,20 +38,30 @@ function ExeCardDialog({
 
     // if exerciseScheduleList has obj.id equal to item.id, then its editing
     // else its adding
-    const isID = exerciseScheduleList.some((obj) => obj.id === item.id);
+    const isID = exerciseScheduleList.some(
+      (obj) =>
+        (!!obj.id && obj.id === item.id) || (obj.sid && obj.sid === item.sid)
+    );
 
-    // console.log(!!item.id, isID);
+    // console.log(isID);
     if (isID) {
       setExerciseScheduleList(
         [...exerciseScheduleList].map((obj) => {
-          obj.id === item.id
-            ? {
-                ...obj,
-                quantity: item.quantity,
-                reps: item.reps,
-                sets: item.sets,
-              }
-            : obj;
+          // return obj;// for test
+          if (
+            (!!obj.id && obj.id === item.id) ||
+            (obj.sid && obj.sid === item.sid)
+          ) {
+            // console.log(!!obj.sid, !!obj.id);
+            return {
+              ...obj,
+              quantity: item.quantity,
+              reps: item.reps,
+              sets: item.sets,
+            };
+          } else {
+            return obj;
+          }
         })
       );
     } else {
@@ -60,8 +69,8 @@ function ExeCardDialog({
         ...exerciseScheduleList,
         {
           id: crypto.randomUUID(),
-          sid: item.sid,
-          exercise_name: item.exercise_name,
+          typeID: item.sid,
+          name: item.exercise_name,
           exercise_description: item.exercise_description,
           img: item.img,
           vid: item.vid,
@@ -81,31 +90,78 @@ function ExeCardDialog({
     onClose();
     setInputExam({ ...inputDefault });
   };
+  useEffect(() => {
+    console.log('123');
+  }, []);
 
   return (
     // FIXME: dialog width
+
     <Dialog
       open={open}
       onClose={handleClose}
       TransitionComponent={Zoom}
       transitionDuration={customTransitionDuration}
+      // disableAutoFocus
+      // disableEnforceFocus
+      // disableRestoreFocus
     >
+      <Box
+        sx={{
+          width: '100%',
+          aspectRatio: '16 / 9',
+          position: 'relative',
+          transform: 'translateZ(100)',
+          zIndex: 99999,
+        }}
+        onClick={(e) => {
+          console.log(e.target);
+          document.querySelector('iframe').src =
+            'https://www.youtube.com/embed/daVASrwlU9c?autoplay=1';
+        }}
+      >
+        {/* <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/daVASrwlU9c"
+          // src="https://www.youtube.com/embed/daVASrwlU9c?autoplay=1"
+          title="YouTube video player"
+          // frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullscreen
+        ></iframe> */}
+      </Box>
+      {/* {console.log(item)} */}
+      {/* <DialogTitle>{item?.exercise_name || item?.name}</DialogTitle> */}
       <DialogContent>
         {/* {console.log(item)} */}
         {/* TODO:要改成影片 */}
+        <iframe
+          width="100%"
+          height="100%"
+          src="https://www.youtube.com/embed/daVASrwlU9c"
+          // src="https://www.youtube.com/embed/daVASrwlU9c?autoplay=1"
+          title="YouTube video player"
+          // frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullscreen
+        ></iframe>
         <img
           src={'/react-imgs/record/exercise/' + item?.img}
           alt="Item"
           style={{ width: '100%' }}
         />
-        {/* TODO: how to give default value? */}
+
+        {/* {console.log(item?.quantity)} */}
+        <Box>{item?.exercise_description}</Box>
         <CUITextField
           label="重量(kg)"
           type="number"
           helperText={input.quantity.text}
-          // value={item.quantity || '0'}
           error={input.quantity.error}
+          value={item?.quantity || ''}
           onChange={(e) => {
+            // >>> if pass exam, setSelectedItem, else setInputExam give error
             const quantity = e.target.value;
             if (regexP.test(quantity)) {
               setInputExam((prevInput) => ({
@@ -115,7 +171,7 @@ function ExeCardDialog({
                   error: false,
                 },
               }));
-              setItem((prevItem) => ({
+              setSelectedItem((prevItem) => ({
                 ...prevItem,
                 quantity: quantity,
               }));
@@ -127,8 +183,13 @@ function ExeCardDialog({
                   error: true,
                 },
               }));
+              setSelectedItem((prevItem) => ({
+                ...prevItem,
+                quantity: '',
+              }));
             }
           }}
+          // <<< if pass exam, setSelectedItem, else setInputExam give error
           sx={{ width: '25%', mx: 2 }}
           required
         />
@@ -137,7 +198,9 @@ function ExeCardDialog({
           type="number"
           helperText={input.reps.text}
           error={input.reps.error}
+          value={item?.reps || ''} //NOTE:to delete last digit
           onChange={(e) => {
+            // >>> if pass exam, setSelectedItem, else setInputExam give error
             const reps = e.target.value;
             if (regexPInt.test(reps)) {
               setInputExam((prevInput) => ({
@@ -147,7 +210,7 @@ function ExeCardDialog({
                   error: false,
                 },
               }));
-              setItem((prevItem) => ({
+              setSelectedItem((prevItem) => ({
                 ...prevItem,
                 reps: reps,
               }));
@@ -159,8 +222,13 @@ function ExeCardDialog({
                   error: true,
                 },
               }));
+              setSelectedItem((prevItem) => ({
+                ...prevItem,
+                reps: '',
+              }));
             }
           }}
+          // <<< if pass exam, setSelectedItem, else setInputExam give error
           sx={{ width: '25%', mx: 2 }}
           required
         />
@@ -169,8 +237,9 @@ function ExeCardDialog({
           type="number"
           helperText={input.sets.text}
           error={input.sets.error}
-          // value={item?.input3Value}
+          value={item?.sets || ''} //NOTE:to delete last digit
           onChange={(e) => {
+            // >>> if pass exam, setSelectedItem, else setInputExam give error
             const sets = e.target.value;
             if (regexPInt.test(sets)) {
               setInputExam((prevInput) => ({
@@ -180,7 +249,7 @@ function ExeCardDialog({
                   error: false,
                 },
               }));
-              setItem((prevItem) => ({
+              setSelectedItem((prevItem) => ({
                 ...prevItem,
                 sets: sets,
               }));
@@ -192,8 +261,13 @@ function ExeCardDialog({
                   error: true,
                 },
               }));
+              setSelectedItem((prevItem) => ({
+                ...prevItem,
+                sets: '',
+              }));
             }
           }}
+          // <<< if pass exam, setSelectedItem, else setInputExam give error
           sx={{ width: '25%', mx: 2 }}
           required
         />
@@ -220,8 +294,8 @@ function ExeCardDialog({
               input.reps.error ||
               input.sets.error ||
               !regexP.test(item?.quantity) ||
-              !regexPInt.test(item.reps) ||
-              !regexPInt.test(item.sets)
+              !regexPInt.test(item?.reps) ||
+              !regexPInt.test(item?.sets)
             }
           >
             加入

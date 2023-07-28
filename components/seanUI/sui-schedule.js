@@ -32,25 +32,33 @@ const SUIScheduleItem = styled(Box)(() => ({
 }));
 
 function SUISchedule({
-  type,
+  // >>> style
   scheduleTitleStyle,
+  scheduleItemWdith = ['58%', '18%', '12%', '12%'],
+  // <<< style
+  type, // exercise/died
+  editing,
+  setEditing,
+  // >>> 規劃暫存清單
   scheduleList,
   setScheduleList,
-  scheduleItemWdith,
+  // <<< 規劃暫存清單
+  // >>> 要加入規劃的時間
   scheduleDate,
   setScheduleDate,
-  exerciseScheduleList,
-  handleAddSchedule,
-  width = ['58%', '18%', '12%', '12%'],
+  // <<< 要加入規劃的時間
+  handleAddSchedule, //=== fetch DB
 }) {
   // >>> dialog control
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const handleDialogClose = () => {
+    // console.log('schedule-close');
     setDialogOpen(false);
   };
 
   const handleDialogOpen = (item) => {
+    console.log(item, 'L61');
     setSelectedItem(item);
     setDialogOpen(true);
   };
@@ -58,9 +66,11 @@ function SUISchedule({
 
   const handleDelete = (item) => {
     const updateList = [...scheduleList];
+    // console.log(item);
+    // console.log(scheduleList);
     setScheduleList(
       updateList.filter((ele) => {
-        return ele.id !== item.id;
+        return ele.id !== item.id || ele.sid !== item.sid;
       })
     );
   };
@@ -80,10 +90,10 @@ function SUISchedule({
             sx={{ width: '80%' }}
             label={'pick a date'}
             format={'YYYY-MM-DD'}
+            disabled={editing}
             // defaultValue={today}
-            value={scheduleDate}
+            value={scheduleDate || undefined}
             onChange={(e) => {
-              console.log(new Date());
               setScheduleDate(e);
             }}
           />
@@ -94,10 +104,25 @@ function SUISchedule({
               transform: 'scale(1.2)',
             }}
             onClick={(e) => {
-              handleAddSchedule(exerciseScheduleList, scheduleDate);
+              handleAddSchedule(scheduleList, scheduleDate);
             }}
           >
-            加入規劃
+            {editing ? '修改計畫' : '加入規劃'}
+          </CUIButton>
+          <CUIButton
+            sx={{
+              width: '15%',
+              marginLeft: '50px',
+              transform: 'scale(1.2)',
+              bgcolor: 'var(--steel-grey)',
+            }}
+            onClick={(e) => {
+              // TODO:clean schedule,
+              setEditing(false);
+              setScheduleList([]);
+            }}
+          >
+            取消
           </CUIButton>
         </Box>
       </Section>
@@ -169,6 +194,9 @@ function SUISchedule({
             }}
           >
             {scheduleList.map((scheduleItem, i) => {
+              {
+                /* console.log(scheduleItem); */
+              }
               let Num1;
               let Num2;
               if (type === 'exercise') {
@@ -181,7 +209,7 @@ function SUISchedule({
 
               return (
                 <Box
-                  key={scheduleItem.id}
+                  key={scheduleItem.id || scheduleItem.sid}
                   component={Box}
                   sx={{
                     display: 'flex',
@@ -195,24 +223,14 @@ function SUISchedule({
                       borderRadius: '30px',
                     },
                   }}
-                  onClick={() => {
-                    // console.log(scheduleItem);
-                    handleDialogOpen(scheduleItem);
+                  onClick={(e) => {
+                    // FIXME: need better solusion
+                    if (e.target.classList.contains('MuiBox-root')) {
+                      // console.log(scheduleItem);
+                      handleDialogOpen(scheduleItem);
+                    }
                   }}
                 >
-                  {/* >>> dialog */}
-                  {/* FIXME: not working properly */}
-                  {type === 'exercise' && (
-                    <ExeCardDialog
-                      open={dialogOpen}
-                      onClose={handleDialogClose}
-                      item={selectedItem}
-                      setItem={setSelectedItem}
-                      exerciseScheduleList={scheduleList}
-                      setExerciseScheduleList={setScheduleList}
-                    />
-                  )}
-                  {/* <<< dialog */}
                   <Box
                     sx={{
                       display: 'flex',
@@ -225,20 +243,20 @@ function SUISchedule({
                       sx={{
                         borderTopLeftRadius: '30px',
                         borderBottomLeftRadius: '30px',
-                        width: width[0],
+                        width: scheduleItemWdith[0],
                       }}
                     >
-                      {scheduleItem.exercise_name}
+                      {scheduleItem.name}
                     </SUIScheduleItem>
-                    <SUIScheduleItem sx={{ width: width[1] }}>
+                    <SUIScheduleItem sx={{ width: scheduleItemWdith[1] }}>
                       {scheduleItem.quantity}
                     </SUIScheduleItem>
-                    <SUIScheduleItem sx={{ width: width[2] }}>
+                    <SUIScheduleItem sx={{ width: scheduleItemWdith[2] }}>
                       {Num1}
                     </SUIScheduleItem>
                     <SUIScheduleItem
                       sx={{
-                        width: width[3],
+                        width: scheduleItemWdith[3],
                         borderTopRightRadius: '30px',
                         borderBottomRightRadius: '30px',
                         borderRight: myBorder,
@@ -269,6 +287,18 @@ function SUISchedule({
                 </Box>
               );
             })}
+            {/* >>> dialog */}
+            {type === 'exercise' && dialogOpen && (
+              <ExeCardDialog
+                open={dialogOpen}
+                onClose={handleDialogClose}
+                item={selectedItem}
+                setSelectedItem={setSelectedItem}
+                exerciseScheduleList={scheduleList}
+                setExerciseScheduleList={setScheduleList}
+              />
+            )}
+            {/* <<< dialog */}
           </Box>
         </div>
       </Section>
