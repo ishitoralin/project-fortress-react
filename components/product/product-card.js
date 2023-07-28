@@ -43,16 +43,16 @@ export default function productCard(prop) {
                       <Typography variant="h6">${v.price}</Typography>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <Rating
                       name="half-rating"
                       defaultValue={2.5}
                       precision={0.5}
                     />
-                  </div>
+                  </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
                     <CUIButton className={`${styles['smallCardButton']}`}>
-                      加入購物車
+                      <Typography variant="p">加入購物車</Typography>
                     </CUIButton>
                   </div>
                 </CUICard>
@@ -167,13 +167,13 @@ export default function productCard(prop) {
                       <Typography variant="h6">${v.price}</Typography>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <Rating
                       name="half-rating"
                       defaultValue={2.5}
                       precision={0.5}
                     />
-                  </div>
+                  </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
                     <CUIButton className={`${styles['smallCardButton']}`}>
                       加入購物車
@@ -293,13 +293,13 @@ export default function productCard(prop) {
                       <Typography variant="h6">${v.price}</Typography>
                     </div>
                   </div>
-                  <div>
+                  {/* <div>
                     <Rating
                       name="half-rating"
                       defaultValue={2.5}
                       precision={0.5}
                     />
-                  </div>
+                  </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
                     <CUIButton className={`${styles['smallCardButton']}`}>
                       加入購物車
