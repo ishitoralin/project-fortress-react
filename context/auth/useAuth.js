@@ -24,8 +24,9 @@ export const AuthProvider = ({ children }) => {
       .get(refreshTokenUrl, { withCredentials: true, skipAuthRefresh: true })
       .then((tokenRefreshResponse) => {
         console.log('tokenRefreshResponse:', tokenRefreshResponse);
-        failedRequest.response.config.headers['Authorization'] =
-          tokenRefreshResponse.data.accessToken;
+        failedRequest.response.config.headers[
+          'Authorization'
+        ] = `Bearer ${tokenRefreshResponse.data.accessToken}`;
         console.log(tokenRefreshResponse.data.user, 'L29');
         setAuth({
           isLogin: true,
@@ -86,14 +87,16 @@ export const AuthProvider = ({ children }) => {
       // setLoading(false);
     } */
     try {
-      const data = await axios.get(checkAuthUrl, { withCredentials: true });
+      const data = await axios.get(checkAuthUrl, {
+        withCredentials: true,
+        headers: { Authorization: `Bearer ${auth?.accessToken}` },
+      });
       console.log(data, 'L85');
       // if (data.message) setAuth(true)
     } catch (err) {
       console.log(err, 'L88');
     }
   };
-  //FIXME:沒有把初始化完成的的AXIOS傳下去?
 
   init(axios);
 

@@ -13,11 +13,25 @@ import axios from 'axios';
 import { useAuth } from '@/context/auth/useAuth';
 import dayjs from 'dayjs';
 import { Toaster, toast } from 'react-hot-toast';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
 
 const validationSchema = yup.object({
   mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
   birth: yup.date(),
 });
+function ImgUploadModal({ open = false }) {
+  return (
+    <Dialog open={open} onClose={handleClose} >
+      <input
+        type="file"
+        name="avatar"
+        style={{ visibility: 'hidden', position: 'absolute' }}
+      />
+      <DialogTitle>123</DialogTitle>
+    </Dialog>
+  );
+}
 export default function Index() {
   const initialData = {
     name: '',
@@ -35,7 +49,9 @@ export default function Index() {
   };
   const [data, setData] = useState(initialData);
   const [displayData, setDisplayData] = useState(initialData);
+  const [open, setOpen] = useState(false);
   const { auth } = useAuth();
+  const handleClose =()=>{}
   const formik = useFormik({
     initialValues: formikInitialData,
     validationSchema: validationSchema,
@@ -121,9 +137,15 @@ export default function Index() {
   ];
   return (
     <div className={`${styles['center-container']}`}>
-      <div className={`${styles['photo']}`}>
+      <div
+        className={`${styles['photo']}`}
+        onClick={() => {
+          setOpen(true);
+        }}
+      >
         <CameraAltIcon className={`${styles['camera']}`} fontSize="large" />
       </div>
+      <ImgUploadModal open={open}  />
       <form onSubmit={formik.handleSubmit} className={`${styles['info']}`}>
         {filed.map((el) => {
           const { label, name, placeholder, type, disabled = false } = el;
