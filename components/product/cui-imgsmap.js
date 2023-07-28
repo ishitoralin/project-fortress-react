@@ -1,26 +1,19 @@
 import React from 'react';
 import styles from '@/styles/product.module.css';
 
-export default function CuiImgsmap() {
-  let arr = [
-    'st0010102.jpg',
-    'st0010102.jpg',
-    'st0010102.jpg',
-    'st0010102.jpg',
-  ];
+export default function CuiImgsmap({ productData }) {
   return (
     <>
-      <div className={`${styles['flexrow']}`}>
-        <div className={`${styles['sidImg']}`}>
-          {arr.map((v) => (
-            <img key={v} src={`http://localhost:3000/p-imgs/${v}`} />
-          ))}
+      {productData.sid && (
+        <div className={`${styles['flexrow']}`}>
+          <img
+            className={`${styles['productimgs']}`}
+            src={`http://localhost:3001/imgs/product/${
+              productData.picture.split(',')[0]
+            }`}
+          />
         </div>
-        <img
-          className={`${styles['productimgs']}`}
-          src="http://localhost:3000/p-imgs/st0010102.jpg"
-        />
-      </div>
+      )}
     </>
   );
 }

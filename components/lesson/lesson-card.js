@@ -31,8 +31,9 @@ import {
   regisBoxStyle,
   forwardSymbolBoxStyle,
 } from '@/styles/lesson-style/lesson-card-style';
+import Link from 'next/link';
 
-const LessonCard = ({ lessons, coachcard }) => (
+const LessonCard = ({ lesson, coachcard }) => (
   <CUICard
     sx={
       coachcard
@@ -48,18 +49,22 @@ const LessonCard = ({ lessons, coachcard }) => (
   >
     <Box sx={coachcard ? { ...cardImgStyle, width: '28%' } : cardImgStyle}>
       <Box sx={imgBox}>
-        <Button
-          variant="outlined"
-          size="small"
-          color="main_white"
-          sx={imgButtonStyle}
-        >
-          {coachcard ? '教練資料' : '查看詳情'}
-        </Button>
+        <Link href={`lesson/${lesson.category_sid}`}>
+          <Button
+            variant="outlined"
+            size="small"
+            color="main_white"
+            sx={imgButtonStyle}
+          >
+            {coachcard ? '教練資料' : '系列課程'}
+          </Button>
+        </Link>
         <Image
           className="lesson_card_img"
           alt="lessonImg"
-          src={`/lesson-img/${lessons.img}`}
+          src={`/lesson-img/${lesson.img}`}
+          placeholder="blur"
+          blurDataURL={lesson.img_base64}
           fill
           style={imgStyle}
         />
@@ -73,7 +78,7 @@ const LessonCard = ({ lessons, coachcard }) => (
       }
     >
       <Typography variant="h5" sx={cardTitleStyle}>
-        {lessons.name}
+        {lesson.name}
       </Typography>
       <FavoriteBorderOutlinedIcon sx={favoriteIconStyle} />
       <Box sx={cardInfoBoxStyle}>
@@ -83,7 +88,7 @@ const LessonCard = ({ lessons, coachcard }) => (
             指導教練:
           </Typography>
           <Typography variant="subtitle1" sx={cardInfoStyle}>
-            {lessons.nickname}
+            {lesson.nickname}
           </Typography>
         </Box>
         <Box sx={cardInfoRowStyle}>
@@ -95,7 +100,7 @@ const LessonCard = ({ lessons, coachcard }) => (
             variant="subtitle1"
             sx={{ ...cardInfoStyle, fontWeight: 'normal' }}
           >
-            {lessons.time}
+            {lesson.time}
           </Typography>
         </Box>
         <Box sx={cardInfoRowStyle}>
@@ -107,12 +112,12 @@ const LessonCard = ({ lessons, coachcard }) => (
             variant="subtitle1"
             sx={{ ...cardInfoStyle, fontStyle: 'oblique' }}
           >
-            {lessons.enrolled} / {lessons.capacity}
+            {lesson.enrolled} / {lesson.capacity}
           </Typography>
         </Box>
         {!coachcard && (
           <Box sx={tagBoxStyle}>
-            {lessons.tags.map((tag, index) => (
+            {lesson.tags.map((tag, index) => (
               <Chip key={index} label={tag} sx={tagStyle} />
             ))}
           </Box>
@@ -121,7 +126,7 @@ const LessonCard = ({ lessons, coachcard }) => (
       <Box sx={priceRegiBoxStyle}>
         <Typography variant="h5" sx={{ ...priceTextStyle, fontSize: '1.6rem' }}>
           <MonetizationOnRoundedIcon sx={priceIconStyle} />
-          價格: {lessons.price}
+          價格: {lesson.price}
         </Typography>
         <Box sx={regisBoxStyle}>
           <Typography variant="h6" className="regisText">

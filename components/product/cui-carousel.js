@@ -9,30 +9,44 @@ import 'swiper/css';
 export default function Index() {
   return (
     <>
-      <Swiper className="mySwiper">
-        <SwiperSlide>
-          <div className={`${styles['img-wrapper']}`}>
-            <img
-              alt="1"
-              src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg"
-            />
-          </div>
+      {/* <div className={`${styles['mySwipermodil']}`}>
+        <div className={`${styles['img-wrappermodil']}`}>
+          <img
+            alt="1"
+            src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg"
+          />
+        </div>
+        <div className={`${styles['img-wrappermodil']}`}>
+          <img
+            alt="2"
+            src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg"
+          />
+        </div>
+        <div className={`${styles['img-wrappermodil']}`}>
+          <img
+            alt="3"
+            src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg "
+          />
+        </div>
+      </div> */}
+      <Swiper className={`${styles['mySwiper']}`}>
+        <SwiperSlide className={`${styles['img-wrapper']}`}>
+          <img
+            alt="1"
+            src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg"
+          />
         </SwiperSlide>
-        <SwiperSlide>
-          <div className={`${styles['img-wrapper']}`}>
-            <img
-              alt="2"
-              src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg"
-            />
-          </div>
+        <SwiperSlide className={`${styles['img-wrapper']}`}>
+          <img
+            alt="2"
+            src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg"
+          />
         </SwiperSlide>
-        <SwiperSlide>
-          <div className={`${styles['img-wrapper']}`}>
-            <img
-              alt="3"
-              src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg"
-            />
-          </div>
+        <SwiperSlide className={`${styles['img-wrapper']}`}>
+          <img
+            alt="3"
+            src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg"
+          />
         </SwiperSlide>
       </Swiper>
     </>

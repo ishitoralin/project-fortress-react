@@ -19,74 +19,77 @@ import {
   indexContainer,
   AddAndReduceButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
-const fakeDataForCart = {
-  products: [
-    {
-      id: 19,
-      photo: 'photo',
-      name: '緊身衣',
-      detail: 'abavafd asfewweg gewaef gre',
-      price: 3000,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      photo: 'photo',
-      name: '布偶裝',
-      detail: 'abavafd asfewweg gewaef gre',
-      price: 2000,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-    {
-      id: 4,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-    {
-      id: 5,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-    {
-      id: 6,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-    {
-      id: 323,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-    {
-      id: 25,
-      photo: 'photo',
-      name: '貓貓裝',
-      detail: 'neko neko',
-      price: 600,
-      quantity: 1,
-    },
-  ],
-};
+import { result } from 'lodash';
+import Image from 'next/image';
+// const fakeDataForCart = { products: [] };
+// const fakeDataForCart = {
+//   products: [
+//     {
+//       id: 19,
+//       photo: 'photo',
+//       name: '緊身衣',
+//       detail: 'abavafd asfewweg gewaef gre',
+//       price: 3000,
+//       quantity: 2,
+//     },
+//     {
+//       id: 2,
+//       photo: 'photo',
+//       name: '布偶裝',
+//       detail: 'abavafd asfewweg gewaef gre',
+//       price: 2000,
+//       quantity: 1,
+//     },
+//     {
+//       id: 3,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//     {
+//       id: 4,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//     {
+//       id: 5,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//     {
+//       id: 6,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//     {
+//       id: 323,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//     {
+//       id: 25,
+//       photo: 'photo',
+//       name: '貓貓裝',
+//       detail: 'neko neko',
+//       price: 600,
+//       quantity: 1,
+//     },
+//   ],
+// };
 
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
@@ -107,10 +110,12 @@ export default function ProductList(props) {
   };
 
   useEffect(() => {
-    //fetch()
-    setCartItems(fakeDataForCart.products);
+    fetch('http://localhost:3001/cart/5')
+      .then((r) => r.json())
+      .then((results) => setCartItems(results.data))
+      .catch((error) => console.log(error));
   }, []);
-
+  console.log(cartItems);
   useEffect(() => {
     let totalPrice = 0;
     let totalQuantity = 0;
@@ -133,27 +138,27 @@ export default function ProductList(props) {
 
   const minus = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.id === id) return { ...v, quantity: v.quantity - 1 };
+      if (v.sid === id) return { ...v, quantity: v.quantity - 1 };
       return { ...v };
     });
   };
 
   const add = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.id === id) return { ...v, quantity: v.quantity + 1 };
+      if (v.sid === id) return { ...v, quantity: v.quantity + 1 };
       return { ...v };
     });
   };
 
   const remove = (cartItems, id) => {
     return cartItems.filter((v) => {
-      return v.id !== id;
+      return v.sid !== id;
     });
   };
 
   const update = (cartItems, id, value) => {
     return cartItems.map((v, i) => {
-      if (v.id === id) return { ...v, quantity: value };
+      if (v.sid === id) return { ...v, quantity: value };
       return { ...v };
     });
   };
@@ -176,11 +181,17 @@ export default function ProductList(props) {
               <div className={`${styles.ProductListComponent2} `}>{i + 1}</div>
 
               <div className={`${styles.ProductListComponent3}`}>
-                <div className={`${styles.ProductListComponentForPhoto}`}>
-                  {v.photo}
+                <div className={`${styles.ProductListComponentForPhoto} `}>
+                  <img
+                    style={{ height: '95px', objectFit: 'cover' }}
+                    src={`${
+                      process.env.NEXT_PUBLIC_BACKEND_PORT
+                    }/imgs/product/${v.picture.split(',')[0]}`}
+                    alt="商品圖片"
+                  />
                 </div>
-                <div className={styles.ProductListComponentForDetail}>
-                  {v.detail}
+                <div className={`${styles.ProductListComponentForDetail}`}>
+                  {v.item_name}
                 </div>
               </div>
 
@@ -191,10 +202,10 @@ export default function ProductList(props) {
                   sx={AddAndReduceButton}
                   onClick={() => {
                     if (v.quantity > 1) {
-                      setCartItems(minus(cartItems, v.id));
+                      setCartItems(minus(cartItems, v.sid));
                     }
                     if (v.quantity === 1) {
-                      handleClickOpen(parseInt(v.id), i);
+                      handleClickOpen(parseInt(v.sid), i);
                     }
                   }}
                 >
@@ -209,14 +220,14 @@ export default function ProductList(props) {
                     if (isNaN(value)) {
                       return;
                     }
-                    setCartItems(update(cartItems, v.id, value));
+                    setCartItems(update(cartItems, v.sid, value));
                   }}
                 />
                 {/* TODO Button 寬度設定 */}
                 <Button
                   sx={AddAndReduceButton}
                   onClick={() => {
-                    setCartItems(add(cartItems, v.id));
+                    setCartItems(add(cartItems, v.sid));
                   }}
                 >
                   <AddIcon></AddIcon>
@@ -230,7 +241,7 @@ export default function ProductList(props) {
                 <Button
                   sx={{ color: 'black' }}
                   onClick={() => {
-                    handleClickOpen(parseInt(v.id), i);
+                    handleClickOpen(parseInt(v.sid), i);
                   }}
                 >
                   <DeleteOutlineIcon
@@ -285,6 +296,8 @@ export default function ProductList(props) {
       </Box>
     </>
   ) : (
-    <div className={styles.noItem}>尚未選取商品</div>
+    <Box sx={indexContainer}>
+      <div className={styles.noItem}>尚未選取商品</div>
+    </Box>
   );
 }

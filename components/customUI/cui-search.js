@@ -11,6 +11,8 @@ export default function CUISearch(props) {
         name={props.name}
         color={props.color}
         value={props.value}
+        inputRef={props.inputRef}
+        defaultValue={props.defaultValue}
         onClick={props.onClick}
         onChange={props.onChange}
         onCompositionEnd={props.onCompositionEnd}

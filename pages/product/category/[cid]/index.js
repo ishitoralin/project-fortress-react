@@ -21,7 +21,7 @@ export default function Index() {
           setData(data.data);
         });
     }
-  }, [router]);
+  }, [router.query]);
   return (
     <>
       <div className={`${styles['list']}`}>

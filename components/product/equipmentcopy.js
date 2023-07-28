@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import styles from '@/styles/product.module.css';
 import CuiImgsmap from '@/components/product/cui-imgsmap';
 import BasicBreadcrumbs from '@/components/product/cui-productBreadcrumbs';
@@ -17,103 +17,39 @@ import {
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
-export default function Index() {
-  const [productData, setProductData] = useState({});
+export default function EquipmentDetail() {
   const router = useRouter();
-  useEffect(() => {
-    if (router.query.cid && router.query.pid) {
-      fetch(
-        `http://localhost:3001/api/product/${router.query.cid}/${router.query.pid}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.code === 200) {
-            console.log(data.data);
-            setProductData(data.data);
-          } else {
-            // 請在這裡處理沒有找到資料的情況
-            console.log('找不到資料');
-          }
-        })
-        .catch((error) => {
-          // 請在這裡處理錯誤情況
-          console.error('發生錯誤:', error);
-        });
+
+  if (typeof window !== 'undefined') {
+    if (router.query.pid) {
+      console.log(router.query);
     }
-  }, [router]);
+  }
 
   return (
     <>
       <div className={`${styles['product-detail-section1']}`}>
         <BasicBreadcrumbs></BasicBreadcrumbs>
         <div className={`${styles['product-detail-container']}`}>
-          <CuiImgsmap productData={productData}></CuiImgsmap>
+          <CuiImgsmap></CuiImgsmap>
           <div className={`${styles['product-detail-title']}`}>
-            <Typography variant="h5">{productData.name}</Typography>
+            <Typography variant="h5">
+              男士透氣 Essential Fitness 圓領T恤 - 藍色
+            </Typography>
             <div className={`${styles['product-detail-price']}`}>
-              <Typography variant="h3">{productData.price}</Typography>
+              <Typography variant="h3">NT$390</Typography>
               <div className={`${styles['product-detail-Rating']}`}>
                 <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
                 <Typography variant="h6">4.8(150)</Typography>
               </div>
             </div>
-            {/* <div className={`${styles['color-selcetor']}`}>
-              <Typography variant="h6">顏色</Typography>
-              <div className={`${styles['colorbox']}`}>
-                <Paper className={`${styles['color1']}`} />
-                <Paper className={`${styles['color2']}`} />
-                <Paper className={`${styles['color3']}`} />
-                <Paper className={`${styles['color4']}`} />
-              </div>
-            </div> */}
-            {/* <div className={`${styles['size-selector']}`}>
-              <Typography variant="h6">尺寸</Typography>
-
-              <Stack direction="row" spacing={2}>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  S
-                </Button>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  M
-                </Button>
-                <Button
-                  className={`${styles['size-Button']}`}
-                  variant="outlined"
-                  size="small"
-                >
-                  L
-                </Button>
-              </Stack>
-            </div> */}
-            <div className={`${styles['quantity']}`}>
-              <Typography variant="h6">數量:</Typography>
-              <Button sx={{ color: 'black' }}>
-                <RemoveIcon></RemoveIcon>
-              </Button>
-              <input
-                className={`${styles['quantityBox']}`}
-                type="number"
-                value={1}
-              />
-              <Button sx={{ color: 'black' }}>
-                <AddIcon></AddIcon>
-              </Button>
-            </div>
             <div className={`${styles['product-detail-button']}`}>
-              {/* <CUIButton
+              <CUIButton
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_white'}
               >
                 立即購買
-              </CUIButton> */}
+              </CUIButton>
               <CUIButton
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_red'}
@@ -122,9 +58,9 @@ export default function Index() {
               </CUIButton>
             </div>
             <div className={`${styles['product-detail-button']}`}>
-              {/* <Button sx={{ color: 'black' }}>
+              <Button sx={{ color: 'black' }}>
                 <ShareIcon></ShareIcon>分享
-              </Button> */}
+              </Button>
               <Button sx={{ color: 'black' }}>
                 <FavoriteBorderIcon></FavoriteBorderIcon>收藏
               </Button>

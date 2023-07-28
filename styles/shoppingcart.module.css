@@ -143,23 +143,23 @@
   color: #dfdfdf;
   border-bottom: 1px solid #dfdfdf;
   margin: 0 0 30px 0;
+  background-color: #fff;
 }
 
-
 /*  */
-.ProductListStyles{
+.ProductListStyles {
   margin: 0 150px;
   padding: 0 50px;
   background-color: #fff;
   z-index: '20';
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     margin: 0 75px;
   }
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     margin: 0 30px;
     padding: 0 30px;
   }
-  @media screen and (max-width:414px) {
+  @media screen and (max-width: 414px) {
     margin: 0px;
     padding: 15px;
   }
@@ -187,7 +187,7 @@
 .ProductListComponent1 {
   /* 商品資訊&數量&單價用 */
   width: 14%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,7 +202,7 @@
 .ProductListComponent3 {
   /* 商品資訊&數量&單價用 */
   width: 28%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -215,7 +215,7 @@
 /* 序號&刪除按鈕用 */
 .ProductListComponent2 {
   width: 14%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,9 +223,9 @@
     display: none;
   }
 }
-.ProductListComponentPhoto {
+.ProductListComponentForPhoto {
   width: 50%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -240,7 +240,7 @@
 }
 .ProductListComponentForDetail {
   width: 50%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -326,9 +326,8 @@
   justify-content: center;
   align-items: center;
   white-space: nowrap;
-  @media screen and (max-width:996px) {
+  @media screen and (max-width: 996px) {
     height: 0px;
-
   }
 }
 .countComponentForNumber::before {
@@ -361,18 +360,13 @@
   }
 }
 
-
-
-
 .checkButtonContainer {
   width: 100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  @media screen and (max-width:996px){
+  @media screen and (max-width: 996px) {
     justify-content: center;
-
-    
   }
 }
 
@@ -380,8 +374,8 @@
   width: 100%;
   padding: 30px 0;
   display: flex;
-  justify-content: start;
-  align-items: end;
+  justify-content: flex-start;
+  align-items: flex-end;
   font-size: 50px;
   font-weight: 700;
 }
@@ -403,9 +397,10 @@
   height: 450px;
   display: flex;
   justify-content: flex-start;
-  align-items: start;
+  align-items: flex-start;
   overflow-y: hidden;
 }
+
 /* 推薦商品元件 */
 .recommendProductComponent {
   height: 100%;

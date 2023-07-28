@@ -1,5 +1,5 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
-import { jwtTokenUrl, loginUrl, logoutUrl, checkAuthUrl } from './config';
+import { refreshTokenUrl, loginUrl, logoutUrl, checkAuthUrl } from './config';
 import axios from 'axios';
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useRouter } from 'next/router';
@@ -12,29 +12,30 @@ export const AuthProvider = ({ children }) => {
     accessToken: '',
   });
   const router = useRouter();
-  const refreshAuthLogic = (failedRequest) =>
-    axios
-      .get(jwtTokenUrl, { skipAuthRefresh: true })
+  const init = (axios) => {
+    // Instantiate the interceptor
+    createAuthRefreshInterceptor(axios, refreshAuthLogic, {
+      statusCodes: [401, 403],
+    });
+  };
+  const refreshAuthLogic = (failedRequest) => {
+    console.log('refreshAuthLogic work');
+    return axios
+      .get(refreshTokenUrl, { withCredentials: true, skipAuthRefresh: true })
       .then((tokenRefreshResponse) => {
-        console.log('L19');
-        // localStorage.setItem('token', tokenRefreshResponse.data.token)
-        // failedRequest.response.config.headers['Authorization'] =
-        //   'Bearer ' + tokenRefreshResponse.data.token
+        console.log('tokenRefreshResponse:', tokenRefreshResponse);
         failedRequest.response.config.headers['Authorization'] =
           tokenRefreshResponse.data.accessToken;
-        console.log(tokenRefreshResponse);
-        // setAuth(
-        //   {isLogin: true,
-        //   user: {},
-        //   accessToken: '',
-        // })
+        setAuth({
+          isLogin: true,
+          user: tokenRefreshResponse.data.user,
+          accessToken: tokenRefreshResponse.data.accessToken,
+        });
         return Promise.resolve();
       })
-      .catch((e) => {
-        // TODO: handle redirect to login page
-        // setFetchError(e.message)
-        //window.location.reload(false)
-      });
+      .catch((e) => Promise.resolve());
+  };
+
   const logout = async () => {
     setAuth({
       isLogin: false,
@@ -42,7 +43,9 @@ export const AuthProvider = ({ children }) => {
       accessToken: '',
     });
     try {
-      const res = await axios.get(logoutUrl);
+      const res = await axios.get(logoutUrl, {
+        withCredentials: true,
+      });
       return res.data.message;
     } catch (err) {
       return err.response.data.message;
@@ -51,14 +54,6 @@ export const AuthProvider = ({ children }) => {
 
     // router.push('/');
   };
-
-  const init = (axios) => {
-    // Instantiate the interceptor
-    createAuthRefreshInterceptor(axios, refreshAuthLogic, {
-      statusCodes: [401, 403],
-    });
-  };
-  init(axios);
   const login = async (values) => {
     try {
       const res = await axios.post(loginUrl, JSON.stringify(values), {
@@ -74,9 +69,11 @@ export const AuthProvider = ({ children }) => {
       });
       return res.data.message;
     } catch (err) {
+      console.log(err);
       return err.response.data.message;
     }
   };
+
   const checkAuth = async () => {
     /* const res = await axios.get(checkAuthUrl, {
       withCredentials: true,
@@ -88,31 +85,31 @@ export const AuthProvider = ({ children }) => {
       // setLoading(false);
     } */
     try {
-      console.log('L93');
       const data = await axios.get(checkAuthUrl, { withCredentials: true });
-      console.log(data);
-
+      console.log(data, 'L85');
       // if (data.message) setAuth(true)
     } catch (err) {
-      console.log(err.response);
-      console.log('L96');
+      console.log(err, 'L88');
     }
   };
+  //FIXME:沒有把初始化完成的的AXIOS傳下去?
 
-  useEffect(() => {
-    if (auth?.accessToken)
-      //TODO remove console
-      console.log(
-        "set  axios.defaults.headers.common['Authorization'] = auth.accessToken;"
-      );
-    axios.defaults.headers.common['Authorization'] = auth.accessToken;
-  }, [auth?.accessToken]);
+  init(axios);
+
+  // useEffect(() => {
+  //   if (auth?.accessToken)
+  //     //TODO remove console
+  //     console.log(
+  //       `set  axios.defaults.headers.common['Authorization'] = ${auth.accessToken};`
+  //     );
+  //   axios.defaults.headers.common['Authorization'] = auth.accessToken;
+  // }, [auth?.accessToken]);
   useEffect(() => {
     //還沒接
     checkAuth();
   }, []);
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout, login, init }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout, login }}>
       {children}
     </AuthContext.Provider>
   );

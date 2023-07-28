@@ -11,9 +11,11 @@ import CUIButton from '@/components/customUI/cui-button';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '@/context/auth/useAuth';
+import dayjs from 'dayjs';
 
 const validationSchema = yup.object({
   mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
+  birth: yup.date(),
 });
 export default function Index() {
   const initialData = {
@@ -36,60 +38,49 @@ export default function Index() {
   const formik = useFormik({
     initialValues: formikInitialData,
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const valuesCopied = { ...values };
       delete valuesCopied['name'];
       delete valuesCopied['email'];
       //抹掉不必要欄位 valuesCopied為要 UPDATE的資料
       console.log(JSON.stringify(valuesCopied, null, 2));
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member`,
+        { ...valuesCopied },
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      );
+
+      console.log(res.data);
     },
   });
   useEffect(() => {
     console.log(auth.accessToken);
-   /*  const fetchMemberData = async () => {
+    const fetchMemberData = async () => {
       try {
-        const data = await axios.get(
+        const { data } = await axios.get(
           `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member`,
           {
             headers: {
               Authorization: `Bearer ${auth.accessToken}`,
             },
-            withCredentials: true,
           }
         );
-        console.log(data);
+        console.log(data.data);
+        setData(data.data);
+        setDisplayData(data.data);
+        formik.setValues(data.data);
       } catch (err) {
         console.log(err.response);
       }
-    }; */
-    setData({
-      sex: '不透露',
-      address: '台北市北投區復興二路29號',
-      birth: '2023-05-10',
-      mobile: '0918183537',
-    });
-    formik.setValues({
-      sex: '不透露',
-      address: '台北市北投區復興二路29號',
-      birth: '2023-05-10',
-      mobile: '0918183537',
-    });
-    setData({
-      name: '王曉明',
-      email: 'asdf@gmail.com',
-      sex: '不透露',
-      address: '台北市北投區復興二路29號',
-      birth: '2023-05-10',
-      mobile: '0918183537',
-    });
-    setDisplayData({
-      name: '王曉明',
-      email: 'asdf@gmail.com',
-      sex: '不透露',
-      address: '台北市北投區復興二路29號',
-      birth: '2023-05-10',
-      mobile: '0918183537',
-    });
+    };
+    fetchMemberData();
+    /* 
+   address birth  email hero_icon mobile name sex_sid
+*/
   }, []);
   useEffect(() => {
     setDisplayData({ ...data, ...formik.values });
@@ -148,11 +139,17 @@ export default function Index() {
               <CUIDatePicker
                 className={styles['date-picker']}
                 key={name}
-                value={displayData[name]}
+                value={displayData[name] ? displayData[name] : undefined}
                 label={label}
-                format="YYYY-MM-D"
-                helperText="sdfasdf"
+                format="YYYY-MM-DD"
                 onChange={(e) => {
+                  if (e === 'Invalid Date') {
+                    formik.setValues((v) => {
+                      console.log('L138', v);
+                      return { ...v, [name]: undefined };
+                    });
+                    return;
+                  }
                   formik.setValues((v) => {
                     return { ...v, [name]: e };
                   });

@@ -17,14 +17,12 @@ import {
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
-export default function Index() {
-  const [productData, setProductData] = useState({});
+export default function Index({ cid, sid }) {
+  const [productData, setProductData] = useState([]);
   const router = useRouter();
   useEffect(() => {
-    if (router.query.cid && router.query.pid) {
-      fetch(
-        `http://localhost:3001/api/product/${router.query.cid}/${router.query.pid}`
-      )
+    if (router.query.cid && sid) {
+      fetch(`http://localhost:3001/api/product/${cid}/${sid}`)
         .then((res) => res.json())
         .then((data) => {
           if (data.code === 200) {
@@ -40,16 +38,16 @@ export default function Index() {
           console.error('發生錯誤:', error);
         });
     }
-  }, [router]);
+  }, [cid, sid]);
 
   return (
     <>
       <div className={`${styles['product-detail-section1']}`}>
         <BasicBreadcrumbs></BasicBreadcrumbs>
         <div className={`${styles['product-detail-container']}`}>
-          <CuiImgsmap productData={productData}></CuiImgsmap>
+          <CuiImgsmap></CuiImgsmap>
           <div className={`${styles['product-detail-title']}`}>
-            <Typography variant="h5">{productData.name}</Typography>
+            <Typography variant="h5">{productData.product_name}</Typography>
             <div className={`${styles['product-detail-price']}`}>
               <Typography variant="h3">{productData.price}</Typography>
               <div className={`${styles['product-detail-Rating']}`}>
@@ -57,7 +55,7 @@ export default function Index() {
                 <Typography variant="h6">4.8(150)</Typography>
               </div>
             </div>
-            {/* <div className={`${styles['color-selcetor']}`}>
+            <div className={`${styles['color-selcetor']}`}>
               <Typography variant="h6">顏色</Typography>
               <div className={`${styles['colorbox']}`}>
                 <Paper className={`${styles['color1']}`} />
@@ -65,8 +63,8 @@ export default function Index() {
                 <Paper className={`${styles['color3']}`} />
                 <Paper className={`${styles['color4']}`} />
               </div>
-            </div> */}
-            {/* <div className={`${styles['size-selector']}`}>
+            </div>
+            <div className={`${styles['size-selector']}`}>
               <Typography variant="h6">尺寸</Typography>
 
               <Stack direction="row" spacing={2}>
@@ -92,7 +90,7 @@ export default function Index() {
                   L
                 </Button>
               </Stack>
-            </div> */}
+            </div>
             <div className={`${styles['quantity']}`}>
               <Typography variant="h6">數量:</Typography>
               <Button sx={{ color: 'black' }}>
@@ -108,12 +106,12 @@ export default function Index() {
               </Button>
             </div>
             <div className={`${styles['product-detail-button']}`}>
-              {/* <CUIButton
+              <CUIButton
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_white'}
               >
                 立即購買
-              </CUIButton> */}
+              </CUIButton>
               <CUIButton
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_red'}
@@ -122,9 +120,9 @@ export default function Index() {
               </CUIButton>
             </div>
             <div className={`${styles['product-detail-button']}`}>
-              {/* <Button sx={{ color: 'black' }}>
+              <Button sx={{ color: 'black' }}>
                 <ShareIcon></ShareIcon>分享
-              </Button> */}
+              </Button>
               <Button sx={{ color: 'black' }}>
                 <FavoriteBorderIcon></FavoriteBorderIcon>收藏
               </Button>
