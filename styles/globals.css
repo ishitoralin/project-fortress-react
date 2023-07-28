@@ -13,7 +13,22 @@
   --steel-light-grey: #b2bac2;
   --steel-grey: #6f7e8c;
 }
-
+.custom_map_marker{
+  animation: opacityPulse 2s cubic-bezier(1, 0.14, 1, 1);
+  animation-iteration-count: infinite;
+  opacity: 0.5;
+}
+@keyframes opacityPulse {
+  0% {
+    opacity: 0.1;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.1;
+  }
+}
 @media screen and (max-width: 768px) {
   :root {
     font-size: 14px;

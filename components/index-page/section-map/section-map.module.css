@@ -8,9 +8,9 @@
 .wrapper {
   width: 35%;
   flex-shrink: 0;
+  /* z-index: -10; */
 }
 .map-container {
-  z-index: -10;
   width: 100%;
   aspect-ratio: 1 / 1;
 }
