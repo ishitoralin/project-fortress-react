@@ -20,7 +20,6 @@ import CUISelect from '@/components/customUI/cui-select';
 import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
-import { indexOf } from 'lodash';
 
 const filterIconStyle = {
   visibility: 'hidden',
@@ -45,13 +44,55 @@ export const getStaticProps = async () => {
   return { props: data };
 };
 
-const DEFAULTDISPLAYMODE = 'list';
+const LISTMODE = 'list';
+const SKELETONMODE = 'skeleton';
 const LESSON_BASEURL = 'http://localhost:3001/lesson';
 
 const initPrice = [200, 1500];
 const initStep = 50;
 
 const queryDatasCache = new Map();
+
+const getFetchUrl = (baseUrl, queryObject) =>
+  Object.entries(queryObject).reduce(
+    (url, [key, value]) =>
+      Array.isArray(value)
+        ? value.reduce((item, nextItem) => `${item}${key}[]=${nextItem}&`, url)
+        : `${url}${key}=${value}&`,
+    `${baseUrl}?`
+  );
+
+const fetchLessons = async (baseUrl, queryObj) => {
+  const response = {};
+  Object.keys(queryObj).forEach(
+    (key) =>
+      (queryObj[key] === undefined || queryObj[key] === '') &&
+      delete queryObj[key]
+  );
+  const fetchUrl = getFetchUrl(baseUrl, queryObj);
+
+  try {
+    const res = await fetch(fetchUrl);
+    const datas = await res.json();
+
+    response.success = true;
+    response.datas = datas;
+  } catch (error) {
+    response.success = false;
+    response.error = error;
+  }
+
+  return response;
+};
+
+const shrinkString = (str) => {
+  const newStr = str;
+  return newStr
+    .replaceAll('?', '')
+    .replaceAll('=', '')
+    .replaceAll('[]', '')
+    .replaceAll('&', '');
+};
 
 const LessionPage = (props) => {
   const router = useRouter();
@@ -62,7 +103,7 @@ const LessionPage = (props) => {
   const dateBeforeRef = useRef();
   const priceRef = useRef();
   const location = queryObject.location;
-  const [displayMode, setDisplayMode] = useState(DEFAULTDISPLAYMODE);
+  const [displayMode, setDisplayMode] = useState(LISTMODE);
 
   const [tags, setTags] = useState(props.tags);
   const [selectTags, setSelectTags] = useState([]);
@@ -89,38 +130,6 @@ const LessionPage = (props) => {
 
   const closeFilter = () => setFilterShow(false);
 
-  const queryLessons = async (baseUrl, queryObj) => {
-    const response = {};
-    Object.keys(queryObj).forEach(
-      (key) =>
-        (queryObj[key] === undefined || queryObj[key] === '') &&
-        delete queryObj[key]
-    );
-    const fetchUrl = Object.entries(queryObj).reduce(
-      (url, [key, value]) =>
-        Array.isArray(value)
-          ? value.reduce(
-              (item, nextItem) => `${item}${key}[]=${nextItem}&`,
-              url
-            )
-          : `${url}${key}=${value}&`,
-      `${baseUrl}?`
-    );
-
-    try {
-      const res = await fetch(fetchUrl);
-      const datas = await res.json();
-
-      response.success = true;
-      response.datas = datas;
-    } catch (error) {
-      response.success = false;
-      response.error = error;
-    }
-
-    return response;
-  };
-
   const pushRouter = (queryObj) => {
     Object.keys(queryObj).forEach(
       (key) =>
@@ -139,18 +148,29 @@ const LessionPage = (props) => {
 
   useEffect(() => {
     if (Object.keys(queryObject).length === 0) return;
-    const cacheLessonDatas = queryDatasCache.get(JSON.stringify(queryObject));
+    setDisplayMode(SKELETONMODE);
+    // check if lessons data already cache
+    const cacheLessonDatas = queryDatasCache.get(
+      shrinkString(getFetchUrl('', queryObject))
+    );
     if (cacheLessonDatas) {
+      setDisplayMode(LISTMODE);
       setLessons(cacheLessonDatas);
       pushRouter(queryObject);
       return;
     }
+
+    // fetch lessons data
     (async () => {
-      const res = await queryLessons(LESSON_BASEURL, queryObject);
+      const res = await fetchLessons(LESSON_BASEURL, queryObject);
       if (!res.success) throw new Error(res.error);
+      setDisplayMode(LISTMODE);
       setLessons(res.datas);
-      queryDatasCache.set(JSON.stringify(queryObject), res.datas);
       pushRouter(queryObject);
+      queryDatasCache.set(
+        shrinkString(getFetchUrl('', queryObject)),
+        res.datas
+      );
     })();
   }, [queryObject]);
 
