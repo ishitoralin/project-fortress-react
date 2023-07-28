@@ -63,9 +63,9 @@ const CUIDatePicker = (props) => {
           defaultValue={defaultValue}
           minDate={minDate}
           maxDate={maxDate}
-          onChange={(timeObj) => {
+          onChange={(timeObj, error) => {
             const time = dayjs(timeObj).format(props.format || defaultFormat);
-            typeof props.onChange === 'function' && props.onChange(time);
+            typeof props.onChange === 'function' && props.onChange(time, error);
           }}
         />
       </ColorTheme>

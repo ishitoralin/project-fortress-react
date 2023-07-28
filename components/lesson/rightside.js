@@ -9,6 +9,9 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
 import UiButton from '../hh/UiButton';
+import { isArray } from 'lodash';
+import CUICard from '../customUI/cui-card';
+import LessonCardSkeleton from './lesson-card-skeleton';
 
 const rightSideStyle = {
   width: '65%',
@@ -59,6 +62,7 @@ const RightSide = ({
   displayMode,
   setDisplayMode,
 }) => {
+  if (!isArray(lessons)) throw new Error('lessons should be Array type');
   return (
     <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
@@ -106,11 +110,27 @@ const RightSide = ({
           <FilterAltIcon />
         </IconButton>
       </Box>
-      {displayMode === 'list' ? (
-        lessons.map((lessons, index) => (
-          <LessonCard key={index} lessons={lessons} />
-        ))
-      ) : (
+      {displayMode === 'list' &&
+        (lessons.length === 0 ? (
+          <CUICard
+            sx={{
+              mt: 5,
+              p: 2,
+              bgcolor: 'var(--steel-grey)',
+              color: 'white',
+              width: '100%',
+              textAlign: 'center',
+            }}
+          >
+            目前沒有符合條件的課程
+          </CUICard>
+        ) : (
+          lessons.map((lesson, index) => (
+            <LessonCard key={index} lesson={lesson} />
+          ))
+        ))}
+
+      {displayMode === 'calendar' && (
         <>
           <Box
             sx={{
@@ -153,7 +173,9 @@ const RightSide = ({
           </Box>
         </>
       )}
-      {/* <Box sx={{height: '2000px'}}></Box> */}
+
+      {displayMode === 'skeleton' &&
+        [...Array(5)].map((value, index) => <LessonCardSkeleton key={index} />)}
     </Box>
   );
 };

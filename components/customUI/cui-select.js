@@ -6,6 +6,7 @@ export default function CUISelect(props) {
       variant="standard"
       sx={{ width: '100%', ...props.sx }}
       select
+      SelectProps={props.SelectProps}
       value={props.value}
       name={props.name}
       color={props.color}

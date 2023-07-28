@@ -5,80 +5,47 @@ import Image from 'next/image';
 import LessonCard from '@/components/lesson/lesson-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 
-const containerStyle = { py: '2rem' };
+import {
+  containerStyle,
+  cardBoxStyle,
+  imgBoxStyle,
+  cardBodyStyle,
+  cardBodyTitle,
+  cardBodyInfo,
+  tagStyle,
+  coachNameBoxStyle,
+  lessonsBoxStyle,
+  lessonsCardGridStyle,
+} from '@/styles/lesson-style/lesson-id-style';
 
-const cardBoxStyle = {
-  '--bigCard-height': '380px',
-  '--imgBox-ratio': '80%',
-  '--contentCard-width': '90%',
-  '--contentCard-radius': 'clamp(5px, .5rem, 15px)',
+export const getStaticPaths = async () => {
+  const res = await fetch('http://localhost:3001/lesson/categories');
+  const data = await res.json();
 
-  position: 'relative',
-  height: 'var(--bigCard-height)',
+  const paths = data.map((ct) => ({ params: { id: ct.toString() } }));
+
+  return {
+    paths,
+    fallback: false,
+  };
 };
 
-const imgBoxStyle = {
-  position: 'absolute',
-  opacity: 0,
-  overflow: 'hidden',
-  borderRadius: 'var(--contentCard-radius)',
-  width: 'var(--contentCard-width)',
-  height: 'var(--imgBox-ratio)',
-  animation: '2s ease-out fade-in forwards',
-  '@keyframes fade-in': {
-    '0%': {
-      opacity: 0,
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const res = await fetch(`http://localhost:3001/lesson?category=${id}`);
+  const data = await res.json();
+
+  return {
+    props: {
+      lessons: data,
     },
-    '100%': {
-      opacity: 1,
-    },
-  },
+  };
 };
 
-const cardBodyStyle = {
-  position: 'absolute',
-  width: 'var(--contentCard-width)',
-  right: '-100%',
-  bottom: '0',
-  padding: { xs: 2, sm: 3, md: 4 },
-  borderRadius: 'var(--contentCard-radius)',
-  bgcolor: 'rgba(235, 235, 235, 0.97)',
-  animation: '1.5s ease-out 0.5s slide-left forwards',
-  '@keyframes slide-left': {
-    '0%': {
-      transform: 'translateX(0)',
-    },
-    '100%': {
-      transform: 'translateX(-115%)',
-    },
-  },
-};
-
-const cardBodyTitle = {
-  position: 'relative',
-  ':before': {
-    position: 'absolute',
-    content: '""',
-    bottom: '-0.5rem',
-    height: '2px',
-    bgcolor: 'var(--steel-grey)',
-    animation: '1s ease-in-out 1.75s spread forwards',
-  },
-  '@keyframes spread': {
-    '0%': {
-      width: '0%',
-      left: '50%',
-    },
-    '100%': {
-      width: '102%',
-      left: '-1%',
-    },
-  },
-};
-
-const CertainLessonPage = () => {
+const CertainLessonPage = ({ lessons }) => {
   return (
     <Box>
+      {/* {console.log(lessons)} */}
       <BrickWallPaper />
       <Container sx={containerStyle}>
         <Box sx={cardBoxStyle}>
@@ -94,15 +61,7 @@ const CertainLessonPage = () => {
             <Typography variant="h4" sx={cardBodyTitle}>
               瑜珈流動與冥想課程
             </Typography>
-            <Typography
-              variant="subtitle1"
-              sx={{
-                marginTop: { xs: 2, sm: 3, md: 4 },
-                marginBottom: { xs: 1, sm: 2 },
-                paddingInline: 2,
-                textIndent: '2rem',
-              }}
-            >
+            <Typography variant="subtitle1" sx={cardBodyInfo}>
               這個課程以流動的瑜伽動作和呼吸練習為基礎，融合了力量、靈活性和平衡。透過連貫的動作流，你將提升身體柔軟度、強化肌肉，同時培養身心的平靜和集中力。
             </Typography>
             {[
@@ -121,34 +80,10 @@ const CertainLessonPage = () => {
                 key={index}
                 label={tag}
                 color={'steel_grey'}
-                sx={{
-                  marginRight: { xs: '.5rem', sm: '.7rem' },
-                  marginBottom: { xs: '.5rem', sm: '1rem' },
-                  textAlign: 'center',
-                  letterSpacing: '.2rem',
-                  fontSize: '.8rem',
-                  fontWeight: 'bold',
-                  paddingBottom: '.1rem',
-                  paddingLeft: '.2rem',
-                }}
+                sx={tagStyle}
               />
             ))}
-            <Box
-              sx={{
-                width: 'fit-content',
-                marginLeft: 'auto',
-                borderBottom: '2px solid var(--steel-grey)',
-                'h5, h6': {
-                  display: 'inline-block',
-                },
-                h6: {
-                  marginRight: '1rem',
-                },
-                h5: {
-                  marginLeft: '1rem',
-                },
-              }}
-            >
+            <Box sx={coachNameBoxStyle}>
               <Typography variant="h6">指導教練</Typography>
               {['可達鴨', '大蔥鴨'].map((name) => (
                 <Typography key={name} variant="h5">
@@ -158,8 +93,8 @@ const CertainLessonPage = () => {
             </Box>
           </CUICard>
         </Box>
-        <Box sx={{ marginTop: '2rem', py: 4, width: '100%' }}>
-          <Grid container sx={{ justifyContent: 'center', gap: '2rem' }}>
+        <Box sx={lessonsBoxStyle}>
+          <Grid container sx={lessonsCardGridStyle}>
             {Array(10)
               .fill({
                 lessonName: '水阻划船入門',
@@ -195,22 +130,7 @@ const CertainLessonPage = () => {
                   lg={5.75}
                   xl={5.75}
                 >
-                  <LessonCard lesson={lesson} coachcard />
-                  {/* <CUICard sx={{ p: 3, bgcolor: '#eee', height: '200px' }}>
-                  <Typography variant="h6">Lesson title</Typography>
-                  <Typography variant="subtitle" sx={{ ...row }}>
-                    指導教練: 蔡呆岱
-                  </Typography>
-                  <Typography variant="subtitle" sx={{ ...row }}>
-                    課程時間: 2024 / 07 / 27
-                  </Typography>
-                  <Typography variant="subtitle" sx={{ ...row }}>
-                    報名人數: 2 / 10
-                  </Typography>
-                  <Typography variant="subtitle" sx={{ ...row }}>
-                    報名人數: 2 / 10
-                  </Typography>
-                </CUICard> */}
+                  {/* <LessonCard lesson={lesson} coachcard /> */}
                 </Grid>
               ))}
           </Grid>

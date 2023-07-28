@@ -105,7 +105,7 @@ export const cardTitleStyle = {
 
 export const favoriteIconStyle = {
   width: '10%',
-  verticalAlign: 'text-bottom',
+  verticalAlign: 'super',
   color: 'var(--main-red)',
   cursor: 'pointer',
 };
