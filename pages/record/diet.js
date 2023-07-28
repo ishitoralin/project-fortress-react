@@ -168,6 +168,8 @@ const NuBox = styled(Box)(() => ({
 
 //<<< style
 
+const TDEEcalculate = () => {};
+
 const DietPage = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const inputDefault = {
@@ -380,7 +382,6 @@ const DietPage = () => {
                 options={activity}
                 onChange={(e) => {
                   setMultiplier(e.target.value);
-                  // console.log(multiplier);
                 }}
               />
               <Box
@@ -391,7 +392,7 @@ const DietPage = () => {
                   m: 1,
                 }}
               >
-                {/* {console.log(multiplier)} */}
+                {/* {console.log(multiplier, !!gender)} */}
                 <CUIButton
                   sx={{
                     width: '45%',
