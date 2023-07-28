@@ -62,7 +62,11 @@ const LessonCard = ({ lesson, coachcard }) => (
         <Image
           className="lesson_card_img"
           alt="lessonImg"
-          src={`/lesson-img/${lesson.img}`}
+          src={
+            coachcard
+              ? `/coach-img/${lesson.coach_img}`
+              : `/lesson-img/${lesson.img}`
+          }
           placeholder="blur"
           blurDataURL={lesson.img_base64}
           fill
