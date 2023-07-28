@@ -187,7 +187,7 @@
 .ProductListComponent1 {
   /* 商品資訊&數量&單價用 */
   width: 14%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,7 +202,7 @@
 .ProductListComponent3 {
   /* 商品資訊&數量&單價用 */
   width: 28%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -215,7 +215,7 @@
 /* 序號&刪除按鈕用 */
 .ProductListComponent2 {
   width: 14%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -223,9 +223,9 @@
     display: none;
   }
 }
-.ProductListComponentPhoto {
+.ProductListComponentForPhoto {
   width: 50%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -240,7 +240,7 @@
 }
 .ProductListComponentForDetail {
   width: 50%;
-  height: 100px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -400,7 +400,6 @@
   align-items: flex-start;
   overflow-y: hidden;
 }
-
 
 /* 推薦商品元件 */
 .recommendProductComponent {
