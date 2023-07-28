@@ -63,7 +63,6 @@ export const getStaticProps = async (context) => {
 const CertainLessonPage = ({ category, lessons }) => {
   return (
     <Box>
-      {console.log(category, lessons)}
       <BrickWallPaper />
       <Container sx={containerStyle}>
         <Box sx={cardBoxStyle}>
