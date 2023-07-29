@@ -49,7 +49,13 @@ const LessonCard = ({ lesson, coachcard }) => (
   >
     <Box sx={cardImgStyle}>
       <Box sx={imgBox}>
-        <Link href={`lesson/${lesson.category_sid}`}>
+        <Link
+          href={
+            coachcard
+              ? `/coach/${lesson.coach_sid}`
+              : `lesson/${lesson.category_sid}`
+          }
+        >
           <Button
             variant="outlined"
             size="small"
