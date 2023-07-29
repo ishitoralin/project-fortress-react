@@ -3,10 +3,7 @@ const mainWhite = '#eee';
 export const cardStyle = {
   margin: 'auto',
   width: '100%',
-  height: '230px',
-  '@media (max-width: 768px)': {
-    height: '200px',
-  },
+  height: '14.5rem',
   '@media (max-width: 500px)': {
     height: 'fit-content',
   },
@@ -46,9 +43,9 @@ export const cardBodyStyle = {
 
 export const imgBox = {
   position: 'relative',
-  width: '100%',
+  width: '115%',
   height: '90%',
-  transform: 'rotateZ(-15deg) translate(12%, 10%)',
+  transform: 'rotateZ(-15deg) translate(5%, 20%)',
 };
 
 export const imgButtonStyle = {
@@ -56,8 +53,7 @@ export const imgButtonStyle = {
   left: '50%',
   top: '50%',
   zIndex: 2,
-  transform: 'translate(-60%, -40%)',
-  fontSize: '.7rem',
+  transform: 'scale(0.9) translate(-75%, -130%)',
   fontWeight: 'bold',
   borderWidth: '2px',
   opacity: 0,
@@ -198,7 +194,7 @@ export const regisBoxStyle = {
 };
 
 export const forwardSymbolBoxStyle = {
-  width: '45px',
-  height: '45px',
+  width: '2rem',
+  height: '2rem',
   transform: 'rotate(-90deg)',
 };

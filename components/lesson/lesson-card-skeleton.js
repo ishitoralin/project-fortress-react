@@ -6,13 +6,13 @@ const LessonCardSkeleton = () => (
     sx={{
       marginInline: 'auto',
       marginBlock: 3,
-      bgcolor: 'rgba(120,120,120,.9)',
+      bgcolor: '#777',
       width: '90%',
-      height: '230px',
+      height: '14rem',
     }}
   >
     <Skeleton
-      sx={{ width: '100%', height: '100%', transform: 'none' }}
+      sx={{ bgcolor: '#ddd', width: '100%', height: '100%', transform: 'none' }}
     ></Skeleton>
   </CUICard>
 );

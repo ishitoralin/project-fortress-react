@@ -37,7 +37,7 @@ const LessonCard = ({ lesson, coachcard }) => (
   <CUICard
     sx={
       coachcard
-        ? { ...cardStyle, height: '200px' }
+        ? { ...cardStyle, height: '12.5rem' }
         : {
             ...cardStyle,
             width: '90%',
@@ -47,7 +47,7 @@ const LessonCard = ({ lesson, coachcard }) => (
           }
     }
   >
-    <Box sx={coachcard ? { ...cardImgStyle, width: '28%' } : cardImgStyle}>
+    <Box sx={cardImgStyle}>
       <Box sx={imgBox}>
         <Link href={`lesson/${lesson.category_sid}`}>
           <Button
@@ -68,7 +68,7 @@ const LessonCard = ({ lesson, coachcard }) => (
               : `/lesson-img/${lesson.img}`
           }
           placeholder="blur"
-          blurDataURL={lesson.img_base64}
+          blurDataURL={coachcard ? lesson.coach_img_base64 : lesson.img_base64}
           fill
           style={imgStyle}
         />
@@ -137,7 +137,7 @@ const LessonCard = ({ lesson, coachcard }) => (
             立即報名
           </Typography>
           <Box sx={forwardSymbolBoxStyle}>
-            <ForwardSymbol width={'35px'} color={'goldenrod'} />
+            <ForwardSymbol width={'2rem'} color={'goldenrod'} />
           </Box>
         </Box>
       </Box>

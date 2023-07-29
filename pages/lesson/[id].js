@@ -42,15 +42,16 @@ export const getStaticProps = async (context) => {
     })
   );
 
-  const lessonsAddCoachImg = lessons.map((lesson) => ({
-    ...lesson,
-    coach_img: (() => {
-      const [coach] = category.coachs.filter(
-        (coach) => coach.sid === lesson.coach_sid
-      );
-      return coach.img;
-    })(),
-  }));
+  const lessonsAddCoachImg = lessons.map((lesson) => {
+    const [coach] = category.coachs.filter(
+      (coach) => coach.sid === lesson.coach_sid
+    );
+    return {
+      ...lesson,
+      coach_img: coach.img,
+      coach_img_base64: coach.img_base64,
+    };
+  });
 
   return {
     props: {
@@ -103,7 +104,7 @@ const CertainLessonPage = ({ category, lessons }) => {
         <Box sx={lessonsBoxStyle}>
           <Grid container sx={lessonsCardGridStyle}>
             {lessons.map((lesson, index) => (
-              <Grid key={index} item xs={12} sm={11} md={8} lg={5.75} xl={5.75}>
+              <Grid key={index} item xs={12} sm={11} md={9} lg={5.75} xl={5.75}>
                 <LessonCard lesson={lesson} coachcard />
               </Grid>
             ))}
