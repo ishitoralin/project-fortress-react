@@ -78,24 +78,27 @@ const CoachPage = ({ coach, lessons }) => {
               padding: 2,
               position: { xs: 'relative', th: 'sticky' },
               top: '4rem',
-              height: 'calc(100vh - var(--nav-height) - var(--footer-height))',
-              width: { xs: '380px', sm: '450px', th: '480px' },
+              height: {
+                xs: '75vh',
+                sm: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+              },
+              width: { xs: '350px', sm: '450px', th: '480px' },
             }}
           >
-            <Box sx={imageBoxStyle}>
-              <Image
-                fill
-                alt="coach-img"
-                style={{
-                  objectFit: 'cover',
-                  objectPosition: 'center top',
-                }}
-                placeholder="blur"
-                blurDataURL={`${coach.img_base64}`}
-                src={`/coach-img/${coach.img}`}
-              ></Image>
-            </Box>
             <Box sx={cardGridStyle}>
+              <Box sx={imageBoxStyle}>
+                <Image
+                  fill
+                  alt="coach-img"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                  }}
+                  placeholder="blur"
+                  blurDataURL={`${coach.img_base64}`}
+                  src={`/coach-img/${coach.img}`}
+                />
+              </Box>
               <Box sx={coachCardBoxStyle}>
                 <Box sx={cardBehindStyle}>
                   <Typography sx={cardTitleStyle} variant="h5">
@@ -110,7 +113,9 @@ const CoachPage = ({ coach, lessons }) => {
           </Box>
           <Box
             sx={{
-              marginLeft: { xs: '0', th: '-10rem', lg: '.5rem' },
+              width: { th: '50%' },
+              transition: '.5s',
+              marginLeft: { xs: '0', th: '-11rem', lg: '-2rem' },
               flexGrow: 1,
             }}
           >
