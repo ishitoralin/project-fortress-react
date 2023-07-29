@@ -52,7 +52,7 @@ export const cardBehindStyle = {
   height: '85%',
   padding: '2rem',
   textAlign: 'right',
-  borderRadius: '15px',
+  borderRadius: '10px',
   bgcolor: 'var(--steel-grey)',
 };
 

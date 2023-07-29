@@ -19,7 +19,7 @@ import {
   showInfoAnimation,
 } from '@/styles/coach-style/coach-card-style';
 
-const CoachCard = () => {
+const CoachCard = ({ coachdata }) => {
   const [show, setShow] = useState(false);
 
   return (
@@ -32,19 +32,19 @@ const CoachCard = () => {
       <Box sx={cardGridStyle}>
         <Box
           sx={show ? { ...imageBoxStyle, ...drawImgAnimation } : imageBoxStyle}
-          onClick={() => {
-            setShow((prev) => !prev);
-          }}
+          onClick={() => setShow((prev) => !prev)}
         >
           <Image
             fill
             alt="coach-img"
             style={{
               objectFit: 'cover',
-              objectPosition: 'top center',
+              objectPosition: 'center top',
             }}
-            src={'/coach-img/emily.jpg'}
-          ></Image>
+            src={`/coach-img/${coachdata.img}`}
+            placeholder="blur"
+            blurDataURL={coachdata.img_base64}
+          />
         </Box>
         <Box
           sx={
@@ -55,7 +55,7 @@ const CoachCard = () => {
         >
           <Box sx={cardBehindStyle}>
             <Typography sx={cardTitleStyle} variant="h5">
-              Jessica
+              {coachdata.nickname}
             </Typography>
           </Box>
           <Box
@@ -65,11 +65,9 @@ const CoachCard = () => {
                 : cardFrontStyle
             }
           >
-            <Typography sx={cardInfoStyle}>
-              嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
-            </Typography>
+            <Typography sx={cardInfoStyle}>{coachdata.introduction}</Typography>
             <CUIButton variant="outlined" color={'main_white'}>
-              <Link href="coach/5">詳細資料</Link>
+              <Link href={`coach/${coachdata.sid}`}>詳細資料</Link>
             </CUIButton>
           </Box>
         </Box>

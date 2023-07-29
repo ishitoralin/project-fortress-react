@@ -1,14 +1,47 @@
 import { useState } from 'react';
 
 import { Box, ToggleButtonGroup, Container } from '@mui/material';
-import CUISearch from '@/components/customUI/cui-search';
 
 import CoachCard from '@/components/coach/coach-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 import UiButton from '@/components/hh/UiButton';
 
-const CoachListPage = () => {
-  const [location, setLocation] = useState(['taipei']);
+const baseUrl = 'http://localhost:3001/coach';
+
+const getCoachsData = async (locations) => {
+  if (!Array.isArray(locations))
+    throw new Error('locations must be Array type');
+  const querys = `?${Array(locations.length).fill('location[]=%l').join('&')}`;
+  const suffix = locations.reduce(
+    (query, location) => query.replace('%l', location),
+    querys
+  );
+
+  const res = await fetch(baseUrl + suffix);
+  return await res.json();
+};
+
+export const getStaticProps = async () => {
+  const allCoachs = await getCoachsData(['taipei', 'taichung', 'kaohsiung']);
+
+  return {
+    props: {
+      allCoachs,
+    },
+  };
+};
+
+const initLocation = 'taipei';
+
+const CoachListPage = ({ allCoachs }) => {
+  const [location, setLocation] = useState([initLocation]);
+  const [coachs, setCoachs] = useState(getFilterCoachs([initLocation]));
+
+  function getFilterCoachs(locations) {
+    return allCoachs.filter(
+      (coach) => locations.indexOf(coach.location) !== -1
+    );
+  }
 
   return (
     <Box>
@@ -17,8 +50,7 @@ const CoachListPage = () => {
         <Box sx={{ textAlign: 'center', marginBlock: 5 }}>
           <ToggleButtonGroup
             value={location}
-            exclusive
-            aria-label="coach-location"
+            aria-label="coachlocation"
             sx={{
               button: {
                 transition: '.3s',
@@ -27,16 +59,11 @@ const CoachListPage = () => {
                 marginRight: { xs: '3rem', sm: '5rem' },
               },
             }}
-            onChange={(event, value) =>
-              setLocation(([...preValue]) => {
-                const indexOfValue = preValue.indexOf(value);
-                if (indexOfValue === -1) return [...preValue, value];
-                if (preValue.length === 1) return preValue;
-
-                preValue.splice(indexOfValue, 1);
-                return preValue;
-              })
-            }
+            onChange={(event, value) => {
+              if (value.length === 0) return;
+              setLocation(value);
+              setCoachs(getFilterCoachs(value));
+            }}
           >
             <UiButton disableRipple value="taipei" aria-label="taipei">
               台北館
@@ -55,8 +82,8 @@ const CoachListPage = () => {
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
           }}
         >
-          {[...Array(10)].map((value, index) => (
-            <CoachCard key={index} />
+          {coachs.map((coach, index) => (
+            <CoachCard key={index} coachdata={coach} />
           ))}
         </Box>
       </Container>
