@@ -72,7 +72,7 @@ export const AuthProvider = ({ children }) => {
       return res.data.message;
     } catch (err) {
       console.log(err);
-      return err.response.data.message;
+      return err.response.status;
     }
   };
 
