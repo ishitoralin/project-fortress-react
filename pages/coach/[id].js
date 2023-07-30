@@ -8,6 +8,7 @@ import {
   cardBehindStyle,
   cardFrontStyle,
   cardTitleStyle,
+  locationStyle,
 } from '@/styles/coach-style/coach-info-card-style';
 
 import BrickWallPaper from '@/components/brick-wallpaper';
@@ -48,6 +49,12 @@ export const getStaticProps = async (context) => {
       lessons,
     },
   };
+};
+
+const locationDictionary = {
+  taipei: '台北館',
+  taichung: '台中館',
+  kaohsiung: '高雄館',
 };
 
 const CoachPage = ({ coach, lessons }) => {
@@ -105,9 +112,12 @@ const CoachPage = ({ coach, lessons }) => {
                     {coach.nickname}
                   </Typography>
                 </Box>
-                <Typography sx={cardFrontStyle}>
-                  {coach.introduction}
-                </Typography>
+                <Box sx={cardFrontStyle}>
+                  <Typography>{coach.introduction}</Typography>
+                  <Typography variant="h5" sx={locationStyle}>
+                    {locationDictionary[coach.location]}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
@@ -119,6 +129,20 @@ const CoachPage = ({ coach, lessons }) => {
               flexGrow: 1,
             }}
           >
+            <Typography
+              variant="h4"
+              sx={{
+                width: '80%',
+                color: 'white',
+                textAlign: 'center',
+                marginInline: 'auto',
+                marginBottom: 5,
+                paddingBottom: 2,
+                borderBottom: '2px solid white',
+              }}
+            >
+              指導課程
+            </Typography>
             {lessons.map((lesson, index) => (
               <LessonCard key={index} lesson={lesson} />
             ))}

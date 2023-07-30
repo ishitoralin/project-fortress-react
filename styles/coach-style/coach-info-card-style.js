@@ -95,3 +95,10 @@ export const cardFrontStyle = {
     },
   },
 };
+
+export const locationStyle = {
+  position: 'absolute',
+  bottom: 0,
+  right: '50%',
+  transform: 'translateX(50%)',
+};

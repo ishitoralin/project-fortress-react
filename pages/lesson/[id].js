@@ -16,6 +16,7 @@ import {
   coachNameBoxStyle,
   lessonsBoxStyle,
   lessonsCardGridStyle,
+  locationTitleStyle,
 } from '@/styles/lesson-style/lesson-id-style';
 
 export const getStaticPaths = async () => {
@@ -62,6 +63,30 @@ export const getStaticProps = async (context) => {
 };
 
 const CertainLessonPage = ({ category, lessons }) => {
+  const lessonsGate = [
+    {
+      location: 'taipei',
+      title: '台北館',
+      lessons: [],
+    },
+    {
+      location: 'taichung',
+      title: '台中館',
+      lessons: [],
+    },
+    {
+      location: 'kaohsiung',
+      title: '高雄館',
+      lessons: [],
+    },
+  ];
+
+  lessons.forEach((lesson) => {
+    lessonsGate.forEach(
+      (item) => item.location === lesson.location && item.lessons.push(lesson)
+    );
+  });
+
   return (
     <Box>
       <BrickWallPaper />
@@ -102,13 +127,30 @@ const CertainLessonPage = ({ category, lessons }) => {
           </CUICard>
         </Box>
         <Box sx={lessonsBoxStyle}>
-          <Grid container sx={lessonsCardGridStyle}>
-            {lessons.map((lesson, index) => (
-              <Grid key={index} item xs={12} sm={11} md={9} lg={5.75} xl={5.75}>
-                <LessonCard lesson={lesson} coachcard />
-              </Grid>
-            ))}
-          </Grid>
+          {lessonsGate.map((item) =>
+            item.lessons.length === 0 ? null : (
+              <>
+                <Typography variant="h5" sx={locationTitleStyle}>
+                  {item.title}
+                </Typography>
+                <Grid container sx={lessonsCardGridStyle}>
+                  {item.lessons.map((lesson, index) => (
+                    <Grid
+                      key={index}
+                      item
+                      xs={12}
+                      sm={11}
+                      md={9}
+                      lg={5.75}
+                      xl={5.75}
+                    >
+                      <LessonCard lesson={lesson} coachcard />
+                    </Grid>
+                  ))}
+                </Grid>
+              </>
+            )
+          )}
         </Box>
       </Container>
     </Box>

@@ -108,3 +108,12 @@ export const coachNameBoxStyle = {
 export const lessonsBoxStyle = { marginTop: '2rem', py: 4, width: '100%' };
 
 export const lessonsCardGridStyle = { justifyContent: 'center', gap: '2rem' };
+
+export const locationTitleStyle = {
+  color: 'white',
+  width: 'fit-content',
+  marginBottom: 5,
+  padding: 2,
+  paddingRight: '5rem',
+  borderBottom: '2px solid white',
+};

@@ -107,6 +107,7 @@ const LessionPage = (props) => {
 
   const [tags, setTags] = useState(props.tags);
   const [selectTags, setSelectTags] = useState([]);
+  // const [sort, setSort] = useState();
 
   const [filterShow, setFilterShow] = useState(false);
 
@@ -127,8 +128,22 @@ const LessionPage = (props) => {
   };
 
   const showFilter = () => setFilterShow(true);
-
   const closeFilter = () => setFilterShow(false);
+
+  const sortLessons = (sortWay) => {
+    const sortGate = {
+      timeASC: (lessons) =>
+        lessons.sort((prev, next) => (prev.time < next.time ? -1 : 1)),
+      timeDESC: (lessons) =>
+        lessons.sort((prev, next) => (prev.time < next.time ? 1 : -1)),
+      priceASC: (lessons) =>
+        lessons.sort((prev, next) => (next.price < prev.price ? -1 : 1)),
+      priceDESC: (lessons) =>
+        lessons.sort((prev, next) => (next.price < prev.price ? 1 : -1)),
+    };
+    sortGate[sortWay] &&
+      setLessons((lessons) => sortGate[sortWay]([...lessons]));
+  };
 
   const pushRouter = (queryObj) => {
     Object.keys(queryObj).forEach(
@@ -344,6 +359,7 @@ const LessionPage = (props) => {
               displayMode={displayMode}
               setDisplayMode={setDisplayMode}
               lessons={lessons}
+              sortLessons={sortLessons}
             />
           </Box>
         </Container>
