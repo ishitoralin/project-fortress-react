@@ -118,6 +118,7 @@ export const cardInfoRowStyle = {
 export const cardInfoTitleStyle = {
   width: 'fit-content',
   fontWeight: 'bold',
+  paddingRight: 1,
 };
 
 export const cardInfoStyle = {
