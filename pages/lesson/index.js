@@ -47,6 +47,8 @@ export const getStaticProps = async () => {
 const LISTMODE = 'list';
 const SKELETONMODE = 'skeleton';
 const LESSON_BASEURL = 'http://localhost:3001/lesson';
+const UNSAVELESSONURL = 'http://removeLesson/id';
+const SAVELESSONURL = 'http://addLesson/id';
 
 const initPrice = [200, 1500];
 const initStep = 50;
@@ -107,9 +109,18 @@ const LessionPage = (props) => {
 
   const [tags, setTags] = useState(props.tags);
   const [selectTags, setSelectTags] = useState([]);
-  // const [sort, setSort] = useState();
 
   const [filterShow, setFilterShow] = useState(false);
+
+  const handleSaveLesson = async (id, action) => {
+    const url = action === 'add' ? SAVELESSONURL : UNSAVELESSONURL;
+    const res = await fetch(url);
+    const result = await res.json();
+    result.success &&
+      setLessons((prev) =>
+        prev.map((lesson) => ({ ...lesson, save: action === 'add' }))
+      );
+  };
 
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,

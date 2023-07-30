@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { Box, ToggleButtonGroup, Container } from '@mui/material';
+import { Box, Typography, ToggleButtonGroup, Container } from '@mui/material';
 
 import CoachCard from '@/components/coach/coach-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
@@ -36,6 +36,17 @@ const CoachListPage = ({ allCoachs }) => {
       <BrickWallPaper scale={1.6} rotate={7.5} />
       <Container sx={{ paddingBlock: { xs: '1rem', sm: '3rem' } }}>
         <Box sx={{ textAlign: 'center', marginBlock: 5 }}>
+          <Typography
+            variant="h4"
+            sx={{
+              color: 'white',
+              marginBottom: '5rem',
+              paddingBottom: 2,
+              borderBottom: '2px solid white',
+            }}
+          >
+            健堡的專業師資
+          </Typography>
           <ToggleButtonGroup
             value={location}
             aria-label="coachlocation"
