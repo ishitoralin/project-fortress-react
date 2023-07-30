@@ -6,23 +6,11 @@ import CoachCard from '@/components/coach/coach-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 import UiButton from '@/components/hh/UiButton';
 
-const baseUrl = 'http://localhost:3001/coach';
-
-const getCoachsData = async (locations) => {
-  if (!Array.isArray(locations))
-    throw new Error('locations must be Array type');
-  const querys = `?${Array(locations.length).fill('location[]=%l').join('&')}`;
-  const suffix = locations.reduce(
-    (query, location) => query.replace('%l', location),
-    querys
-  );
-
-  const res = await fetch(baseUrl + suffix);
-  return await res.json();
-};
+const baseUrl = 'http://localhost:3001/coach/all';
 
 export const getStaticProps = async () => {
-  const allCoachs = await getCoachsData(['taipei', 'taichung', 'kaohsiung']);
+  const res = await fetch(baseUrl);
+  const allCoachs = await res.json();
 
   return {
     props: {
