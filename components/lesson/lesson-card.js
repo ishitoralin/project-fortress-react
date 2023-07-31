@@ -21,6 +21,7 @@ import GroupsIcon from '@mui/icons-material/Groups';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
 import CUICard from '@/components/customUI/cui-card';
+import PurchaseCard from './purchaseCard';
 
 import {
   cardStyle,
@@ -189,48 +190,7 @@ const LessonCard = ({ lesson, coachcard }) => {
           </Box>
         </Box>
       </CUICard>
-      <Dialog open={open} onClose={closeCard}>
-        <DialogContent sx={{ p: 2, bgcolor: '#eee' }}>
-          <Box
-            sx={{
-              position: 'relative',
-              bgcolor: 'black',
-              height: '200px',
-              width: '45vw',
-              borderRadius: '10px',
-              overflow: 'hidden',
-            }}
-          >
-            <Image
-              alt="purchselessonImg"
-              src={`/lesson-img/${lesson.img}`}
-              placeholder="blur"
-              blurDataURL={lesson.img_base64}
-              style={{ objectFit: 'cover', objectPosition: 'center top' }}
-              fill
-            />
-          </Box>
-          <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-            {lesson.name}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            教練 {lesson.nickname}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            時間 {lesson.time} ~ 
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            時長 {lesson.period}
-          </Typography>
-          <Typography variant="subtitle1" sx={{ fontWeight: 'bold' }}>
-            費用 {lesson.price}
-          </Typography>
-        </DialogContent>
-        <DialogActions sx={{ bgcolor: '#eee' }}>
-          <CUIButton btncolor={'#777'} onClick={closeCard}>取消</CUIButton>
-          <CUIButton color={'steel_grey'}>加入購物車</CUIButton>
-        </DialogActions>
-      </Dialog>
+      <PurchaseCard open={open} closeCard={closeCard} lesson={lesson} />
     </>
   );
 };
