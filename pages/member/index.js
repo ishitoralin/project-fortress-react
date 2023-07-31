@@ -235,7 +235,7 @@ export default function Index() {
         </Box>
       </form>
       <Toaster
-        position="top-center"
+        position="bottom-center"
         reverseOrder={false}
         gutter={8}
         containerClassName=""

@@ -9,8 +9,10 @@ import Paper from '@mui/material/Paper';
 import DeleteIcon from '@mui/icons-material/Delete';
 import tableStyles from '../member-table.module.css';
 import Link from 'next/link';
+import axios from 'axios';
 
-export default function CoursesTable({ data }) {
+export default function CoursesTable({ data, setData }) {
+  console.log(JSON.stringify(data));
   return (
     <TableContainer
       className={`${tableStyles['paper-container']}`}
@@ -31,28 +33,79 @@ export default function CoursesTable({ data }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.rows.map((row) => (
-            <TableRow
-              className={`${tableStyles['table-body-row']}`}
-              key={row.sid}
-              //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell data-title="課程名稱 : ">
-                <Link href="/lesson/1">{row.name}</Link>
-              </TableCell>
-              <TableCell data-title="擔當教練 : ">{row.coach}</TableCell>
-              <TableCell data-title="開始時間 : ">{row.start}</TableCell>
-              <TableCell data-title="課程時長 : ">{row.duration}小時</TableCell>
-              <TableCell data-title="課程價格 : ">{row.price}$</TableCell>
-              <TableCell
-                onClick={() => {
-                  console.log(row.sid);
-                }}
+          {data.rows.map((row) => {
+            if (row?.isDelete) {
+              return (
+                <TableRow
+                  className={`${tableStyles['table-body-row']} ${tableStyles['deleted-row']}`}
+                  key={row.sid}
+                >
+                  <TableCell colSpan={6} align="center">
+                    資料已刪除
+                  </TableCell>
+                </TableRow>
+              );
+            }
+            return (
+              <TableRow
+                className={`${tableStyles['table-body-row']}`}
+                key={row.sid}
+                //   sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
               >
-                <DeleteIcon className={`${tableStyles['delete-icon']}`} />
-              </TableCell>
-            </TableRow>
-          ))}
+                <TableCell data-title="課程名稱 : ">
+                  <Link href="/lesson/1">{row.name}</Link>
+                </TableCell>
+                <TableCell data-title="擔當教練 : ">{row.nickname}</TableCell>
+                <TableCell data-title="開始時間 : ">{row.time}</TableCell>
+                <TableCell data-title="課程時長 : ">
+                  {row.period
+                    .split(':')
+                    .map((el, i) => {
+                      if (i === 0) {
+                        if (parseInt(el) !== 0) {
+                          return parseInt(el) + '小時';
+                        }
+                      }
+                      if (i === 1) {
+                        if (parseInt(el) !== 0) {
+                          return parseInt(el) + '分';
+                        }
+                      }
+                      return '';
+                    })
+                    .join('')}
+                </TableCell>
+                <TableCell data-title="課程價格 : ">${row.price}</TableCell>
+                <TableCell>
+                  <DeleteIcon
+                    onClick={() => {
+                      // console.log(row.sid);
+                      const deleteFavoriteCourse = async () => {
+                        const res = await axios.delete(
+                          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses`,
+                          { data: { sid: row.sid } }
+                        );
+
+                        setData((prev) => {
+                          return {
+                            ...prev,
+                            rows: prev.rows.map((el2) => {
+                              if (el2.sid === row.sid) {
+                                return { ...el2, isDelete: true };
+                              }
+                              return { ...el2 };
+                            }),
+                          };
+                        });
+                      };
+                      deleteFavoriteCourse();
+                    }}
+                    className={`${tableStyles['delete-icon']}`}
+                  />
+                </TableCell>
+              </TableRow>
+            );
+          })}
         </TableBody>
       </Table>
     </TableContainer>

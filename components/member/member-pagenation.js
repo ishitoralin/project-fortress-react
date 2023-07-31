@@ -3,6 +3,7 @@ import { Stack } from '@mui/material';
 import styles from './member.module.css';
 
 export default function MemberPagenation({ data }) {
+  console.log(data, 'MemberPagenation');
   return (
     <>
       {parseInt(data?.totalPages) === 0 ? undefined : (
