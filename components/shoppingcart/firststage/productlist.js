@@ -21,76 +21,7 @@ import {
 } from '@/styles/shoppingcart-style/recommandproduct';
 import { result } from 'lodash';
 import Image from 'next/image';
-// const fakeDataForCart = { products: [] };
-// const fakeDataForCart = {
-//   products: [
-//     {
-//       id: 19,
-//       photo: 'photo',
-//       name: '緊身衣',
-//       detail: 'abavafd asfewweg gewaef gre',
-//       price: 3000,
-//       quantity: 2,
-//     },
-//     {
-//       id: 2,
-//       photo: 'photo',
-//       name: '布偶裝',
-//       detail: 'abavafd asfewweg gewaef gre',
-//       price: 2000,
-//       quantity: 1,
-//     },
-//     {
-//       id: 3,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 4,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 5,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 6,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 323,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 25,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//   ],
-// };
-
+import axios from 'axios';
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
@@ -115,7 +46,7 @@ export default function ProductList(props) {
       .then((results) => setCartItems(results.data))
       .catch((error) => console.log(error));
   }, []);
-  console.log(cartItems);
+
   useEffect(() => {
     let totalPrice = 0;
     let totalQuantity = 0;
@@ -131,26 +62,67 @@ export default function ProductList(props) {
         totalQuantity += Quantity;
       }
     }
-    console.log(totalPrice, totalQuantity);
+    // console.log(totalPrice, totalQuantity);
     setFinalPrice(totalPrice);
     setFinalQuantity(totalQuantity);
   }, [cartItems]);
 
+  // quantity更新api(給+ -及input用)
+  const updateQuantity = async (order_sid, newQuantity) => {
+    // console.log(order_sid, newQuantity);
+    try {
+      // TODO
+      // 這裡應該要將member_sid傳在網址列後面
+      await axios.put(`http://localhost:3001/SCeditquantity/${order_sid}`, {
+        order_sid: order_sid,
+        quantity: newQuantity,
+      });
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };
+
+  // 刪除商品API(給delete用)
+  const deleteItem = async (order_sid) => {
+    console.log(order_sid);
+    try {
+      await axios.delete(`http://localhost:3001/SCdelete/${order_sid}`);
+    } catch (error) {
+      console.log('error to delete item');
+    }
+  };
+
   const minus = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: v.quantity - 1 };
+      if (v.sid === id) {
+        const newQuantity = v.quantity - 1;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
 
   const add = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: v.quantity + 1 };
+      if (v.sid === id) {
+        const newQuantity = v.quantity + 1;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
 
   const remove = (cartItems, id) => {
+    cartItems.map((v, i) => {
+      if (v.sid === id) {
+        console.log(v.sid);
+        const order_sid = v.sid;
+        deleteItem(order_sid);
+      }
+    });
+
     return cartItems.filter((v) => {
       return v.sid !== id;
     });
@@ -158,7 +130,11 @@ export default function ProductList(props) {
 
   const update = (cartItems, id, value) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: value };
+      if (v.sid === id) {
+        const newQuantity = value;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
@@ -202,6 +178,7 @@ export default function ProductList(props) {
                   sx={AddAndReduceButton}
                   onClick={() => {
                     if (v.quantity > 1) {
+                      // updateQuantity();
                       setCartItems(minus(cartItems, v.sid));
                     }
                     if (v.quantity === 1) {
@@ -216,7 +193,11 @@ export default function ProductList(props) {
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
                   value={v.quantity}
                   onChange={(e) => {
-                    const value = parseInt(e.target.value);
+                    let value = parseInt(e.target.value);
+
+                    if (value > 99) {
+                      value = 99;
+                    }
                     if (isNaN(value)) {
                       return;
                     }
