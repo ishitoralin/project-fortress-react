@@ -1,5 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
+
+import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
+import { useAuth } from '@/context/auth/useAuth';
 
 import {
   coachCardBoxStyle,
@@ -19,6 +23,25 @@ const BreakPointTheme = createBreakPointTheme({
   th: 1000,
 });
 
+const fetchData = async (id) => {
+  const getCoachUrl = `http://localhost:3001/coach/${id}`;
+  const getLessonsUrl = `http://localhost:3001/lesson?coach=${id}`;
+
+  const [coach, lessons] = await Promise.all(
+    [getCoachUrl, getLessonsUrl].map(async (url) => {
+      const res = await fetch(url, {
+        headers: getAuthHeaders(),
+      });
+      return await res.json();
+    })
+  );
+
+  return {
+    coach,
+    lessons,
+  };
+};
+
 export const getStaticPaths = async () => {
   const res = await fetch('http://localhost:3001/coach');
   const data = await res.json();
@@ -33,20 +56,13 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async (context) => {
   const id = context.params.id;
-  const getCoachUrl = `http://localhost:3001/coach/${id}`;
-  const getLessonsUrl = `http://localhost:3001/lesson?coach=${id}`;
-
-  const [coach, lessons] = await Promise.all(
-    [getCoachUrl, getLessonsUrl].map(async (url) => {
-      const res = await fetch(url);
-      return await res.json();
-    })
-  );
+  const { coach, lessons } = await fetchData(id);
 
   return {
     props: {
+      coachId: id,
       coach,
-      lessons,
+      initLessons: lessons,
     },
   };
 };
@@ -57,7 +73,20 @@ const locationDictionary = {
   kaohsiung: '高雄館',
 };
 
-const CoachPage = ({ coach, lessons }) => {
+const CoachPage = ({ coach, coachId, initLessons }) => {
+  const [lessons, setLessons] = useState(initLessons);
+
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
+  useEffect(() => {
+    if (!auth.user?.id) return;
+    (async () => {
+      const { lessons } = await fetchData(coachId);
+      setLessons(lessons);
+    })();
+  }, [auth]);
+
   return (
     <BreakPointTheme>
       <Box sx={{ py: 4 }}>
@@ -144,7 +173,7 @@ const CoachPage = ({ coach, lessons }) => {
               指導課程
             </Typography>
             {lessons.map((lesson, index) => (
-              <LessonCard key={index} lesson={lesson} />
+              <LessonCard key={index} lesson={lesson} setLessons={setLessons} />
             ))}
           </Box>
         </Container>

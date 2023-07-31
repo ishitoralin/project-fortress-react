@@ -1,9 +1,13 @@
+import { Fragment, useEffect, useState } from 'react';
 import { Box, Chip, Container, Grid, Typography } from '@mui/material';
 import CUICard from '@/components/customUI/cui-card';
 
 import Image from 'next/image';
 import LessonCard from '@/components/lesson/lesson-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
+
+import { useAuth } from '@/context/auth/useAuth';
+import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
 
 import {
   containerStyle,
@@ -31,19 +35,20 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async (context) => {
-  const id = context.params.id;
+const fetchData = async (id) => {
   const getCategoryUrl = `http://localhost:3001/lesson/categories?id=${id}`;
   const getLessonsUrl = `http://localhost:3001/lesson?category=${id}`;
 
-  const [category, lessons] = await Promise.all(
+  const [category, rawLessons] = await Promise.all(
     [getCategoryUrl, getLessonsUrl].map(async (url) => {
-      const res = await fetch(url);
+      const res = await fetch(url, {
+        headers: getAuthHeaders(),
+      });
       return await res.json();
     })
   );
 
-  const lessonsAddCoachImg = lessons.map((lesson) => {
+  const lessons = rawLessons.map((lesson) => {
     const [coach] = category.coachs.filter(
       (coach) => coach.sid === lesson.coach_sid
     );
@@ -54,15 +59,28 @@ export const getStaticProps = async (context) => {
     };
   });
 
+  return { category, lessons };
+};
+
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const { category, lessons } = await fetchData(id);
+
   return {
     props: {
+      categoryId: id,
       category,
-      lessons: lessonsAddCoachImg,
+      initLessons: lessons,
     },
   };
 };
 
-const CertainLessonPage = ({ category, lessons }) => {
+const CertainLessonPage = ({ categoryId, category, initLessons }) => {
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
+  const [lessons, setLessons] = useState(initLessons);
+
   const lessonsGate = [
     {
       location: 'taipei',
@@ -81,11 +99,19 @@ const CertainLessonPage = ({ category, lessons }) => {
     },
   ];
 
-  lessons.forEach((lesson) => {
+  lessons?.forEach((lesson) => {
     lessonsGate.forEach(
       (item) => item.location === lesson.location && item.lessons.push(lesson)
     );
   });
+
+  useEffect(() => {
+    if (!auth.user?.id) return;
+    (async () => {
+      const { lessons } = await fetchData(categoryId);
+      setLessons(lessons);
+    })();
+  }, [auth]);
 
   return (
     <Box>
@@ -127,16 +153,16 @@ const CertainLessonPage = ({ category, lessons }) => {
           </CUICard>
         </Box>
         <Box sx={lessonsBoxStyle}>
-          {lessonsGate.map((item) =>
+          {lessonsGate.map((item, index) =>
             item.lessons.length === 0 ? null : (
-              <>
+              <Fragment key={index}>
                 <Typography variant="h5" sx={locationTitleStyle}>
                   {item.title}
                 </Typography>
                 <Grid container sx={lessonsCardGridStyle}>
-                  {item.lessons.map((lesson, index) => (
+                  {item.lessons.map((lesson, lIndex) => (
                     <Grid
-                      key={index}
+                      key={lIndex}
                       item
                       xs={12}
                       sm={11}
@@ -144,11 +170,15 @@ const CertainLessonPage = ({ category, lessons }) => {
                       lg={5.75}
                       xl={5.75}
                     >
-                      <LessonCard lesson={lesson} coachcard />
+                      <LessonCard
+                        lesson={lesson}
+                        setLessons={setLessons}
+                        coachcard
+                      />
                     </Grid>
                   ))}
                 </Grid>
-              </>
+              </Fragment>
             )
           )}
         </Box>

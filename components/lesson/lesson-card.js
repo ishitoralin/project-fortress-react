@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import Image from 'next/image';
+import ForwardSymbol from '@/assets/forward-symbol';
+import toast, { Toaster } from 'react-hot-toast';
 
 import { Button, Box, Typography, Chip } from '@mui/material';
-
-import ForwardSymbol from '@/assets/forward-symbol';
-import Image from 'next/image';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import EmojiPeopleIcon from '@mui/icons-material/EmojiPeople';
 import GroupsIcon from '@mui/icons-material/Groups';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MonetizationOnRoundedIcon from '@mui/icons-material/MonetizationOnRounded';
+
 import CUICard from '@/components/customUI/cui-card';
 import PurchaseCard from './purchaseCard';
 
@@ -44,21 +45,58 @@ const actionDictionary = {
   cancel: cancelSaveLesson,
 };
 
+const messageDictionary = {
+  save: '成功加入收藏',
+  cancel: '已移除收藏',
+};
+
 const LessonCard = ({ lesson, setLessons, coachcard }) => {
   const [open, setOpen] = useState(false);
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
 
-  const handleNoLoginSave = () => {};
+  const myToast = {
+    toastId: null,
+    loading() {
+      this.toastId = toast.loading('請稍候...');
+    },
+    success(message) {
+      toast.success(message, {
+        id: this.toastId,
+      });
+    },
+    error() {
+      toast.error('發生錯誤請稍後再試', {
+        id: this.toastId,
+      });
+    },
+    hint() {
+      toast('請先登入會員!', {
+        icon: '🔔',
+      });
+    },
+  };
 
+  const handleNoLoginSave = () => myToast.hint();
+
+  let isPending = false;
   const handleSave = async (action) => {
+    if (isPending) return;
+
+    isPending = true;
+    myToast.loading();
+
     const result = await actionDictionary[action](lesson.sid);
-    result.success &&
-      setLessons((prev) =>
-        prev.map((item) =>
-          item.sid === lesson.sid ? { ...item, save: !item.save } : item
-        )
-      );
+    isPending = false;
+
+    if (!result.success) return myToast.error();
+
+    myToast.success(messageDictionary[action]);
+    setLessons((prev) =>
+      prev.map((item) =>
+        item.sid === lesson.sid ? { ...item, save: !item.save } : item
+      )
+    );
   };
 
   const goSave = () => handleSave('save');
@@ -66,6 +104,14 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
 
   return (
     <>
+      <Toaster
+        position="bottom-center"
+        toastOptions={{
+          style: {
+            boxShadow: '0 2px 1px 3px lightgrey',
+          },
+        }}
+      />
       <CUICard
         sx={
           coachcard
