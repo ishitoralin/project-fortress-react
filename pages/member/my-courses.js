@@ -3,31 +3,38 @@ import MemberCenterLayout from '@/components/layout/memberCenterLayout';
 import MyCoursesComponent from '@/components/member/my-courses';
 import axios from 'axios';
 import { Toaster } from 'react-hot-toast';
-
+import { useRouter } from 'next/router';
 export default function MyCourses() {
+  const router = useRouter();
   const [data, setData] = useState({
     redirect: '',
     totalRows: 0,
-    perPage: 4,
+    perPage: 6,
     totalPages: 0,
     page: 1,
     rows: [],
   });
-
+  const getMyfavoriteProducts = async (page = 1) => {
+    const res = await axios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses2?page=${page}`
+    );
+    if (res.data.output.rows > 0);
+    {
+      setData(() => {
+        return { ...res.data.output };
+      });
+    }
+  };
   useEffect(() => {
-    const getMyfavoriteProducts = async () => {
-      const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses`
-      );
-      if (res.data.output.rows > 0);
-      {
-        setData((prev) => {
-          return { ...prev, rows: res.data.output.rows };
-        });
-      }
-    };
     getMyfavoriteProducts();
   }, []);
+  useEffect(() => {
+    if (router.query?.page) {
+      console.log(router.query.page);
+      getMyfavoriteProducts(router.query.page);
+    }
+  }, [router]);
+
   return (
     <>
       <MyCoursesComponent data={data} setData={setData} />

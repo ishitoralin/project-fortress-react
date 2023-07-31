@@ -1,10 +1,13 @@
 /* member general components */
 
 .my-container {
-  padding: 150px;
+  padding: 50px 150px;
 }
 .pagination-container {
   margin-top: 20px;
+}
+.pagination-container nav {
+  background-color: var(--light-grey);
 }
 .guide-to {
   width: 100%;
@@ -17,10 +20,12 @@
   text-decoration: underline;
 }
 @media screen and (max-width: 768px) {
-  .pagination-container {
-    margin-top: 0px;
-  }
   .my-container {
     padding: 10px 15px 15px 15px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .pagination-container {
+    margin-top: 0px;
   }
 }

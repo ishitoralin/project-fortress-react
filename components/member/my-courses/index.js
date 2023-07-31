@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import styles from '../member.module.css';
 import CoursesTable from './courses-table';
 import MemberPagenation from '../member-pagenation';

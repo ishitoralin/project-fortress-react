@@ -10,9 +10,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import tableStyles from '../member-table.module.css';
 import Link from 'next/link';
 import axios from 'axios';
+import { toast } from 'react-hot-toast';
 
 export default function CoursesTable({ data, setData }) {
-  console.log(JSON.stringify(data));
   return (
     <TableContainer
       className={`${tableStyles['paper-container']}`}
@@ -85,7 +85,7 @@ export default function CoursesTable({ data, setData }) {
                           `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses`,
                           { data: { sid: row.sid } }
                         );
-
+                        toast.success('刪除課程成功');
                         setData((prev) => {
                           return {
                             ...prev,

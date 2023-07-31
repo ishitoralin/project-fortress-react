@@ -6,63 +6,11 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import { useRef, useState } from 'react';
 import CUIButton from '../customUI/cui-button';
-import ReactCrop, {
-  centerCrop,
-  makeAspectCrop,
-  Crop,
-  PixelCrop,
-  convertToPixelCrop,
-} from 'react-image-crop';
+import ReactCrop from 'react-image-crop';
 import { toast } from 'react-hot-toast';
-function generateDownload(blob) {
-  const previewUrl = window.URL.createObjectURL(blob);
+import axios from 'axios';
+import { useAuth } from '@/context/auth/useAuth';
 
-  const anchor = document.createElement('a');
-  anchor.download = 'cropPreview.png';
-  anchor.href = URL.createObjectURL(blob);
-  anchor.click();
-
-  window.URL.revokeObjectURL(previewUrl);
-}
-const getCroppedImg = (image, crop, fileName) => {
-  const canvas = document.createElement('canvas');
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
-  const ctx = canvas.getContext('2d');
-
-  const pixelRatio = window.devicePixelRatio;
-  canvas.width = crop.width * pixelRatio;
-  canvas.height = crop.height * pixelRatio;
-  ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
-  ctx.imageSmoothingQuality = 'high';
-
-  ctx.drawImage(
-    image,
-    crop.x * scaleX,
-    crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
-    0,
-    0,
-    crop.width,
-    crop.height
-  );
-  console.log(canvas);
-  // As a blob
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => {
-        blob.name = fileName;
-        resolve(blob);
-        if (process.env.NODE_ENV !== 'production') generateDownload(blob);
-      },
-      'image/jpeg',
-      1
-    );
-  });
-};
 export default function ImgUploadModal({ open = false, handleClose }) {
   const fileRef = useRef(null);
   const imgRef = useRef(null);
@@ -72,7 +20,7 @@ export default function ImgUploadModal({ open = false, handleClose }) {
   const [completedCrop, setCompletedCrop] = useState();
   /*  const [scale, setScale] = useState(1);
   const [rotate, setRotate] = useState(0); */
-
+  const { setAuth } = useAuth();
   const handleFileChange = (e) => {
     console.log(e.target.files[0]);
     if (e.target.files[0].size / (1024 * 1024) > 1) {
@@ -103,7 +51,66 @@ export default function ImgUploadModal({ open = false, handleClose }) {
       aspect: 1,
     });
   };
+  const getCroppedImg = (image, crop, fileName, setAuth) => {
+    const canvas = document.createElement('canvas');
+    const scaleX = image.naturalWidth / image.width;
+    const scaleY = image.naturalHeight / image.height;
+    canvas.width = crop.width;
+    canvas.height = crop.height;
+    const ctx = canvas.getContext('2d');
 
+    const pixelRatio = window.devicePixelRatio;
+    canvas.width = crop.width * pixelRatio;
+    canvas.height = crop.height * pixelRatio;
+    ctx.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    ctx.imageSmoothingQuality = 'high';
+
+    ctx.drawImage(
+      image,
+      crop.x * scaleX,
+      crop.y * scaleY,
+      crop.width * scaleX,
+      crop.height * scaleY,
+      0,
+      0,
+      crop.width,
+      crop.height
+    );
+
+    // As a blob
+    // return new Promise((resolve, reject) => {
+    canvas.toBlob(
+      (blob) => {
+        console.log(123);
+        blob.name = fileName;
+        // resolve(blob);
+        const form = new FormData();
+        form.append('avatar', blob, fileName);
+        axios
+          .patch(
+            `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/icon`,
+            form
+          )
+          .then((res) => {
+            if (res?.data?.filename) {
+              toast.success('更新照片成功');
+              handleClose();
+              setAuth((prev) => {
+                const newIcon = `${
+                  process.env.NEXT_PUBLIC_BACKEND_PORT +
+                  '/imgs/member/' +
+                  res?.data?.filename
+                }`;
+                return { ...prev, user: { ...prev.user, icon: newIcon } };
+              });
+            }
+          });
+      },
+      'image/jpeg',
+      1
+    );
+    // });
+  };
   return (
     <Dialog open={open} onClose={handleClose}>
       <input
@@ -161,7 +168,8 @@ export default function ImgUploadModal({ open = false, handleClose }) {
               getCroppedImg(
                 imgRef.current,
                 completedCrop,
-                fileRef.current.files[0].fileName
+                fileRef.current.files[0].fileName,
+                setAuth
               );
             }}
           >
