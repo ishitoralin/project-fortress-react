@@ -115,8 +115,15 @@ export default function ProductList(props) {
   };
 
   const remove = (cartItems, id) => {
+    cartItems.map((v, i) => {
+      if (v.sid === id) {
+        console.log(v.sid);
+        const order_sid = v.sid;
+        deleteItem(order_sid);
+      }
+    });
+
     return cartItems.filter((v) => {
-      deleteItem(v.id);
       return v.sid !== id;
     });
   };
@@ -171,6 +178,7 @@ export default function ProductList(props) {
                   sx={AddAndReduceButton}
                   onClick={() => {
                     if (v.quantity > 1) {
+                      // updateQuantity();
                       setCartItems(minus(cartItems, v.sid));
                     }
                     if (v.quantity === 1) {
