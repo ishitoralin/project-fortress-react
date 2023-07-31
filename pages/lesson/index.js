@@ -7,6 +7,7 @@ import {
   containerStyle,
   filterStyle,
   showFilterStyle,
+  filterIconStyle,
 } from '@/styles/lesson-style/lesson-index-style';
 
 import { Box, Chip, Container, Typography, IconButton } from '@mui/material';
@@ -21,16 +22,8 @@ import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
-const filterIconStyle = {
-  visibility: 'hidden',
-  '@media (max-width: 1000px)': {
-    visibility: 'visible',
-    transition: '.2s',
-    ':hover': {
-      transform: 'scale(1.2)',
-    },
-  },
-};
+import { useAuth } from '@/context/auth/useAuth';
+import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
 
 export const getStaticProps = async () => {
   const data = {};
@@ -47,8 +40,6 @@ export const getStaticProps = async () => {
 const LISTMODE = 'list';
 const SKELETONMODE = 'skeleton';
 const LESSON_BASEURL = 'http://localhost:3001/lesson';
-const UNSAVELESSONURL = 'http://removeLesson/id';
-const SAVELESSONURL = 'http://addLesson/id';
 
 const initPrice = [200, 1500];
 const initStep = 50;
@@ -74,7 +65,9 @@ const fetchLessons = async (baseUrl, queryObj) => {
   const fetchUrl = getFetchUrl(baseUrl, queryObj);
 
   try {
-    const res = await fetch(fetchUrl);
+    const res = await fetch(fetchUrl, {
+      headers: getAuthHeaders(),
+    });
     const datas = await res.json();
 
     response.success = true;
@@ -98,6 +91,10 @@ const shrinkString = (str) => {
 
 const LessionPage = (props) => {
   const router = useRouter();
+
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
   const [lessons, setLessons] = useState([]);
   const [queryObject, setQueryObject] = useState({});
   const keywordRef = useRef();
@@ -111,16 +108,6 @@ const LessionPage = (props) => {
   const [selectTags, setSelectTags] = useState([]);
 
   const [filterShow, setFilterShow] = useState(false);
-
-  const handleSaveLesson = async (id, action) => {
-    const url = action === 'add' ? SAVELESSONURL : UNSAVELESSONURL;
-    const res = await fetch(url);
-    const result = await res.json();
-    result.success &&
-      setLessons((prev) =>
-        prev.map((lesson) => ({ ...lesson, save: action === 'add' }))
-      );
-  };
 
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
@@ -370,6 +357,7 @@ const LessionPage = (props) => {
               displayMode={displayMode}
               setDisplayMode={setDisplayMode}
               lessons={lessons}
+              setLessons={setLessons}
               sortLessons={sortLessons}
             />
           </Box>

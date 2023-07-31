@@ -75,6 +75,7 @@ const sortSelectStyle = {
 
 const RightSide = ({
   lessons,
+  setLessons,
   showFilter,
   location,
   setLocation,
@@ -139,7 +140,7 @@ const RightSide = ({
           </CUICard>
         ) : (
           lessons.map((lesson, index) => (
-            <LessonCard key={index} lesson={lesson} />
+            <LessonCard key={index} lesson={lesson} setLessons={setLessons} />
           ))
         ))}
       {displayMode === 'skeleton' &&

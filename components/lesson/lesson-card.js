@@ -1,16 +1,6 @@
 import { useState } from 'react';
 
-import {
-  Button,
-  Box,
-  Typography,
-  Chip,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-} from '@mui/material';
+import { Button, Box, Typography, Chip } from '@mui/material';
 
 import ForwardSymbol from '@/assets/forward-symbol';
 import Image from 'next/image';
@@ -46,16 +36,34 @@ import {
   forwardSymbolBoxStyle,
 } from '@/styles/lesson-style/lesson-card-style';
 import Link from 'next/link';
-import CUIButton from '../customUI/cui-button';
 
-const LessonCard = ({ lesson, coachcard }) => {
+import { saveLesson, cancelSaveLesson } from '@/hh_global/handleSaveLessons';
+
+const actionDictionary = {
+  save: saveLesson,
+  cancel: cancelSaveLesson,
+};
+
+const LessonCard = ({ lesson, setLessons, coachcard }) => {
   const [open, setOpen] = useState(false);
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
 
   const handleNoLoginSave = () => {};
-  const handleCancelSave = () => {};
-  const handleSave = () => {};
+
+  const handleSave = async (action) => {
+    const result = await actionDictionary[action](lesson.sid);
+    result.success &&
+      setLessons((prev) =>
+        prev.map((item) =>
+          item.sid === lesson.sid ? { ...item, save: !item.save } : item
+        )
+      );
+  };
+
+  const goSave = () => handleSave('save');
+  const goCancel = () => handleSave('cancel');
+
   return (
     <>
       <CUICard
@@ -122,11 +130,11 @@ const LessonCard = ({ lesson, coachcard }) => {
               onClick={handleNoLoginSave}
             />
           ) : lesson.save ? (
-            <FavoriteIcon sx={favoriteIconStyle} onClick={handleCancelSave} />
+            <FavoriteIcon sx={favoriteIconStyle} onClick={goCancel} />
           ) : (
             <FavoriteBorderOutlinedIcon
               sx={favoriteIconStyle}
-              onClick={handleSave}
+              onClick={goSave}
             />
           )}
           <Box sx={cardInfoBoxStyle}>
