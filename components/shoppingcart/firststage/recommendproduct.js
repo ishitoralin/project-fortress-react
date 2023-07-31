@@ -30,72 +30,13 @@ import {
   priceStyle,
   FavorIconStyle,
 } from '@/styles/shoppingcart-style/recommandproduct';
+import { result } from 'lodash';
 export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
-
   // data from database
-  const fakeDataForCart1 = {
-    products: [
-      {
-        id: 19,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-      },
-      {
-        id: 24,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 6,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 323,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 25,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-    ],
-  };
+  console.log(recommandProduct);
   const fakeDataForCart2 = {
     products: [
       {
@@ -217,11 +158,9 @@ export default function RecommendProduct(props) {
     ],
   };
   useEffect(() => {
-    // TODO fetch data then push into newData
-    const newData = fakeDataForCart1.products.map((v, i) => {
-      return { ...v, isFavor: false };
-    });
-    return setRecommandProduct(newData);
+    fetch('http://localhost:3001/SCrecommanded')
+      .then((r) => r.json())
+      .then((results) => setRecommandProduct(results.data));
   }, []);
   useEffect(() => {
     // TODO fetch data then push into newData
@@ -293,7 +232,7 @@ export default function RecommendProduct(props) {
                       <CardContent>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.name}</Box>
+                            <Box>{v.product_name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {

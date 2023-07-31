@@ -78,6 +78,7 @@ export const ProductNameAndIcon = {
   display: 'flex',
   justifyContent: 'space-between',
   alignItems: 'center',
+  fontSize: '18px',
 };
 
 export const CardActionsStyle = {
