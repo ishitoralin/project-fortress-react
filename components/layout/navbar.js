@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Box, Collapse, Stack, IconButton } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 
@@ -213,9 +214,13 @@ const getInitState = () => {
 };
 
 export default function Navbar() {
-  const [linksState, setLinksState] = useState(() => getInitState());
-  const [expand, setExpand] = useState(true);
+  const router = useRouter();
   const { auth, logout } = useAuth();
+
+  const [linksState, setLinksState] = useState(() => getInitState());
+  const [listTimeout, setListTimeout] = useState('auto');
+  const [expand, setExpand] = useState(true);
+
   const toggleLink = (name) => {
     setLinksState((pre) => {
       const newState = new Map(pre);
@@ -226,15 +231,29 @@ export default function Navbar() {
     });
   };
 
-  const toggleList = () => setExpand((prev) => !prev);
+  const toggleList = () => {
+    setListTimeout('auto');
+    setExpand((prev) => !prev);
+  };
+  const mobileCloseList = () => {
+    if (window.innerWidth > 900) return;
+    setExpand(false);
+  };
   const closeLinks = () => setLinksState(getInitState());
 
   useEffect(() => {
-    const handleResize = () => setExpand(window.innerWidth > 900);
+    const handleResize = () => {
+      setListTimeout(window.innerWidth > 900 ? 'auto' : 0);
+      setExpand(window.innerWidth > 900);
+    };
     window.addEventListener('resize', handleResize);
 
     return () => removeEventListener('resize', handleResize);
   }, []);
+
+  useEffect(() => {
+    mobileCloseList();
+  }, [router]);
 
   return (
     <Stack sx={navbarStyle} direction={'row'}>
@@ -245,6 +264,7 @@ export default function Navbar() {
       </Box>
       <Collapse
         in={expand}
+        timeout={listTimeout}
         sx={{
           '@media (max-width: 900px)': {
             position: 'absolute',
@@ -262,7 +282,13 @@ export default function Navbar() {
             >
               課程與教練
             </ExpandItem>
-            <Item href="/product" onClick={closeLinks}>
+            <Item
+              href="/product"
+              onClick={() => {
+                setExpand(false);
+                closeLinks();
+              }}
+            >
               進入商城
             </Item>
             <ExpandItem
@@ -272,7 +298,13 @@ export default function Navbar() {
             >
               個人紀錄
             </ExpandItem>
-            <Item href="/space-find" onClick={closeLinks}>
+            <Item
+              href="/space-find"
+              onClick={() => {
+                setExpand(false);
+                closeLinks();
+              }}
+            >
               場地找找
             </Item>
             <Link
