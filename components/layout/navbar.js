@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Box, Collapse, Stack } from '@mui/material';
+import { Box, Collapse, Stack, IconButton } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
+
+import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';
 import User from '@/assets/user';
@@ -39,9 +42,7 @@ const logoBoxStyle = {
 
 const linksStyle = {
   ...centerAll,
-  position: { xs: 'absolute', md: 'static' },
   marginLeft: { xs: '-20px', md: 'unset' },
-  top: { xs: '100%', md: 0 },
   flexDirection: {
     xs: 'column',
     md: 'row',
@@ -57,8 +58,8 @@ const linkItemStyle = {
   borderRadius: '3px',
   transition: { xs: 0, md: '.5s' },
   ':hover': {
-    bgcolor: 'white',
-    color: 'black',
+    bgcolor: { xs: '#777', md: 'white' },
+    color: { xs: 'white', md: 'black' },
   },
 };
 
@@ -69,8 +70,8 @@ const ExpandItem = (props) => {
         ...linkItemStyle,
         ':hover': !props.in
           ? {
-              bgcolor: 'white',
-              color: 'black',
+              bgcolor: { xs: '#777', md: 'white' },
+              color: { xs: 'white', md: 'black' },
             }
           : {},
         ...ml2,
@@ -194,6 +195,7 @@ const expandData = {
       linkName: '訓練紀錄',
       href: '/record/exercise',
     },
+
     {
       key: 'diet',
       linkName: '飲食紀錄',
@@ -212,6 +214,7 @@ const getInitState = () => {
 
 export default function Navbar() {
   const [linksState, setLinksState] = useState(() => getInitState());
+  const [expand, setExpand] = useState(true);
   const { auth, logout } = useAuth();
   const toggleLink = (name) => {
     setLinksState((pre) => {
@@ -223,7 +226,15 @@ export default function Navbar() {
     });
   };
 
+  const toggleList = () => setExpand((prev) => !prev);
   const closeLinks = () => setLinksState(getInitState());
+
+  useEffect(() => {
+    const handleResize = () => setExpand(window.innerWidth > 900);
+    window.addEventListener('resize', handleResize);
+
+    return () => removeEventListener('resize', handleResize);
+  }, []);
 
   return (
     <Stack sx={navbarStyle} direction={'row'}>
@@ -232,89 +243,155 @@ export default function Navbar() {
           <LogoIcon width={150} height={50} />
         </Link>
       </Box>
-      <ClickAwayListener onClickAway={closeLinks}>
-        <Box sx={linksStyle}>
-          <ExpandItem
-            in={linksState.get('coachLesson')}
-            onClick={() => toggleLink('coachLesson')}
-            links={expandData['coachLesson']}
-          >
-            課程與教練
-          </ExpandItem>
-          <Item href="/product" onClick={closeLinks}>
-            進入商城
-          </Item>
-          <ExpandItem
-            in={linksState.get('record')}
-            onClick={() => toggleLink('record')}
-            links={expandData['record']}
-          >
-            個人紀錄
-          </ExpandItem>
-          <Item href="/space-find" onClick={closeLinks}>
-            場地找找
-          </Item>
-          <Link
-            href="/shoppingcart"
-            onClick={closeLinks}
-            style={{ ...ml2, display: 'block' }}
-          >
-            <ShoppingCartIcon
-              sx={{
-                ':hover': {
-                  color: 'var(--fortress)',
-                },
-              }}
-            />
-          </Link>
-          {auth.isLogin ? (
-            <>
-              {auth.user?.icon ? (
-                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
-                  <div
-                    style={{
-                      width: '45px',
-                      height: '45px',
-                    }}
-                  >
-                    <img
-                      src={auth.user.icon}
-                      alt=""
-                      style={{
-                        width: '100%',
-                        height: '100%',
-                        objectFit: 'cover',
-                        borderRadius: '999%',
-                      }}
-                    />
-                  </div>
-                </Link>
-              ) : (
-                <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
-                  <User />
-                </Link>
-              )}
-
-              <Item
-                href="/"
-                onClick={() => {
-                  logout();
-                }}
-              >
-                登出
-              </Item>
-            </>
-          ) : (
+      <Collapse
+        in={expand}
+        sx={{
+          '@media (max-width: 900px)': {
+            position: 'absolute',
+            top: '100%',
+            left: 0,
+          },
+        }}
+      >
+        <ClickAwayListener onClickAway={closeLinks}>
+          <Box sx={linksStyle}>
             <ExpandItem
-              in={linksState.get('member')}
-              onClick={() => toggleLink('member')}
-              links={expandData['member']}
+              in={linksState.get('coachLesson')}
+              onClick={() => toggleLink('coachLesson')}
+              links={expandData['coachLesson']}
             >
-              登入/註冊
+              課程與教練
             </ExpandItem>
-          )}
-        </Box>
-      </ClickAwayListener>
+            <Item href="/product" onClick={closeLinks}>
+              進入商城
+            </Item>
+            <ExpandItem
+              in={linksState.get('record')}
+              onClick={() => toggleLink('record')}
+              links={expandData['record']}
+            >
+              個人紀錄
+            </ExpandItem>
+            <Item href="/space-find" onClick={closeLinks}>
+              場地找找
+            </Item>
+            <Link
+              href="/shoppingcart"
+              onClick={closeLinks}
+              style={{ ...ml2, display: 'block' }}
+            >
+              <ShoppingCartIcon
+                sx={{
+                  display: { xs: 'none', md: 'block' },
+                  ':hover': {
+                    color: 'var(--fortress)',
+                  },
+                }}
+              />
+            </Link>
+            {auth.isLogin ? (
+              <>
+                {auth.user?.icon ? (
+                  <Box sx={{ display: { xs: 'none', md: 'block' } }}>
+                    <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                      <div
+                        style={{
+                          width: '45px',
+                          height: '45px',
+                        }}
+                      >
+                        <img
+                          src={auth.user.icon}
+                          alt=""
+                          style={{
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            borderRadius: '999%',
+                          }}
+                        />
+                      </div>
+                    </Link>
+                  </Box>
+                ) : (
+                  <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                    <User />
+                  </Link>
+                )}
+
+                <Item
+                  href="/"
+                  onClick={() => {
+                    logout();
+                  }}
+                >
+                  登出
+                </Item>
+              </>
+            ) : (
+              <ExpandItem
+                in={linksState.get('member')}
+                onClick={() => toggleLink('member')}
+                links={expandData['member']}
+              >
+                登入/註冊
+              </ExpandItem>
+            )}
+          </Box>
+        </ClickAwayListener>
+      </Collapse>
+      <Stack
+        sx={{
+          ...centerAll,
+          display: {
+            xs: 'flex',
+            md: 'none',
+          },
+          flexDirection: 'row',
+        }}
+      >
+        <Link href="/shoppingcart" onClick={closeLinks}>
+          <ShoppingCartIcon
+            sx={{
+              color: 'white',
+              ':hover': {
+                color: 'var(--fortress)',
+              },
+            }}
+          />
+        </Link>
+        {auth.isLogin && (
+          <>
+            {auth.user?.icon && (
+              <Link href={'/member'} style={{ ...ml2, display: 'block' }}>
+                <div
+                  style={{
+                    width: '45px',
+                    height: '45px',
+                  }}
+                >
+                  <img
+                    src={auth.user.icon}
+                    alt=""
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      borderRadius: '999%',
+                    }}
+                  />
+                </div>
+              </Link>
+            )}
+          </>
+        )}
+        <IconButton
+          onClick={toggleList}
+          sx={{ color: 'white', paddingTop: '.2rem', marginLeft: '1rem' }}
+        >
+          <MenuIcon sx={{ fontSize: '1.8rem' }} />
+        </IconButton>
+      </Stack>
     </Stack>
   );
 }
