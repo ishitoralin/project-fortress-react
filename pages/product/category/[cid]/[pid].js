@@ -19,6 +19,7 @@ import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
 export default function Index() {
   const [productData, setProductData] = useState({});
+  const [quantity, setQuantity] = useState(1);
   const router = useRouter();
   useEffect(() => {
     if (router.query.cid && router.query.pid) {
@@ -95,15 +96,30 @@ export default function Index() {
             </div> */}
             <div className={`${styles['quantity']}`}>
               <Typography variant="h6">數量:</Typography>
-              <Button sx={{ color: 'black' }}>
+              <Button
+                sx={{ color: 'black' }}
+                onClick={() => {
+                  if (quantity > 1) {
+                    setQuantity(quantity - 1);
+                  }
+                }}
+              >
                 <RemoveIcon></RemoveIcon>
               </Button>
               <input
                 className={`${styles['quantityBox']}`}
                 type="number"
-                value={1}
+                value={quantity}
+                onChange={(e) => {
+                  setQuantity(e.target.value);
+                }}
               />
-              <Button sx={{ color: 'black' }}>
+              <Button
+                onClick={() => {
+                  setQuantity(quantity + 1);
+                }}
+                sx={{ color: 'black' }}
+              >
                 <AddIcon></AddIcon>
               </Button>
             </div>
@@ -117,6 +133,9 @@ export default function Index() {
               <CUIButton
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_red'}
+                onClick={() => {
+                  console.log('數量 quanitty', quantity);
+                }}
               >
                 加入購物車
               </CUIButton>
