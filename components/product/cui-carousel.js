@@ -29,7 +29,10 @@ export default function Index() {
           />
         </div>
       </div> */}
-      <Swiper className={`${styles['mySwiper']}`}>
+      <Swiper
+        Autoplay={{ delay: 2500, disableOnInteraction: true }}
+        className={`${styles['mySwiper']}`}
+      >
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="1"

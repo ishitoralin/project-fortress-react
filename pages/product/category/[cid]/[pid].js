@@ -205,6 +205,7 @@ export default function Index() {
           </div>
         </div>
       </div>
+      {/* router.query.cid */}
       <div className={`${styles['product-detail-section3']}`}>
         <div className={`${styles['product-detail-comment']}`}>
           <div className={`${styles['comment-title']}`}>

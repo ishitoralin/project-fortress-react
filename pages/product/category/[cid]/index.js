@@ -3,7 +3,6 @@ import CUISearch from '@/components/customUI/cui-search';
 import CUISlider from '@/components/customUI/cui-slider';
 import BasicBreadcrumbs from '@/components/product/cui-productBreadcrumbs';
 import ListCard from '@/components/product/list-card';
-import List from '@/components/product/list-cardcopy';
 import { Height, WidthFull } from '@mui/icons-material';
 import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
@@ -49,7 +48,6 @@ export default function Index() {
         <div className={`${styles['list-Card']}`}>
           <BasicBreadcrumbs></BasicBreadcrumbs>
           <ListCard data={data} cid={router.query.cid}></ListCard>
-          <List data={data} cid={router.query.cid}></List>
         </div>
       </div>
     </>
