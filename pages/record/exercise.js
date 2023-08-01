@@ -16,6 +16,7 @@ import {
   SUIScheduleTable,
 } from '@/components/seanUI/sui-schedule';
 import SeanCalendar from '@/components/recordPage/calendar';
+import { PlotPage } from '@/components/recordPage/exePlotPage';
 import getCurrentMonthDates from '@/components/seanUI/sui-getCurrentMonth';
 // =========================================================================
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -42,7 +43,6 @@ import useUpdateEffect from '@/components/customHook/useUpdateEffect';
 // =========================================================================
 //>>> pseudo-data
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
-
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
@@ -87,58 +87,78 @@ const ExercisePage = () => {
   // let editing = exerciseRecord.some((item) => item.date === editDate); //=== 判斷現在是否正在編輯月曆中某一天的運動, 當天有行程=ture
   const [editing, setEditing] = useState(false);
   useEffect(() => {
-    setEditing(exerciseRecord.some((item) => item.date === editDate));
+    setEditing(exerciseRecord?.some((item) => item.date === editDate));
   }, [exerciseRecord, editDate]);
-  // console.log(editing, editDate);
-  // console.log(scheduleDate);
-  // console.log(editing);
+  // ===============================================================
+
+  // const [plotDates, setPlotDates] = useState({ start: null, end: null });
+  // const [plotBodyPart, setPlotBodyPart] = useState([exerciseInit]); //=== for plot exercise body-part filter
+  // const [plotKeyword, setPlotKeyword] = useState(''); //=== for plot search keyword
+  // const [plotExeTypes, setPlotExeTypes] = useState([]); //=== exercise select options for plot
+  // const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
+
   // =============================================================
-  const handleAddSchedule = (list, date) => {
-    // console.log('test');
-    // console.log(editing, editDate);
+  // console.log(bodyParts.current);
+  // =============================================================
+
+  // >>> add/editing schadule
+  const handleAddSchedule = async (list, date) => {
     let dataAdded;
+    // console.log(editing);
     if (editing) {
-      // TODO:邏輯要想好
-      // console.log('editing');
-      fetch(`${process.env.SEAN_API_SERVER}/exercise-record/delete-record`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ date }),
-      })
-        .then((r) => r.json())
-        .then((data) => console.log(data));
-    }
-    // eslint-disable-next-line no-extra-boolean-cast
-    if (!!date) {
-      list.map((item) => {
-        const data = { ...item, date };
-        fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
-          method: 'POST',
+      await fetch(
+        `${process.env.SEAN_API_SERVER}/exercise-record/delete-record`,
+        {
+          method: 'DELETE',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(data),
-        })
+          body: JSON.stringify({ date }),
+        }
+      )
+        .then((r) => r.json())
+        .then((data) => {
+          // console.log('delete');
+        });
+    }
+    // eslint-disable-next-line no-extra-boolean-cast
+    if (!!date) {
+      // no date means editing
+      list.map(async (item) => {
+        const data = { ...item, date };
+        await fetch(
+          `${process.env.SEAN_API_SERVER}/exercise-record/add-record`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+          }
+        )
           .then((r) => r.json())
           .then((data) => {
             dataAdded += data.result.affectedRows;
+            // console.log('added');
           });
       });
+      //>>> reset
       setExerciseScheduleList([]);
       setScheduleDate(undefined);
-      window.alert('added');
+      //<<< reset
+      // console.log('added'); // TODO:hot toast
     } else {
-      console.log('no date');
+      // console.log('no date'); // TODO:hot toast
     }
 
     setEditing(false); //=== reset editing
+    setEditDate(null);
   };
-
+  // <<< add/editing schadule
+  console.log(exerciseScheduleList);
   // >>> initiallize
   useEffect(() => {
-    // TODO: debounce
+    // === get bodyparts list
     fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`) //=== for selection options
       .then((r) => r.json())
       .then((data) => {
@@ -147,7 +167,7 @@ const ExercisePage = () => {
       });
   }, []);
 
-  useEffect(() => {
+  useDebounceHH(() => {
     fetch(
       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
     ) //=== for exercise record
@@ -155,7 +175,7 @@ const ExercisePage = () => {
       .then((data) => {
         setExerciseRecord(data.data);
       });
-  }, [exerciseStartEnd]);
+  }, [exerciseStartEnd, exerciseScheduleList]);
 
   // <<< initiallize
 
@@ -178,16 +198,18 @@ const ExercisePage = () => {
     setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
   };
   // <<< filter exercise by body part
+
   // >>> search by keyword
   // TODO: on composition end
   const handleSearch = (e) => {
     setKeyword(e.target.value);
   };
   // <<< search by keyword
+
   // >>> get the exercise-schedule when selecting date
   useDebounceHH(
     () => {
-      editing && setScheduleDate(editDate);
+      setScheduleDate(editDate);
       if (editing) {
         fetch(
           `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${editDate}/${editDate}`
@@ -201,7 +223,7 @@ const ExercisePage = () => {
         setExerciseScheduleList([]);
       }
     },
-    [editing, editDate],
+    [editing, editDate], //FIXME:editing gave error
     100
   );
   // <<< get the exercise-schedule when selecting date
@@ -257,7 +279,7 @@ const ExercisePage = () => {
                 // value={keyword}
                 // onCompositionEnd={(e) => console.log('123')}
                 onChange={(e) => {
-                  console.log(e.nativeEvent.composed);
+                  // console.log(e.nativeEvent.composed);
                   // console.log(e);
                   handleSearch(e);
                 }}
@@ -271,11 +293,12 @@ const ExercisePage = () => {
               exerciseScheduleList={exerciseScheduleList}
               setExerciseScheduleList={setExerciseScheduleList}
             />
+            {/* {console.log(exeType)} */}
           </Grid>
-
           {/* ============================================================================ */}
 
           <Grid
+            className="calendarSelect"
             item
             lg={4}
             sm={4}
@@ -288,8 +311,6 @@ const ExercisePage = () => {
             }}
           >
             <SUIScheduleTable sx={{ width: '100%' }}>
-              {/* TODO: 把按鈕跟datepicker夾到SUISchedule */}
-
               <SUISchedule
                 // >>> style
                 scheduleTitleStyle={scheduleTitleStyle}
@@ -298,6 +319,7 @@ const ExercisePage = () => {
                 type="exercise"
                 editing={editing}
                 setEditing={setEditing}
+                setEditDate={setEditDate}
                 // >>> 規劃暫存清單
                 scheduleList={exerciseScheduleList}
                 setScheduleList={setExerciseScheduleList}
@@ -325,7 +347,7 @@ const ExercisePage = () => {
         }}
       >
         <Grid container justifyContent="center" sx={{ width: '100%' }}>
-          <Grid
+          {/* <Grid
             item
             lg={3}
             sm={12}
@@ -335,7 +357,7 @@ const ExercisePage = () => {
             }}
           >
             <CalendarCardList dates={exerciseDate} />
-          </Grid>
+          </Grid> */}
 
           {/* ============================================================= */}
 
@@ -348,8 +370,6 @@ const ExercisePage = () => {
               p: 2,
             }}
           >
-            {/*TODO 2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動 */}
-            {/* TODO: 用"edigitng"變數來判斷是否要編輯某一天的運動 */}
             <SeanCalendar
               list={exerciseRecord}
               updateStartEnd={setExerciseStartEnd}
@@ -358,87 +378,17 @@ const ExercisePage = () => {
           </Grid>
         </Grid>
       </div>
-
       {/* =================================================================== */}
       {/* === page 3 ========================================================= */}
       {/* =================================================================== */}
-      <div
-        id="page-3"
-        style={{
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          paddingTop: '50px',
-        }}
-      >
-        <Grid container justifyContent="center" sx={{ width: '100%' }}>
-          <Grid
-            item
-            lg={3}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <Section>
-              <Box
-                sx={{
-                  top: 0,
-                }}
-              >
-                <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
-                <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
-              </Box>
-              <Box sx={{ textAlign: 'center' }}>
-                {plotType.map((ele) => {
-                  return (
-                    <CUIButton
-                      key={ele}
-                      color={'fortress'}
-                      sx={{ width: '100%', mt: 1 }}
-                    >
-                      {ele}
-                    </CUIButton>
-                  );
-                })}
-                <CUIButton color={'deepgrey'} sx={{ width: '100%', mt: 1 }}>
-                  更多+
-                </CUIButton>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  mt: 2,
-                }}
-              >
-                <CUIButton color={'fortress'} sx={{ width: '50%' }}>
-                  輸出PDF
-                </CUIButton>
-                <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
-              </Box>
-            </Section>
-          </Grid>
-
-          {/* ============================================================= */}
-
-          <Grid
-            item
-            lg={9}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
-            <p>
-              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p>
-          </Grid>
-        </Grid>
-      </div>
+      <PlotPage
+        // plotType={plotType}
+        // plotDates={plotDates}
+        // setPlotDates={setPlotDates}
+        // setPlotExeList={setPlotExeList}
+        bodyParts={bodyParts.current}
+        exerciseInit={exerciseInit}
+      />
     </>
   );
 };

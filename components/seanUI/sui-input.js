@@ -9,6 +9,7 @@ const SUIDataBox = ({ title, result }) => {
     <Box
       sx={{
         width: '100%',
+        height: '80px',
         bgcolor: 'var(--fortress)',
         p: 1,
         borderRadius: '20px',
@@ -24,6 +25,7 @@ const SUIDataBox = ({ title, result }) => {
           justifyContent: 'center',
           fontSize: '30px',
           p: 2,
+          m: 2,
         }}
       >
         {title}
@@ -31,7 +33,7 @@ const SUIDataBox = ({ title, result }) => {
       <Box
         sx={{
           width: '80%',
-          height: '100%',
+          height: '90%',
           bgcolor: 'var(--light-gray)',
           borderRadius: '20px',
           p: 2,
@@ -39,8 +41,10 @@ const SUIDataBox = ({ title, result }) => {
           marginLeft: 2,
           marginRight: 3,
           fontSize: '28px',
-          // display: 'flex',
+          display: 'flex',
           // justifyContent: 'end',
+          // alignContent: 'center',
+          alignItems: 'center',
         }}
       >
         {result}

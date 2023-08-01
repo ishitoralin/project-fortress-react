@@ -28,8 +28,6 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // =========================================================================
-import BodySvg from '@/components/bodySvg';
-// =========================================================================
 import FullCalendarLayout from '@/components/fullcalendar/layout';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -45,6 +43,7 @@ import style from './record.module.css';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 // =========================================================================
+import DietFisrtPage from '@/components/recordPage/dietFirstPage';
 
 //>>> pseudo-data
 const selections = [
@@ -123,15 +122,6 @@ const dietList = [
   },
 ];
 
-const activity = [
-  { value: 1.2, label: '身體活動趨於靜態(BMR x 1.2)' },
-  { value: 1.375, label: '輕量活動(BMR x 1.375)' },
-  { value: 1.55, label: '中度活動量(BMR x 1.55)' },
-  { value: 1.72, label: '高度活動量(BMR x 1.72)' },
-  { value: 1.9, label: '非常高度活動量(BMR x 1.9)' },
-];
-
-const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
 //>>> style
@@ -167,35 +157,57 @@ const NuBox = styled(Box)(() => ({
 }));
 
 //<<< style
+const activity = [
+  { value: 1.2, label: '身體活動趨於靜態(BMR x 1.2)' },
+  { value: 1.375, label: '輕量活動(BMR x 1.375)' },
+  { value: 1.55, label: '中度活動量(BMR x 1.55)' },
+  { value: 1.72, label: '高度活動量(BMR x 1.72)' },
+  { value: 1.9, label: '非常高度活動量(BMR x 1.9)' },
+];
+const TDEEcalculate = (gender, bodyData, multiplier) => {
+  // ref: https://reference.medscape.com/calculator/846/mifflin-st-jeor-equation
+  // console.log(gender, bodyData, multiplier);
+  let TDEE;
 
-const TDEEcalculate = () => {};
+  if (gender === 'female') {
+    TDEE =
+      10 * bodyData.weight.value +
+      6.25 * bodyData.height.value -
+      5 * bodyData.age.value -
+      161;
+  } else {
+    TDEE =
+      10 * bodyData.weight.value +
+      6.25 * bodyData.height.value -
+      5 * bodyData.age.value +
+      5;
+  }
+
+  TDEE *= multiplier;
+  return Math.round(TDEE);
+  //   Females: (10*weight [kg]) + (6.25*height [cm]) – (5*age [years]) – 161
+  // Males: (10*weight [kg]) + (6.25*height [cm]) – (5*age [years]) + 5
+  // Multiply by scale factor for activity level:
+  // Sedentary *1.2
+  // Lightly active *1.375
+  // Moderately active *1.55
+  // Active *1.725
+  // Very active *1.9
+};
+
+const BMIcalculate = (bodyData) => {
+  return Number(
+    (bodyData.weight.value / (bodyData.height.value / 100) ** 2).toFixed(1)
+  );
+};
 
 const DietPage = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  const inputDefault = {
-    age: { value: null, error: false, text: '' },
-    height: { value: null, error: false, text: '' },
-    weight: { value: null, error: false, text: '' },
-  };
-  const pHelperText = '請輸入正數';
-  const pIHelperText = '請輸入正整數';
-  // regular expression for positive Integer, cant be zero
-  const regexPInt = /^[1-9]\d*$/;
-  // regular expression for positive number, cant be zero
-  const regexP = /^(?!0\d)(?:\d*\.\d+|\d+)$/;
-  const [bodyData, setBodyData] = useState(inputDefault); //=== for input
-  const [gender, setGender] = useState(''); // State to hold the selected gender
-
-  const handleGenderRadio = (event) => {
-    setGender(event.target.value);
-  };
-  //========
   const foodInit = { key: 0, value: '全部', label: '全部' };
   // const router = useRouter();
   const [foodType, setFoodType] = useState([]);
   const [foodCategory, setFoodCategory] = useState([foodInit]);
   const foodCategorys = useRef([foodInit]); //=== for selection options
-  const [multiplier, setMultiplier] = useState(null);
 
   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -240,305 +252,7 @@ const DietPage = () => {
       {/* =================================================================== */}
       {/* === page 1 ========================================================= */}
       {/* =================================================================== */}
-      <div
-        id="page-2"
-        style={{
-          marginTop: '50px',
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          height: '800px',
-        }}
-      >
-        {/* <div sx={{ padding: '64px' }}> */}
-        <Grid container justifyContent="center">
-          <Grid
-            item
-            lg={4}
-            sm={4}
-            sx={{
-              p: 2,
-            }}
-          >
-            <Section>
-              <h1>計算你的基礎代謝率</h1>
-              <FormControl component="fieldset">
-                <RadioGroup
-                  name="gender"
-                  value={gender}
-                  onChange={handleGenderRadio}
-                >
-                  <Grid container direction="row" alignItems="center">
-                    <Grid item>
-                      <FormControlLabel
-                        value="male"
-                        control={<Radio />}
-                        label="Male"
-                      />
-                    </Grid>
-                    <Grid item>
-                      <FormControlLabel
-                        value="female"
-                        control={<Radio />}
-                        label="Female"
-                      />
-                    </Grid>
-                  </Grid>
-                </RadioGroup>
-              </FormControl>
-              <CUITextField
-                id="age"
-                label="年齡(yrd)"
-                type="number"
-                helperText={bodyData.age.text}
-                error={bodyData.age.error}
-                onChange={(e) => {
-                  // >>> if pass exam, setSelectedItem, else setInputExam give error
-                  const value = e.target.value;
-                  // console.log(bodyData);
-                  if (regexPInt.test(value)) {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        age: { value: value, error: false, text: '' },
-                      };
-                    });
-                  } else {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        age: { value: '', error: true, text: pIHelperText },
-                      };
-                    });
-                  }
-                  // <<< if pass exam, setSelectedItem, else setInputExam give error
-                }}
-              />
-
-              <CUITextField
-                id="weight"
-                label="身高(cm)"
-                type="number"
-                helperText={bodyData.height.text}
-                error={bodyData.height.error}
-                onChange={(e) => {
-                  const value = e.target.value;
-                  if (regexP.test(value)) {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        height: { value: value, error: false, text: '' },
-                      };
-                    });
-                  } else {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        height: {
-                          value: '',
-                          error: true,
-                          text: pHelperText,
-                        },
-                      };
-                    });
-                  }
-                }}
-              />
-
-              <CUITextField
-                id="weight"
-                label="體重(kg)"
-                type="number"
-                helperText={bodyData.weight.text}
-                error={bodyData.weight.error}
-                onChange={(e) => {
-                  // >>> if pass exam, setSelectedItem, else setInputExam give error
-                  const value = e.target.value;
-                  if (regexP.test(value)) {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        weight: { value: value, error: false, text: '' },
-                      };
-                    });
-                  } else {
-                    setBodyData((prev) => {
-                      return {
-                        ...prev,
-                        weight: {
-                          value: '',
-                          error: true,
-                          text: pHelperText,
-                        },
-                      };
-                    });
-                  }
-                  // <<< if pass exam, setSelectedItem, else setInputExam give error
-                }}
-              />
-
-              <CUISelect
-                sx={{ width: '100%', m: 1 }}
-                label="活動型態"
-                options={activity}
-                onChange={(e) => {
-                  setMultiplier(e.target.value);
-                }}
-              />
-              <Box
-                sx={{
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'end',
-                  m: 1,
-                }}
-              >
-                {/* {console.log(multiplier, !!gender)} */}
-                <CUIButton
-                  sx={{
-                    width: '45%',
-                    marginLeft: '20px',
-                    transform: 'scale(1.2)',
-                  }}
-                >
-                  開始計算
-                </CUIButton>
-              </Box>
-            </Section>
-            <Section>
-              <SUIDataBox title={'BMI:'} result={123} />
-            </Section>
-          </Grid>
-          <Grid
-            item
-            lg={8}
-            sm={8}
-            sx={{
-              p: 2,
-            }}
-          >
-            <Section className={`${style.description}`}>
-              BMR 指人體在靜止休息狀態下，維持新陳代謝所需的熱量。BMR
-              會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。
-            </Section>
-            <Section className={`${style.description}`}>
-              TDEE
-              是身體一整天下來，包括基礎代謝、活動量、吃東西所消耗的熱量。不同的生活型態需要的熱量也不一樣，當每天攝取的熱量和
-              TDEE 相等，便達到「熱量平衡」。
-            </Section>
-            <Section sx={{ height: '500px', marginTop: 5 }}>
-              <h1>飲食建議</h1>
-              <NuBox sx={{ border: NuBorder, borderRadius: NuBorderRadius }}>
-                <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <NuBox
-                    sx={{
-                      width: '50%',
-                      borderRight: NuBorder,
-                      borderBottom: NuBorder,
-                    }}
-                  >
-                    <NuBox className={`${style.nutritionMainText}`}>
-                      全穀雜糧類
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                    <NuBox>
-                      <NuBox className={`${style.nutritionSecondaryText}`}>
-                        未精緻
-                        <span className={`${style.nutritionSecondaryNumber}`}>
-                          12
-                        </span>
-                        份
-                      </NuBox>
-                      <NuBox className={`${style.nutritionSecondaryText}`}>
-                        其他
-                        <span className={`${style.nutritionSecondaryNumber}`}>
-                          12
-                        </span>
-                        份
-                      </NuBox>
-                    </NuBox>
-                  </NuBox>
-
-                  <NuBox
-                    sx={{
-                      width: '50%',
-                      height: '100%',
-                      borderBottom: NuBorder,
-                    }}
-                  >
-                    <NuBox
-                      className={`${style.nutritionMainText}`}
-                      sx={{ borderBottom: NuBorder, height: '50%' }}
-                    >
-                      豆魚蛋肉
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                    <NuBox
-                      className={`${style.nutritionMainText}`}
-                      sx={{ height: '50%' }}
-                    >
-                      乳品類
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                  </NuBox>
-                </NuBox>
-                {/* ================================================ */}
-                <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>
-                  <NuBox sx={{ width: '50%', borderRight: NuBorder }}>
-                    <NuBox className={`${style.nutritionMainText}`}>
-                      油脂與堅果種子
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                    <NuBox>
-                      <NuBox className={`${style.nutritionSecondaryText}`}>
-                        油脂
-                        <span className={`${style.nutritionSecondaryNumber}`}>
-                          12
-                        </span>
-                        份
-                      </NuBox>
-                      <NuBox className={`${style.nutritionSecondaryText}`}>
-                        堅果種子
-                        <span className={`${style.nutritionSecondaryNumber}`}>
-                          12
-                        </span>
-                        份
-                      </NuBox>
-                    </NuBox>
-                  </NuBox>
-
-                  <NuBox
-                    sx={{
-                      width: '50%',
-                      height: '100%',
-                    }}
-                  >
-                    <NuBox
-                      className={`${style.nutritionMainText}`}
-                      sx={{ height: '50%', borderBottom: NuBorder }}
-                    >
-                      蔬菜類
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                    <NuBox
-                      className={`${style.nutritionMainText}`}
-                      sx={{ height: '50%' }}
-                    >
-                      水果類
-                      <span className={`${style.nutritionMainNumber}`}>12</span>
-                      份
-                    </NuBox>
-                  </NuBox>
-                </NuBox>
-              </NuBox>
-            </Section>
-          </Grid>
-        </Grid>
-      </div>
+      <DietFisrtPage />
       {/* =================================================================== */}
       {/* === page 2 ========================================================= */}
       {/* =================================================================== */}
