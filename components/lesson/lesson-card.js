@@ -108,7 +108,7 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
         position="bottom-center"
         toastOptions={{
           style: {
-            boxShadow: '0 2px 1px 3px lightgrey',
+            boxShadow: '0 0 1px #eee',
           },
         }}
       />

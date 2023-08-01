@@ -7,6 +7,8 @@ import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';
 import User from '@/assets/user';
 
+const paddingDistance = '.8rem';
+
 const ml2 = {
   marginLeft: '20px',
 };
@@ -37,13 +39,23 @@ const logoBoxStyle = {
 
 const linksStyle = {
   ...centerAll,
+  position: { xs: 'absolute', md: 'static' },
+  marginLeft: { xs: '-20px', md: 'unset' },
+  top: { xs: '100%', md: 0 },
+  flexDirection: {
+    xs: 'column',
+    md: 'row',
+  },
+  bgcolor: { xs: 'var(--main-black)', md: 'transparent' },
   color: 'white',
 };
 
 const linkItemStyle = {
-  p: '.8rem',
+  p: paddingDistance,
+  width: { xs: '100vw', md: 'unset' },
+  textAlign: 'center',
   borderRadius: '3px',
-  transition: '.5s',
+  transition: { xs: 0, md: '.5s' },
   ':hover': {
     bgcolor: 'white',
     color: 'black',
@@ -55,7 +67,14 @@ const ExpandItem = (props) => {
     <Box
       sx={{
         ...linkItemStyle,
+        ':hover': !props.in
+          ? {
+              bgcolor: 'white',
+              color: 'black',
+            }
+          : {},
         ...ml2,
+        px: { xs: 0, md: paddingDistance },
         position: 'relative',
         cursor: 'pointer',
       }}
@@ -65,9 +84,9 @@ const ExpandItem = (props) => {
       <Collapse
         in={props.in}
         sx={{
-          position: 'absolute',
+          position: { xs: 'relative', md: 'absolute' },
           width: '100%',
-          top: '0%',
+          top: 0,
           left: 0,
           color: 'white',
           borderRadius: 'inherit',
@@ -76,6 +95,7 @@ const ExpandItem = (props) => {
         <Box
           sx={{
             ...linkItemStyle,
+            display: { xs: 'none', md: 'block' },
             bgcolor: 'white',
             color: 'var(--main-black)',
           }}
@@ -103,8 +123,13 @@ const ExpandItem = (props) => {
             <Box
               sx={{
                 ...linkItemStyle,
-                bgcolor: 'var(--main-black)',
-                marginTop: '.2rem',
+                ':hover': {
+                  bgcolor: { xs: '#777', md: 'white' },
+                  color: { xs: 'white', md: 'black' },
+                },
+                bgcolor: { xs: '#555', md: 'var(--main-black)' },
+                marginTop: { xs: 0, md: '.2rem' },
+                transform: { xs: `translateY(${paddingDistance})`, md: 'none' },
               }}
             >
               {link.linkName}
