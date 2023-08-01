@@ -36,19 +36,19 @@ export default function Index() {
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="1"
-            src="http://localhost:3000/p-imgs/Home_page_Banner_Desktop_not_cut_9.jpg"
+            src="http://localhost:3001/imgs/product/carousel01.jpg"
           />
         </SwiperSlide>
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="2"
-            src="http://localhost:3000/p-imgs/NABAIJI_Planche_natation_enfants_PE20.jpg"
+            src="http://localhost:3001/imgs/product/carousel02.jpg"
           />
         </SwiperSlide>
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="3"
-            src="http://localhost:3000/p-imgs/tennis-6038094_1280.jpg"
+            src="http://localhost:3001/imgs/product/carousel03.jpg"
           />
         </SwiperSlide>
       </Swiper>

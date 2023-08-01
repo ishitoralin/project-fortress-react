@@ -13,15 +13,15 @@ export default function productCard(prop) {
             <div className={`${styles['Card']}`}>
               <img
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3000/p-imgs/KALENJI_RUN_JF500_1_W_SHOES_GREY_PINK_2.webp"
+                src="http://localhost:3001/imgs/product/index01.jpg"
               />
 
               <div className={`${styles['BigCardText']}`}>
                 炎炎夏日 透心涼感衣上市中
               </div>
-              <CUIButton className={`${styles['CardButtons']}`}>
+              {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
-              </CUIButton>
+              </CUIButton> */}
             </div>
           </CUICard>
         </div>
@@ -137,15 +137,15 @@ export default function productCard(prop) {
             <div className={`${styles['Card']}`}>
               <img
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3000/p-imgs/KALENJI_RUN_JF500_1_W_SHOES_GREY_PINK_2.webp"
+                src="http://localhost:3001/imgs/product/index04.jpg"
               />
 
               <div className={`${styles['BigCardText']}`}>
                 炎炎夏日 透心涼感衣上市中
               </div>
-              <CUIButton className={`${styles['CardButtons']}`}>
+              {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
-              </CUIButton>
+              </CUIButton> */}
             </div>
           </CUICard>
         </div>
@@ -261,15 +261,15 @@ export default function productCard(prop) {
             <div className={`${styles['Card']}`}>
               <img
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3000/p-imgs/KALENJI_RUN_JF500_1_W_SHOES_GREY_PINK_2.webp"
+                src="http://localhost:3001/imgs/product/index02.jpg"
               />
 
               <div className={`${styles['BigCardText']}`}>
                 炎炎夏日 透心涼感衣上市中
               </div>
-              <CUIButton className={`${styles['CardButtons']}`}>
+              {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
-              </CUIButton>
+              </CUIButton> */}
             </div>
           </CUICard>
         </div>
