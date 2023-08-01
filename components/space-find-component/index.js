@@ -148,7 +148,7 @@ export default function SpaceFindComponent() {
   };
   useEffect(() => {
     renderMap();
-    searchGymData('臺北市');
+    /* searchGymData('臺北市');
     const taipei = select(
       '#__next > main > div > div > div > div > div.space-find-component_map-container__JLOCn > svg > g > path:nth-child(3)'
     );
@@ -161,7 +161,7 @@ export default function SpaceFindComponent() {
         `translate(-${pointer(this)[0] * 1} , -${
           pointer(this)[1] * 0.8
         }) scale(2)`
-      );
+      ); */
     window.addEventListener('resize', cleanMap);
     window.addEventListener('resize', renderMap);
     return () => {

@@ -41,7 +41,7 @@ export default function CoursesTable({ data, setData }) {
                   key={row.sid}
                 >
                   <TableCell colSpan={6} align="center">
-                    課程已刪除
+                    資料已刪除
                   </TableCell>
                 </TableRow>
               );

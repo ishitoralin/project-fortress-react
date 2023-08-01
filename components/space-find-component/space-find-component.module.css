@@ -78,6 +78,10 @@
     max-width: none;
     margin: auto auto 15px auto;
   }
+  .gym-type-select {
+    margin-bottom: 10px;
+    padding-left: 10px;
+  }
   .info {
     /* padding: 15px; */
     width: 100%;
@@ -105,10 +109,7 @@
     /* padding: 0; */
     flex-direction: column;
   }
-  .gym-type-select {
-    margin-bottom: 10px;
-    padding-left: 10px;
-  }
+
   .map-container {
     max-width: none;
     width: 100%;
