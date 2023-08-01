@@ -17,6 +17,7 @@ export default function SpaceFindComponent() {
   const svgRef = useRef(null);
   const [gymData, setGymData] = useState([]);
   const [gymType, setgymType] = useState('棒球場');
+  const [loading, setLoading] = useState(false);
   const searchGymData = async (city) => {
     setGymData(() => {
       return [];
@@ -26,20 +27,20 @@ export default function SpaceFindComponent() {
       city = city.replace('台', '臺');
 
       const res = await axios.get(
-        `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`
+        `https://iplay.sa.gov.tw/api/GymSearchAllList?$format=application/json;odata.metadata=none&City=${city}&GymType=${gymType}`,
+        { withCredentials: false }
       );
 
-      res.data.map(async (el, i) => {
+      /* res.data.map(async (el, i) => {
         try {
           await fetch(el.Photo1, { mode: 'no-cors' });
         } catch (err) {
-          res.data.forEach((el, i2) => {
+            res.data.forEach((el, i2) => {
             if (i === i2) {
               res.data[i].Photo1 = '';
             }
-          });
         }
-      });
+      }); */
 
       setGymData(() => res.data);
     } catch (error) {
@@ -140,13 +141,27 @@ export default function SpaceFindComponent() {
         }
       });
   };
+
   const cleanMap = () => {
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
   };
   useEffect(() => {
     renderMap();
-    // searchGymData();
+    searchGymData('臺北市');
+    const taipei = select(
+      '#__next > main > div > div > div > div > div.space-find-component_map-container__JLOCn > svg > g > path:nth-child(3)'
+    );
+    console.log(taipei);
+    taipei
+      .transition()
+      .selectAll('path')
+      .attr(
+        'transform',
+        `translate(-${pointer(this)[0] * 1} , -${
+          pointer(this)[1] * 0.8
+        }) scale(2)`
+      );
     window.addEventListener('resize', cleanMap);
     window.addEventListener('resize', renderMap);
     return () => {
