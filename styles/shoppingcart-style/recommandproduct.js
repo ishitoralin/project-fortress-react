@@ -76,10 +76,12 @@ export const ProductNameAndIcon = {
   margin: 'auto',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'start',
   fontSize: '18px',
 };
-
+export const ProductName = {
+  marginRight: '20px',
+};
 export const CardActionsStyle = {
   margin: 'auto',
   display: 'flex',

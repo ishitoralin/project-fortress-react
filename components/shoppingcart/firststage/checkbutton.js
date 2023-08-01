@@ -7,7 +7,7 @@ import {} from '@/components/shoppingcart/firststage/productlist';
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
-
+  console.log(props.cartItems);
   return (
     <>
       {/* 結帳按鈕 */}
@@ -49,9 +49,9 @@ export default function CheckButton(props) {
                 width: '0',
               },
             }}
-            // color={props.color}
             variant="contained"
             onClick={props.onClick}
+            disabled={!props.cartItems ? false : true}
           >
             <Link href="/shoppingcart/secondstage">送出訂單</Link>
           </Button>

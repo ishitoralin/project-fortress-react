@@ -142,7 +142,6 @@
   font-size: 36px;
   color: #dfdfdf;
   border-bottom: 1px solid #dfdfdf;
-  margin: 0 0 30px 0;
   background-color: #fff;
 }
 
@@ -265,12 +264,13 @@
 
 /* 結帳欄容器 */
 .countContainer {
+  box-shadow: 0px -5px 10px 0px rgba(0, 0, 0, 0.1);
   width: 100%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
   font-size: 24px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+  /* border-bottom: 1px solid rgba(0, 0, 0, 0.15); */
   @media screen and (max-width: 996px) {
     font-size: 20px;
     flex-direction: column;
@@ -394,6 +394,7 @@
 /* 推薦商品元件容器 */
 .cardContent {
   height: 100px;
+  align-items: flex-start;
 }
 .recommendProductContainer {
   width: 100%;
@@ -583,3 +584,5 @@
     display: none;
   }
 }
+
+

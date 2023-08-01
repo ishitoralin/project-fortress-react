@@ -6,7 +6,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  EffectFade,
+} from 'swiper/modules';
+import 'swiper/css/bundle';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 //Import button
@@ -26,18 +36,18 @@ import {
   CardMediaStyle,
   CheckButton,
   ProductNameAndIcon,
+  ProductName,
   CardActionsStyle,
   priceStyle,
   FavorIconStyle,
 } from '@/styles/shoppingcart-style/recommandproduct';
-import { result } from 'lodash';
+import { delay, result } from 'lodash';
 import { style } from 'd3';
 export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
   // data from database
-  console.log(recommandLesson);
   useEffect(() => {
     fetch('http://localhost:3001/SCrecommanded')
       .then((r) => r.json())
@@ -88,10 +98,12 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandProduct.map((v, i) => {
               return (
@@ -111,14 +123,13 @@ export default function RecommendProduct(props) {
                       <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.product_name}</Box>
+                            <Box sx={ProductName}>{v.product_name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandProduct(
                                   changeFavorState(recommandProduct, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (
@@ -166,11 +177,14 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
+            {' '}
             {popularProducts.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
@@ -189,14 +203,13 @@ export default function RecommendProduct(props) {
                       <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.product_name}</Box>
+                            <Box sx={ProductName}>{v.product_name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setPopularProducts(
                                   changeFavorState(popularProducts, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (
@@ -238,10 +251,12 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandLesson.map((v, i) => {
               return (
@@ -253,20 +268,19 @@ export default function RecommendProduct(props) {
                     <CUICard sx={CUICardStyle}>
                       <CardMedia
                         sx={CardMediaStyle}
-                        image={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${v.picture}`}
+                        image={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.img}`}
                         title="商品圖片"
                       />
                       <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.name}</Box>
+                            <Box sx={ProductName}>{v.name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandLesson(
                                   changeFavorState(recommandLesson, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (
