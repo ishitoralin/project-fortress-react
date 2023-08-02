@@ -4,11 +4,12 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
-  DialogTitle,
   Typography,
 } from '@mui/material';
 import CUIButton from '../customUI/cui-button';
+
+import { getAuthHeaders } from '@/hh_global/authCache';
+import getToast from '@/hh_global/getToast';
 
 const cardBgcolor = '#eee';
 
@@ -59,6 +60,31 @@ const locationDictionary = {
   kaohsiung: '高雄館',
 };
 
+const ADDCARTURL = 'http://localhost:3001/SCadd';
+const addToCart = async (lessonSid) => {
+  const result = {};
+  const body = {
+    products_type_sid: 4,
+    item_sid: lessonSid,
+    quantity: 1,
+  };
+  try {
+    const res = await fetch(ADDCARTURL, {
+      method: 'POST',
+      headers: { ...getAuthHeaders(), 'Content-type': 'application/json' },
+      body: JSON.stringify(body),
+    });
+
+    const { code } = await res.json();
+    result.success = code === 200;
+  } catch (error) {
+    result.success = false;
+    result.error = error;
+  }
+
+  return result;
+};
+
 const PurchaseCard = ({ open, closeCard, lesson }) => {
   const infoDictionary = [
     { title: '教練', content: lesson.nickname },
@@ -67,6 +93,21 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
     { title: '課程時長', content: lesson.period },
     { title: '費用', content: lesson.price },
   ];
+  const myToast = getToast();
+
+  const handleAddCart = async () => {
+    myToast.loading();
+
+    const result = await addToCart(lesson.sid);
+
+    if (!result.success) return myToast.error;
+
+    myToast.success('成功加入購物車');
+    setTimeout(() => {
+      open && closeCard();
+    }, 1000);
+  };
+
   return (
     <Dialog open={open} onClose={closeCard} maxWidth={false}>
       <DialogContent sx={dialogContentStyle}>
@@ -96,7 +137,9 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
         <CUIButton btncolor={'#777'} onClick={closeCard}>
           取消
         </CUIButton>
-        <CUIButton color={'steel_grey'}>加入購物車</CUIButton>
+        <CUIButton color={'steel_grey'} onClick={handleAddCart}>
+          加入購物車
+        </CUIButton>
       </DialogActions>
     </Dialog>
   );

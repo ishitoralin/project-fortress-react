@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import ForwardSymbol from '@/assets/forward-symbol';
-import toast, { Toaster } from 'react-hot-toast';
+import { Toaster } from 'react-hot-toast';
+import getToast from '@/hh_global/getToast';
 
 import { Button, Box, Typography, Chip } from '@mui/material';
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined';
@@ -55,27 +56,7 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
   const openCard = () => setOpen(true);
   const closeCard = () => setOpen(false);
 
-  const myToast = {
-    toastId: null,
-    loading() {
-      this.toastId = toast.loading('請稍候...');
-    },
-    success(message) {
-      toast.success(message, {
-        id: this.toastId,
-      });
-    },
-    error() {
-      toast.error('發生錯誤請稍後再試', {
-        id: this.toastId,
-      });
-    },
-    hint() {
-      toast('請先登入會員!', {
-        icon: '🔔',
-      });
-    },
-  };
+  const myToast = getToast();
 
   const handleNoLoginSave = () => myToast.hint();
 
