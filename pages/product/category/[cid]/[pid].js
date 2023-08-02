@@ -134,7 +134,12 @@ export default function Index() {
                 sx={{ width: '249px', height: '36px' }}
                 color={'main_red'}
                 onClick={() => {
-                  console.log('數量 quanitty', quantity);
+                  console.log(
+                    '數量 quanitty',
+                    quantity,
+                    router.query.cid,
+                    router.query.pid
+                  );
                 }}
               >
                 加入購物車
