@@ -11,27 +11,14 @@ import CUIButton from '@/components/customUI/cui-button';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '@/context/auth/useAuth';
-import dayjs from 'dayjs';
 import { Toaster, toast } from 'react-hot-toast';
-import DialogTitle from '@mui/material/DialogTitle';
-import Dialog from '@mui/material/Dialog';
+import ImgUploadModal from '@/components/member/ImgUploadModal';
 
 const validationSchema = yup.object({
   mobile: yup.string().matches(/^09[0-9]{8}$/, '錯誤的手機格式'),
   birth: yup.date(),
 });
-function ImgUploadModal({ open = false }) {
-  return (
-    <Dialog open={open} onClose={handleClose} >
-      <input
-        type="file"
-        name="avatar"
-        style={{ visibility: 'hidden', position: 'absolute' }}
-      />
-      <DialogTitle>123</DialogTitle>
-    </Dialog>
-  );
-}
+
 export default function Index() {
   const initialData = {
     name: '',
@@ -51,7 +38,12 @@ export default function Index() {
   const [displayData, setDisplayData] = useState(initialData);
   const [open, setOpen] = useState(false);
   const { auth } = useAuth();
-  const handleClose =()=>{}
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
+  };
   const formik = useFormik({
     initialValues: formikInitialData,
     validationSchema: validationSchema,
@@ -77,7 +69,6 @@ export default function Index() {
     },
   });
   useEffect(() => {
-    console.log(auth.accessToken);
     const fetchMemberData = async () => {
       try {
         const { data } = await axios.get(
@@ -88,7 +79,6 @@ export default function Index() {
             },
           }
         );
-        console.log(data.data);
         setData(data.data);
         setDisplayData(data.data);
         formik.setValues(data.data);
@@ -138,14 +128,25 @@ export default function Index() {
   return (
     <div className={`${styles['center-container']}`}>
       <div
-        className={`${styles['photo']}`}
+        role="button"
+        tabIndex="0"
         onClick={() => {
-          setOpen(true);
+          handleOpen();
         }}
+        onKeyUp={() => {}}
+        className={`${styles['photo']}`}
       >
-        <CameraAltIcon className={`${styles['camera']}`} fontSize="large" />
+        {auth.user.icon ? (
+          <img
+            style={{ width: '100%' }}
+            src={auth.user.icon}
+            alt="使用者照片"
+          />
+        ) : (
+          <CameraAltIcon className={`${styles['camera']}`} fontSize="large" />
+        )}{' '}
       </div>
-      <ImgUploadModal open={open}  />
+      {open && <ImgUploadModal open={open} handleClose={handleClose} />}
       <form onSubmit={formik.handleSubmit} className={`${styles['info']}`}>
         {filed.map((el) => {
           const { label, name, placeholder, type, disabled = false } = el;
@@ -234,7 +235,7 @@ export default function Index() {
         </Box>
       </form>
       <Toaster
-        position="top-center"
+        position="bottom-center"
         reverseOrder={false}
         gutter={8}
         containerClassName=""

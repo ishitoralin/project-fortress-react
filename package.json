@@ -43,6 +43,7 @@
     "react-csv": "^2.2.2",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.1",
+    "react-image-crop": "^10.1.5",
     "react-leaflet": "^4.2.1",
     "react-material-ui-carousel": "^3.4.2",
     "react-slick": "^0.29.0",
