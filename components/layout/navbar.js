@@ -285,7 +285,7 @@ export default function Navbar() {
             <Item
               href="/product"
               onClick={() => {
-                setExpand(false);
+                mobileCloseList();
                 closeLinks();
               }}
             >
@@ -301,7 +301,7 @@ export default function Navbar() {
             <Item
               href="/space-find"
               onClick={() => {
-                setExpand(false);
+                mobileCloseList();
                 closeLinks();
               }}
             >
