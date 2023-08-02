@@ -4,8 +4,11 @@ import CuiImgsmap from '@/components/product/cui-imgsmap';
 import BasicBreadcrumbs from '@/components/product/cui-productBreadcrumbs';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+
 import {
   Paper,
   Rating,
@@ -13,7 +16,18 @@ import {
   Button,
   Stack,
   Divider,
+  box,
+  Box,
 } from '@mui/material';
+import {
+  CUICardStyle,
+  CardMediaStyle,
+  CheckButton,
+  ProductNameAndIcon,
+  CardActionsStyle,
+  priceStyle,
+  FavorIconStyle,
+} from '@/styles/shoppingcart-style/recommandproduct';
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
@@ -42,7 +56,23 @@ export default function Index() {
         });
     }
   }, [router]);
-
+  // useEffect(() => {
+  //   // TODO fetch data then push into newData
+  //   const newData = fakeDataForCart1.products.map((v, i) => {
+  //     return { ...v, isFavor: false };
+  //   });
+  //   return setRecommandProduct(newData);
+  // }, []);
+  // // 收藏按鈕
+  // const changeFavorState = (items, id) => {
+  //   return items.map((v, i) => {
+  //     if (v.id === id) {
+  //       return { ...v, isFavor: !v.isFavor };
+  //     } else {
+  //       return { ...v };
+  //     }
+  //   });
+  // };
   return (
     <>
       <div className={`${styles['product-detail-section1']}`}>
@@ -144,9 +174,20 @@ export default function Index() {
               {/* <Button sx={{ color: 'black' }}>
                 <ShareIcon></ShareIcon>分享
               </Button> */}
-              <Button sx={{ color: 'black' }}>
-                <FavoriteBorderIcon></FavoriteBorderIcon>收藏
-              </Button>
+              {(v, i) => {
+                return (
+                  <Box key={i} sx={FavorIconStyle}>
+                    收藏
+                    {v.isFavor ? (
+                      <FavoriteIcon sx={FavorIconStyle}></FavoriteIcon>
+                    ) : (
+                      <FavoriteBorderIcon
+                        sx={FavorIconStyle}
+                      ></FavoriteBorderIcon>
+                    )}
+                  </Box>
+                );
+              }}
             </div>
           </div>
         </div>
@@ -404,147 +445,9 @@ export default function Index() {
       </div>
       <div className={`${styles['product-detail-section4']}`}>
         <div className={`${styles['Cardcontainer']}`}>
-          <div className={`${styles['Cardcontainer2']}`}>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
-          </div>
-          <div className={`${styles['Cardcontainer2']}`}>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
-            <CUICard className={`${styles['smallCard']}`}>
-              <div className={`${styles['product-img-container']}`}>
-                <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-              </div>
-              <div className={`${styles['product-content-container']}`}>
-                <div className={`${styles['product-title']}`}>
-                  <Typography variant="h6">
-                    男士透氣快乾跑步短袖上衣 RUN DRY
-                  </Typography>
-                </div>
-                <div className={`${styles['product-price']}`}>
-                  <Typography variant="h6">450</Typography>
-                </div>
-              </div>
-              <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
-              </div>
-              <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
-                  加入購物車
-                </CUIButton>
-              </div>
-            </CUICard>
+          <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
+          <div className={`${styles.recommendProductContainer}`}>
+            <RecommendProduct />
           </div>
         </div>
       </div>

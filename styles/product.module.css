@@ -60,9 +60,9 @@
   @media screen and (max-width: 414px) {
     width: 100%;
     height: calc(100vh - var(--nav-height));
-    object-fit: cover;
+    object-fit: fill;
     aspect-ratio: 414 / 183;
-    object-position: center center;
+    /* object-position: center center; */
   }
 
 
@@ -74,7 +74,7 @@
   /* overflow:scroll; */
   object-fit: cover;
   aspect-ratio: 1920 / 900;
-  object-position: center center;
+  /* object-position: center center; */
 
   /* align-items: flex-start; */
   @media screen and (max-width: 414px) {
@@ -722,6 +722,7 @@
   width: 500px;
   height: 500px;
   justify-content: space-between;
+  object-fit: contain;
 }
 
 .flexrow {
