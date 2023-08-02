@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import MemberLayout from '@/components/layout/memberLayout';
@@ -11,6 +11,9 @@ import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
 import GoogleSvg from '@/public/icons/google-svg.svg';
+import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -30,6 +33,7 @@ const validationSchema = yup.object({
     }),
 });
 export default function SignUp() {
+  const router = useRouter();
   const filed = [
     {
       label: '姓名',
@@ -62,10 +66,28 @@ export default function SignUp() {
   const formik = useFormik({
     initialValues: { name: '', email: '', password: '', confirmpassword: '' },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(JSON.stringify(values, null, 2));
+    onSubmit: async (values, { setFieldError }) => {
+      const valuesCopied = { ...values };
+      delete valuesCopied['confirmpassword'];
+      const res = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/auth/sign-up`,
+        {
+          ...valuesCopied,
+        }
+      );
+      if (res.data.message === '信箱已註冊') {
+        toast.error('信箱已註冊');
+        setFieldError('email', '信箱已註冊');
+      }
+      if (res.data.message === '註冊成功') {
+        toast.success('註冊成功，即將跳轉至登入頁面');
+        setTimeout(() => {
+          router.push('/');
+        }, 1500);
+      }
     },
   });
+
   return (
     <>
       <div className={`${styles.bg}`}></div>
@@ -123,6 +145,30 @@ export default function SignUp() {
           <div className={styles['front-cover']}></div>
         </form>
       </div>
+      <Toaster
+        position="bottom-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: '',
+          duration: 5000,
+          style: {
+            fontSize: '1.25rem',
+            color: '#000',
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 2000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
     </>
   );
 }
