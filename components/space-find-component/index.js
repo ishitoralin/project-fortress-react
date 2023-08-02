@@ -112,6 +112,7 @@ export default function SpaceFindComponent() {
         if (d.properties.COUNTYNAME !== countyname) {
           searchGymData(d.properties.COUNTYNAME);
           countyname = d.properties.COUNTYNAME;
+          console.log(width);
           svg
             .selectAll('path')
             .style('fill', '#0a0a0a')
@@ -122,8 +123,8 @@ export default function SpaceFindComponent() {
             .selectAll('path')
             .attr(
               'transform',
-              `translate(-${pointer(e)[0] * 1} , -${
-                pointer(e)[1] * 0.8
+              `translate(-${pointer(e)[0] * 1} , ${
+                -pointer(e)[1] * 2.1 + (width * 1.5) / 2 / 1.5
               }) scale(2)`
             );
         } else {

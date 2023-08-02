@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import CUISearch from '@/components/customUI/cui-search';
+import useDebounce from '@/hooks/useDebounce';
 
 export default function MyCourses() {
   const router = useRouter();
@@ -17,6 +18,10 @@ export default function MyCourses() {
     page: 1,
     rows: [],
   });
+  const [inputKeyword, setInputKeyword] = useState('');
+  const searchChange = () => {
+    console.log('work');
+  };
   const getMyfavoriteProducts = async (page = 1) => {
     const res = await axios.get(
       `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses2?page=${page}`
@@ -48,6 +53,13 @@ export default function MyCourses() {
       getMyfavoriteProducts(router.query.page);
     }
   }, [router]);
+  const debounceHandleSearchChange = useDebounce(searchChange);
+  useEffect(() => {
+    if (inputKeyword !== '') {
+      debounceHandleSearchChange();
+    }
+  }, [inputKeyword]);
+
   return (
     <div className={`${styles['my-container']}`}>
       {data?.rows.length > 0 ? (
@@ -59,8 +71,8 @@ export default function MyCourses() {
             sx={{ marginBottom: '20px' }}
           >
             <CUISearch
-              onChange={() => {
-                console.log(123);
+              onChange={(e) => {
+                setInputKeyword(e.target.value);
               }}
               sx={{
                 backgroundColor: 'var(--main-white)',

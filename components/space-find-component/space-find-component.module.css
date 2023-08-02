@@ -54,6 +54,7 @@
   margin-bottom: 15px;
   justify-content: space-between;
   gap: 10px;
+  background-color: var(--light-grey);
 }
 .info-content * {
   word-break: break-all;
