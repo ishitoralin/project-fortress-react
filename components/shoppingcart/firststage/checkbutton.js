@@ -4,10 +4,25 @@ import createColorTheme from '@/libs/CreateColorTheme';
 import styles from '@/styles/shoppingcart.module.css';
 import Link from 'next/link';
 import {} from '@/components/shoppingcart/firststage/productlist';
+import { useAuth } from '@/context/auth/useAuth';
+
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
-
+  console.log(props.cartItems);
+  const { auth } = useAuth();
+  const checkConfirm = () => {
+    console.log(123);
+    fetch('http://localhost:3001/SCconfirm', {
+      method: 'POST',
+      body: {},
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
+      .then((r) => r.json)
+      .then((result) => console.log(result));
+  };
   return (
     <>
       {/* 結帳按鈕 */}
@@ -49,9 +64,9 @@ export default function CheckButton(props) {
                 width: '0',
               },
             }}
-            // color={props.color}
             variant="contained"
-            onClick={props.onClick}
+            onClick={checkConfirm}
+            disabled={!props.cartItems ? false : true}
           >
             <Link href="/shoppingcart/secondstage">送出訂單</Link>
           </Button>

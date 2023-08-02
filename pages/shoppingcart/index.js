@@ -10,8 +10,8 @@ export default function Firststage() {
   );
 }
 
-// Firststage.getLayout = (page) => (
-//   <ProtectedRouteWrapper>
-//     <Layout>{page}</Layout>;
-//   </ProtectedRouteWrapper>
-// );
+Firststage.getLayout = (page) => (
+  <ProtectedRouteWrapper>
+    <Layout>{page}</Layout>;
+  </ProtectedRouteWrapper>
+);

@@ -46,7 +46,6 @@ export const checkbutton = {
 export const CUICardStyle = {
   maxWidth: '90%',
   minWidth: '90%',
-  //   height:'400px',
   marginBottom: '20px',
   transition: '0.3s',
   ':hover': {
@@ -55,10 +54,10 @@ export const CUICardStyle = {
 };
 
 export const CardMediaStyle = {
-  height: '200px',
+  height: '300px',
   backgroundColor: 'gray',
   transition: '0.3s',
-  ':hover': { height: '240px', transition: '0.3s' },
+  ':hover': { height: '360px', transition: '0.3s' },
 };
 
 export const CheckButton = {
@@ -77,9 +76,12 @@ export const ProductNameAndIcon = {
   margin: 'auto',
   display: 'flex',
   justifyContent: 'space-between',
-  alignItems: 'center',
+  alignItems: 'start',
+  fontSize: '18px',
 };
-
+export const ProductName = {
+  marginRight: '20px',
+};
 export const CardActionsStyle = {
   margin: 'auto',
   display: 'flex',

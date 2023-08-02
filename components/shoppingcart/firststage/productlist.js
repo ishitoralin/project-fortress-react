@@ -22,6 +22,7 @@ import {
 import { result } from 'lodash';
 import Image from 'next/image';
 import axios from 'axios';
+import { useAuth } from '@/context/auth/useAuth';
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
@@ -29,6 +30,8 @@ export default function ProductList(props) {
   const [open, setOpen] = useState(false);
   const [currentID, setCurrentID] = useState(0);
   const [currentIndex, setCurrentIndex] = useState();
+  const { auth } = useAuth();
+
   const handleClickOpen = (id, i) => {
     setOpen(true);
     setCurrentID(id);
@@ -41,9 +44,17 @@ export default function ProductList(props) {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart/5')
+    fetch('http://localhost:3001/cart/', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
       .then((r) => r.json())
-      .then((results) => setCartItems(results.data))
+      .then((results) => {
+        console.log(results);
+        setCartItems(results.data);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -69,10 +80,7 @@ export default function ProductList(props) {
 
   // quantity更新api(給+ -及input用)
   const updateQuantity = async (order_sid, newQuantity) => {
-    // console.log(order_sid, newQuantity);
     try {
-      // TODO
-      // 這裡應該要將member_sid傳在網址列後面
       await axios.put(`http://localhost:3001/SCeditquantity/${order_sid}`, {
         order_sid: order_sid,
         quantity: newQuantity,
@@ -138,6 +146,7 @@ export default function ProductList(props) {
       return { ...v };
     });
   };
+  console.log(cartItems);
 
   return cartItems.length > 0 ? (
     <>
@@ -155,14 +164,17 @@ export default function ProductList(props) {
             >
               {/* 將map後的data塞到對應的欄位 */}
               <div className={`${styles.ProductListComponent2} `}>{i + 1}</div>
-
               <div className={`${styles.ProductListComponent3}`}>
                 <div className={`${styles.ProductListComponentForPhoto} `}>
                   <img
                     style={{ height: '95px', objectFit: 'cover' }}
-                    src={`${
-                      process.env.NEXT_PUBLIC_BACKEND_PORT
-                    }/imgs/product/${v.picture.split(',')[0]}`}
+                    src={
+                      v.products_type_sid === 4
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.picture}`
+                        : `${
+                            process.env.NEXT_PUBLIC_BACKEND_PORT
+                          }/imgs/product/${v.picture.split(',')[0]}`
+                    }
                     alt="商品圖片"
                   />
                 </div>
@@ -277,8 +289,39 @@ export default function ProductList(props) {
       </Box>
     </>
   ) : (
-    <Box sx={indexContainer}>
-      <div className={styles.noItem}>尚未選取商品</div>
-    </Box>
+    <>
+      <Box sx={indexContainer}>
+        <div className={styles.noItem}>尚未選取商品</div>
+      </Box>
+      <Box sx={indexContainer}>
+        <SpatialProduct></SpatialProduct>
+      </Box>
+      <Box sx={indexContainer}>
+        <RecommendProduct></RecommendProduct>
+      </Box>
+      <Box sx={checkbutton}>
+        {/* 產品總計欄位 */}
+        <div>
+          <div className={styles.countContainer}>
+            {/* button 以外的元件 */}
+            <div className={`${styles.countComponentWithoutButton}`}>
+              <div className={`${styles.countComponent}`}>總計：</div>
+              <div className={`${styles.countComponentForQuantity}`}>
+                {finalQuantity}
+              </div>
+              <div className={`${styles.countComponentForNumber}`}>
+                {finalPrice}
+              </div>
+            </div>
+            {/* 只包含button的元件 */}
+            {/* <div className={`${styles.countButtonContainer}`}> */}
+            <div className={`${styles.countButtonComponent}`}>
+              <CheckButton cartItems={cartItems}></CheckButton>
+            </div>
+            {/* </div> */}
+          </div>
+        </div>
+      </Box>
+    </>
   );
 }
