@@ -157,9 +157,6 @@ export default function Index() {
             <Typography variant="h4">產品說明</Typography>
           </div>
           <div className={`${styles['detail-description']}`}>
-            <div className={`${styles['description-img']}`}>
-              <img src="http://localhost:3000/p-imgs/st0010102.jpg" />
-            </div>
             <div className={`${styles['description-Container']}`}>
               <div className={`${styles['description-text1']}`}>
                 <Typography variant="h5">

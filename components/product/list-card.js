@@ -40,7 +40,12 @@ export default function ListCard({ data = [], cid }) {
                 </div>
               </div>
               <div>
-                <Rating name="half-rating" defaultValue={2.5} precision={0.5} />
+                <Rating
+                  className={`${styles['product-price']}`}
+                  name="half-rating"
+                  defaultValue={2.5}
+                  precision={0.5}
+                />
               </div>
               <div className={`${styles['CardButtonContainer']}`}>
                 <CUIButton className={`${styles['smallCardButton']}`}>

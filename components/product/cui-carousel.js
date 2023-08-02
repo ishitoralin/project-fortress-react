@@ -5,6 +5,7 @@ import styles from '@/styles/product.module.css';
 
 // Import Swiper styles
 import 'swiper/css';
+import { Typography } from '@mui/material';
 
 export default function Index() {
   return (
@@ -38,18 +39,27 @@ export default function Index() {
             alt="1"
             src="http://localhost:3001/imgs/product/carousel01.jpg"
           />
+          <Typography className={`${styles['BigCardText']}`}>
+            自由動感，讓你盡情揮灑汗水的時刻。勇敢超越極限，成就精彩人生。
+          </Typography>
         </SwiperSlide>
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="2"
             src="http://localhost:3001/imgs/product/carousel02.jpg"
           />
+          <Typography className={`${styles['BigCardText']}`}>
+            挑戰自己，活出自我!多樣器材任君挑選。
+          </Typography>
         </SwiperSlide>
         <SwiperSlide className={`${styles['img-wrapper']}`}>
           <img
             alt="3"
             src="http://localhost:3001/imgs/product/carousel03.jpg"
           />
+          <Typography className={`${styles['BigCardText']}`}>
+            健康均衡一步到位，民以食為天。
+          </Typography>
         </SwiperSlide>
       </Swiper>
     </>

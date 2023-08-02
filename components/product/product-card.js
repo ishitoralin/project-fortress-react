@@ -2,7 +2,7 @@ import React from 'react';
 import CUICard from '../customUI/cui-card';
 import styles from '@/styles/product.module.css';
 import CUIButton from '../customUI/cui-button';
-import { Rating, Typography } from '@mui/material';
+import { Link, Rating, Typography } from '@mui/material';
 
 export default function productCard(prop) {
   return (
@@ -17,7 +17,7 @@ export default function productCard(prop) {
               />
 
               <div className={`${styles['BigCardText']}`}>
-                炎炎夏日 透心涼感衣上市中
+                穿上我們的運動衣，感受著舒適的質地與完美的剪裁。
               </div>
               {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
@@ -30,11 +30,13 @@ export default function productCard(prop) {
             {prop.data?.productRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
-                  <div className={`${styles['product-img-container']}`}>
-                    <img
-                      src={`http://localhost:3001/imgs/product/${v.picture}`}
-                    />
-                  </div>
+                  <Link href={`product/category/1/${v.sid}`}>
+                    <div className={`${styles['product-img-container']}`}>
+                      <img
+                        src={`http://localhost:3001/imgs/product/${v.picture}`}
+                      />
+                    </div>
+                  </Link>
                   <div className={`${styles['product-content-container']}`}>
                     <div className={`${styles['product-title']}`}>
                       <Typography variant="h6">{v.product_name}</Typography>
@@ -141,7 +143,7 @@ export default function productCard(prop) {
               />
 
               <div className={`${styles['BigCardText']}`}>
-                炎炎夏日 透心涼感衣上市中
+                品味我們的健康食品，將天然的營養與美味帶入您的生活。
               </div>
               {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
@@ -154,11 +156,13 @@ export default function productCard(prop) {
             {prop.data?.foodRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
-                  <div className={`${styles['product-img-container']}`}>
-                    <img
-                      src={`http://localhost:3001/imgs/product/${v.picture}`}
-                    />
-                  </div>
+                  <Link href={`product/category/2/${v.sid}`}>
+                    <div className={`${styles['product-img-container']}`}>
+                      <img
+                        src={`http://localhost:3001/imgs/product/${v.picture}`}
+                      />
+                    </div>
+                  </Link>
                   <div className={`${styles['product-content-container']}`}>
                     <div className={`${styles['product-title']}`}>
                       <Typography variant="h6">{v.food_name}</Typography>
@@ -265,7 +269,9 @@ export default function productCard(prop) {
               />
 
               <div className={`${styles['BigCardText']}`}>
-                炎炎夏日 透心涼感衣上市中
+                開啟健康之門，挑選自己的運動器材！
+                <br />
+                讓我們一起挑戰極限，塑造健康魅力。
               </div>
               {/* <CUIButton className={`${styles['CardButtons']}`}>
                 了解詳情
@@ -278,13 +284,15 @@ export default function productCard(prop) {
             {prop.data?.equipmentRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
-                  <div className={`${styles['product-img-container']}`}>
-                    <img
-                      src={`http://localhost:3001/imgs/product/${
-                        v.picture.split(',')[0]
-                      }`}
-                    />
-                  </div>
+                  <Link href={`product/category/3/${v.sid}`}>
+                    <div className={`${styles['product-img-container']}`}>
+                      <img
+                        src={`http://localhost:3001/imgs/product/${
+                          v.picture.split(',')[0]
+                        }`}
+                      />
+                    </div>
+                  </Link>
                   <div className={`${styles['product-content-container']}`}>
                     <div className={`${styles['product-title']}`}>
                       <Typography variant="h6">{v.equipment_name}</Typography>
