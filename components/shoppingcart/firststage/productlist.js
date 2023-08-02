@@ -21,76 +21,8 @@ import {
 } from '@/styles/shoppingcart-style/recommandproduct';
 import { result } from 'lodash';
 import Image from 'next/image';
-// const fakeDataForCart = { products: [] };
-// const fakeDataForCart = {
-//   products: [
-//     {
-//       id: 19,
-//       photo: 'photo',
-//       name: '緊身衣',
-//       detail: 'abavafd asfewweg gewaef gre',
-//       price: 3000,
-//       quantity: 2,
-//     },
-//     {
-//       id: 2,
-//       photo: 'photo',
-//       name: '布偶裝',
-//       detail: 'abavafd asfewweg gewaef gre',
-//       price: 2000,
-//       quantity: 1,
-//     },
-//     {
-//       id: 3,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 4,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 5,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 6,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 323,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//     {
-//       id: 25,
-//       photo: 'photo',
-//       name: '貓貓裝',
-//       detail: 'neko neko',
-//       price: 600,
-//       quantity: 1,
-//     },
-//   ],
-// };
-
+import axios from 'axios';
+import { useAuth } from '@/context/auth/useAuth';
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
@@ -98,6 +30,8 @@ export default function ProductList(props) {
   const [open, setOpen] = useState(false);
   const [currentID, setCurrentID] = useState(0);
   const [currentIndex, setCurrentIndex] = useState();
+  const { auth } = useAuth();
+
   const handleClickOpen = (id, i) => {
     setOpen(true);
     setCurrentID(id);
@@ -110,12 +44,20 @@ export default function ProductList(props) {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart/5')
+    fetch('http://localhost:3001/cart/', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
       .then((r) => r.json())
-      .then((results) => setCartItems(results.data))
+      .then((results) => {
+        console.log(results);
+        setCartItems(results.data);
+      })
       .catch((error) => console.log(error));
   }, []);
-  console.log(cartItems);
+
   useEffect(() => {
     let totalPrice = 0;
     let totalQuantity = 0;
@@ -131,26 +73,64 @@ export default function ProductList(props) {
         totalQuantity += Quantity;
       }
     }
-    console.log(totalPrice, totalQuantity);
+    // console.log(totalPrice, totalQuantity);
     setFinalPrice(totalPrice);
     setFinalQuantity(totalQuantity);
   }, [cartItems]);
 
+  // quantity更新api(給+ -及input用)
+  const updateQuantity = async (order_sid, newQuantity) => {
+    try {
+      await axios.put(`http://localhost:3001/SCeditquantity/${order_sid}`, {
+        order_sid: order_sid,
+        quantity: newQuantity,
+      });
+    } catch (error) {
+      console.error('Error updating quantity:', error);
+    }
+  };
+
+  // 刪除商品API(給delete用)
+  const deleteItem = async (order_sid) => {
+    console.log(order_sid);
+    try {
+      await axios.delete(`http://localhost:3001/SCdelete/${order_sid}`);
+    } catch (error) {
+      console.log('error to delete item');
+    }
+  };
+
   const minus = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: v.quantity - 1 };
+      if (v.sid === id) {
+        const newQuantity = v.quantity - 1;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
 
   const add = (cartItems, id) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: v.quantity + 1 };
+      if (v.sid === id) {
+        const newQuantity = v.quantity + 1;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
 
   const remove = (cartItems, id) => {
+    cartItems.map((v, i) => {
+      if (v.sid === id) {
+        console.log(v.sid);
+        const order_sid = v.sid;
+        deleteItem(order_sid);
+      }
+    });
+
     return cartItems.filter((v) => {
       return v.sid !== id;
     });
@@ -158,10 +138,15 @@ export default function ProductList(props) {
 
   const update = (cartItems, id, value) => {
     return cartItems.map((v, i) => {
-      if (v.sid === id) return { ...v, quantity: value };
+      if (v.sid === id) {
+        const newQuantity = value;
+        updateQuantity(v.sid, newQuantity);
+        return { ...v, quantity: newQuantity };
+      }
       return { ...v };
     });
   };
+  console.log(cartItems);
 
   return cartItems.length > 0 ? (
     <>
@@ -179,14 +164,17 @@ export default function ProductList(props) {
             >
               {/* 將map後的data塞到對應的欄位 */}
               <div className={`${styles.ProductListComponent2} `}>{i + 1}</div>
-
               <div className={`${styles.ProductListComponent3}`}>
                 <div className={`${styles.ProductListComponentForPhoto} `}>
                   <img
                     style={{ height: '95px', objectFit: 'cover' }}
-                    src={`${
-                      process.env.NEXT_PUBLIC_BACKEND_PORT
-                    }/imgs/product/${v.picture.split(',')[0]}`}
+                    src={
+                      v.products_type_sid === 4
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.picture}`
+                        : `${
+                            process.env.NEXT_PUBLIC_BACKEND_PORT
+                          }/imgs/product/${v.picture.split(',')[0]}`
+                    }
                     alt="商品圖片"
                   />
                 </div>
@@ -202,6 +190,7 @@ export default function ProductList(props) {
                   sx={AddAndReduceButton}
                   onClick={() => {
                     if (v.quantity > 1) {
+                      // updateQuantity();
                       setCartItems(minus(cartItems, v.sid));
                     }
                     if (v.quantity === 1) {
@@ -216,7 +205,11 @@ export default function ProductList(props) {
                   className={`${styles.inputHideAdjustButton} ${styles.buttonWidth}`}
                   value={v.quantity}
                   onChange={(e) => {
-                    const value = parseInt(e.target.value);
+                    let value = parseInt(e.target.value);
+
+                    if (value > 99) {
+                      value = 99;
+                    }
                     if (isNaN(value)) {
                       return;
                     }
@@ -296,8 +289,39 @@ export default function ProductList(props) {
       </Box>
     </>
   ) : (
-    <Box sx={indexContainer}>
-      <div className={styles.noItem}>尚未選取商品</div>
-    </Box>
+    <>
+      <Box sx={indexContainer}>
+        <div className={styles.noItem}>尚未選取商品</div>
+      </Box>
+      <Box sx={indexContainer}>
+        <SpatialProduct></SpatialProduct>
+      </Box>
+      <Box sx={indexContainer}>
+        <RecommendProduct></RecommendProduct>
+      </Box>
+      <Box sx={checkbutton}>
+        {/* 產品總計欄位 */}
+        <div>
+          <div className={styles.countContainer}>
+            {/* button 以外的元件 */}
+            <div className={`${styles.countComponentWithoutButton}`}>
+              <div className={`${styles.countComponent}`}>總計：</div>
+              <div className={`${styles.countComponentForQuantity}`}>
+                {finalQuantity}
+              </div>
+              <div className={`${styles.countComponentForNumber}`}>
+                {finalPrice}
+              </div>
+            </div>
+            {/* 只包含button的元件 */}
+            {/* <div className={`${styles.countButtonContainer}`}> */}
+            <div className={`${styles.countButtonComponent}`}>
+              <CheckButton cartItems={cartItems}></CheckButton>
+            </div>
+            {/* </div> */}
+          </div>
+        </div>
+      </Box>
+    </>
   );
 }

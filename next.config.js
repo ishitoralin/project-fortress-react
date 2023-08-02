@@ -9,6 +9,8 @@ const nextConfig = {
     SEAN_API_SERVER: 'http://localhost:9009',
   },
 
+  // transpilePackages: ['three'],
+
   // avoid cors with proxy
   // async rewrites() {
   //   return [

@@ -1,68 +1,79 @@
 import { useState } from 'react';
 
-import { Box, ToggleButtonGroup, Container } from '@mui/material';
-import CUISearch from '@/components/customUI/cui-search';
+import { Box, Typography, ToggleButtonGroup, Container } from '@mui/material';
 
 import CoachCard from '@/components/coach/coach-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 import UiButton from '@/components/hh/UiButton';
 
-const CoachListPage = () => {
-  const [location, setLocation] = useState(['Taipei', 'Taichung']);
+const baseUrl = 'http://localhost:3001/coach/all';
+
+export const getStaticProps = async () => {
+  const res = await fetch(baseUrl);
+  const allCoachs = await res.json();
+
+  return {
+    props: {
+      allCoachs,
+    },
+  };
+};
+
+const initLocation = 'taipei';
+
+const CoachListPage = ({ allCoachs }) => {
+  const [location, setLocation] = useState([initLocation]);
+  const [coachs, setCoachs] = useState(getFilterCoachs([initLocation]));
+
+  function getFilterCoachs(locations) {
+    return allCoachs.filter(
+      (coach) => locations.indexOf(coach.location) !== -1
+    );
+  }
 
   return (
     <Box>
       <BrickWallPaper scale={1.6} rotate={7.5} />
       <Container sx={{ paddingBlock: { xs: '1rem', sm: '3rem' } }}>
-        <Box>
-          <Box
+        <Box sx={{ textAlign: 'center', marginBlock: 5 }}>
+          <Typography
+            variant="h4"
             sx={{
-              bgcolor: '#eee',
-              padding: 2,
-              borderRadius: '5px',
+              color: 'white',
+              marginBottom: '5rem',
+              paddingBottom: 2,
+              borderBottom: '2px solid white',
             }}
           >
-            <CUISearch
-              placeholder="輸入教練名稱"
-              color={'steel_grey'}
-              label={'搜尋教練'}
-            />
-          </Box>
-          <Box sx={{ textAlign: 'center', marginBlock: 5 }}>
-            <ToggleButtonGroup
-              value={location}
-              exclusive
-              aria-label="coach-location"
-              sx={{
-                button: {
-                  transition: '.3s',
-                },
-                'button:not(:last-child)': {
-                  marginRight: { xs: '3rem', sm: '5rem' },
-                },
-              }}
-              onChange={(event, value) =>
-                setLocation(([...preValue]) => {
-                  const indexOfValue = preValue.indexOf(value);
-                  if (indexOfValue === -1) return [...preValue, value];
-                  if (preValue.length === 1) return preValue;
-
-                  preValue.splice(indexOfValue, 1);
-                  return preValue;
-                })
-              }
-            >
-              <UiButton disableRipple value="Taipei" aria-label="Taipei">
-                台北館
-              </UiButton>
-              <UiButton disableRipple value="Taichung" aria-label="Taichung">
-                台中館
-              </UiButton>
-              <UiButton disableRipple value="Kaohsiung" aria-label="Kaohsiung">
-                高雄館
-              </UiButton>
-            </ToggleButtonGroup>
-          </Box>
+            健堡的專業師資
+          </Typography>
+          <ToggleButtonGroup
+            value={location}
+            aria-label="coachlocation"
+            sx={{
+              button: {
+                transition: '.3s',
+              },
+              'button:not(:last-child)': {
+                marginRight: { xs: '3rem', sm: '5rem' },
+              },
+            }}
+            onChange={(event, value) => {
+              if (value.length === 0) return;
+              setLocation(value);
+              setCoachs(getFilterCoachs(value));
+            }}
+          >
+            <UiButton disableRipple value="taipei" aria-label="taipei">
+              台北館
+            </UiButton>
+            <UiButton disableRipple value="taichung" aria-label="taichung">
+              台中館
+            </UiButton>
+            <UiButton disableRipple value="kaohsiung" aria-label="kaohsiung">
+              高雄館
+            </UiButton>
+          </ToggleButtonGroup>
         </Box>
         <Box
           sx={{
@@ -70,8 +81,8 @@ const CoachListPage = () => {
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
           }}
         >
-          {[...Array(10)].map((value, index) => (
-            <CoachCard key={index} />
+          {coachs.map((coach, index) => (
+            <CoachCard key={index} coachdata={coach} />
           ))}
         </Box>
       </Container>

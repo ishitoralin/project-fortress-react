@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import Image from 'next/image';
-import { Button, Box, Typography } from '@mui/material';
+import { Button, Box, Skeleton, Typography } from '@mui/material';
 import TrendingFlatIcon from '@mui/icons-material/TrendingFlat';
 import ChevronLeftRoundedIcon from '@mui/icons-material/ChevronLeftRounded';
 import ChevronRightRoundedIcon from '@mui/icons-material/ChevronRightRounded';
@@ -18,45 +18,6 @@ import {
   lessonDescriptStyle,
   buttonStyle,
 } from '@/styles/lesson-style/banner-style';
-
-// const categories = [
-//   {
-//     img: absImg,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?',
-//   },
-//   {
-//     img: abs1Img,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?',
-//   },
-//   {
-//     img: core,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?Lorem ipsum adipisicing elit. Magnam cum  ipsum optio voluptatibus nostrum asperiores?',
-//   },
-//   {
-//     img: functional,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?',
-//   },
-//   {
-//     img: hiit,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?',
-//   },
-//   {
-//     img: oxgen1,
-//     title: 'Lesson Title here',
-//     description:
-//       'Lorem ipsum dolor sit amet consectetur adipisicing elit. Magnam cum reprehenderit consectetur debitis culpa rem ipsum optio voluptatibus nostrum asperiores?',
-//   },
-// ];
 
 const slideTime = 1000;
 const intervalTime = 7000;
@@ -148,7 +109,18 @@ const Banner = () => {
           transition: `${transi ? slideTime : '0'}ms ease-in-out`,
         }}
       >
-        {order.length !== 0 &&
+        {order.length === 0 ? (
+          <Box sx={{ bgcolor: '#333', width: '100%', height: '100%' }}>
+            <Skeleton
+              sx={{
+                bgcolor: '#777',
+                width: '100%',
+                height: '100%',
+                transform: 'none',
+              }}
+            />
+          </Box>
+        ) : (
           order.map((item, index) => (
             <Box
               key={item}
@@ -197,7 +169,8 @@ const Banner = () => {
                 }}
               />
             </Box>
-          ))}
+          ))
+        )}
       </Box>
     </Box>
   );

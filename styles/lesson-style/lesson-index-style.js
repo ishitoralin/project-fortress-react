@@ -46,3 +46,14 @@ export const showFilterStyle = {
     left: 0,
   },
 };
+
+export const filterIconStyle = {
+  visibility: 'hidden',
+  '@media (max-width: 1000px)': {
+    visibility: 'visible',
+    transition: '.2s',
+    ':hover': {
+      transform: 'scale(1.2)',
+    },
+  },
+};

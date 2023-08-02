@@ -16,6 +16,7 @@ import { useAuth } from '@/context/auth/useAuth';
 import useFirebase from '@/utils/useFirebase';
 import CUINonstyleButton from '@/components/customUI/cui-nonstyle-button';
 import axios from 'axios';
+import { Toaster, toast } from 'react-hot-toast';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -55,7 +56,10 @@ export default function Login() {
       //TODO拿掉console
 
       const result = await login(values);
-      console.log(result);
+      if (result === 401) {
+        setFieldError('email', '帳號或密碼錯誤');
+        return toast.error('帳號或密碼錯誤');
+      }
 
       // console.log(JSON.stringify(values, null, 2));
     },
@@ -146,6 +150,30 @@ export default function Login() {
           <div className={styles['front-cover']}></div>
         </form>
       </div>
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: '',
+          duration: 5000,
+          style: {
+            fontSize: '1.25rem',
+            color: '#000',
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 2000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
     </>
   );
 }

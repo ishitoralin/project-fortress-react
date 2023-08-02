@@ -54,6 +54,7 @@
   margin-bottom: 15px;
   justify-content: space-between;
   gap: 10px;
+  background-color: var(--light-grey);
 }
 .info-content * {
   word-break: break-all;
@@ -77,6 +78,10 @@
   .map-container {
     max-width: none;
     margin: auto auto 15px auto;
+  }
+  .gym-type-select {
+    margin-bottom: 10px;
+    padding-left: 10px;
   }
   .info {
     /* padding: 15px; */
@@ -105,10 +110,7 @@
     /* padding: 0; */
     flex-direction: column;
   }
-  .gym-type-select {
-    margin-bottom: 10px;
-    padding-left: 10px;
-  }
+
   .map-container {
     max-width: none;
     width: 100%;

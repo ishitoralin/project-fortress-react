@@ -2,22 +2,17 @@ const ANIMATIME = '1s';
 
 export const cardGridStyle = {
   position: 'relative',
-  transform: {
-    xs: 'translateX(0%)',
-    sm: 'translateX(20%)',
-    md: 'translateX(50%)',
-    th: 'translateX(0%)',
-  },
-  width: { xs: '80%', lg: '90%' },
-  height: { xs: '80%', lg: '90%' },
+  left: { xs: 'calc(50vw - 60%)', sm: 'calc(50vw - 50%)', th: 0 },
+  width: { xs: '100%', sm: '90%' },
+  height: { xs: '70%', sm: '75%', th: '75%', lg: '90%' },
   ':before': {
     content: '""',
     position: 'absolute',
-    width: '75%',
-    height: '82%',
-    top: '6%',
+    width: '70%',
+    height: '85%',
+    top: '10%',
     transition: ANIMATIME,
-    transform: { xs: 'rotate(0)', md: 'rotate(30deg)', lg: 'rotate(0)' },
+    transform: { xs: 'rotate(0)', sm: 'rotate(30deg)', lg: 'rotate(0)' },
     left: '15%',
     border: '3px solid white',
   },
@@ -25,10 +20,10 @@ export const cardGridStyle = {
 
 export const coachCardBoxStyle = {
   position: 'absolute',
-  width: '100%',
+  width: { xs: '100%', th: '90%' },
   height: '100%',
-  top: { th: '8%', lg: '-10%' },
-  left: { xs: '-70%', sm: '-35%', th: '-65%', lg: '-25%' },
+  top: { xs: '15%', sm: 0, th: '20%', lg: '-10%' },
+  left: { xs: '-70%', sm: '-50%', th: '-62%', lg: '-28%' },
   transition: '.5s',
   animation: `${ANIMATIME} move-card forwards`,
   '@keyframes move-card': {
@@ -40,11 +35,11 @@ export const coachCardBoxStyle = {
 
 export const imageBoxStyle = {
   position: 'absolute',
-  left: { xs: '30%', sm: '40%', md: '65%', th: '30%' },
-  top: { xs: '0%', th: '5%', lg: '25%' },
+  left: { xs: '35%', sm: '19%', md: '22%', th: '32%' },
+  top: { xs: '-5%', sm: '5%', th: '5%', lg: '30%' },
   transform: 'rotateZ(-10deg)',
-  width: { xs: '30%', sm: '40%', th: '35%', lg: '45%' },
-  height: { xs: '30%', sm: '40%', th: '35%', lg: '45%' },
+  width: { xs: '50%', sm: '45%', th: '45%', lg: '50%' },
+  height: { xs: '50%', sm: '50%', th: '50%', lg: '55%' },
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   transition: '.5s',
   zIndex: 1,
@@ -62,9 +57,9 @@ export const cardBehindStyle = {
   right: '5%',
   width: '80%',
   height: '85%',
-  padding: { xs: '1rem', md: '1.5rem', lg: '2rem' },
+  padding: { xs: '1.2rem', md: '1.5rem', lg: '1.75rem' },
   textAlign: 'right',
-  borderRadius: '15px',
+  borderRadius: '12px',
   bgcolor: 'slategrey',
 };
 
@@ -79,7 +74,7 @@ export const cardFrontStyle = {
   position: 'absolute',
   right: '7%',
   bottom: '5%',
-  paddingInline: { xs: '1rem', md: '1.5rem', lg: '2rem' },
+  paddingInline: { xs: '1.2rem', md: '1.5rem', lg: '1.75rem' },
   color: 'white',
   width: '76%',
   height: '30%',
@@ -99,4 +94,11 @@ export const cardFrontStyle = {
       boxShadow: 'none',
     },
   },
+};
+
+export const locationStyle = {
+  position: 'absolute',
+  bottom: 0,
+  right: '50%',
+  transform: 'translateX(50%)',
 };

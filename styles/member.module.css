@@ -248,12 +248,21 @@
 .photo {
   position: relative;
   background-color: var(--main-black);
+  cursor: pointer;
   max-width: 500px;
   width: 50%;
   height: 100%;
   aspect-ratio: 1 / 1;
+  transition: all 0.2s ease-in;
 }
-
+.photo:hover {
+  transform: scale(1.01);
+}
+.photo img {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
 .photo .camera {
   fill: var(--main-white);
   position: absolute;
@@ -271,6 +280,15 @@
 .date-picker {
   margin-top: 0 !important;
   margin-bottom: 15px !important;
+}
+.crop-container {
+  /* width: 100%; */
+}
+.crop-container > div:first-child {
+  /* width: 100%; */
+}
+.crop-container div:first-child img {
+  /* width: 100%; */
 }
 @media screen and (max-width: 768px) {
   .center-container {

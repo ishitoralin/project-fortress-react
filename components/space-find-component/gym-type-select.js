@@ -11,12 +11,10 @@ export default function GymTypeSelect({
     setGymData([]);
   };
   return (
-    <FormControl
-      className={`${styles['gym-type-select']}`}
-      sx={{ width: '250px' }}
-    >
+    <FormControl className={`${styles['gym-type-select']}`}>
       <InputLabel id="demo-simple-select-label">請選擇場地種類</InputLabel>
       <Select
+        sx={{ width: '120px' }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={value}

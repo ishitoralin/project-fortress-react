@@ -7,6 +7,7 @@ import {
   containerStyle,
   filterStyle,
   showFilterStyle,
+  filterIconStyle,
 } from '@/styles/lesson-style/lesson-index-style';
 
 import { Box, Chip, Container, Typography, IconButton } from '@mui/material';
@@ -21,16 +22,8 @@ import CUISlider from '@/components/customUI/cui-slider';
 import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIFilter from '@/components/customUI/cui-filter';
 
-const filterIconStyle = {
-  visibility: 'hidden',
-  '@media (max-width: 1000px)': {
-    visibility: 'visible',
-    transition: '.2s',
-    ':hover': {
-      transform: 'scale(1.2)',
-    },
-  },
-};
+import { useAuth } from '@/context/auth/useAuth';
+import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
 
 export const getStaticProps = async () => {
   const data = {};
@@ -72,7 +65,9 @@ const fetchLessons = async (baseUrl, queryObj) => {
   const fetchUrl = getFetchUrl(baseUrl, queryObj);
 
   try {
-    const res = await fetch(fetchUrl);
+    const res = await fetch(fetchUrl, {
+      headers: getAuthHeaders(),
+    });
     const datas = await res.json();
 
     response.success = true;
@@ -96,6 +91,10 @@ const shrinkString = (str) => {
 
 const LessionPage = (props) => {
   const router = useRouter();
+
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
   const [lessons, setLessons] = useState([]);
   const [queryObject, setQueryObject] = useState({});
   const keywordRef = useRef();
@@ -127,8 +126,22 @@ const LessionPage = (props) => {
   };
 
   const showFilter = () => setFilterShow(true);
-
   const closeFilter = () => setFilterShow(false);
+
+  const sortLessons = (sortWay) => {
+    const sortGate = {
+      timeASC: (lessons) =>
+        lessons.sort((prev, next) => (prev.time < next.time ? -1 : 1)),
+      timeDESC: (lessons) =>
+        lessons.sort((prev, next) => (prev.time < next.time ? 1 : -1)),
+      priceASC: (lessons) =>
+        lessons.sort((prev, next) => (next.price < prev.price ? -1 : 1)),
+      priceDESC: (lessons) =>
+        lessons.sort((prev, next) => (next.price < prev.price ? 1 : -1)),
+    };
+    sortGate[sortWay] &&
+      setLessons((lessons) => sortGate[sortWay]([...lessons]));
+  };
 
   const pushRouter = (queryObj) => {
     Object.keys(queryObj).forEach(
@@ -344,6 +357,8 @@ const LessionPage = (props) => {
               displayMode={displayMode}
               setDisplayMode={setDisplayMode}
               lessons={lessons}
+              setLessons={setLessons}
+              sortLessons={sortLessons}
             />
           </Box>
         </Container>

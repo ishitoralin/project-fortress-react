@@ -1,16 +1,14 @@
 import { Box, IconButton, ToggleButtonGroup } from '@mui/material';
-import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import SortIcon from '@mui/icons-material/Sort';
 
 import React from 'react';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
 
 import LessonCard from './lesson-card';
 import UiButton from '../hh/UiButton';
 import { isArray } from 'lodash';
 import CUICard from '../customUI/cui-card';
+import CUISelect from '../customUI/cui-select';
 import LessonCardSkeleton from './lesson-card-skeleton';
 
 const rightSideStyle = {
@@ -54,13 +52,35 @@ const filterIconStyle = {
   },
 };
 
+const sortIconStyle = {
+  position: 'relative',
+  marginLeft: 'auto',
+  bgcolor: 'var(--steel-grey)',
+  color: 'white',
+  borderRadius: '3px',
+  transition: '.2s',
+  ':hover': {
+    bgcolor: 'var(--steel-grey)',
+    color: 'inherit',
+    filter: 'brightness(90%)',
+  },
+};
+
+const sortSelectStyle = {
+  position: 'absolute',
+  inset: 0,
+  flexGrow: 1,
+  opacity: 0,
+};
+
 const RightSide = ({
   lessons,
+  setLessons,
   showFilter,
   location,
   setLocation,
   displayMode,
-  setDisplayMode,
+  sortLessons,
 }) => {
   if (!isArray(lessons)) throw new Error('lessons should be Array type');
   return (
@@ -84,28 +104,22 @@ const RightSide = ({
             </UiButton>
           </ToggleButtonGroup>
         </Box>
-        <ToggleButtonGroup
-          value={displayMode}
-          exclusive
-          aria-label="displayMode"
-          sx={{ marginLeft: 'auto' }}
-          onChange={(event, value) => value !== null && setDisplayMode(value)}
-        >
-          <UiButton
-            value="list"
-            aria-label="list"
-            sx={{ paddingInline: '.7rem' }}
-          >
-            <FormatListBulletedOutlinedIcon size="small" />
-          </UiButton>
-          <UiButton
-            value="calendar"
-            aria-label="calendar"
-            sx={{ paddingInline: '.7rem', marginRight: 0 }}
-          >
-            <CalendarMonthIcon />
-          </UiButton>
-        </ToggleButtonGroup>
+        <IconButton sx={sortIconStyle}>
+          <CUISelect
+            sx={sortSelectStyle}
+            color={'steel_grey'}
+            onChange={(event) => {
+              sortLessons(event.target.value);
+            }}
+            options={[
+              { label: '時間最近', value: 'timeASC' },
+              { label: '時間最遠', value: 'timeDESC' },
+              { label: '價格最高', value: 'priceASC' },
+              { label: '價格最低', value: 'priceDESC' },
+            ]}
+          />
+          <SortIcon />
+        </IconButton>
         <IconButton size="large" sx={filterIconStyle} onClick={showFilter}>
           <FilterAltIcon />
         </IconButton>
@@ -126,56 +140,11 @@ const RightSide = ({
           </CUICard>
         ) : (
           lessons.map((lesson, index) => (
-            <LessonCard key={index} lesson={lesson} />
+            <LessonCard key={index} lesson={lesson} setLessons={setLessons} />
           ))
         ))}
-
-      {displayMode === 'calendar' && (
-        <>
-          <Box
-            sx={{
-              width: '100%',
-              marginTop: '3rem',
-              bgcolor: '#333',
-              borderRadius: '5px',
-              padding: { xs: '0.5rem', md: '2rem' },
-            }}
-          >
-            <FullCalendar
-              // aspectRatio={1.7}
-              plugins={[dayGridPlugin]}
-              initialView="dayGridMonth"
-              dayMaxEventRows={2}
-              // dateAlignment
-              eventColor="var(--steel-grey)"
-              // eventShortHeight={}
-              events={[
-                {
-                  id: 1,
-                  title: 'asean',
-                  start: '2023-07-12 14:00:00',
-                  end: '2023-07-12 16:00:00',
-                },
-                {
-                  id: 2,
-                  title: 'seanseanseanseanseansean',
-                  start: '2023-07-12',
-                  url: '/',
-                },
-                {
-                  id: 3,
-                  title: 'tsean',
-                  start: '2023-07-12',
-                },
-              ]}
-              // headerToolbar={false}
-            />
-          </Box>
-        </>
-      )}
-
       {displayMode === 'skeleton' &&
-        [...Array(5)].map((value, index) => <LessonCardSkeleton key={index} />)}
+        [...Array(3)].map((value, index) => <LessonCardSkeleton key={index} />)}
     </Box>
   );
 };

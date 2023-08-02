@@ -6,7 +6,17 @@ import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import 'swiper/css';
+import {
+  Navigation,
+  Pagination,
+  Scrollbar,
+  A11y,
+  EffectFade,
+} from 'swiper/modules';
+import 'swiper/css/bundle';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 
 //Import button
@@ -26,222 +36,45 @@ import {
   CardMediaStyle,
   CheckButton,
   ProductNameAndIcon,
+  ProductName,
   CardActionsStyle,
   priceStyle,
   FavorIconStyle,
 } from '@/styles/shoppingcart-style/recommandproduct';
+import { delay, result } from 'lodash';
+import { style } from 'd3';
+import { useAuth } from '@/context/auth/useAuth';
 export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
-
+  const { auth } = useAuth();
   // data from database
-  const fakeDataForCart1 = {
-    products: [
-      {
-        id: 19,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-      },
-      {
-        id: 24,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 6,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 323,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 25,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-    ],
-  };
-  const fakeDataForCart2 = {
-    products: [
-      {
-        id: 19,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-      },
-      {
-        id: 24,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 6,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 323,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 25,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-    ],
-  };
-  const fakeDataForCart3 = {
-    products: [
-      {
-        id: 19,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-      },
-      {
-        id: 24,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 6,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 323,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-      {
-        id: 25,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-      },
-    ],
-  };
   useEffect(() => {
-    // TODO fetch data then push into newData
-    const newData = fakeDataForCart1.products.map((v, i) => {
-      return { ...v, isFavor: false };
-    });
-    return setRecommandProduct(newData);
+    fetch('http://localhost:3001/SCrecommanded', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
+      .then((r) => r.json())
+      .then((results) => setRecommandProduct(results.data));
   }, []);
   useEffect(() => {
-    // TODO fetch data then push into newData
-    const newData = fakeDataForCart2.products.map((v, i) => {
-      return { ...v, isFavor: false };
-    });
-    return setPopularProducts(newData);
+    fetch('http://localhost:3001/SCpopular')
+      .then((r) => r.json())
+      .then((results) => setPopularProducts(results.shuffledData));
   }, []);
   useEffect(() => {
-    // TODO fetch data then push into newData
-    const newData = fakeDataForCart3.products.map((v, i) => {
-      return { ...v, isFavor: false };
-    });
-    return setRecommandLesson(newData);
+    fetch('http://localhost:3001/SChotlesson')
+      .then((r) => r.json())
+      .then((results) => setRecommandLesson(results.shuffledData));
   }, []);
 
   // 收藏按鈕
   const changeFavorState = (items, id) => {
     return items.map((v, i) => {
-      if (v.id === id) {
+      if (v.sid === id) {
         return { ...v, isFavor: !v.isFavor };
       } else {
         return { ...v };
@@ -272,10 +105,12 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>本季新品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandProduct.map((v, i) => {
               return (
@@ -287,20 +122,21 @@ export default function RecommendProduct(props) {
                     <CUICard sx={CUICardStyle}>
                       <CardMedia
                         sx={CardMediaStyle}
-                        image="/SCphoto/capoo${i}.png"
-                        title="green iguana"
+                        image={`${
+                          process.env.NEXT_PUBLIC_BACKEND_PORT
+                        }/imgs/product/${v.picture.split(',')[0]}`}
+                        title="商品圖片"
                       />
-                      <CardContent>
+                      <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.name}</Box>
+                            <Box sx={ProductName}>{v.product_name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandProduct(
-                                  changeFavorState(recommandProduct, v.id)
+                                  changeFavorState(recommandProduct, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (
@@ -348,11 +184,14 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>推薦商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
+            {' '}
             {popularProducts.map((v, i) => {
               return (
                 <SwiperSlide key={i}>
@@ -363,20 +202,21 @@ export default function RecommendProduct(props) {
                     <CUICard sx={CUICardStyle}>
                       <CardMedia
                         sx={CardMediaStyle}
-                        image="/SCphoto/capoo${i}.png"
-                        title="green iguana"
+                        image={`${
+                          process.env.NEXT_PUBLIC_BACKEND_PORT
+                        }/imgs/product/${v.picture.split(',')[0]}`}
+                        title="商品圖片"
                       />
-                      <CardContent sx={{ height: '100%' }}>
+                      <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.name}</Box>
+                            <Box sx={ProductName}>{v.product_name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setPopularProducts(
-                                  changeFavorState(popularProducts, v.id)
+                                  changeFavorState(popularProducts, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (
@@ -418,10 +258,12 @@ export default function RecommendProduct(props) {
         <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
         <div className={`${styles.recommendProductContainer}`}>
           <Swiper
+            modules={[Navigation, Pagination, Scrollbar, A11y, EffectFade]}
             spaceBetween={spaceBetween}
             slidesPerView={slidesPerView}
-            onSlideChange={() => console.log('slide change')}
-            onSwiper={(swiper) => console.log(swiper)}
+            navigation
+            pagination={{ clickable: true }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandLesson.map((v, i) => {
               return (
@@ -433,21 +275,19 @@ export default function RecommendProduct(props) {
                     <CUICard sx={CUICardStyle}>
                       <CardMedia
                         sx={CardMediaStyle}
-                        // image={`/SCphoto/capoo${i}.png`}
-                        image="/SCphoto/capoo${i}.png"
-                        title="green iguana"
+                        image={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.img}`}
+                        title="商品圖片"
                       />
-                      <CardContent>
+                      <CardContent className={`${styles.cardContent}`}>
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
-                            <Box>{v.name}</Box>
+                            <Box sx={ProductName}>{v.name}</Box>
                             <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandLesson(
-                                  changeFavorState(recommandLesson, v.id)
+                                  changeFavorState(recommandLesson, v.sid)
                                 );
-                                console.log();
                               }}
                             >
                               {v.isFavor ? (

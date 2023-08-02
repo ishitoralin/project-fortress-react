@@ -1,6 +1,7 @@
 import React, { useState, useContext, createContext, useEffect } from 'react';
 import { refreshTokenUrl, loginUrl, logoutUrl, checkAuthUrl } from './config';
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useRouter } from 'next/router';
 export const AuthContext = createContext(null);
@@ -27,7 +28,7 @@ export const AuthProvider = ({ children }) => {
         failedRequest.response.config.headers[
           'Authorization'
         ] = `Bearer ${tokenRefreshResponse.data.accessToken}`;
-        console.log(tokenRefreshResponse.data.user, 'L29');
+        console.log(tokenRefreshResponse.data.user, 'L31');
         setAuth({
           isLogin: true,
           user: tokenRefreshResponse.data.user,
@@ -72,7 +73,7 @@ export const AuthProvider = ({ children }) => {
       return res.data.message;
     } catch (err) {
       console.log(err);
-      return err.response.data.message;
+      return err.response.status;
     }
   };
 
@@ -100,14 +101,14 @@ export const AuthProvider = ({ children }) => {
 
   init(axios);
 
-  // useEffect(() => {
-  //   if (auth?.accessToken)
-  //     //TODO remove console
-  //     console.log(
-  //       `set  axios.defaults.headers.common['Authorization'] = ${auth.accessToken};`
-  //     );
-  //   axios.defaults.headers.common['Authorization'] = auth.accessToken;
-  // }, [auth?.accessToken]);
+  useEffect(() => {
+    if (auth?.accessToken)
+      //TODO remove console
+      console.log(`set  axios.defaults.headers.common['Authorization']`);
+    axios.defaults.headers.common[
+      'Authorization'
+    ] = `Bearer ${auth.accessToken}`;
+  }, [auth]);
   useEffect(() => {
     //還沒接
     checkAuth();

@@ -1,4 +1,4 @@
-export const containerStyle = { py: '2rem' };
+export const containerStyle = { py: '2rem', overflow: 'hidden' };
 
 export const cardBoxStyle = {
   '--bigCard-height': '380px',
@@ -89,15 +89,18 @@ export const tagStyle = {
 
 export const coachNameBoxStyle = {
   width: 'fit-content',
+  paddingRight: '1rem',
   marginLeft: 'auto',
   borderBottom: '2px solid var(--steel-grey)',
   'h5, h6': {
     display: 'inline-block',
   },
   h6: {
+    fontWeight: 'bold',
     marginRight: '1rem',
   },
   h5: {
+    fontStyle: 'italic',
     marginLeft: '1rem',
   },
 };
@@ -105,3 +108,12 @@ export const coachNameBoxStyle = {
 export const lessonsBoxStyle = { marginTop: '2rem', py: 4, width: '100%' };
 
 export const lessonsCardGridStyle = { justifyContent: 'center', gap: '2rem' };
+
+export const locationTitleStyle = {
+  color: 'white',
+  width: 'fit-content',
+  marginBottom: 5,
+  padding: 2,
+  paddingRight: '5rem',
+  borderBottom: '2px solid white',
+};

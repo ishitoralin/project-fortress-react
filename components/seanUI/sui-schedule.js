@@ -42,6 +42,7 @@ function SUISchedule({
   // >>> 規劃暫存清單
   scheduleList,
   setScheduleList,
+  setEditDate,
   // <<< 規劃暫存清單
   // >>> 要加入規劃的時間
   scheduleDate,
@@ -52,8 +53,8 @@ function SUISchedule({
   // >>> dialog control
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+
   const handleDialogClose = () => {
-    // console.log('schedule-close');
     setDialogOpen(false);
   };
 
@@ -86,17 +87,22 @@ function SUISchedule({
             alignItems: 'center',
           }}
         >
-          <CUIDatePicker
-            sx={{ width: '80%' }}
-            label={'pick a date'}
-            format={'YYYY-MM-DD'}
-            disabled={editing}
-            // defaultValue={today}
-            value={scheduleDate || undefined}
-            onChange={(e) => {
-              setScheduleDate(e);
-            }}
-          />
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+            <CUIDatePicker
+              sx={{ width: '80%' }}
+              label={'pick a date'}
+              format={'YYYY-MM-DD'}
+              disabled={editing}
+              // defaultValue={today}
+              value={scheduleDate || undefined}
+              onChange={(e) => {
+                setScheduleDate(e);
+              }}
+            />
+            {!scheduleDate && scheduleList.length != 0 && (
+              <Box sx={{ color: 'red' }}>請選擇日期</Box>
+            )}
+          </Box>
           <CUIButton
             sx={{
               width: '35%',
@@ -106,6 +112,7 @@ function SUISchedule({
             onClick={(e) => {
               handleAddSchedule(scheduleList, scheduleDate);
             }}
+            disabled={!scheduleDate || scheduleList.length === 0}
           >
             {editing ? '修改計畫' : '加入規劃'}
           </CUIButton>
@@ -117,9 +124,11 @@ function SUISchedule({
               bgcolor: 'var(--steel-grey)',
             }}
             onClick={(e) => {
-              // TODO:clean schedule,
+              // console.log('123');
               setEditing(false);
               setScheduleList([]);
+              setScheduleDate(null);
+              setEditDate(null);
             }}
           >
             取消

@@ -1,5 +1,9 @@
+import { useState, useEffect } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
+
+import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
+import { useAuth } from '@/context/auth/useAuth';
 
 import {
   coachCardBoxStyle,
@@ -8,6 +12,7 @@ import {
   cardBehindStyle,
   cardFrontStyle,
   cardTitleStyle,
+  locationStyle,
 } from '@/styles/coach-style/coach-info-card-style';
 
 import BrickWallPaper from '@/components/brick-wallpaper';
@@ -18,7 +23,70 @@ const BreakPointTheme = createBreakPointTheme({
   th: 1000,
 });
 
-const CoachPage = () => {
+const fetchData = async (id) => {
+  const getCoachUrl = `http://localhost:3001/coach/${id}`;
+  const getLessonsUrl = `http://localhost:3001/lesson?coach=${id}`;
+
+  const [coach, lessons] = await Promise.all(
+    [getCoachUrl, getLessonsUrl].map(async (url) => {
+      const res = await fetch(url, {
+        headers: getAuthHeaders(),
+      });
+      return await res.json();
+    })
+  );
+
+  return {
+    coach,
+    lessons,
+  };
+};
+
+export const getStaticPaths = async () => {
+  const res = await fetch('http://localhost:3001/coach');
+  const data = await res.json();
+
+  const paths = data.map((ct) => ({ params: { id: ct.toString() } }));
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps = async (context) => {
+  const id = context.params.id;
+  const { coach, lessons } = await fetchData(id);
+
+  return {
+    props: {
+      coachId: id,
+      coach,
+      initLessons: lessons,
+    },
+  };
+};
+
+const locationDictionary = {
+  taipei: '台北館',
+  taichung: '台中館',
+  kaohsiung: '高雄館',
+};
+
+const CoachPage = ({ coach, coachId, initLessons }) => {
+  const [lessons, setLessons] = useState(initLessons);
+
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
+  useEffect(() => {
+    if (!auth.user?.id) return;
+    (async () => {
+      const { lessons } = await fetchData(coachId);
+      setLessons(lessons);
+    })();
+  }, [auth]);
+
   return (
     <BreakPointTheme>
       <Box sx={{ py: 4 }}>
@@ -46,57 +114,66 @@ const CoachPage = () => {
               padding: 2,
               position: { xs: 'relative', th: 'sticky' },
               top: '4rem',
-              height: 'calc(100vh - var(--nav-height) - var(--footer-height))',
-              width: { xs: '380px', sm: '450px', th: '480px' },
+              height: {
+                xs: '75vh',
+                sm: 'calc(100vh - var(--nav-height) - var(--footer-height))',
+              },
+              width: { xs: '350px', sm: '450px', th: '480px' },
             }}
           >
-            <Box sx={imageBoxStyle}>
-              <Image
-                fill
-                alt="coach-img"
-                style={{
-                  objectFit: 'cover',
-                  objectPosition: 'top center',
-                }}
-                src={'/coach-img/emily.jpg'}
-              ></Image>
-            </Box>
             <Box sx={cardGridStyle}>
+              <Box sx={imageBoxStyle}>
+                <Image
+                  fill
+                  alt="coach-img"
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'center top',
+                  }}
+                  placeholder="blur"
+                  blurDataURL={`${coach.img_base64}`}
+                  src={`/coach-img/${coach.img}`}
+                />
+              </Box>
               <Box sx={coachCardBoxStyle}>
                 <Box sx={cardBehindStyle}>
                   <Typography sx={cardTitleStyle} variant="h5">
-                    Jessica
+                    {coach.nickname}
                   </Typography>
                 </Box>
-                <Typography sx={cardFrontStyle}>
-                  嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
-                </Typography>
+                <Box sx={cardFrontStyle}>
+                  <Typography>{coach.introduction}</Typography>
+                  <Typography variant="h5" sx={locationStyle}>
+                    {locationDictionary[coach.location]}
+                  </Typography>
+                </Box>
               </Box>
             </Box>
           </Box>
           <Box
             sx={{
-              marginLeft: { xs: '0', th: '-10rem', lg: '.5rem' },
+              width: { th: '50%' },
+              transition: '.5s',
+              marginLeft: { xs: '0', th: '-11rem', lg: '-2rem' },
               flexGrow: 1,
             }}
           >
-            {[...Array(10)].map((value, index) => (
-              <LessonCard
-                key={index}
-                lesson={{
-                  lessonName: '水阻划船入門',
-                  img: '/lesson-img/functional.jpg',
-                  time: '2024/05/06 14:00',
-                  description:
-                    '這個課程將提供學員們一個初步的認識和實踐水阻划船的機會。學員們將學習基本的划船動作和安全知識。',
-                  coachName: '蔡岱峯',
-                  price: '600',
-                  enrolled: 10,
-                  limit: 20,
-                  tags: ['有氧', '核心鍛鍊', '腿部肌力'],
-                  location: '台北館',
-                }}
-              />
+            <Typography
+              variant="h4"
+              sx={{
+                width: '80%',
+                color: 'white',
+                textAlign: 'center',
+                marginInline: 'auto',
+                marginBottom: 5,
+                paddingBottom: 2,
+                borderBottom: '2px solid white',
+              }}
+            >
+              指導課程
+            </Typography>
+            {lessons.map((lesson, index) => (
+              <LessonCard key={index} lesson={lesson} setLessons={setLessons} />
             ))}
           </Box>
         </Container>

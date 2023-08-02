@@ -58,11 +58,23 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
             interactionPlugin,
             timeGridPlugin,
           ]}
-          select={(e) => setDate(e.startStr)}
+          select={(e) => {
+            setDate(e.startStr);
+            // console.log(e.startStr);
+            // TODO: scrollto not working
+            // scroll;
+
+            // window.scrollTo({
+            //   top: 0,
+            //   behavior: 'smooth',
+            // });
+          }}
           //>>> for select event
           eventClick={(e) => {
             setDate(dayjs(e.event.start).format('YYYY-MM-DD'));
-            // console.log(e.event.extendedProps.dataDump);
+            document
+              .querySelector('.calendarSelect')
+              .scrollIntoView({ behavior: 'smooth' });
           }}
           //<<< for select event
           // >>> max event show
