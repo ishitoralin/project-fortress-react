@@ -9,7 +9,7 @@ const toPlotFormat = (plotData, datasetPointColor) => {
       label: datas[0].name,
       data: xy,
       backgroundColor: datasetPointColor[i],
-      pointRadius: 7,
+      pointRadius: 9,
     };
     return datas;
   });

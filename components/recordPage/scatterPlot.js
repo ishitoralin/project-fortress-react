@@ -35,8 +35,8 @@ export default function ScatterPlot(plotData) {
   ];
 
   const datasets = toPlotFormat(plotData.plotData, datasetPointColor);
-  console.log(datasets);
-  console.log(dayjs(getRandomDate()));
+  // console.log(datasets);
+  // console.log(dayjs(getRandomDate()));
 
   const options = {
     responsive: true,

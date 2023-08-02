@@ -10,6 +10,7 @@ import { useDebounceHH } from '../customHook/useDebounce';
 
 // >>> for plot
 import ScatterPlot from './scatterPlot';
+import { useAuth } from '@/context/auth/useAuth';
 // <<< for plot
 
 const Section = styled(Box)(({ theme }) => ({
@@ -36,6 +37,7 @@ const SUIScheduleItem = styled(Box)(() => ({
 }));
 
 const PlotPage = ({ bodyParts, exerciseInit }) => {
+  const { auth } = useAuth();
   const dateDefault = { start: null, end: null };
   const maxPlotNumber = 5;
   const [plotDates, setPlotDates] = useState(dateDefault);
@@ -51,7 +53,14 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
   useDebounceHH(() => {
     // === for selection and search
     fetch(
-      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${plotBodyPart[0].key}/${plotKeyword}`
+      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${plotBodyPart[0].key}/${plotKeyword}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      }
     )
       .then((r) => r.json())
       .then((data) => {
@@ -69,7 +78,14 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
     setPlotData([]);
     plotExeList.map(async (item) => {
       await fetch(
-        `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
+        `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth?.accessToken}`,
+          },
+        }
       )
         .then((r) => r.json())
         .then((data) => {

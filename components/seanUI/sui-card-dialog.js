@@ -106,31 +106,6 @@ function ExeCardDialog({
       // disableEnforceFocus
       // disableRestoreFocus
     >
-      <Box
-        sx={{
-          width: '100%',
-          aspectRatio: '16 / 9',
-          position: 'relative',
-          transform: 'translateZ(100)',
-          zIndex: 99999,
-        }}
-        // onClick={(e) => {
-        //   console.log(e.target);
-        //   document.querySelector('iframe').src =
-        //     'https://www.youtube.com/embed/daVASrwlU9c?autoplay=1';
-        // }}
-      >
-        <iframe
-          width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/daVASrwlU9c"
-          // src="https://www.youtube.com/embed/daVASrwlU9c?autoplay=1"
-          title="YouTube video player"
-          // frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullscreen
-        ></iframe>
-      </Box>
       {/* {console.log(item)} */}
       {/* <DialogTitle>{item?.exercise_name || item?.name}</DialogTitle> */}
       <DialogContent>

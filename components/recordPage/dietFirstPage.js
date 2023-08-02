@@ -382,15 +382,22 @@ const DietFisrtPage = () => {
             p: 2,
           }}
         >
-          <Section className={`${style.description}`}>
-            BMR 指人體在靜止休息狀態下，維持新陳代謝所需的熱量。BMR
-            會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。
-          </Section>
-          <Section className={`${style.description}`}>
-            TDEE
-            是身體一整天下來，包括基礎代謝、活動量、吃東西所消耗的熱量。不同的生活型態需要的熱量也不一樣，當每天攝取的熱量和
-            TDEE 相等，便達到「熱量平衡」。
-          </Section>
+          <Box
+            sx={{
+              bgcolor: 'var(--steel-grey)',
+              color: 'var(--light-gray)',
+            }}
+          >
+            <Section className={`${style.description}`}>
+              BMR 指人體在靜止休息狀態下，維持新陳代謝所需的熱量。BMR
+              會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。
+            </Section>
+            <Section className={`${style.description}`}>
+              TDEE
+              是身體一整天下來，包括基礎代謝、活動量、吃東西所消耗的熱量。不同的生活型態需要的熱量也不一樣，當每天攝取的熱量和
+              TDEE 相等，便達到「熱量平衡」。
+            </Section>
+          </Box>
           <Section sx={{ height: '500px', marginTop: 5 }}>
             <h1>飲食建議</h1>
             <NuBox sx={{ border: NuBorder, borderRadius: NuBorderRadius }}>
