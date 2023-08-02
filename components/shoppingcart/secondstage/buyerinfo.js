@@ -1,9 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
+import CUITextField from '@/components/customUI/cui-textfield';
+import { name } from 'dayjs/locale/zh-tw';
 
 export default function BuyerInfo() {
+  const [info, setInfo] = useState([
+    { name: 1, value: '', error: false, helperText: '' },
+  ]);
+  // const [value, setValue] = useState('');
+  // console.log(value.length);
+
   return (
     <>
       {/* 購買人資訊 */}
@@ -38,15 +46,63 @@ export default function BuyerInfo() {
               </Button>
             </div>
           </div>
-          <div className={`${styles.InfoComponent1}`}>1</div>
-          <div className={`${styles.InfoComponent1}`}>2</div>
-          <div className={`${styles.InfoComponent1}`}>3</div>
-          <div className={`${styles.InfoComponent1}`}>4</div>
+          {/* <div className={`${styles.InfoComponent1}`}>1</div> */}
+          <CUITextField
+            name={1}
+            className={`${styles.InfoComponent1}`}
+            // error={value.length > 0 ? false : true}
+            label="請輸入訂購人姓名"
+            required
+            // value={}
+            onChange={(e) => {
+              const newState = [...info];
+              setInfo(
+                newState.map((v, i) => {
+                  if (e.name === 1) {
+                    return { ...v, value: e.target.values };
+                  }
+                  return { ...v };
+                })
+              );
+            }}
+            // onBlur={(e) => {
+            //   e.target.value.lenght;
+            //   setValue(e.target.value);
+            // }}
+            helperText={`此為必填欄位`}
+          ></CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入訂購人地址"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入連絡電話"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入電子信箱"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
         </div>
         <div className={`${styles.InfoContainer}`}>
           <div className={`${styles.InfoComponent2}`}>
             <div>宅配方式</div>
-            <div>
+            {/* <div>
               <Button
                 sx={{
                   padding: '0 6px',
@@ -58,7 +114,7 @@ export default function BuyerInfo() {
               >
                 選擇宅配方式
               </Button>
-            </div>
+            </div> */}
           </div>
           <div className={`${styles.InfoComponent2}`}>
             <div>
@@ -88,10 +144,40 @@ export default function BuyerInfo() {
               </Button>
             </div>
           </div>
-          <div className={`${styles.InfoComponent1}`}>1</div>
-          <div className={`${styles.InfoComponent1}`}>2</div>
-          <div className={`${styles.InfoComponent1}`}>3</div>
-          <div className={`${styles.InfoComponent1}`}>4</div>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入收件人姓名"
+            required
+            helperText={`此為必填欄位`}
+          ></CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入寄送地址"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入聯絡電話"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
+          <CUITextField
+            className={`${styles.InfoComponent1}`}
+            error={true}
+            label="請輸入電子信箱"
+            required
+            helperText={`此為必填欄位`}
+          >
+            1
+          </CUITextField>
         </div>
       </div>
     </>
