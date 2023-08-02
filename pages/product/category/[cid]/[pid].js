@@ -17,10 +17,12 @@ import {
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/auth/useAuth';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
   const router = useRouter();
+  const { auth } = useAuth();
   useEffect(() => {
     if (router.query.cid && router.query.pid) {
       fetch(
@@ -130,20 +132,32 @@ export default function Index() {
               >
                 立即購買
               </CUIButton> */}
-              <CUIButton
-                sx={{ width: '249px', height: '36px' }}
-                color={'main_red'}
-                onClick={() => {
-                  console.log(
-                    '數量 quanitty',
-                    quantity,
-                    router.query.cid,
-                    router.query.pid
-                  );
-                }}
-              >
-                加入購物車
-              </CUIButton>
+              {auth?.isLogin ? (
+                <CUIButton
+                  sx={{ width: '249px', height: '36px' }}
+                  color={'main_red'}
+                  onClick={() => {
+                    const jsonData = JSON.stringify({
+                      products_type_sid: router.query.cid,
+                      item_sid: router.query.pid,
+                      quantity,
+                    });
+                    fetch('http://localhost:3001/SCadd', {
+                      method: 'POST',
+
+                      body: jsonData,
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${auth?.accessToken}`,
+                      },
+                    });
+                  }}
+                >
+                  加入購物車
+                </CUIButton>
+              ) : (
+                <button>123123213</button>
+              )}
             </div>
             <div className={`${styles['product-detail-button']}`}>
               {/* <Button sx={{ color: 'black' }}>
