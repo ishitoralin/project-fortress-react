@@ -155,17 +155,21 @@ const ExercisePage = () => {
     setEditDate(null);
   };
   // <<< add/editing schadule
-  console.log(exerciseScheduleList);
+  // console.log(exerciseScheduleList);
   // >>> initiallize
-  useEffect(() => {
-    // === get bodyparts list
-    fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`) //=== for selection options
-      .then((r) => r.json())
-      .then((data) => {
-        data.data.unshift(exerciseInit);
-        bodyParts.current = data.data;
-      });
-  }, []);
+  useEffect(
+    () => {
+      // === get bodyparts list
+      fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`) //=== for selection options
+        .then((r) => r.json())
+        .then((data) => {
+          data.data.unshift(exerciseInit);
+          bodyParts.current = data.data;
+        });
+    },
+    [],
+    2000
+  );
 
   useDebounceHH(() => {
     fetch(

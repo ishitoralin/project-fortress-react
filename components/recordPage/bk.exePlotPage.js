@@ -9,7 +9,26 @@ import { useState, useEffect } from 'react';
 import { useDebounceHH } from '../customHook/useDebounce';
 
 // >>> for plot
-import ScatterPlot from './scatterPlot';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Line } from 'react-chartjs-2';
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 // <<< for plot
 
 const Section = styled(Box)(({ theme }) => ({
@@ -35,6 +54,17 @@ const SUIScheduleItem = styled(Box)(() => ({
   borderStyle: 'solid',
 }));
 
+// {
+// plotType,
+// plotDates, //{ start: null, end: null }
+// setPlotDates,
+// setPlotExeList,
+// bodyParts,
+// exerciseList
+// plotList,
+// plotDatas
+// }
+
 const PlotPage = ({ bodyParts, exerciseInit }) => {
   const dateDefault = { start: null, end: null };
   const maxPlotNumber = 5;
@@ -45,7 +75,7 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
   const [plotExeTypes, setPlotExeTypes] = useState([]); //=== exercise select options for plot
   const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
   const [plotting, setPlotting] = useState(false);
-  const [plotData, setPlotData] = useState([]); //=== data for plot
+  const [plotData, setPlotData] = useState([]);
 
   // >>> plot filter by body part
   useDebounceHH(() => {
@@ -64,19 +94,6 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
       });
   }, [plotBodyPart, plotKeyword, plotExeList]);
   // <<< plot filter by body part
-
-  useDebounceHH(() => {
-    setPlotData([]);
-    plotExeList.map(async (item) => {
-      await fetch(
-        `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
-      )
-        .then((r) => r.json())
-        .then((data) => {
-          setPlotData((prev) => [...prev, data.data]);
-        });
-    });
-  }, [plotExeList]);
 
   // ================================================================
   // >>> filter exercise by body part
@@ -117,27 +134,91 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
     setPlotKeyword(e.target.value);
   };
   // <<< search by keyword
+
   const handlePlot = () => {
+    // TODO: unfinished
     setPlotData([]);
-    plotExeList.map(async (item) => {
-      await fetch(
+    plotExeList.map((item) => {
+      fetch(
         `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
       )
         .then((r) => r.json())
         .then((data) => {
+          // add volumn
+          // data.data = data.data.map((e) => ({
+          //   ...e,
+          //   volumn: Number(e.quantity * e.reps * e.sets).toFixed(1),
+          // }));
+          // console.log(volumn);
           setPlotData((prev) => [...prev, data.data]);
         });
     });
   };
-
+  // console.log(plotData);
   const handleClean = () => {
     setPlotDates(dateDefault);
     setPlotExeList([]);
-    // setPlotData([])  //NOTE: need this?
   };
   // ================================================================
 
   // >>> for chartjs test
+  const options = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top',
+      },
+      title: {
+        display: true,
+        text: '訓練記錄',
+      },
+    },
+  };
+  const labels = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+  ];
+
+  const plotBorderColor = [
+    'rgb(255, 99, 132)',
+    'rgb(53, 162, 235)',
+    'rgb(53, 162, 235)', //TODO: add new color
+    'rgb(53, 162, 235)', //TODO: add new color
+    'rgb(53, 162, 235)', //TODO: add new color
+  ];
+  const plotBackgroundColor = [
+    'rgba(255, 99, 132, 0.5)',
+    'rgba(53, 162, 235, 0.5)',
+    'rgba(53, 162, 235, 0.5)', //TODO: add new color
+    'rgba(53, 162, 235, 0.5)', //TODO: add new color
+    'rgba(53, 162, 235, 0.5)', //TODO: add new color
+  ];
+
+  const generateRandomData = () => {
+    return labels.map(() => Math.random() * 2000 - 1000); // Generates random numbers between -1000 and 1000
+  };
+  const data = {
+    labels,
+    datasets: [
+      {
+        label: 'Dataset 1',
+        data: generateRandomData(),
+        borderColor: plotBorderColor[0],
+        backgroundColor: plotBackgroundColor[0],
+      },
+      {
+        label: 'Dataset 2',
+        data: generateRandomData(),
+        borderColor: plotBorderColor[1],
+        backgroundColor: plotBackgroundColor[1],
+      },
+    ],
+  };
   //   <<< for chartjs test
 
   return (
@@ -149,16 +230,13 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
         paddingTop: '50px',
       }}
     >
-      <Grid
-        container
-        justifyContent="center"
-        sx={{ width: '100%', height: '780px' }}
-      >
+      <Grid container justifyContent="center" sx={{ width: '100%' }}>
         <Grid
           item
           lg={3}
           sm={12}
           sx={{
+            // outline: '3px solid blue',
             p: 2,
           }}
         >
@@ -174,21 +252,22 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                   display: 'flex',
                   flexDirection: 'row',
                   width: '100%',
-                  // height: '100px',
+                  height: '100px',
                   mb: 2,
+                  // outline: '3px solid blue',
                 }}
               >
-                <Box sx={{ width: '100%' }}>
+                <Box sx={{ width: '60%', mr: 2 }}>
                   <Box
                     sx={{
                       display: 'flex',
-                      // flexDirection: 'column',
-                      justifyContent: 'space-between',
+                      flexDirection: 'column',
+                      justifyContent: 'space-around',
                       width: '100%',
                     }}
                   >
                     <CUIDatePicker // maxDate = end-date/ end-date - 1
-                      sx={{ width: '45%' }}
+                      sx={{ width: '100%' }}
                       label={'開始日期'}
                       format={'YYYY-MM-DD'}
                       //   disabled={editing}
@@ -197,10 +276,19 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                       maxDate={plotDates.end}
                       onChange={(e) => {
                         setPlotDates((prev) => ({ ...prev, start: e }));
+                        // console.log(plotDates);
                       }}
                     />
+                  </Box>
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      width: '100%',
+                    }}
+                  >
                     <CUIDatePicker // minDate = start-date/ start-date + 1
-                      sx={{ width: '45%' }}
+                      sx={{ width: '100%' }}
                       label={'結束日期'}
                       format={'YYYY-MM-DD'}
                       //   disabled={editing}
@@ -209,16 +297,39 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                       minDate={plotDates.start}
                       onChange={(e) => {
                         setPlotDates((prev) => ({ ...prev, end: e }));
+                        // console.log(plotDates);
                       }}
                     />
                   </Box>
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      flexDirection: 'column',
-                      width: '45%',
-                    }}
-                  ></Box>
+                </Box>
+                <Box
+                  sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-around',
+                    // width: '40%',
+                    // mt: 5,
+                    height: '100%',
+                    // mt: 2,
+                    // outline: '3px solid blue',
+                  }}
+                >
+                  {/* {console.log(plotDates.start, plotDates.end)} */}
+                  <CUIButton
+                    sx={{ width: '100%' }}
+                    disabled={
+                      !plotDates.start ||
+                      !plotDates.end ||
+                      plotExeList.length === 0
+                    }
+                    onClick={() => handlePlot()}
+                  >
+                    繪製
+                  </CUIButton>
+                  {/* TODO: enable when ploted */}
+                  <CUIButton color={'fortress'} sx={{ width: '100%' }} disabled>
+                    輸出PDF
+                  </CUIButton>
                 </Box>
               </Box>
               {/* <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
@@ -258,41 +369,25 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                   handleExeTypeSelection(e);
                 }}
               />
-              {plotExeList.length >= maxPlotNumber && (
-                <Box
-                  sx={{
-                    color: 'red',
-                    width: '60%',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignContent: 'center',
-                    alignItems: 'center',
-                  }}
-                >
-                  最大繪圖上限: {maxPlotNumber}
-                </Box>
-              )}
               <Box sx={{ display: 'flex', justifyContent: 'end' }}>
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mt: 3,
-                  }}
-                >
-                  <CUIButton
-                    color={'deepgrey'}
-                    sx={{ width: '35%' }}
-                    onClick={() => {
-                      handleClean();
+                {plotExeList.length >= maxPlotNumber && (
+                  <Box
+                    sx={{
+                      color: 'red',
+                      width: '60%',
+                      display: 'flex',
+                      justifyContent: 'center',
+                      alignContent: 'center',
+                      alignItems: 'center',
                     }}
                   >
-                    清除
-                  </CUIButton>
+                    最大繪圖上限: {maxPlotNumber}
+                  </Box>
+                )}
+                <Box sx={{ width: '40%' }}>
                   <CUIButton
                     color={'fortress'}
-                    sx={{ width: '45%' }}
+                    sx={{ width: '100%', my: 2 }}
                     onClick={() => {
                       handleAdd();
                     }}
@@ -321,6 +416,7 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                         }}
                         onClick={(e) => {
                           e.stopPropagation();
+                          // console.log(ele);
                           handlePlotListDelete(ele);
                         }}
                       >
@@ -332,42 +428,18 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                   </SUIScheduleItem>
                 );
               })}
-              <Box
-                sx={{
-                  display: 'flex',
-                  // flexDirection: 'c',
-                  justifyContent: 'space-between',
-                  // width: '40%',
-                  // mt: 5,
-                  // height: '100%',
-                  mt: 2,
-                }}
-              >
+              <Box sx={{ display: 'flex', justifyContent: 'end' }}>
+                {' '}
                 <CUIButton
-                  color={'fortress'}
-                  sx={{ width: '35%' }}
-                  disabled={
-                    !plotDates.start ||
-                    !plotDates.end ||
-                    plotExeList.length === 0
-                  }
+                  color={'deepgrey'}
+                  sx={{ width: '50%', mt: 1 }}
+                  onClick={() => {
+                    handleClean();
+                  }}
                 >
-                  輸出PDF
+                  清除
                 </CUIButton>
-                {/* TODO: enable when ploted */}
-                {/* <CUIButton
-                  sx={{ width: '45%' }}
-                  disabled={
-                    !plotDates.start ||
-                    !plotDates.end ||
-                    plotExeList.length === 0
-                  }
-                  onClick={() => handlePlot()}
-                >
-                  繪製
-                </CUIButton> */}
               </Box>
-              <Box sx={{ display: 'flex', justifyContent: 'end' }}> </Box>
             </Box>
           </Section>
         </Grid>
@@ -378,12 +450,11 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
           lg={9}
           sm={12}
           sx={{
+            // outline: '3px solid blue',
             p: 2,
-            height: '90%',
           }}
         >
-          <ScatterPlot plotData={plotData} />
-          {/* <Line options={options} data={data} /> */}
+          <Line options={options} data={data} />
         </Grid>
       </Grid>
     </div>
