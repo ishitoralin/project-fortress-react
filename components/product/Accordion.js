@@ -11,12 +11,13 @@ export default function BasicAccordion() {
   return (
     <div>
       <Accordion
-        className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        className={`${styles[('Accordion:root', 'Accordion:before')]}`}
+        sx={{ bgColor: 'none', border: 'none', boxShadow: 'none' }}
       >
         <AccordionSummary
+          className={`${styles['Accordion:root']}`}
           // expandIcon={<ExpandMoreIcon />}
-          sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+          sx={{ bgroundColor: 'none', border: 'none', boxShadow: 'none' }}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
@@ -27,6 +28,7 @@ export default function BasicAccordion() {
           </Link>
         </AccordionSummary>
         <AccordionDetails
+          className={`${styles['Accordion']}`}
           sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
         >
           <Typography>上衣類</Typography>

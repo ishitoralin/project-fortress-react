@@ -31,10 +31,31 @@ import {
 import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/auth/useAuth';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [favorite, setFavorite] = useState(false);
   const router = useRouter();
+  const { auth } = useAuth();
+  useEffect(() => {
+    if (auth?.accessToken) {
+      fetch(
+        `http://localhost:3001/api/member/member-favorite-products/${router.query.cid}/${router.query.pid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.favorite === true) {
+            setFavorite(true);
+          }
+        });
+    }
+  }, [auth]);
   useEffect(() => {
     if (router.query.cid && router.query.pid) {
       fetch(
@@ -174,20 +195,23 @@ export default function Index() {
               {/* <Button sx={{ color: 'black' }}>
                 <ShareIcon></ShareIcon>分享
               </Button> */}
-              {(v, i) => {
-                return (
-                  <Box key={i} sx={FavorIconStyle}>
-                    收藏
-                    {v.isFavor ? (
-                      <FavoriteIcon sx={FavorIconStyle}></FavoriteIcon>
-                    ) : (
-                      <FavoriteBorderIcon
-                        sx={FavorIconStyle}
-                      ></FavoriteBorderIcon>
-                    )}
-                  </Box>
-                );
-              }}
+
+              <Box sx={FavorIconStyle}>
+                收藏
+                {auth.isLogin ? (
+                  favorite ? (
+                    <FavoriteIcon sx={FavorIconStyle} onClick={() => {}} />
+                  ) : (
+                    <FavoriteBorderIcon
+                      sx={FavorIconStyle}
+                      onClick={() => {}}
+                    />
+                  )
+                ) : (
+                  '未登入'
+                )}
+                {}
+              </Box>
             </div>
           </div>
         </div>

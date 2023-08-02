@@ -912,11 +912,20 @@
   gap: 10px;
 }
 
+.Accordion {
+  background-color: none;
+}
+
 .Accordion::after {
   background-color: none;
 }
 
 .Accordion::before {
+  background-color: none;
+
+}
+
+.Accordion:root {
   background-color: none;
 
 }
