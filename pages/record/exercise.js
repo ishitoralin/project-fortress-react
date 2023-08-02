@@ -16,6 +16,7 @@ import {
   SUIScheduleTable,
 } from '@/components/seanUI/sui-schedule';
 import SeanCalendar from '@/components/recordPage/calendar';
+import { PlotPage } from '@/components/recordPage/exePlotPage';
 import getCurrentMonthDates from '@/components/seanUI/sui-getCurrentMonth';
 // =========================================================================
 // import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -39,10 +40,13 @@ import {
   useDebounce,
 } from '@/components/customHook/useDebounce';
 import useUpdateEffect from '@/components/customHook/useUpdateEffect';
+import ProtectedRouteWrapper from '@/components/protected-route';
+import Layout from '@/components/layout/layout';
+import { useAuth } from '@/context/auth/useAuth';
+import getBrickBackground from '@/libs/getBrickBackground';
 // =========================================================================
 //>>> pseudo-data
 const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
-
 const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
 //<<< pseudo-data
 
@@ -68,7 +72,9 @@ const Section = styled(Box)(({ theme }) => ({
 }));
 // <<< style
 
-const ExercisePage = () => {
+export default function ExercisePage() {
+  const { auth } = useAuth();
+  // console.log(auth.accessToken);
   // ============================================================
   // const today = dayjs(new Date()).format('YYYY-MM-DD');
   const exerciseInit = { key: 0, value: '全部', label: '全部' }; //=== exercise type的初始值
@@ -87,75 +93,114 @@ const ExercisePage = () => {
   // let editing = exerciseRecord.some((item) => item.date === editDate); //=== 判斷現在是否正在編輯月曆中某一天的運動, 當天有行程=ture
   const [editing, setEditing] = useState(false);
   useEffect(() => {
-    setEditing(exerciseRecord.some((item) => item.date === editDate));
+    setEditing(exerciseRecord?.some((item) => item.date === editDate));
   }, [exerciseRecord, editDate]);
-  // console.log(editing, editDate);
-  // console.log(scheduleDate);
-  // console.log(editing);
+  // ===============================================================
+
+  // const [plotDates, setPlotDates] = useState({ start: null, end: null });
+  // const [plotBodyPart, setPlotBodyPart] = useState([exerciseInit]); //=== for plot exercise body-part filter
+  // const [plotKeyword, setPlotKeyword] = useState(''); //=== for plot search keyword
+  // const [plotExeTypes, setPlotExeTypes] = useState([]); //=== exercise select options for plot
+  // const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
+
   // =============================================================
-  const handleAddSchedule = (list, date) => {
-    // console.log('test');
-    // console.log(editing, editDate);
+  // console.log(bodyParts.current);
+  // =============================================================
+
+  // >>> add/editing schadule
+  const handleAddSchedule = async (list, date) => {
     let dataAdded;
+    // console.log(editing);
     if (editing) {
-      // TODO:邏輯要想好
-      // console.log('editing');
-      fetch(`${process.env.SEAN_API_SERVER}/exercise-record/delete-record`, {
-        method: 'DELETE',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ date }),
-      })
+      await fetch(
+        `${process.env.SEAN_API_SERVER}/exercise-record/delete-record`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${auth?.accessToken}`,
+          },
+          body: JSON.stringify({ date }),
+        }
+      )
         .then((r) => r.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          // console.log('delete');
+        });
     }
     // eslint-disable-next-line no-extra-boolean-cast
     if (!!date) {
-      list.map((item) => {
+      // no date means editing
+      list.map(async (item) => {
         const data = { ...item, date };
-        fetch(`${process.env.SEAN_API_SERVER}/exercise-record/add-record`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(data),
-        })
+        await fetch(
+          `${process.env.SEAN_API_SERVER}/exercise-record/add-record`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${auth?.accessToken}`,
+            },
+            body: JSON.stringify(data),
+          }
+        )
           .then((r) => r.json())
           .then((data) => {
             dataAdded += data.result.affectedRows;
+            // console.log('added');
           });
       });
+      //>>> reset
       setExerciseScheduleList([]);
       setScheduleDate(undefined);
-      window.alert('added');
+      //<<< reset
+      // console.log('added'); // TODO:hot toast
     } else {
-      console.log('no date');
+      // console.log('no date'); // TODO:hot toast
     }
 
     setEditing(false); //=== reset editing
+    setEditDate(null);
   };
-
+  // <<< add/editing schadule
+  // console.log(exerciseScheduleList);
   // >>> initiallize
-  useEffect(() => {
-    // TODO: debounce
-    fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`) //=== for selection options
-      .then((r) => r.json())
-      .then((data) => {
-        data.data.unshift(exerciseInit);
-        bodyParts.current = data.data;
-      });
-  }, []);
+  useEffect(
+    () => {
+      // === get bodyparts list
+      fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      }) //=== for selection options
+        .then((r) => r.json())
+        .then((data) => {
+          data.data.unshift(exerciseInit);
+          bodyParts.current = data.data;
+        });
+    },
+    [],
+    2000
+  );
 
-  useEffect(() => {
+  useDebounceHH(() => {
     fetch(
-      `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`
+      `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      }
     ) //=== for exercise record
       .then((r) => r.json())
       .then((data) => {
         setExerciseRecord(data.data);
       });
-  }, [exerciseStartEnd]);
+  }, [exerciseStartEnd, exerciseScheduleList]);
 
   // <<< initiallize
 
@@ -164,7 +209,14 @@ const ExercisePage = () => {
   useDebounceHH(() => {
     // === for selection and search
     fetch(
-      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`
+      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`,
+      {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      }
     )
       .then((r) => r.json())
       .then((data) => {
@@ -178,19 +230,28 @@ const ExercisePage = () => {
     setBodyPart(bodyParts.current.filter((x) => x.value === e.target.value));
   };
   // <<< filter exercise by body part
+
   // >>> search by keyword
   // TODO: on composition end
   const handleSearch = (e) => {
     setKeyword(e.target.value);
   };
   // <<< search by keyword
+
   // >>> get the exercise-schedule when selecting date
   useDebounceHH(
     () => {
-      editing && setScheduleDate(editDate);
+      setScheduleDate(editDate);
       if (editing) {
         fetch(
-          `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${editDate}/${editDate}`
+          `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${editDate}/${editDate}`,
+          {
+            method: 'GET',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${auth?.accessToken}`,
+            },
+          }
         ) //=== for exercise record
           .then((r) => r.json())
           .then((data) => {
@@ -201,131 +262,143 @@ const ExercisePage = () => {
         setExerciseScheduleList([]);
       }
     },
-    [editing, editDate],
+    [editing, editDate], //FIXME:editing gave error
     100
   );
   // <<< get the exercise-schedule when selecting date
 
   return (
     <>
-      {/* =================================================================== */}
-      {/* === page 1 ========================================================= */}
-      {/* =================================================================== */}
-      <div id="page-1" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
-        {/* <div sx={{ padding: '64px' }}> */}
-        <Grid container justifyContent="center">
-          <Grid
-            item
-            lg={3}
-            sm={3}
-            sx={{
-              p: 2,
-              display: 'flex',
-              justifyContent: 'start',
-            }}
-          >
-            <Box sx={{ width: '72%' }}>
-              <BodySvg />
-            </Box>
-          </Grid>
-
-          {/* ============================================================================ */}
-
-          <Grid
-            item
-            lg={5}
-            sm={5}
-            sx={{
-              p: 2,
-            }}
-          >
-            <Section>
-              <h1>規劃你的訓練</h1>
-              <CUISelect
-                sx={{ width: '50%' }}
-                label="部位分類"
-                defaultValue={bodyParts.current[0].value}
-                options={bodyParts.current}
-                onChange={(e) => {
-                  handleBodypartSelection(e);
-                }}
-              />
-              <CUISearch
-                sx={{ width: '50%' }}
-                label="搜尋運動類型"
-                placeholder="請輸入關鍵字"
-                // value={keyword}
-                // onCompositionEnd={(e) => console.log('123')}
-                onChange={(e) => {
-                  console.log(e.nativeEvent.composed);
-                  // console.log(e);
-                  handleSearch(e);
-                }}
-              />
-            </Section>
-            {/* === For exercise card list === */}
-            <SUICardList
-              type="exercise"
-              list={exeType}
-              rowRWD={[6, 6, 4, 4, 3]}
-              exerciseScheduleList={exerciseScheduleList}
-              setExerciseScheduleList={setExerciseScheduleList}
-            />
-          </Grid>
-
-          {/* ============================================================================ */}
-
-          <Grid
-            item
-            lg={4}
-            sm={4}
-            sx={{
-              // outline: '3px solid blue',
-              p: 2,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <SUIScheduleTable sx={{ width: '100%' }}>
-              {/* TODO: 把按鈕跟datepicker夾到SUISchedule */}
-
-              <SUISchedule
-                // >>> style
-                scheduleTitleStyle={scheduleTitleStyle}
-                scheduleItemWdith={scheduleItemWdith}
-                // <<< style
-                type="exercise"
-                editing={editing}
-                setEditing={setEditing}
-                // >>> 規劃暫存清單
-                scheduleList={exerciseScheduleList}
-                setScheduleList={setExerciseScheduleList}
-                // <<< 規劃暫存清單
-                // >>> 要加入規劃的時間
-                scheduleDate={scheduleDate}
-                setScheduleDate={setScheduleDate}
-                // <<< 要加入規劃的時間
-                handleAddSchedule={handleAddSchedule} //=== fetch DB
-              />
-            </SUIScheduleTable>
-          </Grid>
-        </Grid>
-      </div>
-      {/* =================================================================== */}
-      {/* === page 2 ========================================================= */}
-      {/* =================================================================== */}
-
-      <div
-        id="page-2"
-        style={{
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          paddingTop: '50px',
+      <Box
+        sx={{
+          bgcolor: 'var(--deepgrey)',
+          backgroundImage: getBrickBackground({
+            scale: 2,
+            rotate: 7,
+            brickColor: 'hsl(100, 0%, 30%)',
+            strokeColor: 'hsl(100, 0%, 20%)',
+          }),
+          backgroundAttachment: 'fixed',
         }}
       >
-        <Grid container justifyContent="center" sx={{ width: '100%' }}>
-          <Grid
+        {/* =================================================================== */}
+        {/* === page 1 ========================================================= */}
+        {/* =================================================================== */}
+        <div id="page-1" style={{ paddingLeft: '64px', paddingRight: '64px' }}>
+          {/* <div sx={{ padding: '64px' }}> */}
+          <Grid container justifyContent="center">
+            <Grid
+              item
+              lg={3}
+              sm={3}
+              sx={{
+                p: 2,
+                display: 'flex',
+                justifyContent: 'start',
+              }}
+            >
+              <Box sx={{ width: '72%' }}>
+                <BodySvg />
+              </Box>
+            </Grid>
+
+            {/* ============================================================================ */}
+
+            <Grid
+              item
+              lg={5}
+              sm={5}
+              sx={{
+                p: 2,
+              }}
+            >
+              <Section>
+                <h1>規劃你的訓練</h1>
+                <CUISelect
+                  sx={{ width: '50%' }}
+                  label="部位分類"
+                  defaultValue={bodyParts.current[0].value}
+                  options={bodyParts.current}
+                  onChange={(e) => {
+                    handleBodypartSelection(e);
+                  }}
+                />
+                <CUISearch
+                  sx={{ width: '50%' }}
+                  label="搜尋運動類型"
+                  placeholder="請輸入關鍵字"
+                  // value={keyword}
+                  // onCompositionEnd={(e) => console.log('123')}
+                  onChange={(e) => {
+                    // console.log(e.nativeEvent.composed);
+                    // console.log(e);
+                    handleSearch(e);
+                  }}
+                />
+              </Section>
+              {/* === For exercise card list === */}
+              <SUICardList
+                type="exercise"
+                list={exeType}
+                rowRWD={[6, 6, 4, 4, 3]}
+                exerciseScheduleList={exerciseScheduleList}
+                setExerciseScheduleList={setExerciseScheduleList}
+              />
+              {/* {console.log(exeType)} */}
+            </Grid>
+            {/* ============================================================================ */}
+
+            <Grid
+              className="calendarSelect"
+              item
+              lg={4}
+              sm={4}
+              sx={{
+                // outline: '3px solid blue',
+                p: 2,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}
+            >
+              <SUIScheduleTable sx={{ width: '100%' }}>
+                <SUISchedule
+                  // >>> style
+                  scheduleTitleStyle={scheduleTitleStyle}
+                  scheduleItemWdith={scheduleItemWdith}
+                  // <<< style
+                  type="exercise"
+                  editing={editing}
+                  setEditing={setEditing}
+                  setEditDate={setEditDate}
+                  // >>> 規劃暫存清單
+                  scheduleList={exerciseScheduleList}
+                  setScheduleList={setExerciseScheduleList}
+                  // <<< 規劃暫存清單
+                  // >>> 要加入規劃的時間
+                  scheduleDate={scheduleDate}
+                  setScheduleDate={setScheduleDate}
+                  // <<< 要加入規劃的時間
+                  handleAddSchedule={handleAddSchedule} //=== fetch DB
+                />
+              </SUIScheduleTable>
+            </Grid>
+          </Grid>
+        </div>
+        {/* =================================================================== */}
+        {/* === page 2 ========================================================= */}
+        {/* =================================================================== */}
+
+        <div
+          id="page-2"
+          style={{
+            paddingLeft: '200px',
+            paddingRight: '200px',
+            paddingTop: '50px',
+          }}
+        >
+          <Grid container justifyContent="center" sx={{ width: '100%' }}>
+            {/* <Grid
             item
             lg={3}
             sm={12}
@@ -335,112 +408,47 @@ const ExercisePage = () => {
             }}
           >
             <CalendarCardList dates={exerciseDate} />
+          </Grid> */}
+
+            {/* ============================================================= */}
+
+            <Grid
+              item
+              lg={9}
+              sm={12}
+              sx={{
+                // outline: '3px solid blue',
+                p: 2,
+              }}
+            >
+              <SeanCalendar
+                list={exerciseRecord}
+                updateStartEnd={setExerciseStartEnd}
+                setDate={setEditDate}
+              />
+            </Grid>
           </Grid>
-
-          {/* ============================================================= */}
-
-          <Grid
-            item
-            lg={9}
-            sm={12}
-            sx={{
-              // outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            {/*TODO 2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動 */}
-            {/* TODO: 用"edigitng"變數來判斷是否要編輯某一天的運動 */}
-            <SeanCalendar
-              list={exerciseRecord}
-              updateStartEnd={setExerciseStartEnd}
-              setDate={setEditDate}
-            />
-          </Grid>
-        </Grid>
-      </div>
-
-      {/* =================================================================== */}
-      {/* === page 3 ========================================================= */}
-      {/* =================================================================== */}
-      <div
-        id="page-3"
-        style={{
-          paddingLeft: '200px',
-          paddingRight: '200px',
-          paddingTop: '50px',
-        }}
-      >
-        <Grid container justifyContent="center" sx={{ width: '100%' }}>
-          <Grid
-            item
-            lg={3}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <Section>
-              <Box
-                sx={{
-                  top: 0,
-                }}
-              >
-                <CUIDatePicker sx={{ width: '90%' }} label={'start date'} />
-                <CUIDatePicker sx={{ width: '90%' }} label={'end date'} />
-              </Box>
-              <Box sx={{ textAlign: 'center' }}>
-                {plotType.map((ele) => {
-                  return (
-                    <CUIButton
-                      key={ele}
-                      color={'fortress'}
-                      sx={{ width: '100%', mt: 1 }}
-                    >
-                      {ele}
-                    </CUIButton>
-                  );
-                })}
-                <CUIButton color={'deepgrey'} sx={{ width: '100%', mt: 1 }}>
-                  更多+
-                </CUIButton>
-              </Box>
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  width: '100%',
-                  mt: 2,
-                }}
-              >
-                <CUIButton color={'fortress'} sx={{ width: '50%' }}>
-                  輸出PDF
-                </CUIButton>
-                <CUIButton sx={{ width: '45%' }}>繪製</CUIButton>
-              </Box>
-            </Section>
-          </Grid>
-
-          {/* ============================================================= */}
-
-          <Grid
-            item
-            lg={9}
-            sm={12}
-            sx={{
-              outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <p>1.月曆顯示：每一天的總運動項目/Total Valumn</p>
-            <p>
-              2.點擊某一天跳出modal，model顯示當天全部的運動，點擊該項運動可以修改重量次數組數，可新增刪除運動
-            </p>
-          </Grid>
-        </Grid>
-      </div>
+        </div>
+        {/* =================================================================== */}
+        {/* === page 3 ========================================================= */}
+        {/* =================================================================== */}
+        <PlotPage
+          // plotType={plotType}
+          // plotDates={plotDates}
+          // setPlotDates={setPlotDates}
+          // setPlotExeList={setPlotExeList}
+          bodyParts={bodyParts.current}
+          exerciseInit={exerciseInit}
+        />
+      </Box>
     </>
   );
-};
+}
 
-export default ExercisePage;
+// export default ExercisePage;
+
+ExercisePage.getLayout = (page) => (
+  <ProtectedRouteWrapper>
+    <Layout>{page}</Layout>;
+  </ProtectedRouteWrapper>
+);

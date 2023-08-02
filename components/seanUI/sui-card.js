@@ -114,10 +114,15 @@ function MyCard({ type, item }) {
   let img;
   let name;
   if (type === 'exercise') {
-    img = '/react-imgs/record/exercise/' + item.img;
+    // img = '/react-imgs/record/exercise/' + item.img;
+    img =
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/record/exercise/` +
+      item.img;
     name = item.exercise_name;
   } else {
-    img = '/react-imgs/record/food/' + item.food_img;
+    // img = '/react-imgs/record/food/' + item.food_img;
+    img =
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/record/food/` + item.img;
     name = item.food_type;
   }
 
