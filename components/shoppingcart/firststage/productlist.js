@@ -22,6 +22,7 @@ import {
 import { result } from 'lodash';
 import Image from 'next/image';
 import axios from 'axios';
+import { useAuth } from '@/context/auth/useAuth';
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
@@ -29,7 +30,8 @@ export default function ProductList(props) {
   const [open, setOpen] = useState(false);
   const [currentID, setCurrentID] = useState(0);
   const [currentIndex, setCurrentIndex] = useState();
-  console.log(cartItems);
+  const { auth } = useAuth();
+
   const handleClickOpen = (id, i) => {
     setOpen(true);
     setCurrentID(id);
@@ -42,9 +44,17 @@ export default function ProductList(props) {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart/5')
+    fetch('http://localhost:3001/cart/', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
       .then((r) => r.json())
-      .then((results) => setCartItems(results.data))
+      .then((results) => {
+        console.log(results);
+        setCartItems(results.data);
+      })
       .catch((error) => console.log(error));
   }, []);
 
@@ -70,10 +80,7 @@ export default function ProductList(props) {
 
   // quantity更新api(給+ -及input用)
   const updateQuantity = async (order_sid, newQuantity) => {
-    // console.log(order_sid, newQuantity);
     try {
-      // TODO
-      // 這裡應該要將member_sid傳在網址列後面
       await axios.put(`http://localhost:3001/SCeditquantity/${order_sid}`, {
         order_sid: order_sid,
         quantity: newQuantity,
@@ -139,7 +146,7 @@ export default function ProductList(props) {
       return { ...v };
     });
   };
-  console.log(cartItems)
+  console.log(cartItems);
 
   return cartItems.length > 0 ? (
     <>

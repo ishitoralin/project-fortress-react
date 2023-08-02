@@ -43,13 +43,20 @@ import {
 } from '@/styles/shoppingcart-style/recommandproduct';
 import { delay, result } from 'lodash';
 import { style } from 'd3';
+import { useAuth } from '@/context/auth/useAuth';
 export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
+  const { auth } = useAuth();
   // data from database
   useEffect(() => {
-    fetch('http://localhost:3001/SCrecommanded')
+    fetch('http://localhost:3001/SCrecommanded', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
       .then((r) => r.json())
       .then((results) => setRecommandProduct(results.data));
   }, []);
