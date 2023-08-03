@@ -11,7 +11,9 @@ export default function CUIRadioButtons(props) {
   return (
     <>
       <FormControl sx={{ ...ContainerFormStyle }}>
-        <FormLabel>{props.RadioButtonTitle}</FormLabel>
+        <FormLabel sx={{ marginBottom: '30px' }}>
+          {props.RadioButtonTitle}
+        </FormLabel>
         <RadioGroup
           row
           name="row-radio-buttons-group"

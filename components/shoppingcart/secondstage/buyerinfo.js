@@ -5,15 +5,32 @@ import createColorTheme from '@/libs/CreateColorTheme';
 import CUITextField from '@/components/customUI/cui-textfield';
 import { name } from 'dayjs/locale/zh-tw';
 import { useAuth } from '@/context/auth/useAuth';
-
+import Box from '@mui/material/Box';
+import BottomNavigation from '@mui/material/BottomNavigation';
+import BottomNavigationAction from '@mui/material/BottomNavigationAction';
+import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
+import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 export default function BuyerInfo() {
   const { auth } = useAuth();
+  const [value, setValue] = React.useState(0);
+  // Value 可以抓到選取的宅配方式
+
   // const [info, setInfo] = useState([
   //   { name: 1, value: '', error: false, helperText: '' },
   // ]);
-  const [value, setValue] = useState('');
-  // console.log(value);
+  const [deliveryMethod, setDeliveryMethod] = useState([]);
 
+  useEffect(() => {
+    fetch('http://localhost:3001/OLdeliveryMethod', {
+      method: 'GET',
+    })
+      .then((r) => r.json())
+      .then((results) => {
+        return setDeliveryMethod(results.data);
+      });
+  }, []);
+  console.log(deliveryMethod);
   return (
     <>
       {/* 購買人資訊 */}
@@ -97,21 +114,45 @@ export default function BuyerInfo() {
           </CUITextField>
         </div>
         <div className={`${styles.InfoContainer}`}>
-          <div className={`${styles.InfoComponent2}`}>
+          <div className={`${styles.InfoComponent3}`}>
             <div>宅配方式</div>
-            {/* <div>
-              <Button
-                sx={{
-                  padding: '0 6px',
-                  fontSize: '24px',
-                  border: '1px solid #D9D9D9',
-                  color: 'black',
-                  fontWeight: '700',
-                }}
-              >
-                選擇宅配方式
-              </Button>
-            </div> */}
+            <div>
+              <Box sx={{ width: '100%' }}>
+                <BottomNavigation
+                  showLabels
+                  value={value}
+                  onChange={(event, newValue) => {
+                    console.log(newValue);
+                    const target = newValue;
+                    setValue(target);
+                  }}
+                >
+                  {deliveryMethod.map((v, i) => {
+                    return (
+                      <BottomNavigationAction
+                        key={v.sid}
+                        label={v.method}
+                        icon={
+                          v.sid === 1 ? (
+                            <LocalConvenienceStoreIcon
+                              sx={{ fontSize: '40px' }}
+                            />
+                          ) : v.sid === 2 ? (
+                            <LocalShippingIcon sx={{ fontSize: '40px' }} />
+                          ) : (
+                            <DirectionsCarIcon sx={{ fontSize: '40px' }} />
+                          )
+                        }
+                        sx={{
+                          padding: '0',
+                          margin: '30px',
+                        }}
+                      />
+                    );
+                  })}
+                </BottomNavigation>
+              </Box>
+            </div>
           </div>
           <div className={`${styles.InfoComponent2}`}>
             <div>

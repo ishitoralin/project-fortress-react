@@ -13,6 +13,7 @@ import {
   indexBackground,
   indexContainer,
   checkbutton,
+  indexContainerFor2ndPageCheckButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
 export default function SecondStage() {
   return (
@@ -24,7 +25,9 @@ export default function SecondStage() {
           <ItemListTitle></ItemListTitle>
           <ItemList></ItemList>
           <Payment></Payment>
-          <Recipt></Recipt>
+          {/* <Recipt></Recipt> */}
+        </Box>
+        <Box sx={indexContainerFor2ndPageCheckButton}>
           <CheckButton></CheckButton>
         </Box>
       </Box>

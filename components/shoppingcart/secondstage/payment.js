@@ -3,6 +3,8 @@ import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import Box from '@mui/material/Box';
+
 import CUIRadioButtons from '@/components/customUI/cui-radiobutton';
 export default function Payment() {
   const ContainerFormStyle = {
@@ -61,32 +63,14 @@ export default function Payment() {
   return (
     <>
       {/* 付款方式 */}
-      <CUIRadioButtons
-        ContainerFormStyle={ContainerFormStyle}
-        ButtonFormStyle={ButtonFormStyle}
-        RadioButtonArray={RadioButtonArray}
-        RadioButtonTitle={RadioButtonTitle}
-      ></CUIRadioButtons>
-      {/* <div className={styles.PaymentMethodContainer}>
-        <div className={styles.PaymentMethodTitle}>請選擇付款方式</div>
-        <div className={styles.PaymentMethodComponent}>
-          <div className={styles.PaymentMethod}>
-            <img src="/shoppingcart/LINE-Pay(h)_W98_n.png" alt="" />
-          </div>
-          <div className={styles.PaymentMethod}>
-            <img src="/shoppingcart/creditcard.png" alt="" width={'100px'} />
-          </div>
-          <div className={styles.PaymentMethod}>
-            <LocalShippingIcon sx={{ fontSize: '70px' }}></LocalShippingIcon>
-          </div>
-          <div className={styles.PaymentMethod}>
-            <LocalAtmIcon sx={{ fontSize: '70px' }}></LocalAtmIcon>
-          </div>
-          <div className={styles.PaymentMethod}>
-            <img src="/shoppingcart/applepay.png" alt="" width={'100px'} />
-          </div>
-        </div>
-      </div> */}
+      <Box sx={{ padding: '50px 0' }}>
+        <CUIRadioButtons
+          ContainerFormStyle={ContainerFormStyle}
+          ButtonFormStyle={ButtonFormStyle}
+          RadioButtonArray={RadioButtonArray}
+          RadioButtonTitle={RadioButtonTitle}
+        ></CUIRadioButtons>
+      </Box>
     </>
   );
 }
