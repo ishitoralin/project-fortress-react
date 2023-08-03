@@ -9,10 +9,8 @@ import { useAuth } from '@/context/auth/useAuth';
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
-  console.log(props.cartItems);
   const { auth } = useAuth();
   const checkConfirm = () => {
-    console.log(123);
     fetch('http://localhost:3001/SCconfirm', {
       method: 'POST',
       body: {},
@@ -21,7 +19,7 @@ export default function CheckButton(props) {
       },
     })
       .then((r) => r.json)
-      .then((result) => console.log(result));
+      .then((result) => result);
   };
   return (
     <>

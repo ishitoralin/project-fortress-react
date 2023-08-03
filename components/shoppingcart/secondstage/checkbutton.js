@@ -30,7 +30,7 @@ export default function CheckButton(props) {
   return (
     <>
       {/* 結帳按鈕 */}
-      {/* <div className={`${styles.checkButtonContainer}`}>
+      <div className={`${styles.checkButtonContainer}`}>
         <WhiteTheme>
           <Button
             className={`${styles.buttonContainer}`}
@@ -75,31 +75,7 @@ export default function CheckButton(props) {
             <Link href="/shoppingcart/thirdstage">送出訂單</Link>
           </Button>
         </RedTheme>
-      </div> */}
-
-      <Box sx={checkbutton}>
-        {/* 產品總計欄位 */}
-        <div>
-          <div className={styles.countContainer}>
-            {/* button 以外的元件 */}
-            <div className={`${styles.countComponentWithoutButton}`}>
-              <div className={`${styles.countComponent}`}>總計：</div>
-              <div className={`${styles.countComponentForQuantity}`}>
-                {/* {finalQuantity} */}
-              </div>
-              <div className={`${styles.countComponentForNumber}`}>
-                {/* {finalPrice} */}
-              </div>
-            </div>
-            {/* 只包含button的元件 */}
-            {/* <div className={`${styles.countButtonContainer}`}> */}
-            <div className={`${styles.countButtonComponent}`}>
-              <CheckButton></CheckButton>
-            </div>
-            {/* </div> */}
-          </div>
-        </div>
-      </Box>
+      </div>
     </>
   );
 }
