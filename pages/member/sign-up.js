@@ -14,6 +14,10 @@ import GoogleSvg from '@/public/icons/google-svg.svg';
 import axios from 'axios';
 import { Toaster, toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
+import useLoginNavigate from '@/hooks/useLoginNavigate';
+import { useAuth } from '@/context/auth/useAuth';
+import CUINonstyleButton from '@/components/customUI/cui-nonstyle-button';
+import useFirebase from '@/utils/useFirebase';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -33,6 +37,9 @@ const validationSchema = yup.object({
     }),
 });
 export default function SignUp() {
+  useLoginNavigate();
+  const { loginGoogle } = useFirebase();
+  const { googleLogin } = useAuth();
   const router = useRouter();
   const filed = [
     {
@@ -87,7 +94,9 @@ export default function SignUp() {
       }
     },
   });
-
+  const handleGoogleLogin = async (providerData) => {
+    googleLogin(providerData);
+  };
   return (
     <>
       <div className={`${styles.bg}`}></div>
@@ -130,16 +139,22 @@ export default function SignUp() {
           <CUIButton fullWidth type="submit" color={'steel_grey'}>
             註冊
           </CUIButton>
-          <Box>
+          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <Typography variant="span" sx={{ color: DEEPGREY }}>
               第三方登入
             </Typography>
-            <img
-              src={GoogleSvg.src}
-              width={25}
-              alt="google登入"
-              className={styles['google-login']}
-            />
+            <CUINonstyleButton
+              onClick={() => {
+                loginGoogle(handleGoogleLogin);
+              }}
+            >
+              <img
+                src={GoogleSvg.src}
+                width={25}
+                alt="google登入"
+                className={styles['google-login']}
+              />
+            </CUINonstyleButton>
           </Box>
           <div className={styles['back-cover']}></div>
           <div className={styles['front-cover']}></div>

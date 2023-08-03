@@ -32,7 +32,7 @@ const validationSchema = yup.object({
 export default function Login() {
   const { loginGoogle } = useFirebase();
   useLoginNavigate();
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const filed = [
     {
       label: '電子信箱',
@@ -60,32 +60,10 @@ export default function Login() {
         setFieldError('email', '帳號或密碼錯誤');
         return toast.error('帳號或密碼錯誤');
       }
-
-      // console.log(JSON.stringify(values, null, 2));
     },
   });
   const handleGoogleLogin = async (providerData) => {
-    // setLoading(true)
-    //TODO拿掉console
-    console.log(providerData);
-
-    /* const res = await axios.post(
-      'api/users/google-login',
-      providerData
-    )
-
-    console.log(res)
-
-    if (res.data.message === 'success') {
-      const newAuth = {
-        isAuth: true,
-        userId: res.data.user.id,
-      }
-
-      setAuth(newAuth)
-    } else {
-      alert('有錯誤')
-    } */
+    googleLogin(providerData);
   };
   return (
     <>
@@ -151,7 +129,7 @@ export default function Login() {
         </form>
       </div>
       <Toaster
-        position="top-center"
+        position="bottom-center"
         reverseOrder={false}
         gutter={8}
         containerClassName=""
