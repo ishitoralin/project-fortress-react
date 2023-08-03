@@ -7,17 +7,26 @@ import ItemList from './itemlist';
 import Payment from './payment';
 import CheckButton from './checkbutton';
 import Recipt from './recipt';
+import styles from '@/styles/shoppingcart.module.css';
+
+import {
+  indexBackground,
+  indexContainer,
+  checkbutton,
+} from '@/styles/shoppingcart-style/recommandproduct';
 export default function SecondStage() {
   return (
     <>
-      <Box sx={{ width: '100%', padding: '0 200px' }}>
-        <ShoppingState></ShoppingState>
-        <BuyerInfo></BuyerInfo>
-        <ItemListTitle></ItemListTitle>
-        <ItemList></ItemList>
-        <Payment></Payment>
-        <Recipt></Recipt>
-        <CheckButton></CheckButton>
+      <Box sx={indexBackground}>
+        <Box sx={indexContainer}>
+          <ShoppingState></ShoppingState>
+          <BuyerInfo></BuyerInfo>
+          <ItemListTitle></ItemListTitle>
+          <ItemList></ItemList>
+          <Payment></Payment>
+          <Recipt></Recipt>
+          <CheckButton></CheckButton>
+        </Box>
       </Box>
     </>
   );

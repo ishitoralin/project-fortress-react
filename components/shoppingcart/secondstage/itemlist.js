@@ -2,63 +2,48 @@ import React from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
+import { useAuth } from '@/context/auth/useAuth';
+import { useEffect, useState } from 'react';
 export default function ItemList() {
-  const fakeDataForCart = {
-    products: [
-      {
-        id: 8,
-        photo: 'photo',
-        name: '緊身衣',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 3000,
-        quantity: 21,
+  const { auth } = useAuth();
+  const [itemList, setItemList] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:3001/OLbuyerData', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
       },
-      {
-        id: 2,
-        photo: 'photo',
-        name: '布偶裝',
-        detail: 'abavafdasfewweg gewaef gre',
-        price: 2000,
-        quantity: 35,
-      },
-      {
-        id: 3,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-      {
-        id: 4,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-      {
-        id: 5,
-        photo: 'photo',
-        name: '貓貓裝',
-        detail: 'neko neko',
-        price: 600,
-        quantity: 75,
-      },
-    ],
-  };
+    })
+      .then((r) => r.json())
+      .then((results) => {
+        console.log(results);
+        setItemList(results.data);
+      })
+      .catch((error) => console.log(error));
+  }, []);
+
   return (
     <>
-      {' '}
       {/* 商品列表body */}
-      {fakeDataForCart.products.map((v, i) => {
+      {itemList.map((v, i) => {
         return (
           <div className={`${styles.ProductConFirmListContainer}`} key={v.id}>
             <div className={`${styles.ProductConFirmListComponent1}`}>
-              {i + 1}
+              <img
+                style={{ height: '95px', objectFit: 'cover' }}
+                src={
+                  v.products_type_sid === 4
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.picture}`
+                    : `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${
+                        v.picture.split(',')[0]
+                      }`
+                }
+                alt="商品圖片"
+              />
             </div>
             <div className={`${styles.ProductConFirmListComponent2}`}>
-              {v.photo}
+              {v.item_name}
             </div>
             <div className={`${styles.ProductConFirmListComponent1}`}>
               {v.price}

@@ -7,10 +7,10 @@ export default function ItemListTitle() {
       {/* 商品列表title */}
       <div className={`${styles.ProductConFirmTitleContainer}`}>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>
-          產品序號
+          商品資訊
         </div>
         <div className={`${styles.ProductConFirmTitleComponent2}`}>
-          商品資訊
+          產品名稱
         </div>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>單價</div>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>數量</div>

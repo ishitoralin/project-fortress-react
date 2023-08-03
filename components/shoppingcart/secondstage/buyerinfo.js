@@ -1,16 +1,18 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import CUITextField from '@/components/customUI/cui-textfield';
 import { name } from 'dayjs/locale/zh-tw';
+import { useAuth } from '@/context/auth/useAuth';
 
 export default function BuyerInfo() {
-  const [info, setInfo] = useState([
-    { name: 1, value: '', error: false, helperText: '' },
-  ]);
-  // const [value, setValue] = useState('');
-  // console.log(value.length);
+  const { auth } = useAuth();
+  // const [info, setInfo] = useState([
+  //   { name: 1, value: '', error: false, helperText: '' },
+  // ]);
+  const [value, setValue] = useState('');
+  // console.log(value);
 
   return (
     <>
@@ -53,22 +55,17 @@ export default function BuyerInfo() {
             // error={value.length > 0 ? false : true}
             label="請輸入訂購人姓名"
             required
-            // value={}
+            value={''}
             onChange={(e) => {
-              const newState = [...info];
-              setInfo(
-                newState.map((v, i) => {
-                  if (e.name === 1) {
-                    return { ...v, value: e.target.values };
-                  }
-                  return { ...v };
-                })
-              );
+              // const newState = [...info];
+              // newState.map((v, i) => {
+              //   if (e.name === 1) {
+              //     return { ...v, value: e.target.values };
+              //   }
+              //   return { ...v };
+              // })
             }}
-            // onBlur={(e) => {
-            //   e.target.value.lenght;
-            //   setValue(e.target.value);
-            // }}
+            onBlur={() => {}}
             helperText={`此為必填欄位`}
           ></CUITextField>
           <CUITextField
