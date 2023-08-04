@@ -29,18 +29,36 @@ const BarBell = (props) => {
   useLayoutEffect(() => {
     timeLineRef.current = gsap.timeline();
 
-    timeLineRef.current.from(
-      null,
+    timeLineRef.current.to(
+      barbellRef.current.position,
       {
-        duration: 1.8,
+        duration: 3,
+        z: -1,
+      },
+      '+=1'
+    );
+
+    timeLineRef.current.to(
+      barbellRef.current.rotation,
+      {
+        duration: 3,
+        y: 3,
       },
       '+=1'
     );
 
     timeLineRef.current.from(
+      null,
+      {
+        duration: 2,
+      },
+      '+=0.5'
+    );
+
+    timeLineRef.current.from(
       plateL6Ref.current.position,
       {
-        duration: 1.5,
+        duration: 2.5,
         x: -1,
       },
       0
@@ -49,7 +67,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL5Ref.current.position,
       {
-        duration: 1.2,
+        duration: 2,
         x: -1,
       },
       0
@@ -58,7 +76,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL4Ref.current.position,
       {
-        duration: 0.9,
+        duration: 1.5,
         x: -1,
       },
       0
@@ -67,7 +85,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL3Ref.current.position,
       {
-        duration: 0.6,
+        duration: 1,
         x: -1,
       },
       0
@@ -76,56 +94,57 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL2Ref.current.position,
       {
-        duration: 0.3,
+        duration: 0.5,
         x: -1,
       },
       0
     );
+    // {
+    //   timeLineRef.current.from(
+    //     plateR6Ref.current.position,
+    //     {
+    //       duration: 1.5,
+    //       x: 10,
+    //     },
+    //     0
+    //   );
 
-    timeLineRef.current.from(
-      plateR6Ref.current.position,
-      {
-        duration: 1.5,
-        x: 10,
-      },
-      0
-    );
+    //   timeLineRef.current.from(
+    //     plateR5Ref.current.position,
+    //     {
+    //       duration: 1.2,
+    //       x: 10,
+    //     },
+    //     0
+    //   );
 
-    timeLineRef.current.from(
-      plateR5Ref.current.position,
-      {
-        duration: 1.2,
-        x: 10,
-      },
-      0
-    );
+    //   timeLineRef.current.from(
+    //     plateR4Ref.current.position,
+    //     {
+    //       duration: 0.9,
+    //       x: 10,
+    //     },
+    //     0
+    //   );
 
-    timeLineRef.current.from(
-      plateR4Ref.current.position,
-      {
-        duration: 0.9,
-        x: 10,
-      },
-      0
-    );
+    //   timeLineRef.current.from(
+    //     plateR3Ref.current.position,
+    //     {
+    //       duration: 0.6,
+    //       x: 10,
+    //     },
+    //     0
+    //   );
 
-    timeLineRef.current.from(
-      plateR3Ref.current.position,
-      {
-        duration: 0.6,
-        x: 10,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR2Ref.current.position,
-      {
-        duration: 0.3,
-        x: 10,
-      },
-      0
-    );
+    //   timeLineRef.current.from(
+    //     plateR2Ref.current.position,
+    //     {
+    //       duration: 0.3,
+    //       x: 10,
+    //     },
+    //     0
+    //   );
+    // }
   }, []);
 
   return (

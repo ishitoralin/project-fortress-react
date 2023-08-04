@@ -31,64 +31,79 @@ const HomePage = () => {
           backgroundColor: '#222',
         }}
       >
-        <Suspense>
-          <Canvas>
-            <Environment preset="studio" />
-            <ambientLight preset="rembrandt" intensity={2} />
-            <directionalLight intensity={2} position={[50, 50, 50]} />
-            <ScrollControls pages={3} damping={0.25}>
+        <Canvas>
+          <Environment preset="studio" />
+          <ambientLight preset="rembrandt" intensity={2} />
+          <directionalLight intensity={2} position={[50, 50, 50]} />
+          <ScrollControls pages={4} damping={0.25}>
+            <Suspense>
               <BarBell
                 scale={4}
-                position={[-1, -0.75, 1]}
+                position={[-1, -0.75, 0.5]}
                 rotation={[0, 1.55, -0.2]}
               />
-              <Scroll html>
-                <section
+            </Suspense>
+
+            <Scroll html>
+              <section
+                style={{
+                  position: 'relative',
+                  width: '100vw',
+                  height: '100vh',
+                  pointerEvents: 'none',
+                }}
+              >
+                <div
                   style={{
-                    position: 'relative',
-                    width: '100vw',
-                    height: '100vh',
-                    pointerEvents: 'none',
+                    position: 'absolute',
+                    top: '4rem',
+                    left: '4rem',
                   }}
                 >
-                  <div
-                    style={{
-                      position: 'absolute',
-                      top: '4rem',
-                      left: '4rem',
-                    }}
-                  >
-                    <LogoIcon width={240} height={80} />
-                  </div>
-                  <h1
-                    style={{
-                      position: 'absolute',
-                      fontSize: '3rem',
-                      top: '50%',
-                      right: '8rem',
-                      color: 'white',
-                    }}
-                  >
-                    全台灣最大的複合式健身房
-                  </h1>
-                </section>
-                <section style={{ position: 'relative', height: '100vh' }}>
-                  <h1
-                    style={{
-                      position: 'absolute',
-                      fontSize: '3rem',
-                      top: '50%',
-                      right: '10%',
-                      color: 'white',
-                    }}
-                  >
-                    全台灣最大的複合式健身房
-                  </h1>
-                </section>
-                <SectionMap />
-              </Scroll>
-            </ScrollControls>
-            {/* <BarBell
+                  <LogoIcon width={240} height={80} />
+                </div>
+                <h1
+                  style={{
+                    position: 'absolute',
+                    fontSize: '3rem',
+                    top: '50%',
+                    right: '8rem',
+                    color: 'white',
+                  }}
+                >
+                  全台灣最大的複合式健身房
+                </h1>
+              </section>
+              <section style={{ position: 'relative', height: '100vh' }}>
+                <h1
+                  style={{
+                    position: 'absolute',
+                    fontSize: '3rem',
+                    top: '50%',
+                    right: '10%',
+                    color: 'white',
+                  }}
+                >
+                  全台灣最大的複合式健身房
+                </h1>
+              </section>
+              <section style={{ position: 'relative', height: '100vh' }}>
+                <h1
+                  style={{
+                    position: 'absolute',
+                    fontSize: '3rem',
+                    top: '50%',
+                    right: '10%',
+                    color: 'white',
+                  }}
+                >
+                  全台灣最大的複合式健身房
+                </h1>
+              </section>
+              <SectionMap />
+            </Scroll>
+          </ScrollControls>
+          {/* <BarBell
               scale={basicScale}
               position={[-1.5, 0, 0]}
               rotation={[0, 1, 0.5]}
@@ -102,9 +117,8 @@ const HomePage = () => {
               color="white" // Default
               lineWidth={5} // In pixels (default)
             /> */}
-            <OrbitControls enableZoom={false} />
-          </Canvas>
-        </Suspense>
+          <OrbitControls enableZoom={false} />
+        </Canvas>
       </div>
     </>
   );
