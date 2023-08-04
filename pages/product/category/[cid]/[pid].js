@@ -162,7 +162,7 @@ export default function Index() {
                 <RemoveIcon></RemoveIcon>
               </Button>
               <input
-                className={`${styles['quantityBox']}`}
+                className={`${styles['quantityBox']} ${styles['inputHideAdjustButton']}`}
                 type="number"
                 value={quantity}
                 onChange={(e) => {

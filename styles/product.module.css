@@ -811,6 +811,7 @@
   width: 62px;
   padding: 10px;
   height: 27px;
+
   text-align: center;
   font-size: 12px;
 }
@@ -913,7 +914,7 @@
 }
 
 .Accordion {
-font-size:24px;
+  font-size: 24px;
 }
 
 .Accordion::after {
@@ -924,10 +925,12 @@ font-size:24px;
   background-color: none;
 
 }
-.BasicAccordion{
+
+.BasicAccordion {
   padding-left: 30px;
   padding-top: 50px;
 }
+
 .Accordion:root {
   background-color: none;
 
@@ -953,4 +956,14 @@ font-size:24px;
 
 .BasicAccordion {
   background-color: none;
+}
+
+.inputHideAdjustButton[type='number']::-webkit-inner-spin-button,
+.inputHideAdjustButton[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.inputHideAdjustButton[type='number'] {
+  -moz-appearance: textfield;
 }
