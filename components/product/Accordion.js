@@ -6,27 +6,54 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from '@mui/material';
+import { useRouter } from 'next/router';
 
-export default function BasicAccordion() {
+export default function BasicAccordion({ page }) {
+  const router = useRouter();
   return (
-    <div>
+    <div className={`${styles['BasicAccordion']}`}>
       <Accordion
-        className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        expanded={page === '1' ? true : false}
+        className={`${styles[('Accordion:root', 'Accordion:before')]}`}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          bgColor: 'red',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
+          className={`${styles['Accordion:root']}`}
           // expandIcon={<ExpandMoreIcon />}
-          sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+          sx={{
+            bgroundColor: 'red',
+            border: 'none',
+            boxShadow: 'none',
+          }}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Link href="1" style={{ textDecoration: 'none', color: 'black' }}>
+          <Link
+            href="1"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
             <Typography className={`${styles['Accordion']}`}>
               運動衣物
             </Typography>
           </Link>
         </AccordionSummary>
         <AccordionDetails
+          className={`${styles['Accordion']}`}
           sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
         >
           <Typography>上衣類</Typography>
@@ -49,8 +76,20 @@ export default function BasicAccordion() {
       </Accordion>
 
       <Accordion
+        expanded={page === '2' ? true : false}
         className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          backgroundColor: 'none',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
           className={`${styles['Accordion']}`}
@@ -59,7 +98,18 @@ export default function BasicAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={`${styles['Accordion']}`}>健身食品</Typography>
+          <Link
+            href="2"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
+            <Typography className={`${styles['Accordion']}`}>
+              健身食品
+            </Typography>
+          </Link>
         </AccordionSummary>
         <AccordionDetails
           sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
@@ -73,8 +123,20 @@ export default function BasicAccordion() {
         </AccordionDetails>
       </Accordion>
       <Accordion
+        expanded={page === '3' ? true : false}
         className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          backgroundColor: 'none',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
           className={`${styles['Accordion']}`}
@@ -83,7 +145,18 @@ export default function BasicAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>健身器材</Typography>
+          <Link
+            href="3"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
+            <Typography className={`${styles['Accordion']}`}>
+              健身器材
+            </Typography>
+          </Link>
         </AccordionSummary>
       </Accordion>
     </div>

@@ -10,6 +10,7 @@ import styles from '@/styles/product.module.css';
 import { useRouter } from 'next/router';
 import BasicAccordion from '@/components/product/Accordion';
 import getBrickBackground from '@/libs/getBrickBackground';
+import NextBreadCrumb from '@/components/breadcrumb';
 
 export default function Index() {
   const [data, setData] = useState([]);
@@ -46,7 +47,10 @@ export default function Index() {
         >
           <div className={`${styles['list']}`}>
             <Box sx={{ width: '300px', Height: '400px' }}>
-              <BasicAccordion></BasicAccordion>
+              <BasicAccordion
+                page={router.query.cid}
+                className={`${styles['BasicAccordion']}`}
+              ></BasicAccordion>
             </Box>
             {/* <CUIFilter
           sx={{ width: '300px', Height: '400px' }}
@@ -69,7 +73,9 @@ export default function Index() {
           ]}
         /> */}
             <div className={`${styles['list-Card']}`}>
-              <BasicBreadcrumbs></BasicBreadcrumbs>
+              <div className={`${styles['BreadCrumb']}`}>
+                <NextBreadCrumb></NextBreadCrumb>
+              </div>
               <ListCard data={data} cid={router.query.cid}></ListCard>
             </div>
           </div>

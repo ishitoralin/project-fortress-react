@@ -4,7 +4,7 @@ import CuiImgsmap from '@/components/product/cui-imgsmap';
 import BasicBreadcrumbs from '@/components/product/cui-productBreadcrumbs';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
+// import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -32,11 +32,31 @@ import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/auth/useAuth';
+import NextBreadCrumb from '@/components/breadcrumb';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
+  const [favorite, setFavorite] = useState(false);
   const router = useRouter();
   const { auth } = useAuth();
+  useEffect(() => {
+    if (auth?.accessToken) {
+      fetch(
+        `http://localhost:3001/api/member/member-favorite-products/${router.query.cid}/${router.query.pid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${auth.accessToken}`,
+          },
+        }
+      )
+        .then((r) => r.json())
+        .then((d) => {
+          if (d.favorite === true) {
+            setFavorite(true);
+          }
+        });
+    }
+  }, [auth]);
   useEffect(() => {
     if (router.query.cid && router.query.pid) {
       fetch(
@@ -78,7 +98,10 @@ export default function Index() {
   return (
     <>
       <div className={`${styles['product-detail-section1']}`}>
-        <BasicBreadcrumbs></BasicBreadcrumbs>
+        {/* <BasicBreadcrumbs></BasicBreadcrumbs> */}
+        <div className={`${styles['BreadCrumb']}`}>
+          <NextBreadCrumb></NextBreadCrumb>
+        </div>
         <div className={`${styles['product-detail-container']}`}>
           <CuiImgsmap productData={productData}></CuiImgsmap>
           <div className={`${styles['product-detail-title']}`}>
@@ -139,7 +162,7 @@ export default function Index() {
                 <RemoveIcon></RemoveIcon>
               </Button>
               <input
-                className={`${styles['quantityBox']}`}
+                className={`${styles['quantityBox']} ${styles['inputHideAdjustButton']}`}
                 type="number"
                 value={quantity}
                 onChange={(e) => {
@@ -193,20 +216,23 @@ export default function Index() {
               {/* <Button sx={{ color: 'black' }}>
                 <ShareIcon></ShareIcon>分享
               </Button> */}
-              {(v, i) => {
-                return (
-                  <Box key={i} sx={FavorIconStyle}>
-                    收藏
-                    {v.isFavor ? (
-                      <FavoriteIcon sx={FavorIconStyle}></FavoriteIcon>
-                    ) : (
-                      <FavoriteBorderIcon
-                        sx={FavorIconStyle}
-                      ></FavoriteBorderIcon>
-                    )}
-                  </Box>
-                );
-              }}
+
+              <Box sx={FavorIconStyle}>
+                收藏
+                {auth.isLogin ? (
+                  favorite ? (
+                    <FavoriteIcon sx={FavorIconStyle} onClick={() => {}} />
+                  ) : (
+                    <FavoriteBorderIcon
+                      sx={FavorIconStyle}
+                      onClick={() => {}}
+                    />
+                  )
+                ) : (
+                  '未登入'
+                )}
+                {}
+              </Box>
             </div>
           </div>
         </div>
@@ -466,7 +492,7 @@ export default function Index() {
         <div className={`${styles['Cardcontainer']}`}>
           <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
           <div className={`${styles.recommendProductContainer}`}>
-            <RecommendProduct />
+            {/* <RecommendProduct /> */}
           </div>
         </div>
       </div>
