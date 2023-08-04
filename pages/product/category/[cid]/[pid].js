@@ -4,7 +4,7 @@ import CuiImgsmap from '@/components/product/cui-imgsmap';
 import BasicBreadcrumbs from '@/components/product/cui-productBreadcrumbs';
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
-import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
+// import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
 import ShareIcon from '@mui/icons-material/Share';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import FavoriteIcon from '@mui/icons-material/Favorite';
@@ -32,6 +32,7 @@ import CUIButton from '@/components/customUI/cui-button';
 import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/auth/useAuth';
+import NextBreadCrumb from '@/components/breadcrumb';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -97,7 +98,10 @@ export default function Index() {
   return (
     <>
       <div className={`${styles['product-detail-section1']}`}>
-        <BasicBreadcrumbs></BasicBreadcrumbs>
+        {/* <BasicBreadcrumbs></BasicBreadcrumbs> */}
+        <div className={`${styles['BreadCrumb']}`}>
+          <NextBreadCrumb></NextBreadCrumb>
+        </div>
         <div className={`${styles['product-detail-container']}`}>
           <CuiImgsmap productData={productData}></CuiImgsmap>
           <div className={`${styles['product-detail-title']}`}>
@@ -488,7 +492,7 @@ export default function Index() {
         <div className={`${styles['Cardcontainer']}`}>
           <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
           <div className={`${styles.recommendProductContainer}`}>
-            <RecommendProduct />
+            {/* <RecommendProduct /> */}
           </div>
         </div>
       </div>

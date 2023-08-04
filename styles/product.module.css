@@ -913,7 +913,7 @@
 }
 
 .Accordion {
-  background-color: none;
+font-size:24px;
 }
 
 .Accordion::after {
@@ -924,8 +924,33 @@
   background-color: none;
 
 }
-
+.BasicAccordion{
+  padding-left: 30px;
+  padding-top: 50px;
+}
 .Accordion:root {
   background-color: none;
 
+}
+
+.BreadCrumb ol {
+  gap: 10px;
+  padding-left: 50px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  text-decoration: none;
+  border: none;
+  color: #ffffff;
+}
+
+.BreadCrumb ol li a {
+  font-size: 14px;
+
+  text-decoration: none;
+  border: none;
+  color: #ffffff;
+}
+
+.BasicAccordion {
+  background-color: none;
 }

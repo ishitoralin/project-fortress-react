@@ -9,19 +9,41 @@ import { Link } from '@mui/material';
 
 export default function BasicAccordion() {
   return (
-    <div>
+    <div className={`${styles['BasicAccordion']}`}>
       <Accordion
         className={`${styles[('Accordion:root', 'Accordion:before')]}`}
-        sx={{ bgColor: 'none', border: 'none', boxShadow: 'none' }}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          bgColor: 'red',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
           className={`${styles['Accordion:root']}`}
           // expandIcon={<ExpandMoreIcon />}
-          sx={{ bgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+          sx={{
+            bgroundColor: 'red',
+            border: 'none',
+            boxShadow: 'none',
+          }}
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Link href="1" style={{ textDecoration: 'none', color: 'black' }}>
+          <Link
+            href="1"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
             <Typography className={`${styles['Accordion']}`}>
               運動衣物
             </Typography>
@@ -52,7 +74,18 @@ export default function BasicAccordion() {
 
       <Accordion
         className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          backgroundColor: 'none',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
           className={`${styles['Accordion']}`}
@@ -76,7 +109,18 @@ export default function BasicAccordion() {
       </Accordion>
       <Accordion
         className={`${styles['Accordion']}`}
-        sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
+        sx={{
+          '&.MuiAccordion-root::before': {
+            bgcolor: 'transparent',
+          },
+          '&.MuiAccordion-root': {
+            bgcolor: 'transparent',
+            color: '#ffffff',
+          },
+          backgroundColor: 'none',
+          border: 'none',
+          boxShadow: 'none',
+        }}
       >
         <AccordionSummary
           className={`${styles['Accordion']}`}
@@ -85,7 +129,7 @@ export default function BasicAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>健身器材</Typography>
+          <Typography className={`${styles['Accordion']}`}>健身器材</Typography>
         </AccordionSummary>
       </Accordion>
     </div>
