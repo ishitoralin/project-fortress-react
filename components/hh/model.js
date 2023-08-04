@@ -58,46 +58,6 @@ export function PlateXS(props) {
   );
 }
 
-export function PlateLG(props) {
-  const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
-  return (
-    <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Object_18.geometry}
-        material={materials['10kg_b']}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Object_19.geometry}
-        material={materials['10kg_a']}
-      />
-    </group>
-  );
-}
-
-export function PlateXL(props) {
-  const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
-  return (
-    <group {...props} dispose={null}>
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Object_21.geometry}
-        material={materials['15kg_b']}
-      />
-      <mesh
-        castShadow
-        receiveShadow
-        geometry={nodes.Object_22.geometry}
-        material={materials['15kg_a']}
-      />
-    </group>
-  );
-}
-
 export function PlateSM(props) {
   const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
   return (
@@ -138,11 +98,52 @@ export function PlateMD(props) {
   );
 }
 
+export function PlateLG(props) {
+  const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Object_18.geometry}
+        material={materials['10kg_b']}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Object_19.geometry}
+        material={materials['10kg_a']}
+      />
+    </group>
+  );
+}
+
+export function PlateXL(props) {
+  const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
+  return (
+    <group {...props} dispose={null}>
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Object_21.geometry}
+        material={materials['15kg_b']}
+      />
+      <mesh
+        castShadow
+        receiveShadow
+        geometry={nodes.Object_22.geometry}
+        material={materials['15kg_a']}
+      />
+    </group>
+  );
+}
+
 export function Collar(props) {
   const { nodes, materials } = useGLTF('/3d-object/gym_props._barberll.glb');
 
-  return <group {...props} dispose={null}>
-    <mesh
+  return (
+    <group {...props} dispose={null}>
+      <mesh
         castShadow
         receiveShadow
         geometry={nodes.Object_4.geometry}
@@ -151,7 +152,26 @@ export function Collar(props) {
         rotation={[Math.PI / 2, -Math.PI / 2, 0]}
         scale={0.01}
       />
-  </group>;
+    </group>
+  );
 }
+
+export const BarBell = (props) => (
+  <group {...props}>
+    <Bar />
+    <PlateXL position={[-0.68, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[-0.72, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[-0.76, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[-0.8, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateLG position={[-0.865, 0, 0]} rotation={[0, 1.5, 0]} />
+    <PlateMD position={[-0.915, 0, 0.28]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[0.72, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[0.76, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[0.8, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateXL position={[0.84, 0, -0.4]} rotation={[0, 1.5, 0]} />
+    <PlateLG position={[0.85, 0, 0]} rotation={[0, 1.5, 0]} />
+    <PlateMD position={[0.865, 0, 0.28]} rotation={[0, 1.5, 0]} />
+  </group>
+);
 
 useGLTF.preload('/3d-object/gym_props._barberll.glb');
