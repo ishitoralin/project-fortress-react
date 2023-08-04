@@ -4,6 +4,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import { useRouter } from 'next/router';
+import { toast } from 'react-hot-toast';
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
@@ -53,9 +54,6 @@ export const AuthProvider = ({ children }) => {
     } catch (err) {
       return err.response.data.message;
     }
-    //TODO delete cookie and delete JWT in heap here
-
-    // router.push('/');
   };
   const login = async (values) => {
     try {
@@ -76,27 +74,36 @@ export const AuthProvider = ({ children }) => {
       return err.response.status;
     }
   };
+  const googleLogin = async (providerData) => {
+    const res = await axios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/auth/google-login`,
+      { ...providerData }
+    );
+    console.log(res);
+
+    if (res.data.message === '登入成功') {
+      setAuth({
+        isLogin: true,
+        user: res.data.user,
+        accessToken: res.data.accessToken,
+      });
+      toast.success('登入成功,即將跳轉至首頁');
+    }
+    if (res.data.message === '註冊成功') {
+      toast.success('註冊成功,請登入');
+     
+    } else {
+      return;
+    }
+  };
 
   const checkAuth = async () => {
-    /* const res = await axios.get(checkAuthUrl, {
-      withCredentials: true,
-    });
-
-    if (res.data.message === 'authorized') {
-      const user = res.data.user;
-      setAuth({ isLogin: true, user });
-      // setLoading(false);
-    } */
     try {
       const data = await axios.get(checkAuthUrl, {
         withCredentials: true,
         headers: { Authorization: `Bearer ${auth?.accessToken}` },
       });
-      console.log(data, 'L85');
-      // if (data.message) setAuth(true)
-    } catch (err) {
-      console.log(err, 'L88');
-    }
+    } catch (err) {}
   };
 
   init(axios);
@@ -110,76 +117,13 @@ export const AuthProvider = ({ children }) => {
     ] = `Bearer ${auth.accessToken}`;
   }, [auth]);
   useEffect(() => {
-    //還沒接
     checkAuth();
   }, []);
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout, login }}>
+    <AuthContext.Provider value={{ auth, setAuth, logout, login, googleLogin }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
 export const useAuth = () => useContext(AuthContext);
-// export function ProtectedRoute({ children }) {
-//   const { auth } = useAuth();
-//   const router = useRouter();
-//   useEffect(() => {
-//     if (auth.isLogin) {
-//       router.push('/');
-//     }
-//   }, [auth.isLogin]);
-//   return <>{auth.isLogin ? children : <></>}</>;
-// }
-/* 
-<button
-        onClick={async () => {
-          // const email = ;
-          // const password = ;
-          const values = { email: 'mail62055@test.com', password: 'test1234' };
-          console.log({ email: 'mail62055@test.com', password: 'test1234' });
-          try {
-            const data = await axios.post(
-              'http://localhost:3001/api/auth/login',
-              JSON.stringify({
-                email: 'mail62055@test.com',
-                password: 'test1234',
-              }),
-              {
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                withCredentials: true,
-              }
-            );
-            console.log(data);
-          } catch (err) {
-            console.log(err.response.data);
-          }
-        }}
-      >
-        test
-      </button>
-      <button
-        onClick={async () => {
-          console.log(auth);
-          try {
-            const data = await axios.get(
-              'http://localhost:3001/api/auth/test',
-
-              {
-                headers: {
-                  Authorization: `Bearer ${auth.auth.accessToken}`,
-                },
-                withCredentials: true,
-              }
-            );
-            console.log(data);
-          } catch (err) {
-            console.log(err.response);
-          }
-        }}
-      >
-        test2
-      </button>
-*/
