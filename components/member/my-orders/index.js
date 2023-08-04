@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import styles from '../member.module.css';
 import OrdersTable from './orders-table';
 import MemberPagenation from '../member-pagenation';
+import axios from 'axios';
 
 function createData(sid, buy_time, pay_time, method_sid, payment) {
   return {
@@ -51,13 +52,26 @@ export default function MyOrders() {
     page: 1,
     rows: [],
   });
-  useEffect(() => {
+  /*   useEffect(() => {
     setData((prev) => {
       return { ...prev, rows };
     });
     return () => {};
+  }, []); */
+  useEffect(() => {
+    const getMyfavoriteProducts = async () => {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/my-orders`
+      );
+      if (res.data?.output?.rows);
+      {
+        setData((prev) => {
+          return { ...prev, rows: res.data.output.rows };
+        });
+      }
+    };
+    getMyfavoriteProducts();
   }, []);
-
   return (
     <div className={`${styles['my-container']}`}>
       <OrdersTable data={data} />
