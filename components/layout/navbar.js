@@ -199,7 +199,7 @@ const expandData = {
 
     {
       key: 'diet',
-      linkName: '飲食紀錄',
+      linkName: '飲食建議',
       href: '/record/diet',
     },
   ],

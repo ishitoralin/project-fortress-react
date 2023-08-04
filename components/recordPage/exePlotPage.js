@@ -5,7 +5,7 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import CUISearch from '../customUI/cui-search';
 import { Grid, Paper, Box, Button, ButtonBase } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useDebounceHH } from '../customHook/useDebounce';
 
 // >>> for plot
@@ -36,10 +36,11 @@ const SUIScheduleItem = styled(Box)(() => ({
   borderStyle: 'solid',
 }));
 
-const PlotPage = ({ bodyParts, exerciseInit }) => {
+const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
   const { auth } = useAuth();
   const dateDefault = { start: null, end: null };
   const maxPlotNumber = 5;
+  const plotCheck = useRef();
   const [plotDates, setPlotDates] = useState(dateDefault);
   const [plotBodyPart, setPlotBodyPart] = useState([exerciseInit]); //=== for plot exercise body-part filter
   const [plotKeyword, setPlotKeyword] = useState(''); //=== for plot search keyword
@@ -65,7 +66,7 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
       .then((r) => r.json())
       .then((data) => {
         setPlotExeTypes(
-          data.data.filter(
+          data.data?.filter(
             (dataObj) =>
               !plotExeList.some((listObj) => listObj.sid === dataObj.sid)
           )
@@ -89,10 +90,25 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
       )
         .then((r) => r.json())
         .then((data) => {
-          setPlotData((prev) => [...prev, data.data]);
+          // setPlotData((prev) => [...prev, data.data]);
+          setPlotData((prev) =>
+            data.data?.length > 0
+              ? [...prev, data.data]
+              : [
+                  ...prev,
+                  {
+                    typeID: item.sid,
+                    name: item.exercise_name,
+                    error: 'error',
+                  },
+                ]
+          );
         });
     });
-  }, [plotExeList]);
+  }, [plotExeList, plotDates]);
+  plotCheck.current = plotData.filter((e) => e.error);
+  // console.log('check', plotCheck.current);
+  // console.log('data:', plotData);
 
   // ================================================================
   // >>> filter exercise by body part
@@ -133,18 +149,18 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
     setPlotKeyword(e.target.value);
   };
   // <<< search by keyword
-  const handlePlot = () => {
-    setPlotData([]);
-    plotExeList.map(async (item) => {
-      await fetch(
-        `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
-      )
-        .then((r) => r.json())
-        .then((data) => {
-          setPlotData((prev) => [...prev, data.data]);
-        });
-    });
-  };
+  // const handlePlot = () => {
+  //   setPlotData([]);
+  //   plotExeList.map(async (item) => {
+  //     await fetch(
+  //       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
+  //     )
+  //       .then((r) => r.json())
+  //       .then((data) => {
+  //         setPlotData((prev) => [...prev, data.data]);
+  //       });
+  //   });
+  // };
 
   const handleClean = () => {
     setPlotDates(dateDefault);
@@ -170,30 +186,26 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
         justifyContent="center"
         sx={{ width: '100%', height: '780px' }}
       >
-        <Grid
-          item
-          lg={3}
-          sm={12}
-          sx={{
-            p: 2,
-          }}
-        >
-          <Section>
+        <Grid item lg={3} sm={12} sx={{ px: 2 }}>
+          <Section sx={{ ...myBGstyle }}>
             <Box
               sx={{
                 top: 0,
                 width: '100%',
               }}
             >
+              <h1>展示你的訓練記錄</h1>
               <Box
                 sx={{
                   display: 'flex',
                   flexDirection: 'row',
                   width: '100%',
                   // height: '100px',
-                  mb: 2,
+
+                  my: 2,
                 }}
               >
+                {/* TODO:可以用radio選擇畫不同的圖 */}
                 <Box sx={{ width: '100%' }}>
                   <Box
                     sx={{
@@ -262,7 +274,7 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                   plotExeTypes?.length || '0'
                 }):`}
                 options={
-                  plotExeTypes.length > 0
+                  plotExeTypes?.length > 0
                     ? plotExeTypes.map((e) => ({
                         key: e.sid,
                         value: e.exercise_name,
@@ -274,6 +286,7 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                   handleExeTypeSelection(e);
                 }}
               />
+              {/* {console.log(plotExeSelected)} */}
               {plotExeList.length >= maxPlotNumber && (
                 <Box
                   sx={{
@@ -313,7 +326,9 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
                       handleAdd();
                     }}
                     disabled={
-                      !plotExeSelected || plotExeList.length >= maxPlotNumber
+                      !plotExeSelected ||
+                      plotExeList.length >= maxPlotNumber ||
+                      plotExeSelected === '無'
                     }
                   >
                     加入
@@ -389,17 +404,22 @@ const PlotPage = ({ bodyParts, exerciseInit }) => {
         </Grid>
         {/* ============================================================= */}
 
-        <Grid
-          item
-          lg={9}
-          sm={12}
-          sx={{
-            p: 2,
-            height: '90%',
-          }}
-        >
-          <ScatterPlot plotData={plotData} />
-          {/* <Line options={options} data={data} /> */}
+        <Grid item lg={9} sm={12} sx={{ height: '100%' }}>
+          {/* FIXME: will glitch */}
+          {plotExeList.length > 0 && (
+            <Box sx={{ ...myBGstyle, p: 2 }}>
+              {plotCheck.current.length > 0 ? (
+                <Box sx={{ color: 'var(--main-red)' }}>
+                  <h1>{'No data for :'}</h1>
+                  {plotCheck.current.map((e) => (
+                    <h1 key={e.typeID}>{e.name}</h1>
+                  ))}
+                </Box>
+              ) : (
+                plotData.length > 0 && <ScatterPlot plotData={plotData} />
+              )}
+            </Box>
+          )}
         </Grid>
       </Grid>
     </div>
