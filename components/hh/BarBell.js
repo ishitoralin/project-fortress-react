@@ -30,9 +30,17 @@ const BarBell = (props) => {
     timeLineRef.current = gsap.timeline();
 
     timeLineRef.current.from(
+      null,
+      {
+        duration: 1.8,
+      },
+      '+=1'
+    );
+
+    timeLineRef.current.from(
       plateL6Ref.current.position,
       {
-        duration: 4,
+        duration: 1.5,
         x: -1,
       },
       0
@@ -41,7 +49,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL5Ref.current.position,
       {
-        duration: 3,
+        duration: 1.2,
         x: -1,
       },
       0
@@ -50,8 +58,71 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL4Ref.current.position,
       {
-        duration: 2,
+        duration: 0.9,
         x: -1,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateL3Ref.current.position,
+      {
+        duration: 0.6,
+        x: -1,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateL2Ref.current.position,
+      {
+        duration: 0.3,
+        x: -1,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateR6Ref.current.position,
+      {
+        duration: 1.5,
+        x: 10,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateR5Ref.current.position,
+      {
+        duration: 1.2,
+        x: 10,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateR4Ref.current.position,
+      {
+        duration: 0.9,
+        x: 10,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateR3Ref.current.position,
+      {
+        duration: 0.6,
+        x: 10,
+      },
+      0
+    );
+
+    timeLineRef.current.from(
+      plateR2Ref.current.position,
+      {
+        duration: 0.3,
+        x: 10,
       },
       0
     );

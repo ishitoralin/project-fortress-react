@@ -25,7 +25,7 @@ const HomePage = () => {
     <>
       <div
         style={{
-          position: 'fixed',
+          position: 'relative',
           width: '100%',
           height: '100vh',
           backgroundColor: '#222',
@@ -36,13 +36,12 @@ const HomePage = () => {
             <Environment preset="studio" />
             <ambientLight preset="rembrandt" intensity={2} />
             <directionalLight intensity={2} position={[50, 50, 50]} />
-            <ScrollControls page={3} damping={0.25}>
+            <ScrollControls pages={3} damping={0.25}>
               <BarBell
-                scale={basicScale}
-                position={[-1.5, 0, 0]}
-                rotation={[0, 1, 0.5]}
+                scale={4}
+                position={[-1, -0.75, 1]}
+                rotation={[0, 1.55, -0.2]}
               />
-
               <Scroll html>
                 <section
                   style={{
@@ -59,7 +58,7 @@ const HomePage = () => {
                       left: '4rem',
                     }}
                   >
-                    <LogoIcon width={270} height={90} />
+                    <LogoIcon width={240} height={80} />
                   </div>
                   <h1
                     style={{
