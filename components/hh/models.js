@@ -174,4 +174,17 @@ export const BarBell = (props) => (
   </group>
 );
 
+export const PlateRing = (props) => (
+  <group {...props}>
+    <PlateLG position={[0.48, 0, 0]} rotation={[0, 0.5, 0]} />
+    <PlateLG position={[0.33, 0.33, 0]} rotation={[-0.33, 0.33, 0]} />
+    <PlateLG position={[-0.33, 0.33, 0]} rotation={[-0.33, -0.33, 0]} />
+    <PlateLG position={[0, 0.48, 0]} rotation={[-0.5, 0, 0]} />
+    <PlateLG position={[-0.33, -0.33, 0]} rotation={[0.33, -0.33, 0]} />
+    <PlateLG position={[0, -0.48, 0]} rotation={[0.5, 0, 0]} />
+    <PlateLG position={[0.33, -0.33, 0]} rotation={[0.33, 0.33, 0]} />
+    <PlateLG position={[-0.48, 0, 0]} rotation={[0, -0.5, 0]} />
+  </group>
+);
+
 useGLTF.preload('/3d-object/gym_props._barberll.glb');

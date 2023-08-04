@@ -26,7 +26,7 @@ import {
   PlateXS,
   Collar,
   BarBell,
-} from '@/components/hh/model';
+} from '@/components/hh/models';
 
 const basicScale = 2.75;
 

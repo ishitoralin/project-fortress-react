@@ -10,24 +10,13 @@ import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Environment,
-  Stage,
-  Sky,
-  Stars,
   OrbitControls,
-  Lightformer,
+  Scroll,
+  ScrollControls,
 } from '@react-three/drei';
-import {
-  Bar,
-  PlateLG,
-  PlateMD,
-  PlateSM,
-  PlateXL,
-  PlateXS,
-  Collar,
-  BarBell,
-} from '@/components/hh/model';
 
 import LogoIcon from '@/assets/logo';
+import BarBell from '@/components/hh/BarBell';
 
 const basicScale = 2.75;
 
@@ -46,74 +35,78 @@ const HomePage = () => {
           <Canvas>
             <Environment preset="studio" />
             <ambientLight preset="rembrandt" intensity={2} />
-            <directionalLight intensity={2} position={[50, 5, 50]} />
-            <group scale={basicScale}>
-              <PlateLG position={[0.48, 0, 0]} rotation={[0, 0.5, 0]} />
-              <PlateLG position={[0.33, 0.33, 0]} rotation={[-0.33, 0.33, 0]} />
-              <PlateLG
-                position={[-0.33, 0.33, 0]}
-                rotation={[-0.33, -0.33, 0]}
+            <directionalLight intensity={2} position={[50, 50, 50]} />
+            <ScrollControls page={3} damping={0.25}>
+              <BarBell
+                scale={basicScale}
+                position={[-1.5, 0, 0]}
+                rotation={[0, 1, 0.5]}
               />
-              <PlateLG position={[0, 0.48, 0]} rotation={[-0.5, 0, 0]} />
-              <PlateLG
-                position={[-0.33, -0.33, 0]}
-                rotation={[0.33, -0.33, 0]}
-              />
-              <PlateLG position={[0, -0.48, 0]} rotation={[0.5, 0, 0]} />
-              <PlateLG position={[0.33, -0.33, 0]} rotation={[0.33, 0.33, 0]} />
-              <PlateLG position={[-0.48, 0, 0]} rotation={[0, -0.5, 0]} />
-            </group>
+
+              <Scroll html>
+                <section
+                  style={{
+                    position: 'relative',
+                    width: '100vw',
+                    height: '100vh',
+                    pointerEvents: 'none',
+                  }}
+                >
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '4rem',
+                      left: '4rem',
+                    }}
+                  >
+                    <LogoIcon width={270} height={90} />
+                  </div>
+                  <h1
+                    style={{
+                      position: 'absolute',
+                      fontSize: '3rem',
+                      top: '50%',
+                      right: '8rem',
+                      color: 'white',
+                    }}
+                  >
+                    全台灣最大的複合式健身房
+                  </h1>
+                </section>
+                <section style={{ position: 'relative', height: '100vh' }}>
+                  <h1
+                    style={{
+                      position: 'absolute',
+                      fontSize: '3rem',
+                      top: '50%',
+                      right: '10%',
+                      color: 'white',
+                    }}
+                  >
+                    全台灣最大的複合式健身房
+                  </h1>
+                </section>
+                <SectionMap />
+              </Scroll>
+            </ScrollControls>
             {/* <BarBell
               scale={basicScale}
               position={[-1.5, 0, 0]}
               rotation={[0, 1, 0.5]}
+            />
+            <CatmullRomLine
+              points={[
+                [0, 0, 0],
+                [1, 1, 1],
+                [-1.5, 0, 0],
+              ]} // Array of Points
+              color="white" // Default
+              lineWidth={5} // In pixels (default)
             /> */}
             <OrbitControls enableZoom={false} />
           </Canvas>
         </Suspense>
       </div>
-      <section
-        style={{
-          position: 'relative',
-          height: '100vh',
-          pointerEvents: 'none',
-        }}
-      >
-        <div
-          style={{
-            position: 'absolute',
-            top: '4rem',
-            left: '4rem',
-          }}
-        >
-          <LogoIcon width={270} height={90} />
-        </div>
-        <h1
-          style={{
-            position: 'absolute',
-            fontSize: '3rem',
-            top: '50%',
-            right: '8rem',
-            color: 'white',
-          }}
-        >
-          全台灣最大的複合式健身房
-        </h1>
-      </section>
-      <section style={{ position: 'relative', height: '100vh' }}>
-        <h1
-          style={{
-            position: 'absolute',
-            fontSize: '3rem',
-            top: '50%',
-            right: '10%',
-            color: 'white',
-          }}
-        >
-          全台灣最大的複合式健身房
-        </h1>
-      </section>
-      <SectionMap />
     </>
   );
 };
