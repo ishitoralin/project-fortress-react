@@ -35,6 +35,8 @@
     "framer-motion": "^10.12.17",
     "fullcalendar": "^6.1.8",
     "gsap": "^3.12.2",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.1",
     "leaflet": "^1.9.4",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",

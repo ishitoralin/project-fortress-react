@@ -55,6 +55,9 @@ const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
 const scheduleItemWdith = ['48%', '18%', '12%', '22%'];
+const myBorderRadius = '30px';
+const myBackgroundColor = 'var(--light-gray)';
+const myBGstyle = { borderRadius: myBorderRadius, bgcolor: myBackgroundColor };
 
 const scheduleTitleStyle = {
   borderRight: myBorder,
@@ -82,6 +85,9 @@ export default function ExercisePage() {
   const [exeType, setExeType] = useState([]); //=== for exercise-type cards
   const [bodyPart, setBodyPart] = useState([exerciseInit]); //=== for exercise body-part filter
   const bodyParts = useRef([exerciseInit]); //=== for selection options
+  const [flipFront, setFlipFront] = useState(true); //=== SVG front:true, back:false
+  const frontIDs = [1, 2, 4, 9, 12]; //=== ids of front bodyparts
+  const backIDs = [5, 6, 7, 8, 10, 11]; //=== ids of back bodyparts
   const [keyword, setKeyword] = useState(''); //=== for search keyword
   const [exerciseRecord, setExerciseRecord] = useState([]); //=== exercise record for calendar
   const [exerciseStartEnd, setExerciseStartEnd] = useState(
@@ -124,9 +130,7 @@ export default function ExercisePage() {
         }
       )
         .then((r) => r.json())
-        .then((data) => {
-          // console.log('delete');
-        });
+        .then((data) => {});
     }
     // eslint-disable-next-line no-extra-boolean-cast
     if (!!date) {
@@ -204,7 +208,6 @@ export default function ExercisePage() {
 
   // <<< initiallize
 
-  // TODO: apply filter to bodySVG
   // >>> filter by body part
   useDebounceHH(() => {
     // === for selection and search
@@ -222,7 +225,14 @@ export default function ExercisePage() {
       .then((data) => {
         setExeType(data.data);
       });
+    // console.log(frontIDs.includes(bodyPart[0].key));
+    if (!flipFront && frontIDs.includes(bodyPart[0].key)) {
+      setFlipFront(true);
+    } else if (flipFront && backIDs.includes(bodyPart[0].key)) {
+      setFlipFront(false);
+    }
   }, [bodyPart, keyword]);
+  // console.log(bodyParts);
   // >>> filter by body part
 
   // >>> filter exercise by body part
@@ -262,7 +272,7 @@ export default function ExercisePage() {
         setExerciseScheduleList([]);
       }
     },
-    [editing, editDate], //FIXME:editing gave error
+    [editing, editDate],
     100
   );
   // <<< get the exercise-schedule when selecting date
@@ -297,30 +307,32 @@ export default function ExercisePage() {
                 justifyContent: 'start',
               }}
             >
-              <Box sx={{ width: '72%' }}>
-                <BodySvg />
+              {/* {console.log(bodyPart)} */}
+              <Box sx={{ ...myBGstyle, width: '75%', p: 2 }}>
+                <BodySvg
+                  flipFront={flipFront}
+                  setFlipFront={setFlipFront}
+                  setBodyPart={setBodyPart}
+                  bodyPart={bodyPart}
+                  exerciseInit={exerciseInit}
+                />
               </Box>
             </Grid>
 
             {/* ============================================================================ */}
 
-            <Grid
-              item
-              lg={5}
-              sm={5}
-              sx={{
-                p: 2,
-              }}
-            >
+            <Grid item lg={5} sm={5} sx={{ ...myBGstyle, p: 2, my: 2 }}>
               <Section>
                 <h1>規劃你的訓練</h1>
                 <CUISelect
                   sx={{ width: '50%' }}
                   label="部位分類"
-                  defaultValue={bodyParts.current[0].value}
+                  // defaultValue={bodyParts.current[0].value}
+                  value={bodyPart[0].value}
                   options={bodyParts.current}
                   onChange={(e) => {
                     handleBodypartSelection(e);
+                    // console.log(bodyPart);
                   }}
                 />
                 <CUISearch
@@ -361,9 +373,10 @@ export default function ExercisePage() {
                 justifyContent: 'center',
               }}
             >
-              <SUIScheduleTable sx={{ width: '100%' }}>
+              <SUIScheduleTable sx={{ ...myBGstyle, width: '100%' }}>
                 <SUISchedule
                   // >>> style
+                  myBGstyle={myBGstyle}
                   scheduleTitleStyle={scheduleTitleStyle}
                   scheduleItemWdith={scheduleItemWdith}
                   // <<< style
@@ -417,15 +430,17 @@ export default function ExercisePage() {
               lg={9}
               sm={12}
               sx={{
-                // outline: '3px solid blue',
+                ...myBGstyle,
                 p: 2,
               }}
             >
+              <CUIButton color={'fortress'}>test</CUIButton>
               <SeanCalendar
                 list={exerciseRecord}
                 updateStartEnd={setExerciseStartEnd}
                 setDate={setEditDate}
               />
+              {console.log(exerciseRecord)}
             </Grid>
           </Grid>
         </div>
@@ -433,12 +448,9 @@ export default function ExercisePage() {
         {/* === page 3 ========================================================= */}
         {/* =================================================================== */}
         <PlotPage
-          // plotType={plotType}
-          // plotDates={plotDates}
-          // setPlotDates={setPlotDates}
-          // setPlotExeList={setPlotExeList}
           bodyParts={bodyParts.current}
           exerciseInit={exerciseInit}
+          myBGstyle={myBGstyle}
         />
       </Box>
     </>
@@ -449,6 +461,6 @@ export default function ExercisePage() {
 
 ExercisePage.getLayout = (page) => (
   <ProtectedRouteWrapper>
-    <Layout>{page}</Layout>;
+    <Layout>{page}</Layout>
   </ProtectedRouteWrapper>
 );

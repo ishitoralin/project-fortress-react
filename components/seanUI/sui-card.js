@@ -118,6 +118,7 @@ function MyCard({ type, item }) {
     img =
       `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/record/exercise/` +
       item.img;
+    //TODO: smaller img for card list
     name = item.exercise_name;
   } else {
     // img = '/react-imgs/record/food/' + item.food_img;
