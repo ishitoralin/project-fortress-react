@@ -47,8 +47,8 @@ export default function Index() {
         >
           <div className={`${styles['list']}`}>
             <Box sx={{ width: '300px', Height: '400px' }}>
-              
               <BasicAccordion
+                page={router.query.cid}
                 className={`${styles['BasicAccordion']}`}
               ></BasicAccordion>
             </Box>

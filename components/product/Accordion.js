@@ -6,11 +6,14 @@ import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Link } from '@mui/material';
+import { useRouter } from 'next/router';
 
-export default function BasicAccordion() {
+export default function BasicAccordion({ page }) {
+  const router = useRouter();
   return (
     <div className={`${styles['BasicAccordion']}`}>
       <Accordion
+        expanded={page === '1' ? true : false}
         className={`${styles[('Accordion:root', 'Accordion:before')]}`}
         sx={{
           '&.MuiAccordion-root::before': {
@@ -73,6 +76,7 @@ export default function BasicAccordion() {
       </Accordion>
 
       <Accordion
+        expanded={page === '2' ? true : false}
         className={`${styles['Accordion']}`}
         sx={{
           '&.MuiAccordion-root::before': {
@@ -94,7 +98,18 @@ export default function BasicAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={`${styles['Accordion']}`}>健身食品</Typography>
+          <Link
+            href="2"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
+            <Typography className={`${styles['Accordion']}`}>
+              健身食品
+            </Typography>
+          </Link>
         </AccordionSummary>
         <AccordionDetails
           sx={{ backgroundColor: 'none', border: 'none', boxShadow: 'none' }}
@@ -108,6 +123,7 @@ export default function BasicAccordion() {
         </AccordionDetails>
       </Accordion>
       <Accordion
+        expanded={page === '3' ? true : false}
         className={`${styles['Accordion']}`}
         sx={{
           '&.MuiAccordion-root::before': {
@@ -129,7 +145,18 @@ export default function BasicAccordion() {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography className={`${styles['Accordion']}`}>健身器材</Typography>
+          <Link
+            href="3"
+            style={{
+              textDecoration: 'none',
+              color: '#ffffff',
+              fontSize: '50px',
+            }}
+          >
+            <Typography className={`${styles['Accordion']}`}>
+              健身器材
+            </Typography>
+          </Link>
         </AccordionSummary>
       </Accordion>
     </div>
