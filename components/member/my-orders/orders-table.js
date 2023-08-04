@@ -25,7 +25,7 @@ export default function OrdersTable({ data }) {
         </TableHead>
         <TableBody>
           {data?.rows.map((row) => (
-            <Row key={row.name} row={row} />
+            <Row key={row.main_sid} row={row} />
           ))}
         </TableBody>
       </Table>

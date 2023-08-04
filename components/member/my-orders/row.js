@@ -17,7 +17,6 @@ import styles from '../member-table.module.css';
 export default function Row(props) {
   const { row } = props;
   const [open, setOpen] = useState(false);
-
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -31,7 +30,7 @@ export default function Row(props) {
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.sid}
+          {row.main_sid}
         </TableCell>
         {/*  sid,
     buytime,
@@ -42,7 +41,7 @@ export default function Row(props) {
         <TableCell align="right">{row.buy_time}</TableCell>
         <TableCell align="right">{row.pay_time}</TableCell>
         <TableCell align="right">{row.method_sid}</TableCell>
-        <TableCell align="right">{row.payment}</TableCell>
+        <TableCell align="right">{console.log(row.rows)}</TableCell>
       </TableRow>
       <TableRow>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6}>
@@ -63,22 +62,26 @@ export default function Row(props) {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.detail.map((detail) => (
-                    <TableRow key={detail.item_sid}>
+                  {row.rows.map((row) => (
+                    <TableRow key={row.detail_sid}>
                       <TableCell component="th" scope="row" align="center">
-                        {detail.item_sid}
+                        {row.pid}
                       </TableCell>
-                      <TableCell>{detail.product_name}</TableCell>
+                      <TableCell>{row.name}</TableCell>
                       <TableCell>
                         <img
                           className={styles['td-img']}
-                          src={detail.picture}
+                          src={`${
+                            process.env.NEXT_PUBLIC_BACKEND_PORT
+                          }/imgs/product/${row.picture.split(',')[0]}`}
                           alt="商品圖片"
                         />
                       </TableCell>
-                      <TableCell align="right">{detail.price}</TableCell>
-                      <TableCell align="right">{detail.quantity}</TableCell>
-                      <TableCell align="right">{detail.amount}</TableCell>
+                      <TableCell align="right">{row.price}</TableCell>
+                      <TableCell align="right">{row.quantity}</TableCell>
+                      <TableCell align="right">
+                        {row.price * row.quantity}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
