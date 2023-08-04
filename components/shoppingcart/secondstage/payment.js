@@ -50,14 +50,7 @@ export default function Payment() {
       Icon: <LocalAtmIcon sx={{ fontSize: '70px' }}></LocalAtmIcon>,
       alt: '無法顯示圖片',
     },
-    {
-      label: 'ApplyPay',
-      value: 'ApplyPay',
-      src: '/shoppingcart/applepay.png',
-      Icon: '',
-      alt: '無法顯示圖片',
-      width: '100px',
-    },
+
   ];
 
   return (

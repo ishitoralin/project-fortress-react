@@ -5,6 +5,7 @@ import Button from '@mui/material/Button';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import Box from '@mui/material/Box';
 import createColorTheme from '@/libs/CreateColorTheme';
+import Link from 'next/link';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   Navigation,
@@ -49,6 +50,7 @@ export default function RecommendProduct(props) {
   const [popularProducts, setPopularProducts] = useState([]);
   const [recommandLesson, setRecommandLesson] = useState([]);
   const { auth } = useAuth();
+
   // data from database
   useEffect(() => {
     fetch('http://localhost:3001/SCrecommanded', {
@@ -63,12 +65,12 @@ export default function RecommendProduct(props) {
   useEffect(() => {
     fetch('http://localhost:3001/SCpopular')
       .then((r) => r.json())
-      .then((results) => setPopularProducts(results.shuffledData));
+      .then((results) => setPopularProducts(results.newData));
   }, []);
   useEffect(() => {
     fetch('http://localhost:3001/SChotlesson')
       .then((r) => r.json())
-      .then((results) => setRecommandLesson(results.shuffledData));
+      .then((results) => setRecommandLesson(results.newData));
   }, []);
 
   // 收藏按鈕
@@ -110,7 +112,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            scrollbar={{ draggable: true, dragSize: 300 }}
+            // scrollbar={{ draggable: true, dragSize: 300, width: 200 }}
           >
             {recommandProduct.map((v, i) => {
               return (
@@ -163,16 +165,20 @@ export default function RecommendProduct(props) {
                       </CardContent>
                       <CardActions sx={CardActionsStyle}>
                         <Box sx={priceStyle}>{v.price}</Box>
-                        <WhiteTheme>
-                          <Button
-                            size="small"
-                            sx={CheckButton}
-                            variant="contained"
-                            onClick={props.onClick}
-                          >
-                            查看商品
-                          </Button>
-                        </WhiteTheme>
+                        <Link
+                          href={`http://localhost:3000/product/category/${v.parent_id}/${v.sid}`}
+                        >
+                          <WhiteTheme>
+                            <Button
+                              size="small"
+                              sx={CheckButton}
+                              variant="contained"
+                              onClick={() => {}}
+                            >
+                              查看商品
+                            </Button>
+                          </WhiteTheme>
+                        </Link>
                       </CardActions>
                     </CUICard>
                   </div>
@@ -189,7 +195,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            scrollbar={{ draggable: true, dragSize: 300 }}
+            // scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {' '}
             {popularProducts.map((v, i) => {
@@ -237,16 +243,20 @@ export default function RecommendProduct(props) {
                       </CardContent>
                       <CardActions sx={CardActionsStyle}>
                         <Box sx={priceStyle}>{v.price}</Box>
-                        <WhiteTheme>
-                          <Button
-                            size="small"
-                            sx={CheckButton}
-                            variant="contained"
-                            onClick={props.onClick}
-                          >
-                            查看商品
-                          </Button>
-                        </WhiteTheme>
+                        <Link
+                          href={`http://localhost:3000/product/category/${v.parent_id}/${v.sid}`}
+                        >
+                          <WhiteTheme>
+                            <Button
+                              size="small"
+                              sx={CheckButton}
+                              variant="contained"
+                              onClick={props.onClick}
+                            >
+                              查看商品
+                            </Button>
+                          </WhiteTheme>
+                        </Link>
                       </CardActions>
                     </CUICard>
                   </div>
@@ -263,7 +273,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            scrollbar={{ draggable: true, dragSize: 300 }}
+            // scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandLesson.map((v, i) => {
               return (
@@ -308,17 +318,21 @@ export default function RecommendProduct(props) {
                       </CardContent>
                       <CardActions sx={CardActionsStyle}>
                         <Box sx={priceStyle}>{v.price}</Box>
-                        <WhiteTheme>
-                          <Button
-                            size="small"
-                            sx={CheckButton}
-                            // color={props.color}
-                            variant="contained"
-                            onClick={props.onClick}
-                          >
-                            查看商品
-                          </Button>
-                        </WhiteTheme>
+                        <Link
+                          href={`http://localhost:3000/lesson/${v.category_sid}`}
+                        >
+                          <WhiteTheme>
+                            <Button
+                              size="small"
+                              sx={CheckButton}
+                              // color={props.color}
+                              variant="contained"
+                              onClick={props.onClick}
+                            >
+                              查看商品
+                            </Button>
+                          </WhiteTheme>
+                        </Link>
                       </CardActions>
                     </CUICard>
                   </div>

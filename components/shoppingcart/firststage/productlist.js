@@ -22,6 +22,7 @@ import {
 import { result } from 'lodash';
 import Image from 'next/image';
 import axios from 'axios';
+import Link from 'next/link';
 import { useAuth } from '@/context/auth/useAuth';
 export default function ProductList(props) {
   const [finalPrice, setFinalPrice] = useState(0);
@@ -92,7 +93,6 @@ export default function ProductList(props) {
 
   // 刪除商品API(給delete用)
   const deleteItem = async (order_sid) => {
-    console.log(order_sid);
     try {
       await axios.delete(`http://localhost:3001/SCdelete/${order_sid}`);
     } catch (error) {
@@ -146,8 +146,6 @@ export default function ProductList(props) {
       return { ...v };
     });
   };
-  console.log(cartItems);
-
   return cartItems.length > 0 ? (
     <>
       <div className={`${styles.ProductListStyles}`}>
@@ -179,7 +177,15 @@ export default function ProductList(props) {
                   />
                 </div>
                 <div className={`${styles.ProductListComponentForDetail}`}>
-                  {v.item_name}
+                  <Link
+                    href={
+                      v.products_type_sid === 4
+                        ? `http://localhost:3000/lesson/${v.item_sid}`
+                        : `http://localhost:3000/product/category/${v.products_type_sid}/${v.item_sid}`
+                    }
+                  >
+                    {v.item_name}{' '}
+                  </Link>
                 </div>
               </div>
 
@@ -216,7 +222,6 @@ export default function ProductList(props) {
                     setCartItems(update(cartItems, v.sid, value));
                   }}
                 />
-                {/* TODO Button 寬度設定 */}
                 <Button
                   sx={AddAndReduceButton}
                   onClick={() => {
