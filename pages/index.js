@@ -35,7 +35,7 @@ const HomePage = () => {
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
-          <ScrollControls pages={4} damping={0.25}>
+          <ScrollControls pages={8} damping={0.35}>
             <Suspense>
               <BarBell
                 scale={4}
@@ -71,7 +71,7 @@ const HomePage = () => {
                     color: 'white',
                   }}
                 >
-                  全台灣最大的複合式健身房
+                  為你的身體築一座堡壘
                 </h1>
               </section>
               <section style={{ position: 'relative', height: '100vh' }}>
@@ -79,7 +79,7 @@ const HomePage = () => {
                   style={{
                     position: 'absolute',
                     fontSize: '3rem',
-                    top: '50%',
+                    top: '30%',
                     right: '10%',
                     color: 'white',
                   }}
