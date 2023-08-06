@@ -49,7 +49,6 @@ export default function MyCourses() {
   }, []);
   useEffect(() => {
     if (router.query?.page) {
-      console.log(router.query.page);
       getMyfavoriteProducts(router.query.page);
     }
   }, [router]);
