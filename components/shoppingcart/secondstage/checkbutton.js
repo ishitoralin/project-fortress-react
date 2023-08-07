@@ -46,10 +46,10 @@ export default function CheckButton(props) {
             <div className={`${styles.countComponentWithoutButton}`}>
               <div className={`${styles.countComponent}`}>總計：</div>
               <div className={`${styles.countComponentForQuantity}`}>
-                {/* {finalQuantity} */}
+                {props.finalQuantity}
               </div>
               <div className={`${styles.countComponentForNumber}`}>
-                {/* {finalPrice} */}
+                {props.finalPrice}
               </div>
             </div>
             {/* 只包含button的元件 */}

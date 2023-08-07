@@ -2,31 +2,12 @@ import React from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
-import { useAuth } from '@/context/auth/useAuth';
 import { useEffect, useState } from 'react';
-export default function ItemList() {
-  const { auth } = useAuth();
-  const [itemList, setItemList] = useState([]);
-
-  useEffect(() => {
-    fetch('http://localhost:3001/OLbuyerData', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${auth?.accessToken}`,
-      },
-    })
-      .then((r) => r.json())
-      .then((results) => {
-        console.log(results);
-        setItemList(results.data);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
+export default function ItemList(props) {
   return (
     <>
       {/* 商品列表body */}
-      {itemList.map((v, i) => {
+      {props.itemList.map((v, i) => {
         return (
           <div className={`${styles.ProductConFirmListContainer}`} key={v.id}>
             <div className={`${styles.ProductConFirmListComponent1}`}>
