@@ -4,9 +4,12 @@ import styles from '@/styles/product.module.css';
 import CUIButton from '../customUI/cui-button';
 import { Link, Rating, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+import { useAuth } from '@/context/auth/useAuth';
+import { toast } from 'react-hot-toast';
 
 export default function ListCard({ data = [], cid }) {
   console.log(data.length);
+  const { auth } = useAuth();
   const router = useRouter();
   return (
     <>
@@ -48,7 +51,25 @@ export default function ListCard({ data = [], cid }) {
                 />
               </div>
               <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton className={`${styles['smallCardButton']}`}>
+                <CUIButton
+                  className={`${styles['smallCardButton']}`}
+                  onClick={() => {
+                    const jsonData = JSON.stringify({
+                      products_type_sid: parseInt(cid),
+                      item_sid: v.sid,
+                      quantity: 1,
+                    });
+                    fetch('http://localhost:3001/SCadd', {
+                      method: 'POST',
+                      body: jsonData,
+                      headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bearer ${auth?.accessToken}`,
+                      },
+                    });
+                    toast.success('已加入購物車');
+                  }}
+                >
                   加入購物車
                 </CUIButton>
               </div>
