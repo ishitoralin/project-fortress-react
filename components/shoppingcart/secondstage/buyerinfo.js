@@ -94,15 +94,6 @@ export default function BuyerInfo(props) {
 
   return (
     <>
-      <Toaster
-        position="bottom-center"
-        toastOptions={{
-          style: {
-            boxShadow: '0 0 1000px red',
-          },
-        }}
-      />
-
       <div className={`${styles.InfoArea}`}>
         <div className={`${styles.InfoContainer}`}>
           <div className={`${styles.InfoComponent3}`}>
