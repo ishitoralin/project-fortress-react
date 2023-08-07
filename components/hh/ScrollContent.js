@@ -2,6 +2,7 @@ import dynamic from 'next/dynamic'; //因為server端不會有window物件，有
 
 import LogoIcon from '@/assets/logo';
 import styles from '@/styles/homepage.module.css';
+import drawBorder from '@/styles/drawBorder.module.css';
 import { useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';
@@ -15,9 +16,14 @@ const SectionMap = dynamic(
 
 const ScrollContent = () => {
   const scroll = useScroll();
-  const [draw, setDraw] = useState('');
+  const [draw, setDraw] = useState(false);
   useFrame(() => {
-    setDraw(scroll.range(2 / 8, 1 / 8) > 0 ? 'draw-border' : '');
+    const inSectionTwo = scroll.range(2 / 8, 1 / 8);
+    setDraw(inSectionTwo < 1 && inSectionTwo > 0);
+    // Math.random() * 1 < 0.05 &&
+    //   console.log(`X:${pointer.x * 50 + 50}%`, `Y:${pointer.y * 50 + 50}%`);
+    // lenRef.current.style.setProperty('--x', `${pointer.x * 50 + 50}%`);
+    // lenRef.current.style.setProperty('--y', `${pointer.y * -50 + 50}%`);
   });
 
   return (
@@ -32,10 +38,14 @@ const ScrollContent = () => {
         <h1>全台灣最大的複合式健身房</h1>
       </section>
       <section className={styles['section-three']}>
-        <div className={styles['block'] + ' ' + styles[draw]}>
+        <div
+          className={`${styles['block']} ${drawBorder[draw ? 'draw-ccw' : '']}`}
+        >
           <h2>專業師資</h2>
         </div>
-        <div className={styles['block'] + ' ' + styles[draw]}>
+        <div
+          className={`${styles['block']} ${drawBorder[draw ? 'draw-cw' : '']}`}
+        >
           <h2>多元課程</h2>
         </div>
       </section>

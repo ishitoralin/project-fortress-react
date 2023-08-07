@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Environment,
@@ -13,9 +13,26 @@ import ScrollContent from '@/components/hh/ScrollContent';
 
 const basicScale = 2.75;
 
+const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
+
 const HomePage = () => {
+  const lenRef = useRef();
+
+  useEffect(() => {
+    window.addEventListener('mousemove', (event) => {
+      lenRef.current.style.setProperty(
+        '--x',
+        `${clamp(event.clientX - 50, 25, window.innerWidth - 125)}px`
+      );
+      lenRef.current.style.setProperty(
+        '--y',
+        `${clamp(event.clientY - 50, 25, window.innerHeight - 125)}px`
+      );
+    });
+  }, []);
   return (
     <>
+      <div ref={lenRef} className={styles['len']}></div>
       <div className={styles['main-box']}>
         <Canvas>
           <Environment preset="studio" />
