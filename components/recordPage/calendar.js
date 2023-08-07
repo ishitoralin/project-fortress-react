@@ -87,7 +87,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           // editable={true}
           selectable={true}
           selectMirror={true}
-          //TODO: different color for different body part?
           //   resources={[
           //     { id: 'a', title: 'Auditorium A' },
           //     { id: 'b', title: 'Auditorium B', eventColor: 'green' },

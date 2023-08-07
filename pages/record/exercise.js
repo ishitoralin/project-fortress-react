@@ -433,20 +433,27 @@ export default function ExercisePage() {
                 p: 2,
               }}
             >
-              <CUIButton color={'light_grey'} sx={{ mb: 2 }}>
+              <CUIButton
+                color={'light_grey'}
+                sx={{ mb: 2 }}
+                // disabled={}
+              >
+                {/* {console.log(exerciseRecord)} */}
                 {/* ADD member's name and month to title of .csv */}
-                <CSVLink
-                  data={exerciseRecord.map((e) => ({
-                    data: e.date,
-                    name: e.name,
-                    weight: e.quantity,
-                    rep: e.reps,
-                    sets: e.sets,
-                  }))}
-                  filename={`${auth.user.name}_${exerciseStartEnd.start}_${exerciseStartEnd.end}.csv`}
-                >
-                  下載本月運動CSV
-                </CSVLink>
+                {exerciseRecord?.length > 0 && (
+                  <CSVLink
+                    data={exerciseRecord.map((e) => ({
+                      data: e.date,
+                      name: e.name,
+                      weight: e.quantity,
+                      rep: e.reps,
+                      sets: e.sets,
+                    }))}
+                    filename={`${auth.user.name}_${exerciseStartEnd.start}_${exerciseStartEnd.end}.csv`}
+                  >
+                    下載本月運動CSV
+                  </CSVLink>
+                )}
               </CUIButton>
               <SeanCalendar
                 list={exerciseRecord}
