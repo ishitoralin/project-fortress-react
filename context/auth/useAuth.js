@@ -50,6 +50,7 @@ export const AuthProvider = ({ children }) => {
       const res = await axios.get(logoutUrl, {
         withCredentials: true,
       });
+      toast.success('登出成功');
       return res.data.message;
     } catch (err) {
       return err.response.data.message;
@@ -63,6 +64,7 @@ export const AuthProvider = ({ children }) => {
           'Content-Type': 'application/json',
         },
       });
+      toast.success('登入成功');
       setAuth({
         isLogin: true,
         user: res.data.user,
@@ -91,7 +93,6 @@ export const AuthProvider = ({ children }) => {
     }
     if (res.data.message === '註冊成功') {
       toast.success('註冊成功,請登入');
-     
     } else {
       return;
     }
@@ -120,7 +121,9 @@ export const AuthProvider = ({ children }) => {
     checkAuth();
   }, []);
   return (
-    <AuthContext.Provider value={{ auth, setAuth, logout, login, googleLogin }}>
+    <AuthContext.Provider
+      value={{ auth, setAuth, logout, login, googleLogin, checkAuth }}
+    >
       {children}
     </AuthContext.Provider>
   );

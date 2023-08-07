@@ -11,7 +11,7 @@ import CUIButton from '@/components/customUI/cui-button';
 import { Box } from '@mui/material';
 import axios from 'axios';
 import { useAuth } from '@/context/auth/useAuth';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import ImgUploadModal from '@/components/member/ImgUploadModal';
 
 const validationSchema = yup.object({
@@ -234,30 +234,6 @@ export default function Index() {
           </CUIButton>
         </Box>
       </form>
-      <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: '',
-          duration: 5000,
-          style: {
-            fontSize: '1.25rem',
-            color: '#000',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 2000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        }}
-      />
     </div>
   );
 }

@@ -33,7 +33,7 @@ export default function NextBreadCrumb({
     // 2. 轉換字詞 to ['','產品','嬰兒', '初生兒']
     const pathsLocale = paths.map((v, i) => {
       const path = v.includes('#') ? v.replaceAll('#', '') : v;
-
+      console.log(path);
       if (i === 3) return pathsLocaleMap[path] || path;
       // 不存在(例如空字串) 或 數字類型(例如id)的最後結尾參數會忽略
       if (!v || Number(v)) return '';
@@ -44,7 +44,6 @@ export default function NextBreadCrumb({
       return pathsLocaleMap[path] || path;
     });
 
-    // 3. 加上dom元素，套用bs5樣式
     const pathsDisplay = pathsLocale.map((v, i, array) => {
       // 第一個 與 數字類型(例如id)的最後結尾要忽略, 首頁不需要(首頁樣式要在render時獨立處理)
       if (i === 0 || v === '') return '';
@@ -53,7 +52,7 @@ export default function NextBreadCrumb({
       if (i === array.length - 1) {
         return <Typography key={i}>{v}</Typography>;
       }
-
+      console.log(paths.slice(0, i + 1).join('/'));
       // 其它中間樣式
       return (
         <MuiLink key={i}>

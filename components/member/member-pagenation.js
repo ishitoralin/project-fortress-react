@@ -3,7 +3,7 @@ import { Stack } from '@mui/material';
 import styles from './member.module.css';
 import { useRouter } from 'next/router';
 export default function MemberPagenation({ data }) {
-  // console.log(data);
+  console.log(data);
   const router = useRouter();
 
   return (
@@ -21,7 +21,6 @@ export default function MemberPagenation({ data }) {
             siblingCount={0}
             page={data.page}
             onChange={(e, page) => {
-              console.log(e, '\n', page);
               router.push(`?page=${page}`);
             }}
           />

@@ -26,14 +26,14 @@ export default function ProtectedRouteWrapper({ children }) {
   const router = useRouter();
   const { auth } = useAuth();
   const [firstRender, setFirstRender] = useState(false);
-  useEffect(() => {
+  /*  useEffect(() => {
     if (!auth.isLogin && firstRender) {
       router.push('/member/login');
     }
     return () => {
       setFirstRender(true);
     };
-  }, [router, auth.isLogin]);
+  }, [router, auth.isLogin]); */
 
   return <>{!auth.isLogin ? <Loader /> : children}</>;
 }
