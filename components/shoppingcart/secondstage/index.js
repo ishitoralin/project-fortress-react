@@ -28,7 +28,7 @@ export default function SecondStage() {
     email: '',
     phone: '',
     address: '',
-    deliveryMethod: '',
+    paymentMethod: '',
   });
 
   const [delivery, setDelivery] = useState('');
@@ -80,7 +80,7 @@ export default function SecondStage() {
         </Box>
         <Box sx={indexContainerFor2ndPageCheckButton}>
           <CheckButton
-            button={confirmInfo}
+            confirmInfo={confirmInfo}
             delivery={delivery}
             itemList={itemList}
             finalPrice={finalPrice}

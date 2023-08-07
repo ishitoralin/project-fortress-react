@@ -12,6 +12,6 @@ export default function Firststage() {
 
 Firststage.getLayout = (page) => (
   <ProtectedRouteWrapper>
-    <Layout>{page}</Layout>;
+    <Layout>{page}</Layout>
   </ProtectedRouteWrapper>
 );

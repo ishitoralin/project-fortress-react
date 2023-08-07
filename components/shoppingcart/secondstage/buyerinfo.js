@@ -12,7 +12,6 @@ import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { Toaster, toast } from 'react-hot-toast';
-import { set } from 'lodash';
 export default function BuyerInfo(props) {
   const { auth } = useAuth();
   const [value, setValue] = useState('0');
@@ -91,7 +90,7 @@ export default function BuyerInfo(props) {
       email: '',
     });
   };
-
+  
   return (
     <>
       <div className={`${styles.InfoArea}`}>

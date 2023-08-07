@@ -17,6 +17,7 @@ export default function CheckButton(props) {
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
   const paymentMethod = parseInt(props.delivery);
+  // const { name, phone, address, email } = props.confirmInfo;
   const checkConfirm = async () => {
     await fetch('http://localhost:3001/OLdelivery', {
       method: 'POST',
@@ -93,11 +94,10 @@ export default function CheckButton(props) {
                       variant="contained"
                       onClick={() => {
                         checkConfirm();
-                        console.log(props.confirmInfo, props.delivery);
                       }}
-                      disabled={!props.confirmInfo ? false : true}
+                      disabled={props.confirmInfo ? false : true}
                     >
-                      <Link href="/shoppingcart/thirdstage">送出訂單</Link>
+                      {/* <Link href="/shoppingcart/thirdstage">送出訂單</Link> */}
                     </Button>
                   </RedTheme>
                   {/* </div> */}
