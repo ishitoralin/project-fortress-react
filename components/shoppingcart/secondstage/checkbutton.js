@@ -16,22 +16,24 @@ export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
-  const checkConfirm = () => {
-    // fetch('http://localhost:3001/SCconfirm', {
-    //   method: 'POST',
-    //   body: {},
-    //   headers: {
-    //     Authorization: `Bearer ${auth?.accessToken}`,
-    //   },
-    // })
-    //   .then((r) => r.json)
-    //   .then((result) => console.log(result));
+  const paymentMethod = parseInt(props.delivery);
+  const checkConfirm = async () => {
+    await fetch('http://localhost:3001/OLdelivery', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...props.confirmInfo,
+        paymentMethod,
+      }),
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+        'Content-type': 'application/json',
+      },
+    })
+      .then((r) => r.json)
+      .then((result) => console.log(result));
   };
   return (
     <>
-      {/* 結帳按鈕 */}
-      {/* <div className={`${styles.checkButtonContainer}`}> */}
-
       <Box sx={checkbutton}>
         {/* 產品總計欄位 */}
         <div>
@@ -40,10 +42,10 @@ export default function CheckButton(props) {
             <div className={`${styles.countComponentWithoutButton}`}>
               <div className={`${styles.countComponent}`}>總計：</div>
               <div className={`${styles.countComponentForQuantity}`}>
-                {/* {finalQuantity} */}
+                {props.finalQuantity}
               </div>
               <div className={`${styles.countComponentForNumber}`}>
-                {/* {finalPrice} */}
+                {props.finalPrice}
               </div>
             </div>
             {/* 只包含button的元件 */}
@@ -89,8 +91,11 @@ export default function CheckButton(props) {
                         },
                       }}
                       variant="contained"
-                      onClick={checkConfirm}
-                      disabled={!props.cartItems ? false : true}
+                      onClick={() => {
+                        checkConfirm();
+                        console.log(props.confirmInfo, props.delivery);
+                      }}
+                      disabled={!props.confirmInfo ? false : true}
                     >
                       <Link href="/shoppingcart/thirdstage">送出訂單</Link>
                     </Button>
