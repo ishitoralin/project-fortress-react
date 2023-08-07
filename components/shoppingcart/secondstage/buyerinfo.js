@@ -69,6 +69,7 @@ export default function BuyerInfo(props) {
           address: data.address,
           phone: data.mobile,
           email: data.email,
+          paymentMethod: '',
         });
       });
   };
@@ -90,7 +91,7 @@ export default function BuyerInfo(props) {
       email: '',
     });
   };
-  
+
   return (
     <>
       <div className={`${styles.InfoArea}`}>
@@ -241,7 +242,7 @@ export default function BuyerInfo(props) {
                 const target = newValue;
                 setValue(target);
                 props.setConfirmInfo((prev) => {
-                  return { ...prev, deliveryMethod: target };
+                  return { ...prev, paymentMethod: target };
                 });
               }}
             >
