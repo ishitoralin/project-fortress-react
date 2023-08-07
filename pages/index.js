@@ -1,10 +1,6 @@
 import dynamic from 'next/dynamic'; //因為server端不會有window物件，有必要在client端的時候才進行渲染。
-const SectionMap = dynamic(
-  () => import('@/components/index-page/section-map'),
-  {
-    ssr: false,
-  }
-);
+
+import styles from '@/styles/homepage.module.css';
 
 import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
@@ -18,19 +14,19 @@ import {
 import LogoIcon from '@/assets/logo';
 import BarBell from '@/components/hh/BarBell';
 
+const SectionMap = dynamic(
+  () => import('@/components/index-page/section-map'),
+  {
+    ssr: false,
+  }
+);
+
 const basicScale = 2.75;
 
 const HomePage = () => {
   return (
     <>
-      <div
-        style={{
-          position: 'relative',
-          width: '100%',
-          height: '100vh',
-          backgroundColor: '#222',
-        }}
-      >
+      <div className={styles['main-box']}>
         <Canvas>
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
@@ -45,62 +41,29 @@ const HomePage = () => {
             </Suspense>
 
             <Scroll html>
-              <section
-                style={{
-                  position: 'relative',
-                  width: '100vw',
-                  height: '100vh',
-                  pointerEvents: 'none',
-                }}
-              >
-                <div
-                  style={{
-                    position: 'absolute',
-                    top: '4rem',
-                    left: '4rem',
-                  }}
-                >
+              <section className={styles['section-one']}>
+                <div className={styles['logoBox']}>
                   <LogoIcon width={240} height={80} />
                 </div>
-                <h1
-                  style={{
-                    position: 'absolute',
-                    fontSize: '3rem',
-                    top: '50%',
-                    right: '8rem',
-                    color: 'white',
-                  }}
-                >
-                  為你的身體築一座堡壘
-                </h1>
+                <h1>為你的身體築一座堡壘</h1>
               </section>
-              <section style={{ position: 'relative', height: '100vh' }}>
-                <h1
-                  style={{
-                    position: 'absolute',
-                    fontSize: '3rem',
-                    top: '30%',
-                    right: '10%',
-                    color: 'white',
-                  }}
-                >
-                  全台灣最大的複合式健身房
-                </h1>
+              <section className={styles['section-two']}>
+                <h1>全台灣最大的複合式健身房</h1>
               </section>
-              <section style={{ position: 'relative', height: '100vh' }}>
-                <h1
-                  style={{
-                    position: 'absolute',
-                    fontSize: '3rem',
-                    top: '50%',
-                    right: '10%',
-                    color: 'white',
-                  }}
-                >
-                  全台灣最大的複合式健身房
-                </h1>
+              <section className={styles['section-three']}>
+                <div>
+                  <h2>專業師資</h2>
+                </div>
+                <div>
+                  <h2>多元課程</h2>
+                </div>
               </section>
-              <SectionMap />
+              <section style={{ textAlign: 'center' }}>
+                <h1 style={{ display: 'inline-block', color: 'white' }}>
+                  全台據點
+                </h1>
+                <SectionMap />
+              </section>
             </Scroll>
           </ScrollControls>
           {/* <BarBell
