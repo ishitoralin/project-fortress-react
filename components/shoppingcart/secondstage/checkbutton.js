@@ -16,13 +16,12 @@ export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
-  // const { name, address, phone, email, deliveryMethod } = props.button;
   const paymentMethod = parseInt(props.delivery);
   const checkConfirm = async () => {
     await fetch('http://localhost:3001/OLdelivery', {
       method: 'POST',
       body: JSON.stringify({
-        ...props.button,
+        ...props.confirmInfo,
         paymentMethod,
       }),
       headers: {
@@ -35,9 +34,6 @@ export default function CheckButton(props) {
   };
   return (
     <>
-      {/* 結帳按鈕 */}
-      {/* <div className={`${styles.checkButtonContainer}`}> */}
-
       <Box sx={checkbutton}>
         {/* 產品總計欄位 */}
         <div>
@@ -97,9 +93,9 @@ export default function CheckButton(props) {
                       variant="contained"
                       onClick={() => {
                         checkConfirm();
-                        console.log(props.button, props.delivery);
+                        console.log(props.confirmInfo, props.delivery);
                       }}
-                      disabled={!props.cartItems ? false : true}
+                      disabled={!props.confirmInfo ? false : true}
                     >
                       <Link href="/shoppingcart/thirdstage">送出訂單</Link>
                     </Button>

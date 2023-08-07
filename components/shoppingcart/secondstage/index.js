@@ -23,7 +23,7 @@ export default function SecondStage() {
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
 
-  const [button, setButton] = useState({
+  const [confirmInfo, setConfirmInfo] = useState({
     name: '',
     email: '',
     phone: '',
@@ -72,7 +72,7 @@ export default function SecondStage() {
       <Box sx={indexBackground}>
         <Box sx={indexContainer}>
           <ShoppingState></ShoppingState>
-          <BuyerInfo setButton={setButton}></BuyerInfo>
+          <BuyerInfo setConfirmInfo={setConfirmInfo}></BuyerInfo>
           <ItemListTitle></ItemListTitle>
           <ItemList itemList={itemList}></ItemList>
           <Payment setDelivery={setDelivery}></Payment>
@@ -80,7 +80,7 @@ export default function SecondStage() {
         </Box>
         <Box sx={indexContainerFor2ndPageCheckButton}>
           <CheckButton
-            button={button}
+            button={confirmInfo}
             delivery={delivery}
             itemList={itemList}
             finalPrice={finalPrice}

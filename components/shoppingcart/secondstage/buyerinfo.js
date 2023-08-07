@@ -65,7 +65,7 @@ export default function BuyerInfo(props) {
         setCheckPhone(false);
         setCheckAddress(false);
         setCheckEmail(false);
-        props.setButton({
+        props.setConfirmInfo({
           name: data.name,
           address: data.address,
           phone: data.mobile,
@@ -84,7 +84,7 @@ export default function BuyerInfo(props) {
     setCheckPhone(true);
     setCheckAddress(true);
     setCheckEmail(true);
-    props.setButton({
+    props.setConfirmInfo({
       name: '',
       address: '',
       phone: '',
@@ -154,7 +154,7 @@ export default function BuyerInfo(props) {
             onChange={(e) => {
               const imputValue = e.target.value;
               setName(imputValue);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, name: imputValue };
               });
             }}
@@ -162,7 +162,7 @@ export default function BuyerInfo(props) {
               const imputValue = e.target.value;
               const valid = e.target.value.length;
               valid ? setCheckName(false) : setCheckName(true);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, name: imputValue };
               });
             }}
@@ -177,7 +177,7 @@ export default function BuyerInfo(props) {
             onChange={(e) => {
               const imputValue = e.target.value;
               setAddress(imputValue);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 console.log(prev);
                 return { ...prev, address: imputValue };
               });
@@ -186,7 +186,7 @@ export default function BuyerInfo(props) {
               const imputValue = e.target.value;
               const valid = e.target.value.length;
               valid ? setCheckAddress(false) : setCheckAddress(true);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 console.log(prev);
                 return { ...prev, address: imputValue };
               });
@@ -202,7 +202,7 @@ export default function BuyerInfo(props) {
             onChange={(e) => {
               const imputValue = e.target.value;
               setPhone(imputValue);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, phone: imputValue };
               });
             }}
@@ -210,7 +210,7 @@ export default function BuyerInfo(props) {
               const imputValue = e.target.value;
               const valid = e.target.value.length;
               valid ? setCheckPhone(false) : setCheckPhone(true);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, phone: imputValue };
               });
             }}
@@ -225,7 +225,7 @@ export default function BuyerInfo(props) {
             onChange={(e) => {
               const imputValue = e.target.value;
               setEmail(imputValue);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, email: imputValue };
               });
             }}
@@ -233,7 +233,7 @@ export default function BuyerInfo(props) {
               const imputValue = e.target.value;
               const valid = e.target.value.length;
               valid ? setCheckEmail(false) : setCheckEmail(true);
-              props.setButton((prev) => {
+              props.setConfirmInfo((prev) => {
                 return { ...prev, email: imputValue };
               });
             }}
@@ -250,7 +250,7 @@ export default function BuyerInfo(props) {
               onChange={(event, newValue) => {
                 const target = newValue;
                 setValue(target);
-                props.setButton((prev) => {
+                props.setConfirmInfo((prev) => {
                   return { ...prev, deliveryMethod: target };
                 });
               }}
