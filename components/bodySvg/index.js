@@ -59,7 +59,7 @@ export default function BodySvg({
           onClick={() => {
             setFlipFront((prev) => !prev);
           }}
-          color={'fortress'}
+          color={'light_grey'}
           sx={{ m: 1 }}
         >
           翻轉
@@ -68,7 +68,7 @@ export default function BodySvg({
           onClick={() => {
             setBodyPart([exerciseInit]);
           }}
-          color={'light_grey'}
+          color={'steel_grey'}
           sx={{ m: 1 }}
         >
           重置部位

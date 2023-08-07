@@ -124,6 +124,7 @@ const DietPage = () => {
   return (
     <>
       <Box
+        // className="dietBox"
         sx={{
           bgcolor: 'var(--deepgrey)',
           backgroundImage: getBrickBackground({
@@ -132,6 +133,7 @@ const DietPage = () => {
             brickColor: 'hsl(100, 0%, 30%)',
             strokeColor: 'hsl(100, 0%, 20%)',
           }),
+          height: '100vh',
           backgroundAttachment: 'fixed',
         }}
       >

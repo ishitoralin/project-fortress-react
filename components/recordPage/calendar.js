@@ -60,14 +60,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           ]}
           select={(e) => {
             setDate(e.startStr);
-            // console.log(e.startStr);
-            // TODO: scrollto not working
-            // scroll;
-
-            // window.scrollTo({
-            //   top: 0,
-            //   behavior: 'smooth',
-            // });
           }}
           //>>> for select event
           eventClick={(e) => {
@@ -109,12 +101,14 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
           // ]}
           events={list?.map((ele) => {
+            console.log(ele);
             return {
               id: ele.sid,
               title: ele.name,
               date: formatDate(ele.date),
-
-              backgroundColor: 'green',
+              // blue, orange, green
+              // TODO:change color
+              backgroundColor: 'blue',
               // editable: true,
               extendedProps: {
                 dataDump: 'you can store accessory here',

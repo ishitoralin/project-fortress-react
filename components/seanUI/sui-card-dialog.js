@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import Zoom from '@mui/material/Zoom';
 import CUITextField from '../customUI/cui-textfield';
 import CUIButton from '../customUI/cui-button';
+import { toast } from 'react-hot-toast';
 
 // regular expression for positive Integer, cant be zero
 const regexPInt = /^[1-9]\d*$/;
@@ -102,33 +103,36 @@ function ExeCardDialog({
       onClose={handleClose}
       TransitionComponent={Zoom}
       transitionDuration={customTransitionDuration}
-      // disableAutoFocus
-      // disableEnforceFocus
-      // disableRestoreFocus
+      PaperProps={{ sx: { borderRadius: '30px' } }}
     >
       {/* {console.log(item)} */}
       {/* <DialogTitle>{item?.exercise_name || item?.name}</DialogTitle> */}
       <DialogContent>
-        {/* {console.log(item)} */}
-        {/* TODO:要改成影片 */}
+        <Box sx={{ fontSize: '2.5rem' }}>
+          {'運動類型: ' + item?.exercise_name}
+        </Box>
+        {/* TODO:unfinished */}
         <iframe
           width="100%"
-          height="100%"
-          src="https://www.youtube.com/embed/daVASrwlU9c"
-          // src="https://www.youtube.com/embed/daVASrwlU9c?autoplay=1"
+          // FIXME: height?
+          height="400px"
+          // src="https://www.youtube.com/embed/gcNh17Ckjgg"
+          src={`${item.vid}&autoplay=1`}
           title="YouTube video player"
-          // frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullscreen
+          allowFullScreen
         ></iframe>
-        <img
+
+        {/* <img
           src={'/react-imgs/record/exercise/' + item?.img}
           alt="Item"
           style={{ width: '100%' }}
-        />
+        /> */}
 
         {/* {console.log(item?.quantity)} */}
-        <Box>{item?.exercise_description}</Box>
+        <Box sx={{ fontSize: '1.5rem' }}>
+          {'訓練方法: ' + item?.exercise_description}
+        </Box>
         <CUITextField
           label="重量(kg)"
           type="number"
@@ -252,13 +256,15 @@ function ExeCardDialog({
           <CUIButton
             onClick={() => {
               onClose();
+              // toast.error('取消');
             }}
-            color={'light_grey'}
+            color={'steel_grey'}
             sx={{ width: '35%', mx: 1 }}
           >
             取消
           </CUIButton>
           <CUIButton
+            color={'light_grey'}
             sx={{
               width: '35%',
               mx: 1,

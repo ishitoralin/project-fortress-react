@@ -56,16 +56,16 @@ function SUICardList({
           width: 20,
         },
         '&::-webkit-scrollbar-track': {
-          backgroundColor: 'var(--fortress)',
+          backgroundColor: 'var(--deepgrey)',
           borderRadius: '5px',
         },
         '&::-webkit-scrollbar-thumb': {
           borderRadius: '5px',
-          backgroundColor: 'var(--deepgrey)',
+          backgroundColor: 'var(--steel-grey)',
           transition: '.5s',
           '&:hover': {
             filter: 'brightness(0.85)',
-            backgroundColor: 'var(--main-red)',
+            backgroundColor: 'var(--light-grey)',
           },
         },
       }}
@@ -118,7 +118,6 @@ function MyCard({ type, item }) {
     img =
       `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/record/exercise/` +
       item.img;
-    //TODO: smaller img for card list
     name = item.exercise_name;
   } else {
     // img = '/react-imgs/record/food/' + item.food_img;
@@ -131,7 +130,10 @@ function MyCard({ type, item }) {
     <Card sx={{ width: '100%', height: '220px', borderRadius: '20px' }}>
       <CardMedia component="img" height="150" image={`${img}`} alt="Image" />
       <CardContent>
-        <Typography color="text.secondary" sx={{ textAlign: 'center' }}>
+        <Typography
+          color="text.secondary"
+          sx={{ textAlign: 'center', fontSize: '1.5rem' }}
+        >
           {name}
         </Typography>
       </CardContent>

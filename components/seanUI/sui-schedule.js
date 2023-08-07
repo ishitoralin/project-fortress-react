@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { ExeCardDialog } from './sui-card-dialog';
 import CUIDatePicker from '../customUI/cui-date-picker';
 import CUIButton from '../customUI/cui-button';
+import { toast } from 'react-hot-toast';
 
 const Section = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -59,7 +60,7 @@ function SUISchedule({
   };
 
   const handleDialogOpen = (item) => {
-    console.log(item, 'L61');
+    // console.log(item, 'L61');
     setSelectedItem(item);
     setDialogOpen(true);
   };
@@ -78,7 +79,7 @@ function SUISchedule({
 
   return (
     <>
-      <Section>
+      <Section sx={{ height: '100%' }}>
         <Box
           sx={{
             position: 'sticky',
@@ -104,6 +105,7 @@ function SUISchedule({
             )}
           </Box>
           <CUIButton
+            color={'light_grey'}
             sx={{
               width: '35%',
               marginLeft: '20px',
@@ -111,8 +113,9 @@ function SUISchedule({
             }}
             onClick={(e) => {
               handleAddSchedule(scheduleList, scheduleDate);
+              toast.success(editing ? '修改完成' : '加入規劃');
             }}
-            disabled={!scheduleDate || scheduleList.length === 0}
+            disabled={!scheduleDate || (scheduleList.length === 0 && !editing)}
           >
             {editing ? '修改計畫' : '加入規劃'}
           </CUIButton>
@@ -129,6 +132,7 @@ function SUISchedule({
               setScheduleList([]);
               setScheduleDate(null);
               setEditDate(null);
+              toast.error('取消');
             }}
           >
             取消
@@ -168,23 +172,24 @@ function SUISchedule({
       </Box>
       <Section
         sx={{
-          height: '400px',
+          height: '600px',
+          // height: '100%',
           overflow: 'auto',
           position: 'relative',
           '&::-webkit-scrollbar': {
             width: 20,
           },
           '&::-webkit-scrollbar-track': {
-            backgroundColor: 'var(--fortress)',
+            backgroundColor: 'var(--deepgrey)',
             borderRadius: '5px',
           },
           '&::-webkit-scrollbar-thumb': {
             borderRadius: '5px',
-            backgroundColor: 'var(--deepgrey)',
+            backgroundColor: 'var(--steel-grey)',
             transition: '.5s',
             '&:hover': {
               filter: 'brightness(0.85)',
-              backgroundColor: 'var(--main-red)',
+              backgroundColor: 'var(--light-grey)',
             },
           },
         }}
@@ -234,10 +239,11 @@ function SUISchedule({
                   }}
                   onClick={(e) => {
                     // FIXME: need better solusion
-                    if (e.target.classList.contains('MuiBox-root')) {
-                      // console.log(scheduleItem);
-                      handleDialogOpen(scheduleItem);
-                    }
+                    handleDialogOpen(scheduleItem);
+                    // if (e.target.classList.contains('MuiBox-root')) {
+                    //   console.log(e);
+                    //   handleDialogOpen(scheduleItem);
+                    // }
                   }}
                 >
                   <Box

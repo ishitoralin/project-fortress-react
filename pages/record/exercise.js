@@ -19,19 +19,12 @@ import SeanCalendar from '@/components/recordPage/calendar';
 import { PlotPage } from '@/components/recordPage/exePlotPage';
 import getCurrentMonthDates from '@/components/seanUI/sui-getCurrentMonth';
 // =========================================================================
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// =========================================================================
+
 import BodySvg from '@/components/bodySvg';
+import { CSVLink, CSVDownload } from 'react-csv';
+import { Toaster, toast } from 'react-hot-toast';
 // =========================================================================
-// import FullCalendarLayout from '@/components/fullcalendar/layout';
-// import FullCalendar from '@fullcalendar/react';
-// import dayGridPlugin from '@fullcalendar/daygrid';
-// import interactionPlugin from '@fullcalendar/interaction';
-// import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-// import timeGridPlugin from '@fullcalendar/timegrid';
-// =========================================================================
+
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
 // =========================================================================
@@ -78,6 +71,12 @@ const Section = styled(Box)(({ theme }) => ({
 export default function ExercisePage() {
   const { auth } = useAuth();
   // console.log(auth.accessToken);
+  const pdfLabel = [
+    { label: '運動項目', key: 'name' },
+    { label: '重量', key: 'quantity' },
+    { label: '次數', key: 'reps' },
+    { label: '組數', key: 'sets' },
+  ];
   // ============================================================
   // const today = dayjs(new Date()).format('YYYY-MM-DD');
   const exerciseInit = { key: 0, value: '全部', label: '全部' }; //=== exercise type的初始值
@@ -434,13 +433,27 @@ export default function ExercisePage() {
                 p: 2,
               }}
             >
-              <CUIButton color={'fortress'}>test</CUIButton>
+              <CUIButton color={'light_grey'} sx={{ mb: 2 }}>
+                {/* ADD member's name and month to title of .csv */}
+                <CSVLink
+                  data={exerciseRecord.map((e) => ({
+                    data: e.date,
+                    name: e.name,
+                    weight: e.quantity,
+                    rep: e.reps,
+                    sets: e.sets,
+                  }))}
+                  filename={`${auth.user.name}_${exerciseStartEnd.start}_${exerciseStartEnd.end}.csv`}
+                >
+                  下載本月運動CSV
+                </CSVLink>
+              </CUIButton>
               <SeanCalendar
                 list={exerciseRecord}
                 updateStartEnd={setExerciseStartEnd}
                 setDate={setEditDate}
               />
-              {console.log(exerciseRecord)}
+              {/* {console.log(auth.user.name)} */}
             </Grid>
           </Grid>
         </div>
@@ -453,6 +466,37 @@ export default function ExercisePage() {
           myBGstyle={myBGstyle}
         />
       </Box>
+      {/* <CUIButton
+        onClick={() => {
+          toast.success('test');
+        }}
+      >
+        test
+      </CUIButton> */}
+      <Toaster
+        position="top-center"
+        reverseOrder={false}
+        gutter={8}
+        containerClassName=""
+        containerStyle={{}}
+        toastOptions={{
+          className: '',
+          duration: 5000,
+          style: {
+            fontSize: '1.25rem',
+            color: '#000',
+          },
+
+          // Default options for specific types
+          success: {
+            duration: 2000,
+            theme: {
+              primary: 'green',
+              secondary: 'black',
+            },
+          },
+        }}
+      />
     </>
   );
 }

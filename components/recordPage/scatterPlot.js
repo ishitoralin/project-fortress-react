@@ -25,7 +25,6 @@ function getRandomDate() {
   return randomDate;
 }
 export default function ScatterPlot(plotData) {
-  const datasetLabel = ['A dataset', 'B dataset']; //TODO: input props
   const datasetPointColor = [
     'rgba(255, 99, 132, 1)',
     'rgba(53, 162, 235, 1)',
@@ -116,7 +115,6 @@ export default function ScatterPlot(plotData) {
   };
 
   const data = {
-    // TODO: objects of x,y array
     datasets: datasets,
   };
   // console.log(dayjs(getRandomDate()), dayjs("2022-05-05"));

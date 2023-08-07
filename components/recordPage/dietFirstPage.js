@@ -171,10 +171,10 @@ const DietFisrtPage = () => {
     <div
       id="page-1"
       style={{
-        marginTop: '50px',
+        // marginTop: '50px',
         paddingLeft: '200px',
         paddingRight: '200px',
-        height: '800px',
+        height: '100%',
       }}
     >
       {/* <div sx={{ padding: '64px' }}> */}

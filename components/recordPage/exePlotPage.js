@@ -11,6 +11,7 @@ import { useDebounceHH } from '../customHook/useDebounce';
 // >>> for plot
 import ScatterPlot from './scatterPlot';
 import { useAuth } from '@/context/auth/useAuth';
+import { toast } from 'react-hot-toast';
 // <<< for plot
 
 const Section = styled(Box)(({ theme }) => ({
@@ -315,15 +316,17 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                     sx={{ width: '35%' }}
                     onClick={() => {
                       handleClean();
+                      toast.error('清除');
                     }}
                   >
                     清除
                   </CUIButton>
                   <CUIButton
-                    color={'fortress'}
+                    color={'light_grey'}
                     sx={{ width: '45%' }}
                     onClick={() => {
                       handleAdd();
+                      toast.success('成功加入');
                     }}
                     disabled={
                       !plotExeSelected ||
@@ -405,10 +408,10 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
         {/* ============================================================= */}
 
         <Grid item lg={9} sm={12} sx={{ height: '100%' }}>
-          {/* FIXME: will glitch */}
-          {plotExeList.length > 0 && (
-            <Box sx={{ ...myBGstyle, p: 2 }}>
-              {plotCheck.current.length > 0 ? (
+          {/* FIXME: will glitch */}{' '}
+          <Box sx={{ ...myBGstyle, p: 2 }}>
+            {plotExeList.length > 0 ? (
+              plotCheck.current.length > 0 ? (
                 <Box sx={{ color: 'var(--main-red)' }}>
                   <h1>{'No data for :'}</h1>
                   {plotCheck.current.map((e) => (
@@ -417,9 +420,11 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                 </Box>
               ) : (
                 plotData.length > 0 && <ScatterPlot plotData={plotData} />
-              )}
-            </Box>
-          )}
+              )
+            ) : (
+              'description'
+            )}{' '}
+          </Box>
         </Grid>
       </Grid>
     </div>
