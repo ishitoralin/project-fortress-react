@@ -1,7 +1,7 @@
 /* member general components */
 
 .my-container {
-  padding: 50px 150px;
+  padding: 50px 64px;
 }
 .CUIsearch-container [class*='MuiInput-root'] {
   margin-top: 0px;
@@ -18,9 +18,8 @@
 .pagination-container > nav > ul > li > button {
   background-color: color-mix(in srgb, var(--light-grey) 20%, transparent);
 }
-.pagination-container > nav > ul > li > button[class*='select'] {
-  /* background-color: #fff; */
-  background-color: var(--main-white);
+.pagination-container > nav > ul li button[class*='selected'] {
+  background-color: var(--main-white) !important;
 }
 .guide-to {
   width: 100%;
