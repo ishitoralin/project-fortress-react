@@ -26,8 +26,15 @@ const basicScale = 2.75;
 const HomePage = () => {
   return (
     <>
-      <div className={styles['main-box']}>
-        <Canvas>
+      <div className={styles['main-box']}></div>
+    </>
+  );
+};
+
+// HomePage.getLayout = (page) => <>{page}</>;
+
+export default HomePage;
+/* <Canvas >
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
@@ -66,7 +73,7 @@ const HomePage = () => {
               </section>
             </Scroll>
           </ScrollControls>
-          {/* <BarBell
+          { <BarBell
               scale={basicScale}
               position={[-1.5, 0, 0]}
               rotation={[0, 1, 0.5]}
@@ -79,14 +86,6 @@ const HomePage = () => {
               ]} // Array of Points
               color="white" // Default
               lineWidth={5} // In pixels (default)
-            /> */}
-          <OrbitControls enableZoom={false} />
-        </Canvas>
-      </div>
-    </>
-  );
-};
-
-// HomePage.getLayout = (page) => <>{page}</>;
-
-export default HomePage;
+            /> }
+            <OrbitControls enableZoom={false} />
+            </Canvas> */
