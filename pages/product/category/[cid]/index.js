@@ -12,6 +12,7 @@ import BasicAccordion from '@/components/product/Accordion';
 import getBrickBackground from '@/libs/getBrickBackground';
 import NextBreadCrumb from '@/components/breadcrumb';
 
+
 export default function Index() {
   const [data, setData] = useState([]);
   const router = useRouter();
@@ -25,6 +26,7 @@ export default function Index() {
         });
     }
   }, [router.query]);
+  console.log(data.data);
   return (
     <>
       <Box

@@ -15,8 +15,7 @@ import useLoginNavigate from '@/hooks/useLoginNavigate';
 import { useAuth } from '@/context/auth/useAuth';
 import useFirebase from '@/utils/useFirebase';
 import CUINonstyleButton from '@/components/customUI/cui-nonstyle-button';
-import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 const validationSchema = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -128,30 +127,6 @@ export default function Login() {
           <div className={styles['front-cover']}></div>
         </form>
       </div>
-      <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: '',
-          duration: 5000,
-          style: {
-            fontSize: '1.25rem',
-            color: '#000',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 2000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        }}
-      />
     </>
   );
 }

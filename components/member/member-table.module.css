@@ -10,6 +10,7 @@
 }
 .table-td-img {
   max-width: 200px;
+  max-width: 200px;
 }
 .delete-icon {
   cursor: pointer;
@@ -17,8 +18,30 @@
 .delete-icon:hover {
   fill: red;
 }
+.td-img-wrapper {
+  height: 200px;
+}
 .td-img {
-  max-width: 200px;
+  height: 200px;
+}
+.order-table-thead {
+  background-color: var(--steel-light-grey);
+}
+.order-table-normal-row {
+  background-color: var(--light-grey);
+}
+.order-table-collapse-row-container {
+  background-color: var(--main-white);
+}
+
+.order-table-total-price {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--main-red) !important;
+}
+.order-table-total-price::before {
+  content: '$';
+  font-size: 1.25rem;
 }
 @media screen and (max-width: 500px) {
   .paper-container {
@@ -61,7 +84,60 @@
   .deleted-row td {
     margin: auto;
   }
+  .order-table-container {
+    background-color: transparent !important;
+  }
   .table-body-row td::before {
+    content: attr(data-title);
+  }
+
+  .order-table-thead {
+    display: none !important;
+  }
+  .order-table-row {
+    display: none;
+  }
+  .order-table-normal-row {
+    display: flex !important;
+    flex-direction: column;
+    /* margin-bottom: 15px; */
+  }
+  .order-table-normal-row td {
+    display: block !important;
+    text-align: unset;
+  }
+  .order-table-normal-row td:first-child {
+    order: 2 !important;
+  }
+  .order-table-normal-row td::before {
+    content: attr(data-title);
+    display: inline-block;
+  }
+  .order-table-collapse-th {
+    display: none !important;
+  }
+  .order-table-collapse-body {
+    display: block !important;
+  }
+  .order-table-collapse-row-container {
+    display: block !important;
+    margin-bottom: 15px;
+  }
+  .order-table-collapse-row-container:last-child td {
+    border: none;
+  }
+  .order-table-collapse-row {
+    display: flex !important;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 15px !important;
+  }
+  .order-table-collapse-row th {
+    display: block !important;
+    text-align: unset;
+  }
+
+  .order-table-collapse-row th::before {
     content: attr(data-title);
   }
 }

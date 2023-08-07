@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import MemberLayout from '@/components/layout/memberLayout';
@@ -11,7 +11,10 @@ import Link from 'next/link';
 import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
 import useLoginNavigate from '@/hooks/useLoginNavigate';
-const validationSchema = yup.object({
+import axios from 'axios';
+import { resetPassword, resetPasswordToken } from '@/context/auth/config';
+import { Toaster, toast } from 'react-hot-toast';
+const validationSchema1 = yup.object({
   email: yup
     .string('請輸入信箱')
     .email('錯誤的信箱格式')
@@ -49,8 +52,13 @@ const validationSchema = yup.object({
   //     return this.parent.password === value;
   //   }),
 });
+const validationSchema2 = yup.object({
+  token: yup.number('請輸入驗證碼').required('請輸入驗證碼'),
+  password: yup.string(),
+});
 export default function ForgotPassword() {
-  const filed = [
+  const [step, setStep] = useState('step1');
+  const filed1 = [
     {
       label: '電子信箱',
       placeholder: '',
@@ -60,12 +68,39 @@ export default function ForgotPassword() {
     },
   ];
   useLoginNavigate();
-
-  const formik = useFormik({
+  const formik1 = useFormik({
     initialValues: { email: '' },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    validationSchema: validationSchema1,
+    onSubmit: async (values) => {
+      const res = await axios.post(
+        `${resetPasswordToken}`,
+        { ...values },
+        { withCredentials: false }
+      );
+      console.log(res.data?.token);
+      if (res.data.message === 'token發送成功') {
+        toast.success('驗證信已寄出，請確認。');
+        setStep('step2');
+        return;
+      }
+      if (res.data.message === '請確認信箱是否正確。') {
+        toast.error('請確認信箱是否正確。');
+      }
+      /*     if (res.data.message === 'token發送成功') {
+        toast.success('驗證信已寄出，請確認。');
+      } */
+    },
+  });
+  const formik2 = useFormik({
+    initialValues: { token: '' },
+    validationSchema: validationSchema2,
+    onSubmit: async (values) => {
+      const res = await axios.patch(
+        `${resetPassword}`,
+        { ...values },
+        { withCredentials: false }
+      );
+      console.log(res.data);
     },
   });
   return (
@@ -79,7 +114,7 @@ export default function ForgotPassword() {
           </Link>
         </div>
 
-        <form onSubmit={formik.handleSubmit} className={styles['right-panel']}>
+        <div className={styles['right-panel']}>
           <div className={`${styles['right-panel-bg']}`}></div>
           <Link className={styles['right-logo']} href="/">
             <Logo fill={MAIN_BLACK} className={styles.logo} />
@@ -88,32 +123,93 @@ export default function ForgotPassword() {
           {['login', 'sign-up'].map((el) => (
             <AuthLink key={el} path={el} />
           ))}
-          {filed.map((el) => {
-            const { label, name, placeholder, type } = el;
-            return (
+          {step === 'step1' ? (
+            <form
+              onSubmit={formik1.handleSubmit}
+              className={`${styles['sign-up-form-container']}`}
+            >
+              {filed1.map((el) => {
+                const { label, name, placeholder, type } = el;
+                return (
+                  <CUITextField
+                    key={name}
+                    label={label}
+                    placeholder={placeholder}
+                    name={name}
+                    type={type}
+                    value={formik1.values[name]}
+                    onChange={formik1.handleChange}
+                    onBlur={formik1.handleBlur}
+                    error={
+                      formik1.touched[name] && Boolean(formik1.errors[name])
+                    }
+                    helperText={formik1.touched[name] && formik1.errors[name]}
+                    autoComplete="off"
+                    sx={{ marginBottom: '15px' }}
+                  />
+                );
+              })}
+              <CUIButton fullWidth type="submit" color={'steel_grey'}>
+                送出驗證信
+              </CUIButton>
+            </form>
+          ) : undefined}
+          {'step2' === 'step2' ? (
+            <form
+              onSubmit={formik2.handleSubmit}
+              className={`${styles['sign-up-form-container']}`}
+            >
               <CUITextField
-                key={name}
-                label={label}
-                placeholder={placeholder}
-                name={name}
-                type={type}
-                value={formik.values[name]}
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched[name] && Boolean(formik.errors[name])}
-                helperText={formik.touched[name] && formik.errors[name]}
+                label={'驗證碼'}
+                placeholder={'請輸入驗證碼'}
+                name={'token'}
+                type={'number'}
+                value={formik2.values['token']}
+                onChange={formik2.handleChange}
+                onBlur={formik2.handleBlur}
+                error={
+                  formik2.touched['token'] && Boolean(formik2.errors['token'])
+                }
+                helperText={formik2.touched['token'] && formik2.errors['token']}
                 autoComplete="off"
-                sx={{ marginBottom: '-15px' }}
+                sx={{ marginBottom: '15px' }}
               />
-            );
-          })}
-          <CUIButton fullWidth type="submit" color={'steel_grey'}>
-            送出驗證信
-          </CUIButton>
+              <CUITextField
+                label={'新密碼'}
+                placeholder={'請輸入新密碼'}
+                name={'password'}
+                type={'text'}
+                value={formik2.values['password']}
+                onChange={formik2.handleChange}
+                onBlur={formik2.handleBlur}
+                error={
+                  formik2.touched['password'] &&
+                  Boolean(formik2.errors['password'])
+                }
+                helperText={
+                  formik2.touched['password'] && formik2.errors['password']
+                }
+                autoComplete="off"
+                sx={{ marginBottom: '15px' }}
+              />
+              <CUIButton fullWidth type="submit" color={'steel_grey'}>
+                送出
+              </CUIButton>
+            </form>
+          ) : undefined}
+
           <div className={styles['back-cover']}></div>
           <div className={styles['front-cover']}></div>
-        </form>
+        </div>
       </div>
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          style: {
+            boxShadow: '0 0 1px #eee',
+          },
+        }}
+      />
     </>
   );
 }

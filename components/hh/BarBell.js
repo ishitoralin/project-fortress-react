@@ -2,7 +2,7 @@ import { Bar, PlateXL, PlateLG, PlateMD } from './models';
 import { useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useState, useLayoutEffect, useRef } from 'react';
 
 const BarBell = (props) => {
   const barbellRef = useRef();
@@ -29,18 +29,48 @@ const BarBell = (props) => {
   useLayoutEffect(() => {
     timeLineRef.current = gsap.timeline();
 
-    timeLineRef.current.from(
-      null,
+    timeLineRef.current.to(
+      barbellRef.current.position,
       {
-        duration: 1.8,
+        duration: 3,
+        x: 0,
+        z: -1,
+      },
+      '+=3.5'
+    );
+
+    timeLineRef.current.to(
+      barbellRef.current.rotation,
+      {
+        duration: 5,
+        y: Math.PI * 2,
+        z: 0,
+      },
+      '+=0'
+    );
+
+    timeLineRef.current.to(
+      barbellRef.current.position,
+      {
+        duration: 3.5,
+        y: 0.1,
+        z: 5,
       },
       '+=1'
     );
 
     timeLineRef.current.from(
+      null,
+      {
+        duration: 4,
+      },
+      '+=1.5'
+    );
+
+    timeLineRef.current.from(
       plateL6Ref.current.position,
       {
-        duration: 1.5,
+        duration: 3.5,
         x: -1,
       },
       0
@@ -49,7 +79,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL5Ref.current.position,
       {
-        duration: 1.2,
+        duration: 3,
         x: -1,
       },
       0
@@ -58,7 +88,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL4Ref.current.position,
       {
-        duration: 0.9,
+        duration: 2.5,
         x: -1,
       },
       0
@@ -67,7 +97,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL3Ref.current.position,
       {
-        duration: 0.6,
+        duration: 2,
         x: -1,
       },
       0
@@ -76,53 +106,8 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL2Ref.current.position,
       {
-        duration: 0.3,
-        x: -1,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR6Ref.current.position,
-      {
         duration: 1.5,
-        x: 10,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR5Ref.current.position,
-      {
-        duration: 1.2,
-        x: 10,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR4Ref.current.position,
-      {
-        duration: 0.9,
-        x: 10,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR3Ref.current.position,
-      {
-        duration: 0.6,
-        x: 10,
-      },
-      0
-    );
-
-    timeLineRef.current.from(
-      plateR2Ref.current.position,
-      {
-        duration: 0.3,
-        x: 10,
+        x: -1,
       },
       0
     );

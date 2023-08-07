@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import MemberLayout from '@/components/layout/memberLayout';
@@ -12,7 +12,7 @@ import CUITextField from '@/components/customUI/cui-textfield';
 import CUIButton from '@/components/customUI/cui-button';
 import GoogleSvg from '@/public/icons/google-svg.svg';
 import axios from 'axios';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 import useLoginNavigate from '@/hooks/useLoginNavigate';
 import { useAuth } from '@/context/auth/useAuth';
@@ -160,30 +160,6 @@ export default function SignUp() {
           <div className={styles['front-cover']}></div>
         </form>
       </div>
-      <Toaster
-        position="bottom-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: '',
-          duration: 5000,
-          style: {
-            fontSize: '1.25rem',
-            color: '#000',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 2000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        }}
-      />
     </>
   );
 }

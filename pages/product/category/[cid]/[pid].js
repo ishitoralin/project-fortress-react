@@ -33,6 +33,8 @@ import CUICard from '@/components/customUI/cui-card';
 import { useRouter } from 'next/router';
 import { useAuth } from '@/context/auth/useAuth';
 import NextBreadCrumb from '@/components/breadcrumb';
+import { toast } from 'react-hot-toast';
+import { color } from 'd3';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -191,8 +193,8 @@ export default function Index() {
                   color={'main_red'}
                   onClick={() => {
                     const jsonData = JSON.stringify({
-                      products_type_sid: router.query.cid,
-                      item_sid: router.query.pid,
+                      products_type_sid: parseInt(router.query.cid),
+                      item_sid: parseInt(router.query.pid),
                       quantity,
                     });
                     fetch('http://localhost:3001/SCadd', {
@@ -204,12 +206,21 @@ export default function Index() {
                         Authorization: `Bearer ${auth?.accessToken}`,
                       },
                     });
+                    toast.success('已加入購物車');
                   }}
                 >
                   加入購物車
                 </CUIButton>
               ) : (
-                <button>123123213</button>
+                <CUIButton
+                  sx={{ width: '249px', height: '36px' }}
+                  color={'main_red'}
+                  onClick={() => {
+                    toast.success('請先登入');
+                  }}
+                >
+                  加入購物車
+                </CUIButton>
               )}
             </div>
             <div className={`${styles['product-detail-button']}`}>
@@ -217,21 +228,100 @@ export default function Index() {
                 <ShareIcon></ShareIcon>分享
               </Button> */}
 
-              <Box sx={FavorIconStyle}>
-                收藏
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'row',
+                }}
+              >
+                <Typography
+                  sx={{
+                    paddingRight: '20px',
+                    fontSize: '1.25rem',
+                  }}
+                >
+                  收藏:
+                </Typography>
                 {auth.isLogin ? (
                   favorite ? (
-                    <FavoriteIcon sx={FavorIconStyle} onClick={() => {}} />
+                    <FavoriteIcon
+                      sx={{
+                        marginTop: '3px',
+                        width: '25px',
+                        height: '25px',
+                        color: 'red',
+                        FavorIconStyle,
+                      }}
+                      onClick={() => {
+                        const data = JSON.stringify({
+                          cid: parseInt(router.query.cid),
+                          pid: parseInt(router.query.pid),
+                        });
+                        console.log(data);
+                        fetch(
+                          'http://localhost:3001/api/member/member-favorite-products',
+                          {
+                            method: 'DELETE',
+
+                            body: data,
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${auth?.accessToken}`,
+                            },
+                          }
+                        ).then(() => {
+                          setFavorite(false);
+                          toast.success('已刪除收藏');
+                        });
+                      }}
+                    />
                   ) : (
                     <FavoriteBorderIcon
-                      sx={FavorIconStyle}
-                      onClick={() => {}}
+                      sx={{
+                        marginTop: '3px',
+                        width: '25px',
+                        height: '25px',
+                        color: 'red',
+                        FavorIconStyle,
+                      }}
+                      onClick={() => {
+                        const data = JSON.stringify({
+                          csid: parseInt(router.query.cid),
+                          psid: parseInt(router.query.pid),
+                        });
+                        console.log(data);
+                        fetch(
+                          'http://localhost:3001/api/member/member-favorite-products',
+                          {
+                            method: 'POST',
+
+                            body: data,
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${auth?.accessToken}`,
+                            },
+                          }
+                        ).then(() => {
+                          setFavorite(true);
+                        });
+                        toast.success('已加入收藏');
+                      }}
                     />
                   )
                 ) : (
-                  '未登入'
+                  <FavoriteBorderIcon
+                    sx={{
+                      marginTop: '3px',
+                      width: '25px',
+                      height: '25px',
+                      color: 'red',
+                      FavorIconStyle,
+                    }}
+                    onClick={() => {
+                      toast.success('請先登入');
+                    }}
+                  />
                 )}
-                {}
               </Box>
             </div>
           </div>
@@ -496,6 +586,7 @@ export default function Index() {
           </div>
         </div>
       </div>
+      
     </>
   );
 }

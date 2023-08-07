@@ -85,14 +85,6 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
 
   return (
     <>
-      <Toaster
-        position="bottom-center"
-        toastOptions={{
-          style: {
-            boxShadow: '0 0 1px #eee',
-          },
-        }}
-      />
       <CUICard
         sx={
           coachcard
@@ -214,14 +206,29 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
               <MonetizationOnRoundedIcon sx={priceIconStyle} />
               價格: {lesson.price}
             </Typography>
-            <Box sx={regisBoxStyle}>
-              <Typography variant="h6" className="regisText" onClick={openCard}>
-                立即報名
-              </Typography>
-              <Box sx={forwardSymbolBoxStyle}>
-                <ForwardSymbol width={'2rem'} color={'goldenrod'} />
+            {lesson.enrolled < lesson.capacity ? (
+              <Box sx={regisBoxStyle} onClick={openCard}>
+                <Typography variant="h6" className="regisText">
+                  立即報名
+                </Typography>
+                <Box sx={forwardSymbolBoxStyle}>
+                  <ForwardSymbol width={'2rem'} color={'goldenrod'} />
+                </Box>
               </Box>
-            </Box>
+            ) : (
+              <Box
+                sx={{
+                  ...regisBoxStyle,
+                  ':hover': {},
+                  cursor: 'not-allowed',
+                  color: 'grey',
+                }}
+              >
+                <Typography variant="h6" className="regisText">
+                  已額滿
+                </Typography>
+              </Box>
+            )}
           </Box>
         </Box>
       </CUICard>

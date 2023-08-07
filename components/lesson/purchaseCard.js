@@ -8,7 +8,7 @@ import {
 } from '@mui/material';
 import CUIButton from '../customUI/cui-button';
 
-import { getAuthHeaders } from '@/hh_global/authCache';
+import { hasAuth, getAuthHeaders } from '@/hh_global/authCache';
 import getToast from '@/hh_global/getToast';
 
 const cardBgcolor = '#eee';
@@ -137,9 +137,15 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
         <CUIButton btncolor={'#777'} onClick={closeCard}>
           取消
         </CUIButton>
-        <CUIButton color={'steel_grey'} onClick={handleAddCart}>
-          加入購物車
-        </CUIButton>
+        {hasAuth() ? (
+          <CUIButton color={'steel_grey'} onClick={handleAddCart}>
+            加入購物車
+          </CUIButton>
+        ) : (
+          <CUIButton disabled color={'steel_grey'}>
+            尚未登入
+          </CUIButton>
+        )}
       </DialogActions>
     </Dialog>
   );

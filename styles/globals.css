@@ -47,11 +47,34 @@
   margin: 0;
 }
 
+::selection {
+  background-color: var(--steel-grey);
+  color: white;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--steel-light-grey);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: var(--steel-grey);
+}
+
 html,
 body {
   max-width: 100vw;
   min-width: 400px;
-  /* overflow: hidden; */
   height: 100vh;
   scrollbar-gutter: auto;
 }
