@@ -5,6 +5,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 import Box from '@mui/material/Box';
+import { useState } from 'react';
 export default function CUIRadioButtons(props) {
   const ContainerFormStyle = props.ContainerFormStyle || {};
   const ButtonFormStyle = props.ButtonFormStyle || {};
@@ -18,6 +19,10 @@ export default function CUIRadioButtons(props) {
           row
           name="row-radio-buttons-group"
           sx={{ ...ButtonFormStyle }}
+          onChange={(e) => {
+            const value = e.target.value;
+            props.setDelivery(value);
+          }}
         >
           {props.RadioButtonArray.map((v, i) => {
             return (

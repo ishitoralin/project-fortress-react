@@ -16,16 +16,22 @@ export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
-  const checkConfirm = () => {
-    // fetch('http://localhost:3001/SCconfirm', {
-    //   method: 'POST',
-    //   body: {},
-    //   headers: {
-    //     Authorization: `Bearer ${auth?.accessToken}`,
-    //   },
-    // })
-    //   .then((r) => r.json)
-    //   .then((result) => console.log(result));
+  // const { name, address, phone, email, deliveryMethod } = props.button;
+  const paymentMethod = parseInt(props.delivery);
+  const checkConfirm = async () => {
+    await fetch('http://localhost:3001/OLdelivery', {
+      method: 'POST',
+      body: JSON.stringify({
+        ...props.button,
+        paymentMethod,
+      }),
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+        'Content-type': 'application/json',
+      },
+    })
+      .then((r) => r.json)
+      .then((result) => console.log(result));
   };
   return (
     <>
@@ -89,7 +95,10 @@ export default function CheckButton(props) {
                         },
                       }}
                       variant="contained"
-                      onClick={checkConfirm}
+                      onClick={() => {
+                        checkConfirm();
+                        console.log(props.button, props.delivery);
+                      }}
                       disabled={!props.cartItems ? false : true}
                     >
                       <Link href="/shoppingcart/thirdstage">送出訂單</Link>

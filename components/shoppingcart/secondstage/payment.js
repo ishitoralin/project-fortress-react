@@ -6,7 +6,7 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Box from '@mui/material/Box';
 
 import CUIRadioButtons from '@/components/customUI/cui-radiobutton';
-export default function Payment() {
+export default function Payment(props) {
   const ContainerFormStyle = {
     width: '100%',
     margin: 'auto',
@@ -21,7 +21,7 @@ export default function Payment() {
   const RadioButtonArray = [
     {
       label: 'LinePay',
-      value: 'LinePay',
+      value: 2,
       src: '/shoppingcart/LINE-Pay(v)_W61_n.png',
       Icon: '',
       alt: '無法顯示圖片',
@@ -30,7 +30,7 @@ export default function Payment() {
     },
     {
       label: '信用卡',
-      value: 'CreditCards',
+      value: 4,
       src: '/shoppingcart/creditcard.png',
       Icon: null,
       alt: '無法顯示圖片',
@@ -38,19 +38,18 @@ export default function Payment() {
     },
     {
       label: '貨到付款',
-      value: 'Delivery',
+      value: 5,
       src: '',
       Icon: <LocalShippingIcon sx={{ fontSize: '70px' }}></LocalShippingIcon>,
       alt: '無法顯示圖片',
     },
     {
       label: 'ATM轉帳',
-      value: 'ATM',
+      value: 1,
       src: '',
       Icon: <LocalAtmIcon sx={{ fontSize: '70px' }}></LocalAtmIcon>,
       alt: '無法顯示圖片',
     },
-
   ];
 
   return (
@@ -62,6 +61,7 @@ export default function Payment() {
           ButtonFormStyle={ButtonFormStyle}
           RadioButtonArray={RadioButtonArray}
           RadioButtonTitle={RadioButtonTitle}
+          setDelivery={props.setDelivery}
         ></CUIRadioButtons>
       </Box>
     </>
