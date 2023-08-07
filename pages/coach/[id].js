@@ -43,7 +43,7 @@ const fetchData = async (id) => {
 };
 
 export const getStaticPaths = async () => {
-  const res = await fetch('http://localhost:3001/coach');
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach`);
   const data = await res.json();
 
   const paths = data.map((ct) => ({ params: { id: ct.toString() } }));
@@ -132,7 +132,7 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
                   }}
                   placeholder="blur"
                   blurDataURL={`${coach.img_base64}`}
-                  src={`/coach-img/${coach.img}`}
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coach.img}`}
                 />
               </Box>
               <Box sx={coachCardBoxStyle}>
