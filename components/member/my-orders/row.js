@@ -114,7 +114,7 @@ export default function Row(props) {
                           data-title="商品圖片"
                         >
                           <img
-                            className={styles['td-img']}
+                            className={`${styles['td-img']}`}
                             src={`${
                               process.env.NEXT_PUBLIC_BACKEND_PORT
                             }/imgs/product/${row.picture.split(',')[0]}`}
@@ -127,21 +127,21 @@ export default function Row(props) {
                         align="right"
                         data-title="單價 :"
                       >
-                        {row.price}
+                        {row.price.toLocaleString()}
                       </TableCell>
                       <TableCell
                         component="th"
                         align="right"
                         data-title="數量 :"
                       >
-                        {row.quantity}
+                        {row.quantity.toLocaleString()}
                       </TableCell>
                       <TableCell
                         component="th"
                         align="right"
                         data-title="小計 :$"
                       >
-                        {row.price * row.quantity}
+                        {(row.price * row.quantity).toLocaleString()}
                       </TableCell>
                     </TableRow>
                   ))}
@@ -156,9 +156,11 @@ export default function Row(props) {
                       className={`${styles['order-table-total-price']}`}
                       sx={{ fontSize: '1.5rem' }}
                     >
-                      {row.rows.reduce((prev, curr) => {
-                        return prev + curr.price * curr.quantity;
-                      }, 0)}
+                      {row.rows
+                        .reduce((prev, curr) => {
+                          return prev + curr.price * curr.quantity;
+                        }, 0)
+                        ?.toLocaleString()}
                     </TableCell>
                   </TableRow>
                 </TableBody>
