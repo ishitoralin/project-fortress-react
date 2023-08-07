@@ -473,30 +473,6 @@ export default function ExercisePage() {
       >
         test
       </CUIButton> */}
-      <Toaster
-        position="top-center"
-        reverseOrder={false}
-        gutter={8}
-        containerClassName=""
-        containerStyle={{}}
-        toastOptions={{
-          className: '',
-          duration: 5000,
-          style: {
-            fontSize: '1.25rem',
-            color: '#000',
-          },
-
-          // Default options for specific types
-          success: {
-            duration: 2000,
-            theme: {
-              primary: 'green',
-              secondary: 'black',
-            },
-          },
-        }}
-      />
     </>
   );
 }
