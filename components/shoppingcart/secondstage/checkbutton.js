@@ -96,19 +96,12 @@ export default function CheckButton(props) {
                         checkConfirm();
                       }}
                       disabled={
-                        props.delivery !== ''
-                          ? name !== ''
-                            ? phone !== ''
-                              ? address !== ''
-                                ? email !== ''
-                                  ? paymentMethod !== ''
-                                    ? false
-                                    : true
-                                  : true
-                                : true
-                              : true
-                            : true
-                          : true
+                        props.delivery === '' ||
+                        name === '' ||
+                        phone === '' ||
+                        address === '' ||
+                        email === '' ||
+                        paymentMethod === ''
                       }
                     >
                       {/* <Link href="/shoppingcart/thirdstage">送出訂單</Link> */}
