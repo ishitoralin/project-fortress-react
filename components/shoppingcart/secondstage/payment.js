@@ -1,6 +1,3 @@
-import React, { useState } from 'react';
-import styles from '@/styles/shoppingcart.module.css';
-import Button from '@mui/material/Button';
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Box from '@mui/material/Box';
@@ -44,9 +41,6 @@ export default function Payment(props) {
         <LocalShippingIcon
           sx={{
             fontSize: '70px',
-            // '@media screen and (max-width:1200px)': {
-            //   fontSize: '48px',
-            // },
           }}
         ></LocalShippingIcon>
       ),
@@ -60,9 +54,6 @@ export default function Payment(props) {
         <LocalAtmIcon
           sx={{
             fontSize: '70px',
-            // '@media screen and (max-width:1200px)': {
-            //   fontSize: '48px',
-            // },
           }}
         ></LocalAtmIcon>
       ),

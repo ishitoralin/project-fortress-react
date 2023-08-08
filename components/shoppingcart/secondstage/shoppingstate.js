@@ -19,7 +19,7 @@ export default function ShoppingState() {
         <EastIcon className={styles.ShoppingState576} />
         <div className={`${styles.shoppingStateComponent} `}>
           <Link href="./shoppingcart">
-            <RemoveCircleOutlineIcon />
+            <CheckCircleIcon />
             買家資訊
           </Link>
         </div>

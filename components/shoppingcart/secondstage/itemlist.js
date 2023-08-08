@@ -1,8 +1,5 @@
 import React from 'react';
 import styles from '@/styles/shoppingcart.module.css';
-import Button from '@mui/material/Button';
-import createColorTheme from '@/libs/CreateColorTheme';
-import { useEffect, useState } from 'react';
 export default function ItemList(props) {
   return (
     <>

@@ -448,48 +448,48 @@
 
 .CUITextFieldStyle > label {
   font-size: 24px;
-  @media screen and (max-width:996px) {
+  @media screen and (max-width: 996px) {
     font-size: 20px;
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     font-size: 18px;
   }
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     font-size: 16px;
   }
-  @media screen and (max-width:414px) {
+  @media screen and (max-width: 414px) {
     font-size: 14px;
   }
 }
 
 .CUITextFieldStyle > div {
   font-size: 24px;
-  @media screen and (max-width:996px) {
+  @media screen and (max-width: 996px) {
     font-size: 20px;
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     font-size: 18px;
   }
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     font-size: 16px;
   }
-  @media screen and (max-width:414px) {
+  @media screen and (max-width: 414px) {
     font-size: 14px;
   }
 }
 
 .CUITextFieldStyle > p {
   font-size: 24px;
-  @media screen and (max-width:996px) {
+  @media screen and (max-width: 996px) {
     font-size: 20px;
   }
-  @media screen and (max-width:768px) {
+  @media screen and (max-width: 768px) {
     font-size: 18px;
   }
-  @media screen and (max-width:576px) {
+  @media screen and (max-width: 576px) {
     font-size: 16px;
   }
-  @media screen and (max-wPidth:414px) {
+  @media screen and (max-wpidth: 414px) {
     font-size: 14px;
   }
 }
@@ -727,4 +727,59 @@
   .productListTitleWords576 {
     display: none;
   }
+}
+
+/* thirdpage */
+.buyerInfoContainerFor3rdPage {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.buyerInfoLRFor3rdPage {
+  display: flex;
+  justify-content: flex-start;
+  /* align-items: center; */
+  margin: 0 auto;
+  font-size: 20px;
+}
+
+.buyerInfoLeftFor3rdPage,
+.buyerInfoRightFor3rdPage {
+  width: 100%;
+}
+
+.buyerInfoTitleFor3rdPage {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemListContainer {
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+}
+
+.itemListTitle {
+  font-size: 24px;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 25px;
+}
+.itemListDetailWithPhoto {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemListDetail {
+  font-size: 20px;
 }

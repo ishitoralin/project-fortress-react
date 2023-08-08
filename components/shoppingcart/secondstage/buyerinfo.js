@@ -1,18 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
-import createColorTheme from '@/libs/CreateColorTheme';
 import CUITextField from '@/components/customUI/cui-textfield';
-import { name } from 'dayjs/locale/zh-tw';
 import { useAuth } from '@/context/auth/useAuth';
 import Box from '@mui/material/Box';
 import { toast } from 'react-hot-toast';
 export default function BuyerInfo(props) {
   const { auth } = useAuth();
-  // const [value, setValue] = useState('0');
-  // Value 可以抓到選取的宅配方式
-  // const [deliveryMethod, setDeliveryMethod] = useState([]);
-
   const [name, setName] = useState('');
   const [checkName, setCheckName] = useState(false);
 
@@ -31,15 +25,6 @@ export default function BuyerInfo(props) {
   const toastClearInfo = () => {
     toast.error('已清除會員資訊');
   };
-  // useEffect(() => {
-  //   fetch('http://localhost:3001/OLdeliveryMethod', {
-  //     method: 'GET',
-  //   })
-  //     .then((r) => r.json())
-  //     .then((results) => {
-  //       return setDeliveryMethod(results.data);
-  //     });
-  // }, []);
 
   const importData = async () => {
     await fetch('http://localhost:3001/OLautofillinfo', {
@@ -232,46 +217,6 @@ export default function BuyerInfo(props) {
           ></CUITextField>
         </div>
       </div>
-      {/* <div className={`${styles.InfoComponent3}`}>
-        <div>宅配方式</div>
-        <div>
-          <Box sx={{ width: '100%' }}>
-            <BottomNavigation
-              showLabels
-              value={value}
-              onChange={(event, newValue) => {
-                const target = newValue;
-                setValue(target);
-                props.setConfirmInfo((prev) => {
-                  return { ...prev, paymentMethod: target };
-                });
-              }}
-            >
-              {deliveryMethod.map((v, i) => {
-                return (
-                  <BottomNavigationAction
-                    key={v.sid}
-                    label={v.method}
-                    icon={
-                      v.sid === 1 ? (
-                        <LocalConvenienceStoreIcon sx={{ fontSize: '40px' }} />
-                      ) : v.sid === 2 ? (
-                        <LocalShippingIcon sx={{ fontSize: '40px' }} />
-                      ) : (
-                        <DirectionsCarIcon sx={{ fontSize: '40px' }} />
-                      )
-                    }
-                    sx={{
-                      padding: '0',
-                      margin: '30px',
-                    }}
-                  />
-                );
-              })}
-            </BottomNavigation>
-          </Box>
-        </div>
-      </div> */}
     </>
   );
 }

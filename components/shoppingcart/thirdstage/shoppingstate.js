@@ -21,7 +21,7 @@ export default function ShoppingState() {
           className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
         >
           <Link href="./shoppingcart">
-            <RemoveCircleOutlineIcon />
+            <CheckCircleIcon />
             買家資訊
           </Link>
         </div>
@@ -30,7 +30,7 @@ export default function ShoppingState() {
           className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
         >
           <Link href="./shoppingcart">
-            <RemoveCircleOutlineIcon />
+            <CheckCircleIcon />
             訂單明細
           </Link>
         </div>

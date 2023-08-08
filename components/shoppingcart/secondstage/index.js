@@ -6,14 +6,11 @@ import ItemListTitle from './itemlisttitle';
 import ItemList from './itemlist';
 import Payment from './payment';
 import CheckButton from './checkbutton';
-import Recipt from './recipt';
-import styles from '@/styles/shoppingcart.module.css';
 import { useAuth } from '@/context/auth/useAuth';
 import Delivery from './delivery';
 import {
   indexBackground,
   indexContainer,
-  checkbutton,
   indexContainerFor2ndPageCheckButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
 import { Toaster } from 'react-hot-toast';
@@ -63,7 +60,6 @@ export default function SecondStage() {
         totalQuantity += Quantity;
       }
     }
-    // console.log(totalPrice, totalQuantity);
     setFinalPrice(totalPrice);
     setFinalQuantity(totalQuantity);
   }, [itemList]);
@@ -89,14 +85,6 @@ export default function SecondStage() {
           ></CheckButton>
         </Box>
       </Box>
-      <Toaster
-        position="bottom-center"
-        toastOptions={{
-          style: {
-            boxShadow: '0 0 1px #eee',
-          },
-        }}
-      />
     </>
   );
 }
