@@ -6,6 +6,8 @@
   position: absolute;
   box-sizing: border-box;
   border-radius: 3px;
+  pointer-events: none;
+  z-index: 1;
 }
 
 .draw-cw::after {

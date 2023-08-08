@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Environment,
@@ -11,14 +11,22 @@ import styles from '@/styles/homepage.module.css';
 import BarBell from '@/components/hh/BarBell';
 import ScrollContent from '@/components/hh/ScrollContent';
 
-const basicScale = 2.75;
+export const scrollData = {
+  section: null,
+  setSection(n) {
+    this.section = n;
+  },
+};
 
 const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
 
 const HomePage = () => {
   const lenRef = useRef();
+  const [horizontal, setHorizontal] = useState(false);
 
   useEffect(() => {
+    lenRef.current.style.setProperty('--s', 0);
+    let isFire = false;
     const trackPointer = (event) => {
       lenRef.current.style.setProperty(
         '--x',
@@ -30,19 +38,24 @@ const HomePage = () => {
       );
     };
 
-    let lenScale = 1;
-    let trans = 0.005;
+    window.addEventListener('mousemove', () => (isFire = true), { once: true });
     window.addEventListener('mousemove', trackPointer);
+
     const intervalId = window.setInterval(() => {
-      trans = lenScale > 1.2 ? -0.005 : lenScale < 0.8 ? 0.005 : trans;
-      lenRef.current.style.setProperty('--s', (lenScale += trans));
-    }, 10);
+      if (!isFire) return;
+      const lenScale = lenRef.current.style.getPropertyValue('--s');
+      lenRef.current.style.setProperty(
+        '--s',
+        scrollData.section === '3&4' ? 0 : lenScale === '0.9' ? 1.25 : 0.9
+      );
+    }, 1000);
 
     return () => {
-      window.removeEventListener(trackPointer);
+      window.removeEventListener('mousemove', trackPointer);
       window.clearInterval(intervalId);
     };
   }, []);
+
   return (
     <>
       <div ref={lenRef} className={styles['len']}></div>
@@ -51,6 +64,7 @@ const HomePage = () => {
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
+          {/* {!horizontal ? ( */}
           <ScrollControls pages={8} damping={0.35}>
             <Suspense>
               <BarBell
@@ -59,11 +73,27 @@ const HomePage = () => {
                 rotation={[0, 1.55, -0.2]}
               />
             </Suspense>
-
             <Scroll html>
-              <ScrollContent />
+              <ScrollContent
+                setHorizontal={setHorizontal}
+                horizontal={horizontal}
+              />
             </Scroll>
           </ScrollControls>
+          {/* ) : (
+            <ScrollControls pages={8} damping={0.35} horizontal={true}>
+              <Suspense>
+                <BarBell
+                  scale={4}
+                  position={[-1, -0.75, 0.5]}
+                  rotation={[0, 1.55, -0.2]}
+                />
+              </Suspense>
+              <Scroll html>
+                <ScrollContent setHorizontal={setHorizontal} />
+              </Scroll>
+            </ScrollControls>
+          )} */}
           {/* <BarBell
               scale={basicScale}
               position={[-1.5, 0, 0]}
@@ -78,7 +108,7 @@ const HomePage = () => {
               color="white" // Default
               lineWidth={5} // In pixels (default)
             /> */}
-          <OrbitControls enableZoom={false} />
+          {/* <OrbitControls enableZoom={false} /> */}
         </Canvas>
       </div>
     </>

@@ -32,11 +32,11 @@ const BarBell = (props) => {
     timeLineRef.current.to(
       barbellRef.current.position,
       {
-        duration: 3,
+        duration: 4,
         x: 0,
         z: -1,
       },
-      '+=3.5'
+      '+=4.5'
     );
 
     timeLineRef.current.to(
@@ -44,6 +44,16 @@ const BarBell = (props) => {
       {
         duration: 5,
         y: Math.PI * 2,
+        z: -0.1,
+      },
+      '+=0'
+    );
+
+    timeLineRef.current.to(
+      barbellRef.current.rotation,
+      {
+        duration: 5,
+        y: Math.PI * 4,
         z: 0,
       },
       '+=0'
@@ -52,7 +62,7 @@ const BarBell = (props) => {
     timeLineRef.current.to(
       barbellRef.current.position,
       {
-        duration: 3.5,
+        duration: 4.5,
         y: 0.1,
         z: 5,
       },
