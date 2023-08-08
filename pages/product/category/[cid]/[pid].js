@@ -246,6 +246,8 @@ export default function Index() {
                   favorite ? (
                     <FavoriteIcon
                       sx={{
+                        cursor: 'pointer',
+
                         marginTop: '3px',
                         width: '25px',
                         height: '25px',
@@ -278,6 +280,7 @@ export default function Index() {
                   ) : (
                     <FavoriteBorderIcon
                       sx={{
+                        cursor: 'pointer',
                         marginTop: '3px',
                         width: '25px',
                         height: '25px',
@@ -311,6 +314,7 @@ export default function Index() {
                 ) : (
                   <FavoriteBorderIcon
                     sx={{
+                      cursor: 'pointer',
                       marginTop: '3px',
                       width: '25px',
                       height: '25px',
@@ -586,7 +590,6 @@ export default function Index() {
           </div>
         </div>
       </div>
-      
     </>
   );
 }
