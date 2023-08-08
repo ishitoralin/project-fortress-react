@@ -8,24 +8,25 @@ export default function ShoppingState() {
   return (
     <div>
       <div className={`${styles.shoppingStateContainer}`}>
-        <div className={`${styles.shoppingStateComponent}`}>
-          {/* TODO change href when finish nodejs */}
+        <div
+          className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
+        >
           <Link href="./shoppingcart">
-            <CheckCircleIcon />
+            <CheckCircleIcon className={styles.ShoppingState414} />
             訂單確認
           </Link>
         </div>
-        <EastIcon />
-        <div className={`${styles.shoppingStateComponent}`}>
-          {/* TODO change href when finish nodejs */}
+        <EastIcon className={styles.ShoppingState576} />
+        <div className={`${styles.shoppingStateComponent} `}>
           <Link href="./shoppingcart">
             <RemoveCircleOutlineIcon />
             買家資訊
           </Link>
         </div>
-        <EastIcon />
-        <div className={`${styles.shoppingStateComponent}`}>
-          {/* TODO change href when finish nodejs */}
+        <EastIcon className={styles.ShoppingState576} />
+        <div
+          className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
+        >
           <Link href="./shoppingcart">
             <RemoveCircleOutlineIcon />
             訂單明細

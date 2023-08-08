@@ -32,7 +32,6 @@ export default function CheckButton(props) {
       .then((r) => r.json)
       .then((result) => console.log(result));
   };
-  console.log(props.confirmInfo);
   return (
     <>
       <Box sx={checkbutton}>
@@ -53,7 +52,7 @@ export default function CheckButton(props) {
             {/* <div className={`${styles.countButtonContainer}`}> */}
             <div className={`${styles.countButtonComponent}`}>
               <Box sx={checkbutton}>
-                <div>
+                <div className={`${styles.checkButtonContainer}`}>
                   <WhiteTheme>
                     <Button
                       className={`${styles.buttonContainer}`}
@@ -72,8 +71,8 @@ export default function CheckButton(props) {
                       variant="contained"
                       onClick={props.onClick}
                     >
-                      <Link href="/" sx={{ width: '100%' }}>
-                        返回首頁
+                      <Link href="/shoppingcart" sx={{ width: '100%' }}>
+                        上一步
                       </Link>
                     </Button>
                   </WhiteTheme>
@@ -104,7 +103,7 @@ export default function CheckButton(props) {
                         paymentMethod === ''
                       }
                     >
-                      {/* <Link href="/shoppingcart/thirdstage">送出訂單</Link> */}
+                      <Link href="/shoppingcart/thirdstage">送出訂單</Link>
                     </Button>
                   </RedTheme>
                   {/* </div> */}

@@ -35,18 +35,6 @@ export const indexContainerFor2ndPageCheckButton = {
   zIndex: '30',
   position: 'sticky',
   bottom: '0',
-
-  '@media screen and (max-width: 768px)': {
-    margin: '0 75px',
-  },
-  '@media screen and (max-width: 576px)': {
-    margin: '0',
-    padding: '0 30px',
-  },
-  '@media screen and (max-width: 414px)': {
-    margin: '0',
-    padding: '0 15px',
-  },
 };
 export const checkbutton = {
   margin: '0',
@@ -54,8 +42,11 @@ export const checkbutton = {
   zIndex: '30',
   position: 'sticky',
   bottom: '0',
-  '@media screen and (max-width:996)': {
+  '@media screen and (max-width:996px)': {
     padding: '0',
+  },
+  '@media screen and (max-width:768px)': {
+    padding: '0', 
   },
 };
 

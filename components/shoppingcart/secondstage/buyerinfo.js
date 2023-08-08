@@ -6,17 +6,12 @@ import CUITextField from '@/components/customUI/cui-textfield';
 import { name } from 'dayjs/locale/zh-tw';
 import { useAuth } from '@/context/auth/useAuth';
 import Box from '@mui/material/Box';
-import BottomNavigation from '@mui/material/BottomNavigation';
-import BottomNavigationAction from '@mui/material/BottomNavigationAction';
-import LocalConvenienceStoreIcon from '@mui/icons-material/LocalConvenienceStore';
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
-import LocalShippingIcon from '@mui/icons-material/LocalShipping';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 export default function BuyerInfo(props) {
   const { auth } = useAuth();
-  const [value, setValue] = useState('0');
+  // const [value, setValue] = useState('0');
   // Value 可以抓到選取的宅配方式
-  const [deliveryMethod, setDeliveryMethod] = useState([]);
+  // const [deliveryMethod, setDeliveryMethod] = useState([]);
 
   const [name, setName] = useState('');
   const [checkName, setCheckName] = useState(false);
@@ -36,18 +31,18 @@ export default function BuyerInfo(props) {
   const toastClearInfo = () => {
     toast.error('已清除會員資訊');
   };
-  useEffect(() => {
-    fetch('http://localhost:3001/OLdeliveryMethod', {
-      method: 'GET',
-    })
-      .then((r) => r.json())
-      .then((results) => {
-        return setDeliveryMethod(results.data);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3001/OLdeliveryMethod', {
+  //     method: 'GET',
+  //   })
+  //     .then((r) => r.json())
+  //     .then((results) => {
+  //       return setDeliveryMethod(results.data);
+  //     });
+  // }, []);
 
-  const importData = () => {
-    fetch('http://localhost:3001/OLautofillinfo', {
+  const importData = async () => {
+    await fetch('http://localhost:3001/OLautofillinfo', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,
@@ -96,7 +91,7 @@ export default function BuyerInfo(props) {
     <>
       <div className={`${styles.InfoArea}`}>
         <div className={`${styles.InfoContainer}`}>
-          <div className={`${styles.InfoComponent3}`}>
+          <div className={`${styles.buyerInfoTitle}`}>
             <div>收件人資訊</div>
           </div>
           <div className={`${styles.InfoComponent2}`}>
@@ -108,6 +103,9 @@ export default function BuyerInfo(props) {
                   border: '1px solid #D9D9D9',
                   color: 'black',
                   fontWeight: '700',
+                  '@media screen and (max-width:996px)': {
+                    fontSize: '20px',
+                  },
                 }}
                 onClick={() => {
                   importData();
@@ -125,6 +123,9 @@ export default function BuyerInfo(props) {
                   border: '1px solid #D9D9D9',
                   color: 'black',
                   fontWeight: '700',
+                  '@media screen and (max-width:996px)': {
+                    fontSize: '20px',
+                  },
                 }}
                 onClick={() => {
                   clearInfo();
@@ -136,7 +137,7 @@ export default function BuyerInfo(props) {
             </div>
           </div>
           <CUITextField
-            className={`${styles.InfoComponent1}`}
+            className={`${styles.CUITextFieldStyle}`}
             error={checkName}
             label="請輸入收件人姓名"
             required
@@ -159,7 +160,7 @@ export default function BuyerInfo(props) {
             }}
           ></CUITextField>
           <CUITextField
-            className={`${styles.InfoComponent1}`}
+            className={`${styles.CUITextFieldStyle}`}
             error={checkAddress}
             label="請輸入寄送地址"
             required
@@ -184,7 +185,7 @@ export default function BuyerInfo(props) {
             }}
           ></CUITextField>
           <CUITextField
-            className={`${styles.InfoComponent1}`}
+            className={`${styles.CUITextFieldStyle}`}
             error={checkPhone}
             label="請輸入聯絡電話"
             required
@@ -207,7 +208,7 @@ export default function BuyerInfo(props) {
             }}
           ></CUITextField>
           <CUITextField
-            className={`${styles.InfoComponent1}`}
+            className={`${styles.CUITextFieldStyle}`}
             error={checkEmail}
             label="請輸入電子信箱"
             required
@@ -231,7 +232,7 @@ export default function BuyerInfo(props) {
           ></CUITextField>
         </div>
       </div>
-      <div className={`${styles.InfoComponent3}`}>
+      {/* <div className={`${styles.InfoComponent3}`}>
         <div>宅配方式</div>
         <div>
           <Box sx={{ width: '100%' }}>
@@ -270,7 +271,7 @@ export default function BuyerInfo(props) {
             </BottomNavigation>
           </Box>
         </div>
-      </div>
+      </div> */}
     </>
   );
 }

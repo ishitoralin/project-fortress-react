@@ -23,7 +23,7 @@ export default function ItemList(props) {
                 alt="商品圖片"
               />
             </div>
-            <div className={`${styles.ProductConFirmListComponent2}`}>
+            <div className={`${styles.ProductConFirmListComponentName}`}>
               {v.item_name}
             </div>
             <div className={`${styles.ProductConFirmListComponent1}`}>

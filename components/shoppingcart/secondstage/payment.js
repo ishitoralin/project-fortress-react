@@ -17,7 +17,7 @@ export default function Payment(props) {
     width: '100%',
     justifyContent: 'space-between',
   };
-  const RadioButtonTitle = '請選擇付款方式';
+  const RadioButtonTitle = '付款方式';
   const RadioButtonArray = [
     {
       label: 'LinePay',
@@ -40,14 +40,32 @@ export default function Payment(props) {
       label: '貨到付款',
       value: 5,
       src: '',
-      Icon: <LocalShippingIcon sx={{ fontSize: '70px' }}></LocalShippingIcon>,
+      Icon: (
+        <LocalShippingIcon
+          sx={{
+            fontSize: '70px',
+            // '@media screen and (max-width:1200px)': {
+            //   fontSize: '48px',
+            // },
+          }}
+        ></LocalShippingIcon>
+      ),
       alt: '無法顯示圖片',
     },
     {
       label: 'ATM轉帳',
       value: 1,
       src: '',
-      Icon: <LocalAtmIcon sx={{ fontSize: '70px' }}></LocalAtmIcon>,
+      Icon: (
+        <LocalAtmIcon
+          sx={{
+            fontSize: '70px',
+            // '@media screen and (max-width:1200px)': {
+            //   fontSize: '48px',
+            // },
+          }}
+        ></LocalAtmIcon>
+      ),
       alt: '無法顯示圖片',
     },
   ];

@@ -9,7 +9,6 @@ export default function ShoppingState() {
     <div>
       <div className={`${styles.shoppingStateContainer}`}>
         <div className={`${styles.shoppingStateComponent}`}>
-          {/* TODO change href when finish nodejs */}
           <Link href="./shoppingcart">
             <RemoveCircleOutlineIcon className={styles.ShoppingState414} />
             訂單確認
@@ -19,7 +18,6 @@ export default function ShoppingState() {
         <div
           className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
         >
-          {/* TODO change href when finish nodejs */}
           <Link href="./shoppingcart">
             <RemoveCircleOutlineIcon />
             買家資訊
@@ -27,9 +25,8 @@ export default function ShoppingState() {
         </div>
         <EastIcon className={styles.ShoppingState576} />
         <div
-          className={`${styles.shoppingStateComponent}  $ ${styles.ShoppingState576}`}
+          className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
         >
-          {/* TODO change href when finish nodejs */}
           <Link href="./shoppingcart">
             <RemoveCircleOutlineIcon />
             訂單明細

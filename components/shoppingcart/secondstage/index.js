@@ -9,7 +9,7 @@ import CheckButton from './checkbutton';
 import Recipt from './recipt';
 import styles from '@/styles/shoppingcart.module.css';
 import { useAuth } from '@/context/auth/useAuth';
-
+import Delivery from './delivery';
 import {
   indexBackground,
   indexContainer,
@@ -46,7 +46,7 @@ export default function SecondStage() {
         setItemList(results.data);
       })
       .catch((error) => console.log(error));
-  }, []);
+  }, [auth?.accessToken]);
 
   useEffect(() => {
     let totalPrice = 0;
@@ -75,6 +75,7 @@ export default function SecondStage() {
           <BuyerInfo setConfirmInfo={setConfirmInfo}></BuyerInfo>
           <ItemListTitle></ItemListTitle>
           <ItemList itemList={itemList}></ItemList>
+          <Delivery setConfirmInfo={setConfirmInfo}></Delivery>
           <Payment setDelivery={setDelivery}></Payment>
           {/* <Recipt></Recipt> */}
         </Box>
