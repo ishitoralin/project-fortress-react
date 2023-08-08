@@ -14,6 +14,7 @@ import useLoginNavigate from '@/hooks/useLoginNavigate';
 import axios from 'axios';
 import { resetPassword, resetPasswordToken } from '@/context/auth/config';
 import { Toaster, toast } from 'react-hot-toast';
+import { useRouter } from 'next/router';
 const validationSchema1 = yup.object({
   email: yup
     .string('請輸入信箱')
@@ -54,10 +55,17 @@ const validationSchema1 = yup.object({
 });
 const validationSchema2 = yup.object({
   token: yup.number('請輸入驗證碼').required('請輸入驗證碼'),
-  password: yup.string(),
+  resetPassword: yup
+    .string('請輸入密碼')
+    .matches(/(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]/, '密碼需有1個英文字和1個數字')
+    .min(6, '密碼長度需介於6-8個字')
+    .max(8, '密碼長度需介於6-8個字')
+    .required('密碼為必填欄位'),
 });
 export default function ForgotPassword() {
   const [step, setStep] = useState('step1');
+  const [email, setEmail] = useState('');
+  const router = useRouter();
   const filed1 = [
     {
       label: '電子信箱',
@@ -81,14 +89,15 @@ export default function ForgotPassword() {
       if (res.data.message === 'token發送成功') {
         toast.success('驗證信已寄出，請確認。');
         setStep('step2');
+        setEmail(values['email']);
         return;
       }
       if (res.data.message === '請確認信箱是否正確。') {
         toast.error('請確認信箱是否正確。');
       }
-      /*     if (res.data.message === 'token發送成功') {
+      if (res.data.message === 'token發送成功') {
         toast.success('驗證信已寄出，請確認。');
-      } */
+      }
     },
   });
   const formik2 = useFormik({
@@ -97,10 +106,21 @@ export default function ForgotPassword() {
     onSubmit: async (values) => {
       const res = await axios.patch(
         `${resetPassword}`,
-        { ...values },
+        { ...values, email },
         { withCredentials: false }
       );
-      console.log(res.data);
+      console.log(res.data.message);
+      if (res.data.message === '資訊有誤') {
+        toast.error('請確認驗證碼是否正確。');
+
+        return;
+      }
+      if (res.data.message === '密碼變更成功') {
+        toast.success('密碼變更成功，即將跳轉登入頁面');
+        setTimeout(() => {
+          router.push('/member/login');
+        }, 1000);
+      }
     },
   });
   return (
@@ -124,42 +144,50 @@ export default function ForgotPassword() {
             <AuthLink key={el} path={el} />
           ))}
           {step === 'step1' ? (
-            <form
-              onSubmit={formik1.handleSubmit}
-              className={`${styles['sign-up-form-container']}`}
-            >
-              {filed1.map((el) => {
-                const { label, name, placeholder, type } = el;
-                return (
-                  <CUITextField
-                    key={name}
-                    label={label}
-                    placeholder={placeholder}
-                    name={name}
-                    type={type}
-                    value={formik1.values[name]}
-                    onChange={formik1.handleChange}
-                    onBlur={formik1.handleBlur}
-                    error={
-                      formik1.touched[name] && Boolean(formik1.errors[name])
-                    }
-                    helperText={formik1.touched[name] && formik1.errors[name]}
-                    autoComplete="off"
-                    sx={{ marginBottom: '15px' }}
-                  />
-                );
-              })}
-              <CUIButton fullWidth type="submit" color={'steel_grey'}>
-                送出驗證信
-              </CUIButton>
-            </form>
+            <>
+              <form
+                onSubmit={formik1.handleSubmit}
+                className={`${styles['sign-up-form-container']}`}
+              >
+                <Typography
+                  sx={{ marginBottom: '15px', color: 'var(--main-red)' }}
+                >
+                  輸入信箱並送出後，請至信箱確認驗證碼。
+                </Typography>
+                {filed1.map((el) => {
+                  const { label, name, placeholder, type } = el;
+                  return (
+                    <CUITextField
+                      key={name}
+                      label={label}
+                      placeholder={placeholder}
+                      name={name}
+                      type={type}
+                      value={formik1.values[name]}
+                      onChange={formik1.handleChange}
+                      onBlur={formik1.handleBlur}
+                      error={
+                        formik1.touched[name] && Boolean(formik1.errors[name])
+                      }
+                      helperText={formik1.touched[name] && formik1.errors[name]}
+                      autoComplete="off"
+                      sx={{ marginBottom: '15px' }}
+                    />
+                  );
+                })}
+                <CUIButton fullWidth type="submit" color={'steel_grey'}>
+                  送出驗證信
+                </CUIButton>
+              </form>
+            </>
           ) : undefined}
-          {'step2' === 'step2' ? (
+          {step === 'step2' ? (
             <form
               onSubmit={formik2.handleSubmit}
               className={`${styles['sign-up-form-container']}`}
             >
               <CUITextField
+                className={`${styles['CUITextField-number-input']}`}
                 label={'驗證碼'}
                 placeholder={'請輸入驗證碼'}
                 name={'token'}
@@ -177,23 +205,24 @@ export default function ForgotPassword() {
               <CUITextField
                 label={'新密碼'}
                 placeholder={'請輸入新密碼'}
-                name={'password'}
-                type={'text'}
-                value={formik2.values['password']}
+                name={'resetPassword'}
+                type={'password'}
+                value={formik2.values['resetPassword']}
                 onChange={formik2.handleChange}
                 onBlur={formik2.handleBlur}
                 error={
-                  formik2.touched['password'] &&
-                  Boolean(formik2.errors['password'])
+                  formik2.touched['resetPassword'] &&
+                  Boolean(formik2.errors['resetPassword'])
                 }
                 helperText={
-                  formik2.touched['password'] && formik2.errors['password']
+                  formik2.touched['resetPassword'] &&
+                  formik2.errors['resetPassword']
                 }
                 autoComplete="off"
                 sx={{ marginBottom: '15px' }}
               />
               <CUIButton fullWidth type="submit" color={'steel_grey'}>
-                送出
+                新密碼確認
               </CUIButton>
             </form>
           ) : undefined}
