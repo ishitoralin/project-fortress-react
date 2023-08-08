@@ -47,6 +47,11 @@
   display: block;
   top: 0;
 } */
+/* my-products */
+.my-products-section {
+  display: flex;
+  width: 100%;
+}
 @media screen and (max-width: 768px) {
   .my-container {
     padding: 25px 15px 15px 15px;
