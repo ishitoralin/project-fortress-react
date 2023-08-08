@@ -941,6 +941,13 @@
 .BasicAccordion {
   padding-left: 30px;
   padding-top: 50px;
+
+  @media screen and (max-width:414px) {
+    display: none;
+
+
+  }
+
 }
 
 .Accordion:root {
@@ -968,6 +975,23 @@
 
 .BasicAccordion {
   background-color: none;
+
+  @media screen and (max-width:414px) {
+    display: none;
+  }
+}
+
+.mbfirstcategory {
+  display: none;
+
+  @media screen and (max-width:414px) {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    color: #ffffff;
+    width: 414px;
+    height: 100%;
+  }
 }
 
 .inputHideAdjustButton[type='number']::-webkit-inner-spin-button,
