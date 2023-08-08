@@ -41,11 +41,13 @@ const ScrollContent = () => {
         <div
           className={`${styles['block']} ${drawBorder[draw ? 'draw-ccw' : '']}`}
         >
+          <div className={`${styles['img-box']}`}></div>
           <h2>專業師資</h2>
         </div>
         <div
           className={`${styles['block']} ${drawBorder[draw ? 'draw-cw' : '']}`}
         >
+          <div className={`${styles['img-box']}`}></div>
           <h2>多元課程</h2>
         </div>
       </section>

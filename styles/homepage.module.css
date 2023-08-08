@@ -9,6 +9,21 @@
   --animation-duration: 2s;
 }
 
+.len {
+  /* opacity: 1; */
+  background-color: aliceblue;
+  position: fixed;
+  mix-blend-mode: difference;
+  top: var(--y);
+  left: var(--x);
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  transform: scale(var(--s));
+  z-index: 100;
+  pointer-events: none;
+}
+
 .main-box h1 {
   font-size: var(--title-size);
 }
@@ -64,20 +79,8 @@
   width: 22vw;
 }
 
+
 .section-four h2 {
   text-align: center;
   margin-bottom: -2rem;
-}
-
-.len {
-  position: fixed;
-  /* transition: 300ms 20ms ease-out; */
-  top: var(--y);
-  left: var(--x);
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  background-color: #fff;
-  z-index: 99;
-  pointer-events: none;
 }

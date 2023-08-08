@@ -19,7 +19,7 @@ const HomePage = () => {
   const lenRef = useRef();
 
   useEffect(() => {
-    window.addEventListener('mousemove', (event) => {
+    const trackPointer = (event) => {
       lenRef.current.style.setProperty(
         '--x',
         `${clamp(event.clientX - 50, 25, window.innerWidth - 125)}px`
@@ -28,7 +28,20 @@ const HomePage = () => {
         '--y',
         `${clamp(event.clientY - 50, 25, window.innerHeight - 125)}px`
       );
-    });
+    };
+
+    let lenScale = 1;
+    let trans = 0.005;
+    window.addEventListener('mousemove', trackPointer);
+    const intervalId = window.setInterval(() => {
+      trans = lenScale > 1.2 ? -0.005 : lenScale < 0.8 ? 0.005 : trans;
+      lenRef.current.style.setProperty('--s', (lenScale += trans));
+    }, 10);
+
+    return () => {
+      window.removeEventListener(trackPointer);
+      window.clearInterval(intervalId);
+    };
   }, []);
   return (
     <>
