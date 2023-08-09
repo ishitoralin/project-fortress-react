@@ -42,6 +42,7 @@
 .section-three,
 .section-four,
 .section-five,
+.section-six,
 .section-empty {
   position: relative;
   width: 100vw;
@@ -170,6 +171,10 @@
 .section-one-map h2, .section-five h2 {
   text-align: center;
   margin-bottom: -2rem;
+}
+
+.section-six {
+  text-align: center;
 }
 
 .go-transform {

@@ -104,10 +104,11 @@ const ScrollContent = () => {
     const inSectionTwo = scroll.range(2 / 12, 1 / 12);
     setDraw(inSectionTwo < 1 && inSectionTwo > 0);
 
-    const inSectionThreeFour = scroll.range(2 / 12, 2 / 12);
-    scrollData.setSection(
-      inSectionThreeFour < 1 && inSectionThreeFour > 0 ? '3&4' : null
-    );
+    const inSectionThree =
+      scroll.range(2 / 12, 1 / 12) < 1 && scroll.range(2 / 12, 1 / 12) > 0;
+    const inSectionFour =
+      scroll.range(5 / 12, 2 / 12) < 1 && scroll.range(5 / 12, 2 / 12) > 0;
+    scrollData.setSection(inSectionThree || inSectionFour ? '3&4' : null);
 
     const inImgSection = scroll.range(1.5 / 12, 1.3 / 12);
     setImgSectionDelta(inImgSection);
@@ -242,25 +243,19 @@ const ScrollContent = () => {
         className={styles['section-four']}
         shopSectionDelta={shopSectionDelta}
       />
-      <section className={styles['section-empty']}>
-        <h2>test</h2>
-      </section>
+      <section className={styles['section-empty']}></section>
       <section className={styles['section-five']}>
         <h2>全台據點</h2>
         <SectionMap />
       </section>
-      {/* {horizontal && (
-        <ScrollControls
-          horizontal
-          style={{ border: '2px solid red', zIndex: 100 }}
-        >
-          <Scroll html>
-            <section className={styles['section-test']}>
-              <h1>i love siaobao</h1>
-            </section>
-          </Scroll>
-        </ScrollControls>
-      )} */}
+      <section className={styles['section-empty']}></section>
+      <section className={styles['section-empty']}></section>
+      <section className={styles['section-empty']}></section>
+      <section className={styles['section-six']}>
+        <div style={{border: '2px solid red'}}>
+          <LogoIcon width={540} height={180} />
+        </div>
+      </section>
     </>
   );
 };
