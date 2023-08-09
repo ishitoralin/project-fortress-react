@@ -2,7 +2,7 @@ import { Bar, PlateXL, PlateLG, PlateMD } from './models';
 import { useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import gsap from 'gsap';
-import React, { useState, useLayoutEffect, useRef } from 'react';
+import React, { useLayoutEffect, useRef } from 'react';
 
 const BarBell = (props) => {
   const barbellRef = useRef();
@@ -32,7 +32,7 @@ const BarBell = (props) => {
     timeLineRef.current.to(
       barbellRef.current.position,
       {
-        duration: 3,
+        duration: 2,
         x: 0,
         z: -1,
       },
@@ -42,21 +42,32 @@ const BarBell = (props) => {
     timeLineRef.current.to(
       barbellRef.current.rotation,
       {
-        duration: 5,
-        y: Math.PI * 2,
+        duration: 10,
+        ease: 'power1.in',
+        y: Math.PI * 4,
         z: 0,
       },
-      '+=0'
+      '>'
     );
+
+    // timeLineRef.current.to(
+    //   barbellRef.current.rotation,
+    //   {
+    //     duration: 5,
+    //     y: Math.PI * 4,
+    //     z: 0,
+    //   },
+    //   '+=0'
+    // );
 
     timeLineRef.current.to(
       barbellRef.current.position,
       {
-        duration: 3.5,
+        duration: 6,
         y: 0.1,
         z: 5,
       },
-      '+=1'
+      '>'
     );
 
     timeLineRef.current.from(
@@ -79,7 +90,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL5Ref.current.position,
       {
-        duration: 3,
+        duration: 2.5,
         x: -1,
       },
       0
@@ -88,7 +99,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL4Ref.current.position,
       {
-        duration: 2.5,
+        duration: 2,
         x: -1,
       },
       0
@@ -97,7 +108,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL3Ref.current.position,
       {
-        duration: 2,
+        duration: 1.5,
         x: -1,
       },
       0
@@ -106,7 +117,7 @@ const BarBell = (props) => {
     timeLineRef.current.from(
       plateL2Ref.current.position,
       {
-        duration: 1.5,
+        duration: 1,
         x: -1,
       },
       0

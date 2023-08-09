@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import ForwardSymbol from '@/assets/forward-symbol';
-import { Toaster } from 'react-hot-toast';
 import getToast from '@/hh_global/getToast';
 
 import { Button, Box, Typography, Chip } from '@mui/material';
@@ -121,8 +120,8 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
               alt="lessonImg"
               src={
                 coachcard
-                  ? `/coach-img/${lesson.coach_img}`
-                  : `/lesson-img/${lesson.img}`
+                  ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${lesson.coach_img}`
+                  : `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${lesson.img}`
               }
               placeholder="blur"
               blurDataURL={

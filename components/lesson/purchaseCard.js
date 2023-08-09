@@ -114,7 +114,7 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
         <Box sx={imgBoxStyle}>
           <Image
             alt="purchselessonImg"
-            src={`/lesson-img/${lesson.img}`}
+            src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${lesson.img}`}
             placeholder="blur"
             blurDataURL={lesson.img_base64}
             style={{ objectFit: 'cover', objectPosition: 'center top' }}
