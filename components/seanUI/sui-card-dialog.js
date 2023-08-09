@@ -112,23 +112,28 @@ function ExeCardDialog({
           {'運動類型: ' + item?.exercise_name}
         </Box>
         {/* TODO:unfinished */}
-        <iframe
-          width="100%"
-          // FIXME: height?
-          height="400px"
-          // src="https://www.youtube.com/embed/gcNh17Ckjgg"
-          src={`${item.vid}&autoplay=1`}
-          title="YouTube video player"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-
-        {/* <img
-          src={'/react-imgs/record/exercise/' + item?.img}
-          alt="Item"
-          style={{ width: '100%' }}
-        /> */}
-
+        {/* {console.log(item.vid)} */}
+        {item.vid ? (
+          <iframe
+            width="100%"
+            // FIXME: height?
+            height="400px"
+            // src="https://www.youtube.com/embed/gcNh17Ckjgg"
+            src={`${item.vid}&autoplay=1`}
+            title="YouTube video player"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          ></iframe>
+        ) : (
+          <img
+            src={
+              `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/record/exercise/` +
+              item.img
+            }
+            alt="Item"
+            style={{ width: '100%' }}
+          />
+        )}
         {/* {console.log(item?.quantity)} */}
         <Box sx={{ fontSize: '1.5rem' }}>
           {'訓練方法: ' + item?.exercise_description}

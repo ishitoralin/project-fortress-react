@@ -436,11 +436,11 @@ export default function ExercisePage() {
               <CUIButton
                 color={'light_grey'}
                 sx={{ mb: 2 }}
-                // disabled={}
+                disabled={!exerciseRecord}
               >
                 {/* {console.log(exerciseRecord)} */}
                 {/* ADD member's name and month to title of .csv */}
-                {exerciseRecord?.length > 0 && (
+                {exerciseRecord?.length > 0 ? (
                   <CSVLink
                     data={exerciseRecord.map((e) => ({
                       data: e.date,
@@ -453,6 +453,8 @@ export default function ExercisePage() {
                   >
                     下載本月運動CSV
                   </CSVLink>
+                ) : (
+                  '本月無數據'
                 )}
               </CUIButton>
               <SeanCalendar
@@ -468,6 +470,7 @@ export default function ExercisePage() {
         {/* === page 3 ========================================================= */}
         {/* =================================================================== */}
         <PlotPage
+          auth={auth}
           bodyParts={bodyParts.current}
           exerciseInit={exerciseInit}
           myBGstyle={myBGstyle}

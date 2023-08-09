@@ -176,22 +176,22 @@ function SUISchedule({
           // height: '100%',
           overflow: 'auto',
           position: 'relative',
-          '&::-webkit-scrollbar': {
-            width: 20,
-          },
-          '&::-webkit-scrollbar-track': {
-            backgroundColor: 'var(--deepgrey)',
-            borderRadius: '5px',
-          },
-          '&::-webkit-scrollbar-thumb': {
-            borderRadius: '5px',
-            backgroundColor: 'var(--steel-grey)',
-            transition: '.5s',
-            '&:hover': {
-              filter: 'brightness(0.85)',
-              backgroundColor: 'var(--light-grey)',
-            },
-          },
+          // '&::-webkit-scrollbar': {
+          //   width: 20,
+          // },
+          // '&::-webkit-scrollbar-track': {
+          //   backgroundColor: 'var(--deepgrey)',
+          //   borderRadius: '5px',
+          // },
+          // '&::-webkit-scrollbar-thumb': {
+          //   borderRadius: '5px',
+          //   backgroundColor: 'var(--steel-grey)',
+          //   transition: '.5s',
+          //   '&:hover': {
+          //     filter: 'brightness(0.85)',
+          //     backgroundColor: 'var(--light-grey)',
+          //   },
+          // },
         }}
       >
         <div
