@@ -3,13 +3,18 @@ import styles from '../member.module.css';
 import ProductsTable from './products-table';
 import MemberPagenation from '../member-pagenation';
 import CancelIcon from '@mui/icons-material/Cancel';
-import { IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import Link from 'next/link';
 import CUICard from '@/components/customUI/cui-card';
 import axios from 'axios';
 import CUIFilter from '@/components/customUI/cui-filter';
 import CUISlider from '@/components/customUI/cui-slider';
 import CUISearch from '@/components/customUI/cui-search';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { useRouter } from 'next/router';
+import { useAuth } from '@/context/auth/useAuth';
+import { toast } from 'react-hot-toast';
+import { motion } from 'framer-motion';
 
 export default function MyProducts() {
   const [data, setData] = useState({
@@ -22,141 +27,231 @@ export default function MyProducts() {
   });
   const [queryObject, setQueryObject] = useState({});
   const keywordRef = useRef();
-  useEffect(() => {
-    setData(() => {
-      return {
-        redirect: '',
-        totalRows: 19,
-        perPage: 6,
-        totalPages: 4,
-        page: 1,
-        orderBy: '',
-        rows: [
+  const router = useRouter();
+  const { auth } = useAuth();
+  const getMyfavoriteProducts = async (page = 1) => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products2?page=${page}`
+      );
+      if (res.data.output.redirect !== '') {
+        const refetch = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}${res.data.output.redirect}`
+        );
+        if (refetch.data.output.rows > 0) {
           {
-            sid: 5,
-            category_sid: 2,
-            product_sid: 2,
-            name: '【門市限定】ON 黃金比例分離乳清 (巧克力/2.36kg)',
-            picture: 'fd00201.jpg',
-            price: 3799,
-          },
-          {
-            sid: 2,
-            category_sid: 2,
-            product_sid: 1,
-            name: '【門市限定】ON全乳清蛋白(雙倍濃郁巧克力/2.26kg)',
-            picture: 'fd00101.jpg',
-            price: 2699,
-          },
-          {
-            sid: 20,
-            category_sid: 2,
-            product_sid: 7,
-            name: 'GNC Pro Performance Bulk 1340 - 草莓和奶油,9 份,支持肌肉能量,恢復和成長',
-            picture: 'fd00701.jpg',
-            price: 1500,
-          },
-          {
-            sid: 17,
-            category_sid: 2,
-            product_sid: 6,
-            name: 'GNC Pro Performance Weight Gainer - 草莓和奶油,6 份,蛋白質可增加重量',
-            picture: 'fd00601.jpg',
-            price: 900,
-          },
-          {
-            sid: 18,
-            category_sid: 3,
-            product_sid: 6,
-            name: '啞鈴5kg',
-            picture: 'eq_dumbbell_type01_050_01.jpg',
-            price: 499,
-          },
-          {
-            sid: 15,
-            category_sid: 3,
-            product_sid: 5,
-            name: '啞鈴3kg',
-            picture: 'eq_dumbbell_type01_030_01.jpg',
-            price: 449,
-          },
-        ],
-      };
-    });
-    return () => {};
-  }, []);
-  /*  useEffect(() => {
-  const getMyfavoriteProducts = async () => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products2`
-    );
-    if (res.data?.data);
-    {
-      console.log(res.data.data);
+            setData(() => {
+              return { ...refetch.data.output };
+            });
+          }
+        }
+        return;
+      }
+
+      if (res.data?.output);
+      {
+        setData(res.data?.output);
+      }
+    } catch (error) {
+      getMyfavoriteProducts(page);
     }
   };
-  getMyfavoriteProducts();
-}, []);  */
+  useEffect(() => {
+    getMyfavoriteProducts();
+  }, []);
+  useEffect(() => {
+    if (router.query?.page) {
+      getMyfavoriteProducts(router.query.page);
+    }
+  }, [router]);
+
   return (
-    <div className={`${styles['my-container']}`}>
-      {/* {data?.rows.length > 0 ? 
-      (
-        <>
-          <ProductsTable data={data} />
-          <MemberPagenation data={data} />
-        </>
-      )  */}
-      {data?.rows.length > 0 ? (
-        <div className={`${styles['my-products-section']}`}>
-          <CUIFilter
-            sx={{}}
-            filterIcon={
-              <IconButton onClick={() => {}}>
-                <CancelIcon />
-              </IconButton>
-            }
-            color={'steel_grey'}
-            label="篩選器"
-            onClick={() => {}}
-            items={[
-              <CUISearch
-                key={'search'}
-                color={'steel_grey'}
-                label="商品名稱"
-                inputRef={keywordRef}
-              />,
-              <CUISlider
-                key={123}
-                label="價格範圍"
-                value={[]}
-                min={50}
-                max={400}
-                onChange={() => {}}
-              />,
-            ]}
-          />
-          <CUICard
-            sx={{
-              display: 'flex',
-              justifyContent: 'space-around',
-              flexWrap: 'wrap',
-            }}
-          >
-            {data.rows.map((el, i) => (
-              <div key={el.sid} style={{ width: '30%', flexShrink: '0' }}>
-                <CUICard>123</CUICard>
-              </div>
-            ))}
-          </CUICard>
-        </div>
-      ) : (
-        <>
-          <div className={`${styles['guide-to']}`}>
-            <Typography variant="h6">目前沒有收藏商品喔</Typography>
-            <Link href={`/product`}>來去逛逛</Link>
+    <>
+      <div className={`${styles['my-container']}`}>
+        {data?.rows.length > 0 ? (
+          <div className={`${styles['my-products-section']}`}>
+            <CUIFilter
+              sx={{
+                width: '20%',
+                minWidth: '250px',
+                flexShrink: 0,
+                '@media (max-width: 768px)': {
+                  display: 'none',
+                },
+              }}
+              filterIcon={
+                <IconButton onClick={() => {}}>
+                  <CancelIcon />
+                </IconButton>
+              }
+              color={'steel_grey'}
+              label="篩選器"
+              onClick={() => {
+                console.log(123);
+              }}
+              items={[
+                <CUISearch
+                  key={'search'}
+                  color={'steel_grey'}
+                  label="商品名稱"
+                  inputRef={keywordRef}
+                />,
+                <CUISlider
+                  key={123}
+                  label="價格範圍"
+                  value={[]}
+                  min={50}
+                  max={4000}
+                  step={50}
+                  onChange={() => {}}
+                />,
+              ]}
+            />
+            <Box
+              sx={{
+                width: '100%',
+                '@media (max-width: 768px)': {
+                  width: '100%',
+                },
+
+                display: 'flex',
+                flexDirection: 'column',
+              }}
+            >
+              <CUICard
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  flexWrap: 'wrap',
+                  backgroundColor: 'var(--steel-light-grey)',
+                  gap: '5%',
+                  padding: '2% 2.5% 6% 2.5%',
+                  '@media (max-width: 1024px)': {
+                    gap: '5%',
+                    padding: '2% 0% 20.5% 4.5%',
+                  },
+                  '@media (max-width: 768px)': {
+                    justifyContent: 'center',
+                    gap: '0%',
+                    padding: '30px 0',
+                  },
+                }}
+              >
+                {data.rows.map((el, i) => (
+                  <Box
+                    component={motion.div}
+                    key={el.sid}
+                    sx={{
+                      width: '30%',
+                      flexShrink: '0',
+                      alignSelf: 'stretch',
+                      '@media (max-width: 1024px)': {
+                        width: '45%',
+                      },
+                      '@media (max-width: 768px)': {
+                        width: '90%',
+                        marginBottom: '20px',
+                      },
+                    }}
+                  >
+                    <CUICard sx={{ padding: '15px', height: '100%' }}>
+                      <Box
+                        sx={{
+                          width: '100%',
+                          aspectRatio: '1 / 1',
+                          display: 'flex',
+                          overflow: 'hidden',
+                          marginBottom: '10px',
+                        }}
+                      >
+                        <Link
+                          href={`${process.env.NEXT_PUBLIC_FRONTEND_PORT}/product/category/${el?.category_sid}/${el?.product_sid}`}
+                          style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                            width: '100%',
+                            maxHeight: '100%',
+                          }}
+                        >
+                          <img
+                            src={`${el?.picture}`}
+                            alt="商品圖片"
+                            style={{
+                              width: '100%',
+                              height: '100%',
+                              objectFit: 'contain',
+                              borderRadius: '3px',
+                            }}
+                          />
+                        </Link>
+                      </Box>
+                      <Typography
+                        sx={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {el?.name}
+                      </Typography>
+                      <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                        ${el?.price.toLocaleString()}
+                      </Typography>
+                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                        <DeleteIcon
+                          onClick={() => {
+                            const deleteFavoriteProducts = async () => {
+                              const res = await axios.delete(
+                                `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products`,
+                                {
+                                  data: {
+                                    pid: el.product_sid,
+                                    cid: el.category_sid,
+                                  },
+                                }
+                              );
+                              toast.success('刪除商品成功');
+                              setData((prev) => {
+                                const newRows = prev.rows.filter((el2, i2) => {
+                                  return i2 !== i;
+                                });
+
+                                return { ...prev, rows: newRows };
+                              });
+                            };
+                            deleteFavoriteProducts();
+                          }}
+                          sx={{ '&:hover': { fill: 'red', cursor: 'pointer' } }}
+                        />
+                      </Box>
+                    </CUICard>
+                  </Box>
+                ))}
+              </CUICard>
+              <MemberPagenation data={data} />
+            </Box>
           </div>
-        </>
-      )}
-    </div>
+        ) : (
+          <>
+            <div className={`${styles['empty-data']}`}>
+              <Typography
+                align="center"
+                variant="h4"
+                sx={{ padding: '10px 15px' }}
+              >
+                目前沒有收藏商品喔
+              </Typography>
+              <Link
+                href={`/product`}
+                style={{ textDecoration: 'underline', color: 'blue' }}
+              >
+                來去逛逛
+              </Link>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }
