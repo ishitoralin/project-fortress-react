@@ -12,7 +12,6 @@ import BasicAccordion from '@/components/product/Accordion';
 import getBrickBackground from '@/libs/getBrickBackground';
 import NextBreadCrumb from '@/components/breadcrumb';
 
-
 export default function Index() {
   const [data, setData] = useState([]);
   const router = useRouter();
@@ -26,7 +25,7 @@ export default function Index() {
         });
     }
   }, [router.query]);
-  console.log(data.data);
+  // console.log(data.data);
   return (
     <>
       <Box
@@ -48,32 +47,33 @@ export default function Index() {
           }}
         >
           <div className={`${styles['list']}`}>
-            <Box sx={{ width: '300px', Height: '400px' }}>
+            <Box className={`${styles['list-box']}`}>
               <BasicAccordion
                 page={router.query.cid}
                 className={`${styles['BasicAccordion']}`}
               ></BasicAccordion>
             </Box>
             {/* <CUIFilter
-          sx={{ width: '300px', Height: '400px' }}
-          label="商品篩選"
-          items={[
-            <CUISearch
-              key={1}
-              color={'steel_grey'}
-              label="商品關鍵字"
-              placeholder="請輸入關鍵字"
-            />,
-            <CUISlider
-              key={[1, 2]}
-              label="價格區間"
-              max={2000}
-              min={200}
-              value={[200, 250]}
-              distance={1}
-            />,
-          ]}
-        /> */}
+              sx={{ width: '300px', Height: '400px' }}
+              label="商品篩選"
+              items={[
+                <CUISearch
+                  key={1}
+                  color={'steel_grey'}
+                  label="商品關鍵字"
+                  placeholder="請輸入關鍵字"
+                  onclick
+                />,
+                <CUISlider
+                  key={[1, 2]}
+                  label="價格區間"
+                  max={2000}
+                  min={200}
+                  value={[200, 250]}
+                  distance={1}
+                />,
+              ]}
+            /> */}
             <div className={`${styles['list-Card']}`}>
               <div className={`${styles['BreadCrumb']}`}>
                 <NextBreadCrumb></NextBreadCrumb>

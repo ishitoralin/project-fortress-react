@@ -12,7 +12,6 @@ export default function BasicAccordion({ page }) {
   const router = useRouter();
   return (
     <>
-      (
       <div className={`${styles['BasicAccordion']}`}>
         <Accordion
           expanded={page === '1' ? true : false}
@@ -162,9 +161,9 @@ export default function BasicAccordion({ page }) {
           </AccordionSummary>
         </Accordion>
       </div>
-      <div className={`${styles['mbfirstcategory']}`}>
-        <ul>
-          <li>
+      <div className={`${styles['mbfirstcategory_view']}`}>
+        <ul className={`${styles['mbfirstcategory_list']}`}>
+          <li className={`${styles['mbfirstcategory_item']}`}>
             <Link
               href="1"
               style={{
@@ -173,9 +172,7 @@ export default function BasicAccordion({ page }) {
                 fontSize: '50px',
               }}
             >
-              <Typography className={`${styles['Accordion']}`}>
-                運動衣物
-              </Typography>
+              <Typography variant="h6">運動衣物</Typography>
             </Link>
           </li>
           <li>
@@ -187,9 +184,7 @@ export default function BasicAccordion({ page }) {
                 fontSize: '50px',
               }}
             >
-              <Typography className={`${styles['Accordion']}`}>
-                健身食品
-              </Typography>
+              <Typography variant="h6">健身食品</Typography>
             </Link>
           </li>
           <li>
@@ -201,14 +196,11 @@ export default function BasicAccordion({ page }) {
                 fontSize: '50px',
               }}
             >
-              <Typography className={`${styles['Accordion']}`}>
-                健身器材
-              </Typography>
+              <Typography variant="h6">健身器材</Typography>
             </Link>
           </li>
         </ul>
       </div>
-      );
     </>
   );
 }
