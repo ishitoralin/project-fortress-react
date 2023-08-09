@@ -46,7 +46,7 @@ export const checkbutton = {
     padding: '0',
   },
   '@media screen and (max-width:768px)': {
-    padding: '0', 
+    padding: '0',
   },
 };
 
@@ -143,3 +143,5 @@ export const AddAndReduceButton = {
     minWidth: '32px',
   },
 };
+
+

@@ -783,3 +783,20 @@
 .itemListDetail {
   font-size: 20px;
 }
+
+.titleContainer {
+  font-size: 25px;
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 700;
+}
+
+
+.finishedButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
