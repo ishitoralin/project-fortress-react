@@ -4,6 +4,7 @@ import styles from '@/styles/shoppingcart.module.css';
 export default function ItemListTitle() {
   return (
     <>
+      <div className={`${styles.ItemListTitle}`}>產品列表</div>
       {/* 商品列表title */}
       <div className={`${styles.ProductConFirmTitleContainer}`}>
         <div className={`${styles.ProductConFirmTitleComponent1}`}>

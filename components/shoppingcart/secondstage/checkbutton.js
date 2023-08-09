@@ -16,13 +16,13 @@ export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
-  const paymentMethod = parseInt(props.delivery);
+  const { name, phone, address, email, paymentMethod } = props.confirmInfo;
   const checkConfirm = async () => {
     await fetch('http://localhost:3001/OLdelivery', {
       method: 'POST',
       body: JSON.stringify({
         ...props.confirmInfo,
-        paymentMethod,
+        paymentMethod: parseInt(props.delivery),
       }),
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,
@@ -52,7 +52,7 @@ export default function CheckButton(props) {
             {/* <div className={`${styles.countButtonContainer}`}> */}
             <div className={`${styles.countButtonComponent}`}>
               <Box sx={checkbutton}>
-                <div>
+                <div className={`${styles.checkButtonContainer}`}>
                   <WhiteTheme>
                     <Button
                       className={`${styles.buttonContainer}`}
@@ -71,8 +71,8 @@ export default function CheckButton(props) {
                       variant="contained"
                       onClick={props.onClick}
                     >
-                      <Link href="/" sx={{ width: '100%' }}>
-                        返回首頁
+                      <Link href="/shoppingcart" sx={{ width: '100%' }}>
+                        上一步
                       </Link>
                     </Button>
                   </WhiteTheme>
@@ -93,9 +93,15 @@ export default function CheckButton(props) {
                       variant="contained"
                       onClick={() => {
                         checkConfirm();
-                        console.log(props.confirmInfo, props.delivery);
                       }}
-                      disabled={!props.confirmInfo ? false : true}
+                      disabled={
+                        props.delivery === '' ||
+                        name === '' ||
+                        phone === '' ||
+                        address === '' ||
+                        email === '' ||
+                        paymentMethod === ''
+                      }
                     >
                       <Link href="/shoppingcart/thirdstage">送出訂單</Link>
                     </Button>
