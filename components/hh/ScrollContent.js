@@ -1,6 +1,5 @@
 import dynamic from 'next/dynamic'; //因為server端不會有window物件，有必要在client端的時候才進行渲染。
 
-import CUICard from '../customUI/cui-card';
 import LogoIcon from '@/assets/logo';
 import styles from '@/styles/homepage.module.css';
 import drawBorder from '@/styles/drawBorder.module.css';
@@ -18,19 +17,74 @@ const SectionMap = dynamic(
   }
 );
 
-const ShopTemplate = ({ className }) => {
+const productData = {
+  6: {
+    x: 125,
+    y: 1,
+    s: 1.1,
+  },
+  5: {
+    x: 100,
+    y: 1,
+    s: 1.1,
+  },
+  4: {
+    x: 95,
+    y: 1,
+    s: 1,
+  },
+  3: {
+    x: 105,
+    y: 1,
+    s: 1.2,
+  },
+  2: {
+    x: 60,
+    y: 1,
+    s: 1.1,
+  },
+  1: {
+    x: 100,
+    y: 1,
+    s: 0.9,
+  },
+  0: {
+    x: 50,
+    y: 1,
+    s: 1.3,
+  },
+};
+
+const ShopTemplate = ({ className, shopSectionDelta }) => {
   return (
     <div className={className}>
-      <h2>線上商城</h2>
+      <h2
+        className={styles['go-transform']}
+        style={{
+          '--x': `${shopSectionDelta * 200}rem`,
+        }}
+      >
+        線上商城
+      </h2>
       <div className={styles['card-box']}>
         {[
-          'eq_kettlebell_type01_080_03-removebg-preview.png',
-          'fd00801-removebg-preview.png',
-          'fd04101-removebg-preview.png',
-          'SE_00203-removebg-preview.png',
+          'fd03901-removebg-preview.png',
           'SE_00402-removebg-preview.png',
+          'SE_00203-removebg-preview.png',
+          'fd04101-removebg-preview.png',
+          'fd00801-removebg-preview.png',
+          'st0120103-removebg-preview.png',
+          'eq_kettlebell_type01_080_03-removebg-preview.png',
         ].map((img, index) => (
-          <div key={index} className={styles['img-box']}>
+          <div
+            key={index}
+            className={`${styles['img-box']} ${styles['go-transform']}`}
+            style={{
+              '--x': `${shopSectionDelta * productData[index]['x']}rem`,
+              '--y': `${shopSectionDelta * productData[index]['y']}rem`,
+              '--s': `${productData[index]['s']}`,
+            }}
+          >
             <Image fill alt="product-img" src={`/homepage-img/${img}`} />
           </div>
         ))}
@@ -44,6 +98,7 @@ const ScrollContent = () => {
   const [draw, setDraw] = useState(false);
   const [sectionTwoDelta, setSectionTwoDelta] = useState(0);
   const [imgSectionDelta, setImgSectionDelta] = useState(0);
+  const [shopSectionDelta, setShopSectionDelta] = useState(0);
   useFrame(() => {
     setSectionTwoDelta(scroll.range(0.5 / 12, 1 / 12));
     const inSectionTwo = scroll.range(2 / 12, 1 / 12);
@@ -54,11 +109,12 @@ const ScrollContent = () => {
       inSectionThreeFour < 1 && inSectionThreeFour > 0 ? '3&4' : null
     );
 
-    const inSectionFive = scroll.range(3.875 / 12, 3 / 12);
-    scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
-
     const inImgSection = scroll.range(1.5 / 12, 1.3 / 12);
     setImgSectionDelta(inImgSection);
+
+    const inSectionFive = scroll.range(3.875 / 12, 2.5 / 12);
+    setShopSectionDelta(inSectionFive);
+    scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
 
     // Math.random() * 1 < 0.025 && console.log(scrollData.section);
     //   console.log(`X:${pointer.x * 50 + 50}%`, `Y:${pointer.y * 50 + 50}%`);
@@ -71,7 +127,19 @@ const ScrollContent = () => {
           <LogoIcon width={240} height={80} />
         </div>
         <h1>為你的身體築一座堡壘</h1>
-        <ShopTemplate className={styles['section-shop']} />
+        <ShopTemplate
+          className={styles['section-shop']}
+          shopSectionDelta={shopSectionDelta}
+        />
+        <div
+          className={`${styles['section-one-map']} ${styles['go-transform']}`}
+          style={{
+            '--x': `${shopSectionDelta * 128.975}rem`,
+          }}
+        >
+          <h2>全台據點</h2>
+          <SectionMap />
+        </div>
       </section>
       <section className={styles['section-two']}>
         <h1
@@ -170,10 +238,10 @@ const ScrollContent = () => {
           <h2 style={{ '--l': `${imgSectionDelta * 10}rem` }}>多元課程</h2>
         </div>
       </section>
-      <ShopTemplate className={styles['section-four']} />
-      <section className={styles['section-empty']}>
-        <h2>test</h2>
-      </section>
+      <ShopTemplate
+        className={styles['section-four']}
+        shopSectionDelta={shopSectionDelta}
+      />
       <section className={styles['section-empty']}>
         <h2>test</h2>
       </section>

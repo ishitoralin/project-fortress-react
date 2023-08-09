@@ -48,6 +48,18 @@
   height: 100vh;
 }
 
+.section-empty {
+  height: 128vh;
+}
+
+.section-one-map {
+  margin-top: 10vh;
+  position: absolute;
+  width: 100vw;
+  height: 100%;
+  right: 50vw;
+}
+
 .section-one {
   width: 600vw;
 }
@@ -119,23 +131,23 @@
 }
 
 .shop-style .card-box {
-  width: 100vw;
+  width: 125vw;
   margin-top: 5rem;
   display: flex;
+  flex-direction: row-reverse;
   justify-content: space-around;
-  gap: 2rem;
 }
 
 .card-box .img-box {
   position: relative;
   flex-grow: 1;
   aspect-ratio: 1;
-  background-color: #555d;
+  background-color: #777d;
   border-radius: 50%;
 }
 
 .card-box .img-box:nth-child(odd) {
-  transform: translateY(50%);
+  top: 15vh;
 }
 
 .card-box .img-box img {
@@ -155,7 +167,7 @@
   right: 0;
 }
 
-.section-five h2 {
+.section-one-map h2, .section-five h2 {
   text-align: center;
   margin-bottom: -2rem;
 }
