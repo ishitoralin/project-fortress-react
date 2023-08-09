@@ -9,6 +9,11 @@
   --animation-duration: 2s;
 }
 
+.main-box img {
+  object-fit: cover;
+  object-position: center top;
+}
+
 .len {
   background-color: aliceblue;
   position: fixed;
@@ -108,11 +113,6 @@
   overflow: hidden;
 }
 
-.section-three .img-box img {
-  object-fit: cover;
-  object-position: center top;
-}
-
 .shop-style h2 {
   margin-top: 5rem;
   margin-left: 5rem;
@@ -120,10 +120,26 @@
 
 .shop-style .card-box {
   width: 100vw;
-  /* height: 100%; */
   margin-top: 5rem;
   display: flex;
   justify-content: space-around;
+  gap: 2rem;
+}
+
+.card-box .img-box {
+  position: relative;
+  flex-grow: 1;
+  aspect-ratio: 1;
+  background-color: #555d;
+  border-radius: 50%;
+}
+
+.card-box .img-box:nth-child(odd) {
+  transform: translateY(50%);
+}
+
+.card-box .img-box img {
+  object-fit: contain;
 }
 
 .section-four {

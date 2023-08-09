@@ -23,12 +23,17 @@ const ShopTemplate = ({ className }) => {
     <div className={className}>
       <h2>線上商城</h2>
       <div className={styles['card-box']}>
-        <CUICard sx={{ width: '20vw', height: '60vh' }}>
-          {/* <Image alt="product-img" /> */}
-        </CUICard>
-        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
-        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
-        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
+        {[
+          'eq_kettlebell_type01_080_03-removebg-preview.png',
+          'fd00801-removebg-preview.png',
+          'fd04101-removebg-preview.png',
+          'SE_00203-removebg-preview.png',
+          'SE_00402-removebg-preview.png',
+        ].map((img, index) => (
+          <div key={index} className={styles['img-box']}>
+            <Image fill alt="product-img" src={`/homepage-img/${img}`} />
+          </div>
+        ))}
       </div>
     </div>
   );
