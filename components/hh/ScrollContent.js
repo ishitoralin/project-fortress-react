@@ -1,10 +1,11 @@
 import dynamic from 'next/dynamic'; //因為server端不會有window物件，有必要在client端的時候才進行渲染。
 
+import CUICard from '../customUI/cui-card';
 import LogoIcon from '@/assets/logo';
 import styles from '@/styles/homepage.module.css';
 import drawBorder from '@/styles/drawBorder.module.css';
 import Image from 'next/image';
-import { useScroll, ScrollControls, Scroll } from '@react-three/drei';
+import { useScroll } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import { useState } from 'react';
 
@@ -17,27 +18,43 @@ const SectionMap = dynamic(
   }
 );
 
-let once = false;
+const ShopTemplate = ({ className }) => {
+  return (
+    <div className={className}>
+      <h2>線上商城</h2>
+      <div className={styles['card-box']}>
+        <CUICard sx={{ width: '20vw', height: '60vh' }}>
+          {/* <Image alt="product-img" /> */}
+        </CUICard>
+        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
+        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
+        <CUICard sx={{ width: '20vw', height: '60vh' }}></CUICard>
+      </div>
+    </div>
+  );
+};
 
-const ScrollContent = ({ horizontal, setHorizontal }) => {
+const ScrollContent = () => {
   const scroll = useScroll();
   const [draw, setDraw] = useState(false);
-  const [imgScale, setImgScale] = useState();
-  const [titleOffset, setTitleOffset] = useState();
+  const [sectionTwoDelta, setSectionTwoDelta] = useState(0);
+  const [imgSectionDelta, setImgSectionDelta] = useState(0);
   useFrame(() => {
-    const inSectionTwo = scroll.range(2 / 8, 1 / 8);
+    setSectionTwoDelta(scroll.range(0.5 / 12, 1 / 12));
+    const inSectionTwo = scroll.range(2 / 12, 1 / 12);
     setDraw(inSectionTwo < 1 && inSectionTwo > 0);
 
-    const inSectionThreeFour = scroll.range(2 / 8, 2 / 8);
+    const inSectionThreeFour = scroll.range(2 / 12, 2 / 12);
     scrollData.setSection(
       inSectionThreeFour < 1 && inSectionThreeFour > 0 ? '3&4' : null
     );
 
-    const inSectionFive = scroll.range(3.75 / 8, 3 / 8);
+    const inSectionFive = scroll.range(3.875 / 12, 3 / 12);
     scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
-    setHorizontal(inSectionFive < 1 && inSectionFive > 0);
-    setImgScale(scroll.range(1.5 / 8, 0.75 / 8) / 2);
-    setTitleOffset(scroll.range(1.5 / 8, 0.75 / 8) * 10);
+
+    const inImgSection = scroll.range(1.5 / 12, 1.3 / 12);
+    setImgSectionDelta(inImgSection);
+
     // Math.random() * 1 < 0.025 && console.log(scrollData.section);
     //   console.log(`X:${pointer.x * 50 + 50}%`, `Y:${pointer.y * 50 + 50}%`);
   });
@@ -49,47 +66,111 @@ const ScrollContent = ({ horizontal, setHorizontal }) => {
           <LogoIcon width={240} height={80} />
         </div>
         <h1>為你的身體築一座堡壘</h1>
-        <div className={styles['section-shop']}>
-          <h2>線上商城</h2>
-        </div>
+        <ShopTemplate className={styles['section-shop']} />
       </section>
       <section className={styles['section-two']}>
-        <h1>全台灣最大的複合式健身房</h1>
+        <h1
+          className={`${styles['fade-in']}`}
+          style={{
+            '--o': `${sectionTwoDelta}`,
+          }}
+        >
+          全台灣最大的複合式健身房
+        </h1>
       </section>
-      <section className={styles['section-three']}>
+      <section
+        className={`${styles['section-three']} ${styles['fade-in']}`}
+        style={{
+          '--o': `${imgSectionDelta + 0.15}`,
+        }}
+      >
         <div
           className={`${styles['block']} ${drawBorder[draw ? 'draw-ccw' : '']}`}
         >
-          <div className={`${styles['img-box']}`}>
+          <div
+            className={`${styles['img-box']} ${styles['go-transform']}`}
+            style={{
+              '--x': `${imgSectionDelta * -2.5}rem`,
+              '--y': `${imgSectionDelta * 2}rem`,
+            }}
+          >
             <Image
               fill
+              className={`${styles['go-transform']}`}
               style={{
-                '--s': imgScale,
+                '--s': `${imgSectionDelta / 2 + 1}`,
+                '--o': `${imgSectionDelta}`,
+              }}
+              alt="coaches-img"
+              src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/nick.jpg`}
+            />
+          </div>
+          <div
+            className={`${styles['img-box']} ${styles['go-transform']}`}
+            style={{
+              '--x': `${imgSectionDelta * 10}rem`,
+              '--y': `${imgSectionDelta * 10}rem`,
+            }}
+          >
+            <Image
+              fill
+              className={`${styles['go-transform']}`}
+              style={{
+                '--s': `${imgSectionDelta / 2 + 1}`,
               }}
               alt="coaches-img"
               src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/emily.jpg`}
             />
           </div>
-          <h2 style={{ '--r': `${titleOffset}rem` }}>專業師資</h2>
+          <h2 style={{ '--r': `${imgSectionDelta * 10}rem` }}>專業師資</h2>
         </div>
         <div
           className={`${styles['block']} ${drawBorder[draw ? 'draw-cw' : '']}`}
         >
-          <div className={`${styles['img-box']}`}>
+          <div
+            className={`${styles['img-box']} ${styles['go-transform']}`}
+            style={{
+              '--x': `${imgSectionDelta * 9}rem`,
+              '--y': `${imgSectionDelta * 2}rem`,
+            }}
+          >
             <Image
               fill
+              className={`${styles['go-transform']}`}
               style={{
-                '--s': imgScale,
+                '--s': `${imgSectionDelta / 2 + 1}`,
+                '--o': `${imgSectionDelta}`,
               }}
-              alt="lessons-img"
+              alt="coaches-img"
+              src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/female-body-sculpting.jpg`}
+            />
+          </div>
+          <div
+            className={`${styles['img-box']} ${styles['go-transform']}`}
+            style={{
+              '--x': `${imgSectionDelta * -3.5}rem`,
+              '--y': `${imgSectionDelta * 10}rem`,
+            }}
+          >
+            <Image
+              fill
+              className={`${styles['go-transform']}`}
+              style={{
+                '--s': `${imgSectionDelta / 2 + 1}`,
+              }}
+              alt="coaches-img"
               src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/dead-lift.jpg`}
             />
           </div>
-          <h2 style={{ '--l': `${titleOffset}rem` }}>多元課程</h2>
+          <h2 style={{ '--l': `${imgSectionDelta * 10}rem` }}>多元課程</h2>
         </div>
       </section>
-      <section className={styles['section-four']}>
-        <h2>線上商城</h2>
+      <ShopTemplate className={styles['section-four']} />
+      <section className={styles['section-empty']}>
+        <h2>test</h2>
+      </section>
+      <section className={styles['section-empty']}>
+        <h2>test</h2>
       </section>
       <section className={styles['section-five']}>
         <h2>全台據點</h2>

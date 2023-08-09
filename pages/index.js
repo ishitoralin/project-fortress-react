@@ -22,7 +22,6 @@ const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
 
 const HomePage = () => {
   const lenRef = useRef();
-  const [horizontal, setHorizontal] = useState(false);
 
   useEffect(() => {
     lenRef.current.style.setProperty('--s', 0);
@@ -64,8 +63,7 @@ const HomePage = () => {
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
-          {/* {!horizontal ? ( */}
-          <ScrollControls pages={8} damping={0.35}>
+          <ScrollControls pages={12} damping={0.35}>
             <Suspense>
               <BarBell
                 scale={4}
@@ -74,40 +72,9 @@ const HomePage = () => {
               />
             </Suspense>
             <Scroll html>
-              <ScrollContent
-                setHorizontal={setHorizontal}
-                horizontal={horizontal}
-              />
+              <ScrollContent />
             </Scroll>
           </ScrollControls>
-          {/* ) : (
-            <ScrollControls pages={8} damping={0.35} horizontal={true}>
-              <Suspense>
-                <BarBell
-                  scale={4}
-                  position={[-1, -0.75, 0.5]}
-                  rotation={[0, 1.55, -0.2]}
-                />
-              </Suspense>
-              <Scroll html>
-                <ScrollContent setHorizontal={setHorizontal} />
-              </Scroll>
-            </ScrollControls>
-          )} */}
-          {/* <BarBell
-              scale={basicScale}
-              position={[-1.5, 0, 0]}
-              rotation={[0, 1, 0.5]}
-            />
-            <CatmullRomLine
-              points={[
-                [0, 0, 0],
-                [1, 1, 1],
-                [-1.5, 0, 0],
-              ]} // Array of Points
-              color="white" // Default
-              lineWidth={5} // In pixels (default)
-            /> */}
           {/* <OrbitControls enableZoom={false} /> */}
         </Canvas>
       </div>

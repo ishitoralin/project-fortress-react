@@ -36,14 +36,15 @@
 .section-two,
 .section-three,
 .section-four,
-.section-five {
+.section-five,
+.section-empty {
   position: relative;
   width: 100vw;
   height: 100vh;
 }
 
 .section-one {
-  width: 500vw;
+  width: 600vw;
 }
 
 .section-one {
@@ -72,7 +73,7 @@
 }
 
 .section-two {
-  height: 120vh;
+  height: 150vh;
 }
 
 .section-three {
@@ -99,15 +100,43 @@
 
 .section-three .img-box {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  width: 90%;
-  height: 90%;
+  top: 0;
+  left: 0;
+  aspect-ratio: 1;
+  width: 75%;
+  height: 75%;
+  overflow: hidden;
 }
 
 .section-three .img-box img {
   object-fit: cover;
-  transform: scale(calc(0.6 + var(--s)));
+  object-position: center top;
+}
+
+.shop-style h2 {
+  margin-top: 5rem;
+  margin-left: 5rem;
+}
+
+.shop-style .card-box {
+  width: 100vw;
+  /* height: 100%; */
+  margin-top: 5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.section-four {
+  composes: shop-style;
+  left: 4vw;
+}
+
+.section-shop {
+  composes: shop-style;
+  position: absolute;
+  height: 100vh;
+  width: 240.875vw;
+  right: 0;
 }
 
 .section-five h2 {
@@ -115,10 +144,16 @@
   margin-bottom: -2rem;
 }
 
-.section-shop {
-  position: absolute;
-  height: 100vh;
-  width: 100vw;
-  right: 0;
-  border: 2px solid red;
+.go-transform {
+  --s: 1;
+  --x: 0;
+  --y: 0;
+  --z: 0;
+
+  transform: scale(var(--s)) translate3d(var(--x), var(--y), var(--z));
+}
+
+.fade-in {
+  --o: 1;
+  opacity: var(--o);
 }
