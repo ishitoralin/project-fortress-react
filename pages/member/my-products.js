@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import MemberCenterLayout from '@/components/layout/memberCenterLayout';
 import MyProductsComponent from '@/components/member/my-products';
 
