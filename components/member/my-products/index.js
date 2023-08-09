@@ -15,6 +15,8 @@ import { useRouter } from 'next/router';
 import { useAuth } from '@/context/auth/useAuth';
 import { toast } from 'react-hot-toast';
 import { motion } from 'framer-motion';
+import CUISelect from '@/components/customUI/cui-select';
+import CUIButton from '@/components/customUI/cui-button';
 
 export default function MyProducts() {
   const [data, setData] = useState({
@@ -27,24 +29,29 @@ export default function MyProducts() {
   });
   const [queryObject, setQueryObject] = useState({});
   const keywordRef = useRef();
+  const [price, setPrice] = useState([50, 4000]);
+  const [category, setCategory] = useState('');
   const router = useRouter();
-  const { auth } = useAuth();
   const getMyfavoriteProducts = async (page = 1) => {
+    const query = router.query;
+    const queryCopy = { ...query };
+    if (query?.page) {
+      delete queryCopy['page'];
+    }
+    let serchParamsStr = new URLSearchParams(queryCopy).toString();
+    if (serchParamsStr) {
+      serchParamsStr = `&${serchParamsStr}`;
+    }
+    console.log(
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products2?page=${page}${serchParamsStr}`
+    );
     try {
       const res = await axios.get(
-        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products2?page=${page}`
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products2?page=${page}${serchParamsStr}`
       );
       if (res.data.output.redirect !== '') {
-        const refetch = await axios.get(
-          `${process.env.NEXT_PUBLIC_BACKEND_PORT}${res.data.output.redirect}`
-        );
-        if (refetch.data.output.rows > 0) {
-          {
-            setData(() => {
-              return { ...refetch.data.output };
-            });
-          }
-        }
+        console.log(res.data.output.totalPages);
+        router.push(`?page=${res.data.output.totalPages}`);
         return;
       }
 
@@ -63,15 +70,38 @@ export default function MyProducts() {
     if (router.query?.page) {
       getMyfavoriteProducts(router.query.page);
     }
-  }, [router]);
+  }, [router.query?.page]);
+  const container = {
+    hidden: {
+      opacity: 0,
+    },
+    visible: {
+      opacity: 1,
+    },
+  };
+  const item = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 1,
+      },
+    },
+  };
 
   return (
     <>
-      <div className={`${styles['my-container']}`}>
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className={`${styles['my-container']}`}
+      >
         {data?.rows.length > 0 ? (
           <div className={`${styles['my-products-section']}`}>
             <CUIFilter
               sx={{
+                bgcolor: '#eee',
                 width: '20%',
                 minWidth: '250px',
                 flexShrink: 0,
@@ -86,25 +116,73 @@ export default function MyProducts() {
               }
               color={'steel_grey'}
               label="篩選器"
-              onClick={() => {
-                console.log(123);
+              onClick={async () => {
+                console.log({
+                  keyword: keywordRef.current?.value,
+                  price,
+                  category,
+                });
+                // setQueryObject()
+                const categoryMap = {
+                  運動衣物: 1,
+                  健身食品: 2,
+                  健身器材: 3,
+                  全部: '',
+                };
+                const serchParmas = new URLSearchParams({});
+                const keywordParam = keywordRef.current?.value;
+                const categoryParam = category ? categoryMap[category] : '';
+                if (keywordParam) {
+                  serchParmas.append('keyword', keywordParam);
+                }
+                if (categoryParam) {
+                  serchParmas.append('category', categoryParam);
+                }
+                serchParmas.append('price', price[0]);
+                serchParmas.append('price', price[1]);
+                console.log(serchParmas.toString());
+                const res = await axios.get(
+                  `${
+                    process.env.NEXT_PUBLIC_BACKEND_PORT
+                  }/api/member/member-favorite-products2?page=1&${serchParmas.toString()}`
+                );
+                router.replace({
+                  query: {
+                    ...router.query,
+                    keyword: keywordRef.current?.value,
+                  },
+                });
+                console.log(res.data.output?.rows);
               }}
               items={[
                 <CUISearch
-                  key={'search'}
+                  key={'keyword'}
                   color={'steel_grey'}
                   label="商品名稱"
                   inputRef={keywordRef}
                 />,
+                <CUISelect
+                  key={'category'}
+                  onChange={(e) => {
+                    setCategory(e.target.value);
+                  }}
+                  color={'steel_grey'}
+                  options={['全部', '運動衣物', '健身食品', '健身器材']}
+                />,
                 <CUISlider
-                  key={123}
+                  key={'slider'}
                   label="價格範圍"
-                  value={[]}
+                  value={price}
                   min={50}
                   max={4000}
                   step={50}
-                  onChange={() => {}}
+                  onChange={(price) => {
+                    setPrice(price);
+                  }}
                 />,
+                <CUIButton fullWidth key={'reset'}>
+                  重置
+                </CUIButton>,
               ]}
             />
             <Box
@@ -140,6 +218,7 @@ export default function MyProducts() {
                 {data.rows.map((el, i) => (
                   <Box
                     component={motion.div}
+                    variants={item}
                     key={el.sid}
                     sx={{
                       width: '30%',
@@ -219,10 +298,23 @@ export default function MyProducts() {
 
                                 return { ...prev, rows: newRows };
                               });
+                              if (data.rows.length === 1) {
+                                if (router.query?.page > 1) {
+                                  router.push(
+                                    `${router.pathname}?page=${
+                                      router.query?.page - 1
+                                    }`
+                                  );
+                                } else {
+                                  router.push(`${router.pathname}`);
+                                }
+                              }
                             };
                             deleteFavoriteProducts();
                           }}
-                          sx={{ '&:hover': { fill: 'red', cursor: 'pointer' } }}
+                          sx={{
+                            '&:hover': { fill: 'red', cursor: 'pointer' },
+                          }}
                         />
                       </Box>
                     </CUICard>
@@ -251,7 +343,7 @@ export default function MyProducts() {
             </div>
           </>
         )}
-      </div>
+      </motion.div>
     </>
   );
 }
