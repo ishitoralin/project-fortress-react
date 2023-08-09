@@ -8,6 +8,7 @@ export default function BuyerInfo() {
   const [itemList, setItemList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
   const [uuid, setUuid] = useState('');
+  const date = Date.parse(new Date());
   const { auth } = useAuth();
   useEffect(() => {
     const recipt = uuidv4();
@@ -71,7 +72,7 @@ export default function BuyerInfo() {
             </div>
             <div>商品數量：{buyerInfo?.amount}</div>
             <div>商品總價：{totalPrice}</div>
-            <div>訂單編號：{uuid}</div>
+            <div>訂單編號：{`J${date}`}</div>
           </div>
         </div>
       </div>

@@ -10,7 +10,20 @@ export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const Deepgrey = createColorTheme('#707070');
   const { auth } = useAuth();
-
+  const sendingEmail = () => {
+    console.log('123');
+    fetch('http://localhost:3001/cart/test', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${auth?.accessToken}`,
+      },
+    })
+      .then((r) => r.json())
+      .then((results) => {
+        console.log(results);
+      })
+      .catch((error) => console.log(error));
+  };
   return (
     <>
       <div className={styles.finishedButton}>
@@ -52,9 +65,9 @@ export default function CheckButton(props) {
               },
             }}
             variant="contained"
-            onClick={() => {}}
+            onClick={sendingEmail}
           >
-            <Link href="/shoppingcart/thirdstage">下載明細</Link>
+            寄送明細
           </Button>
         </Deepgrey>
       </div>
