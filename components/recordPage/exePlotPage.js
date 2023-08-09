@@ -12,6 +12,8 @@ import { useDebounceHH } from '../customHook/useDebounce';
 import ScatterPlot from './scatterPlot';
 import { useAuth } from '@/context/auth/useAuth';
 import { toast } from 'react-hot-toast';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 // <<< for plot
 
 const Section = styled(Box)(({ theme }) => ({
@@ -166,8 +168,40 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
   const handleClean = () => {
     setPlotDates(dateDefault);
     setPlotExeList([]);
-    // setPlotData([])  //NOTE: need this?
+    // setPlotData([])  //need this?
   };
+
+  // TODO: unfinished
+  const handlePDF = () => {
+    // console.log(document);
+    const plot = document.querySelector('.outputPDF');
+    const output = new jsPDF();
+    html2canvas(plot).then((canvas) => {
+      const border = 5;
+      const rescale = 1.0;
+      // const x =
+      const imgWidth =
+        output.internal.pageSize.getHeight() * rescale - border * 2;
+      const imgHeight = (canvas.height / canvas.width) * imgWidth;
+      let image = canvas.toDataURL('image/png');
+      output.addImage(
+        image,
+        'JPEG',
+        border,
+        border - imgHeight,
+        imgWidth,
+        imgHeight,
+        '',
+        1,
+        270
+      );
+      output.save(`${auth.user.name}_${plotDates.start}_${plotDates.end}.pdf`);
+      console.log(plotExeList);
+    });
+
+    // console.log(plot);
+  };
+
   // ================================================================
 
   // >>> for chartjs test
@@ -331,7 +365,9 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                     disabled={
                       !plotExeSelected ||
                       plotExeList.length >= maxPlotNumber ||
-                      plotExeSelected === '無'
+                      plotExeSelected === '無' ||
+                      !plotDates.start ||
+                      !plotDates.end
                     }
                   >
                     加入
@@ -385,10 +421,14 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                     !plotDates.end ||
                     plotExeList.length === 0
                   }
+                  onClick={() => {
+                    // console.log(123);
+                    handlePDF();
+                    // console.log(123);
+                  }}
                 >
                   輸出PDF
                 </CUIButton>
-                {/* TODO: enable when ploted */}
                 {/* <CUIButton
                   sx={{ width: '45%' }}
                   disabled={
@@ -409,7 +449,7 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
 
         <Grid item lg={9} sm={12} sx={{ height: '100%' }}>
           {/* FIXME: will glitch */}{' '}
-          <Box sx={{ ...myBGstyle, p: 2 }}>
+          <Box sx={{ ...myBGstyle, p: 2 }} className={'outputPDF'}>
             {plotExeList.length > 0 ? (
               plotCheck.current.length > 0 ? (
                 <Box sx={{ color: 'var(--main-red)' }}>
@@ -423,7 +463,7 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
               )
             ) : (
               'description'
-            )}{' '}
+            )}
           </Box>
         </Grid>
       </Grid>

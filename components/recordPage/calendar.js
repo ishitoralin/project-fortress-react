@@ -13,6 +13,7 @@ import React, { useRef, useEffect } from 'react';
 export default function SeanCalendar({ list, updateStartEnd, setDate }) {
   //   console.log(list);
   const calendarRef = useRef(null);
+  let color;
 
   useEffect(() => {
     const calendarApi = calendarRef.current.getApi();
@@ -87,7 +88,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           // editable={true}
           selectable={true}
           selectMirror={true}
-          //TODO: different color for different body part?
           //   resources={[
           //     { id: 'a', title: 'Auditorium A' },
           //     { id: 'b', title: 'Auditorium B', eventColor: 'green' },
@@ -101,14 +101,23 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
           // ]}
           events={list?.map((ele) => {
-            console.log(ele);
+            // console.log(ele.frontBackLow);
+            if (ele.frontBackLow === 0) {
+              color = 'blue';
+            } else if (ele.frontBackLow === 1) {
+              color = 'orange';
+            } else if (ele.frontBackLow === 2) {
+              color = 'green';
+            } else {
+              color = 'red';
+            }
             return {
               id: ele.sid,
               title: ele.name,
               date: formatDate(ele.date),
               // blue, orange, green
               // TODO:change color
-              backgroundColor: 'blue',
+              backgroundColor: color,
               // editable: true,
               extendedProps: {
                 dataDump: 'you can store accessory here',
