@@ -12,7 +12,7 @@ export default function ItemList(props) {
                 style={{ height: '95px', objectFit: 'cover' }}
                 src={
                   v.products_type_sid === 4
-                    ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.picture}`
+                    ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${v.picture}`
                     : `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${
                         v.picture.split(',')[0]
                       }`

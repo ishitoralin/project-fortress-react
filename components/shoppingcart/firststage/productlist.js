@@ -7,10 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
-
-import createColorTheme from '@/libs/CreateColorTheme';
 import Dialog from '@/components/shoppingcart/Dialog';
-import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import CheckButton from '@/components/shoppingcart/firststage/checkbutton';
 import SpatialProduct from './spatialproduct';
 import RecommendProduct from './recommendproduct';
@@ -168,7 +165,7 @@ export default function ProductList(props) {
                     style={{ height: '95px', objectFit: 'cover' }}
                     src={
                       v.products_type_sid === 4
-                        ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.picture}`
+                        ? `${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${v.picture}`
                         : `${
                             process.env.NEXT_PUBLIC_BACKEND_PORT
                           }/imgs/product/${v.picture.split(',')[0]}`

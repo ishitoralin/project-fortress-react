@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import createColorTheme from '@/libs/CreateColorTheme';
 import styles from '@/styles/shoppingcart.module.css';
 import Link from 'next/link';
-import Box from '@mui/material/Box';
 import { useAuth } from '@/context/auth/useAuth';
 
 export default function CheckButton(props) {

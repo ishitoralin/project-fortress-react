@@ -13,7 +13,6 @@ import {
   indexContainer,
   indexContainerFor2ndPageCheckButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
-import { Toaster } from 'react-hot-toast';
 export default function SecondStage() {
   const { auth } = useAuth();
   const [itemList, setItemList] = useState([]);

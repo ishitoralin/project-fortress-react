@@ -285,7 +285,7 @@ export default function RecommendProduct(props) {
                     <CUICard sx={CUICardStyle}>
                       <CardMedia
                         sx={CardMediaStyle}
-                        image={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/confirm/${v.img}`}
+                        image={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img//${v.img}`}
                         title="商品圖片"
                       />
                       <CardContent className={`${styles.cardContent}`}>

@@ -7,11 +7,7 @@ import {} from '@/components/shoppingcart/firststage/productlist';
 import Box from '@mui/material/Box';
 
 import { useAuth } from '@/context/auth/useAuth';
-import {
-  indexBackground,
-  indexContainer,
-  checkbutton,
-} from '@/styles/shoppingcart-style/recommandproduct';
+import { checkbutton } from '@/styles/shoppingcart-style/recommandproduct';
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const RedTheme = createColorTheme('#FF0000');

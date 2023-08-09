@@ -3,7 +3,6 @@ import styles from '@/styles/shoppingcart.module.css';
 import Button from '@mui/material/Button';
 import CUITextField from '@/components/customUI/cui-textfield';
 import { useAuth } from '@/context/auth/useAuth';
-import Box from '@mui/material/Box';
 import { toast } from 'react-hot-toast';
 export default function BuyerInfo(props) {
   const { auth } = useAuth();
