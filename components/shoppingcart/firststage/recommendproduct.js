@@ -24,13 +24,7 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 const WhiteTheme = createColorTheme('#FFF');
 const RedTheme = createColorTheme('#FF0000');
 import CUICard from '@/components/customUI/cui-card';
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Typography,
-} from '@mui/material';
+import { CardActions, CardContent, CardMedia, Typography } from '@mui/material';
 
 import {
   CUICardStyle,
@@ -42,8 +36,6 @@ import {
   priceStyle,
   FavorIconStyle,
 } from '@/styles/shoppingcart-style/recommandproduct';
-import { delay, result } from 'lodash';
-import { style } from 'd3';
 import { useAuth } from '@/context/auth/useAuth';
 export default function RecommendProduct(props) {
   const [recommandProduct, setRecommandProduct] = useState([]);
@@ -164,7 +156,7 @@ export default function RecommendProduct(props) {
                         </Typography>
                       </CardContent>
                       <CardActions sx={CardActionsStyle}>
-                        <Box sx={priceStyle}>{v.price}</Box>
+                        <Box sx={priceStyle}>{v.price.toLocaleString()}</Box>
                         <Link
                           href={`http://localhost:3000/product/category/${v.parent_id}/${v.sid}`}
                         >

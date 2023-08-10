@@ -3,6 +3,8 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import Box from '@mui/material/Box';
 
 import CUIRadioButtons from '@/components/customUI/cui-radiobutton';
+import { useEffect } from 'react';
+import Delivery from './delivery';
 export default function Payment(props) {
   const ContainerFormStyle = {
     width: '100%',
@@ -60,7 +62,7 @@ export default function Payment(props) {
       alt: '無法顯示圖片',
     },
   ];
-
+ 
   return (
     <>
       {/* 付款方式 */}
@@ -71,6 +73,7 @@ export default function Payment(props) {
           RadioButtonArray={RadioButtonArray}
           RadioButtonTitle={RadioButtonTitle}
           setDelivery={props.setDelivery}
+          delivery={props.delivery}
         ></CUIRadioButtons>
       </Box>
     </>

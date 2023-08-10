@@ -12,6 +12,7 @@ export default function CUIRadioButtons(props) {
   return (
     <>
       <FormControl sx={{ ...ContainerFormStyle }}>
+        {console.log(props.delivery)}
         <FormLabel
           sx={{
             marginBottom: '30px',

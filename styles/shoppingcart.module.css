@@ -326,12 +326,13 @@
   justify-content: center;
   align-items: center;
   white-space: nowrap;
+  font-style: italic;
   @media screen and (max-width: 996px) {
     height: 0px;
   }
 }
 .countComponentForNumber::before {
-  content: '合計 $';
+  content: '$';
   color: black;
 }
 .countButtonContainer {

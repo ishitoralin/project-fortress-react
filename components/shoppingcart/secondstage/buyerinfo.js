@@ -48,7 +48,7 @@ export default function BuyerInfo(props) {
           address: data.address,
           phone: data.mobile,
           email: data.email,
-          paymentMethod: '',
+          // paymentMethod: data.paymentMethod,
         });
       });
   };
@@ -63,11 +63,13 @@ export default function BuyerInfo(props) {
     setCheckPhone(true);
     setCheckAddress(true);
     setCheckEmail(true);
+    // props.setValue(data);
+    // props.setDelivery(data);
     props.setConfirmInfo({
-      name: '',
-      address: '',
-      phone: '',
-      email: '',
+      name: data,
+      address: data,
+      phone: data,
+      email: data,
     });
   };
 

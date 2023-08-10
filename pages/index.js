@@ -75,7 +75,7 @@ const HomePage = () => {
               <ScrollContent />
             </Scroll>
           </ScrollControls>
-          {/* <OrbitControls enableZoom={false} /> */}
+          <OrbitControls enableZoom={false} />
         </Canvas>
       </div>
     </>

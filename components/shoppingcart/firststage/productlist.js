@@ -16,14 +16,12 @@ import {
   indexContainer,
   AddAndReduceButton,
 } from '@/styles/shoppingcart-style/recommandproduct';
-import { result } from 'lodash';
-import Image from 'next/image';
 import axios from 'axios';
 import Link from 'next/link';
 import { useAuth } from '@/context/auth/useAuth';
-export default function ProductList(props) {
-  const [finalPrice, setFinalPrice] = useState(0);
-  const [finalQuantity, setFinalQuantity] = useState(0);
+export default function ProductList() {
+  const [finalPrice, setFinalPrice] = useState('');
+  const [finalQuantity, setFinalQuantity] = useState('');
   const [cartItems, setCartItems] = useState([]);
   const [open, setOpen] = useState(false);
   const [currentID, setCurrentID] = useState(0);
@@ -72,8 +70,8 @@ export default function ProductList(props) {
       }
     }
     // console.log(totalPrice, totalQuantity);
-    setFinalPrice(totalPrice);
-    setFinalQuantity(totalQuantity);
+    setFinalPrice(totalPrice.toLocaleString());
+    setFinalQuantity(totalQuantity.toLocaleString());
   }, [cartItems]);
 
   // quantity更新api(給+ -及input用)
@@ -186,7 +184,9 @@ export default function ProductList(props) {
                 </div>
               </div>
 
-              <div className={`${styles.ProductListComponent1}`}>{v.price}</div>
+              <div className={`${styles.ProductListComponent1}`}>
+                {v.price.toLocaleString()}
+              </div>
               {/* 新增可調整數量按鈕 */}
               <div className={styles.ProductListComponentForQuantity}>
                 <Button
@@ -229,7 +229,7 @@ export default function ProductList(props) {
                 </Button>
               </div>
               <div className={`${styles.ProductListComponent1}`}>
-                {v.price * v.quantity}
+                {(v.price * v.quantity).toLocaleString()}
               </div>
               {/* 刪除按鈕 */}
               <div className={`${styles.ProductListComponent2} `}>
@@ -277,7 +277,7 @@ export default function ProductList(props) {
                 {finalQuantity}
               </div>
               <div className={`${styles.countComponentForNumber}`}>
-                {finalPrice}
+                小計 : {finalPrice}
               </div>
             </div>
             {/* 只包含button的元件 */}
@@ -316,11 +316,9 @@ export default function ProductList(props) {
               </div>
             </div>
             {/* 只包含button的元件 */}
-            {/* <div className={`${styles.countButtonContainer}`}> */}
             <div className={`${styles.countButtonComponent}`}>
               <CheckButton cartItems={cartItems}></CheckButton>
             </div>
-            {/* </div> */}
           </div>
         </div>
       </Box>

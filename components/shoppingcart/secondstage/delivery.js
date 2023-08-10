@@ -10,7 +10,6 @@ import LocalShippingIcon from '@mui/icons-material/LocalShipping';
 import { toast } from 'react-hot-toast';
 
 export default function Delivery(props) {
-  const [value, setValue] = useState('0');
   const [deliveryMethod, setDeliveryMethod] = useState([]);
   useEffect(() => {
     fetch('http://localhost:3001/OLdeliveryMethod', {
@@ -38,10 +37,10 @@ export default function Delivery(props) {
         <Box sx={{ width: '100%' }}>
           <BottomNavigation
             showLabels
-            value={value}
+            value={props.value}
             onChange={(event, newValue) => {
               const target = newValue;
-              setValue(target);
+              props.setValue(target);
               props.setConfirmInfo((prev) => {
                 return { ...prev, paymentMethod: target };
               });

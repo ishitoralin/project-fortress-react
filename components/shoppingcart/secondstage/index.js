@@ -18,6 +18,7 @@ export default function SecondStage() {
   const [itemList, setItemList] = useState([]);
   const [finalPrice, setFinalPrice] = useState(0);
   const [finalQuantity, setFinalQuantity] = useState(0);
+  const [value, setValue] = useState('');
 
   const [confirmInfo, setConfirmInfo] = useState({
     name: '',
@@ -67,11 +68,19 @@ export default function SecondStage() {
       <Box sx={indexBackground}>
         <Box sx={indexContainer}>
           <ShoppingState></ShoppingState>
-          <BuyerInfo setConfirmInfo={setConfirmInfo}></BuyerInfo>
+          <BuyerInfo
+            setConfirmInfo={setConfirmInfo}
+            setValue={setValue}
+            setDelivery={setDelivery}
+          ></BuyerInfo>
           <ItemListTitle></ItemListTitle>
           <ItemList itemList={itemList}></ItemList>
-          <Delivery setConfirmInfo={setConfirmInfo}></Delivery>
-          <Payment setDelivery={setDelivery}></Payment>
+          <Delivery
+            setConfirmInfo={setConfirmInfo}
+            value={value}
+            setValue={setValue}
+          ></Delivery>
+          <Payment setDelivery={setDelivery} delivery={delivery}></Payment>
           {/* <Recipt></Recipt> */}
         </Box>
         <Box sx={indexContainerFor2ndPageCheckButton}>
