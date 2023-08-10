@@ -29,6 +29,10 @@ import style from '@/pages/record/record.module.css';
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 const myBorder = `${myBorderWidth} solid ${myBorderColor}`;
+const myBorderRadius = '30px';
+const myBackgroundColor = 'var(--light-gray)';
+const myBGstyle = { borderRadius: myBorderRadius, bgcolor: myBackgroundColor };
+
 const NuBorder = `4px solid black`;
 const NuBorderRadius = '30px';
 const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
@@ -187,7 +191,7 @@ const DietFisrtPage = () => {
             p: 2,
           }}
         >
-          <Section>
+          <Section sx={{ ...myBGstyle }}>
             <h1>計算你的基礎代謝率</h1>
             <FormControl component="fieldset">
               <RadioGroup
@@ -340,9 +344,10 @@ const DietFisrtPage = () => {
                 取消
               </CUIButton>
               <CUIButton
+                color={'light_grey'}
                 sx={{
-                  width: '45%',
-                  marginLeft: '20px',
+                  width: '40%',
+                  marginRight: '20px',
                   transform: 'scale(1.2)',
                 }}
                 onClick={() => handleCalc()}
@@ -384,8 +389,10 @@ const DietFisrtPage = () => {
         >
           <Box
             sx={{
-              bgcolor: 'var(--steel-grey)',
-              color: 'var(--light-gray)',
+              ...myBGstyle,
+              p: 1,
+              // bgcolor: 'var(--steel-grey)',
+              // color: 'var(--light-gray)',
             }}
           >
             <Section className={`${style.description}`}>
@@ -398,7 +405,7 @@ const DietFisrtPage = () => {
               TDEE 相等，便達到「熱量平衡」。
             </Section>
           </Box>
-          <Section sx={{ height: '500px', marginTop: 5 }}>
+          <Section sx={{ ...myBGstyle, marginTop: 5 }}>
             <h1>飲食建議</h1>
             <NuBox sx={{ border: NuBorder, borderRadius: NuBorderRadius }}>
               <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>

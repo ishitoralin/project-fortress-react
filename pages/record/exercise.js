@@ -321,32 +321,6 @@ export default function ExercisePage() {
             {/* ============================================================================ */}
 
             <Grid item lg={5} sm={5} sx={{ ...myBGstyle, p: 2, my: 2 }}>
-              <Section>
-                <h1>規劃你的訓練</h1>
-                <CUISelect
-                  sx={{ width: '50%' }}
-                  label="部位分類"
-                  // defaultValue={bodyParts.current[0].value}
-                  value={bodyPart[0].value}
-                  options={bodyParts.current}
-                  onChange={(e) => {
-                    handleBodypartSelection(e);
-                    // console.log(bodyPart);
-                  }}
-                />
-                <CUISearch
-                  sx={{ width: '50%' }}
-                  label="搜尋運動類型"
-                  placeholder="請輸入關鍵字"
-                  // value={keyword}
-                  // onCompositionEnd={(e) => console.log('123')}
-                  onChange={(e) => {
-                    // console.log(e.nativeEvent.composed);
-                    // console.log(e);
-                    handleSearch(e);
-                  }}
-                />
-              </Section>
               {/* === For exercise card list === */}
               <SUICardList
                 type="exercise"
@@ -354,8 +328,11 @@ export default function ExercisePage() {
                 rowRWD={[6, 6, 4, 4, 3]}
                 exerciseScheduleList={exerciseScheduleList}
                 setExerciseScheduleList={setExerciseScheduleList}
+                bodyPart={bodyPart}
+                bodyParts={bodyParts}
+                handleBodypartSelection={handleBodypartSelection}
+                handleSearch={handleSearch}
               />
-              {/* {console.log(exeType)} */}
             </Grid>
             {/* ============================================================================ */}
 
@@ -365,7 +342,6 @@ export default function ExercisePage() {
               lg={4}
               sm={4}
               sx={{
-                // outline: '3px solid blue',
                 p: 2,
                 display: 'flex',
                 alignItems: 'center',

@@ -485,7 +485,16 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                 )
               )
             ) : (
-              'description'
+              <Box sx={{ p: 2 }}>
+                <h1>使用方法</h1>
+                <ul>
+                  <li>
+                    Volumn:重量x次數x組數，類似於總作用的功，當天的相同運動將會累加。Max:當前運動類型最大的重量，同一天相同運動只會取最大值
+                  </li>
+                  <li>按加入就會自動畫出數據</li>
+                  <li>一次最多只能畫5種運動</li>
+                </ul>
+              </Box>
             )}
           </Box>
         </Grid>

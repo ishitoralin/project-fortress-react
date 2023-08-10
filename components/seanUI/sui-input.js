@@ -10,7 +10,7 @@ const SUIDataBox = ({ title, result }) => {
       sx={{
         width: '100%',
         height: '80px',
-        bgcolor: 'var(--fortress)',
+        bgcolor: 'var(--steel-grey)',
         p: 1,
         borderRadius: '20px',
         display: 'flex',

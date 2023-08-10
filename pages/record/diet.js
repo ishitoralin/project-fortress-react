@@ -93,14 +93,14 @@ const DietPage = () => {
   // >>> initiallize
   useEffect(() => {
     // TODO: debounce
-    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-category`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-category`)
       .then((r) => r.json())
       .then((data) => {
         data.data.unshift(foodInit);
         foodCategorys.current = data.data;
       });
 
-    fetch(`${process.env.SEAN_API_SERVER}/food-type/food-type`)
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type`)
       .then((r) => r.json())
       .then((data) => {
         setFoodType(data.rows);
@@ -112,7 +112,7 @@ const DietPage = () => {
   //>>> filter by food category
   useEffect(() => {
     fetch(
-      `${process.env.SEAN_API_SERVER}/food-type/food-type/food-category/${foodCategory[0].key}`
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type/food-category/${foodCategory[0].key}`
     )
       .then((r) => r.json())
       .then((data) => {

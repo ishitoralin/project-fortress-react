@@ -7,14 +7,23 @@ import {
   CardContent,
   Typography,
 } from '@mui/material';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
-
 import { ExeCardDialog } from './sui-card-dialog';
+import CUISelect from '../customUI/cui-select';
+import CUISearch from '../customUI/cui-search';
 
 const myBorderWidth = '2px';
 const myBorderColor = 'black';
 
-// === 右手邊的計畫表
+const Section = styled(Box)(({ theme }) => ({
+  padding: theme.spacing(2),
+  display: 'flex',
+  flexDirection: 'column',
+  // justifyContent: 'center',
+  alignItems: 'center',
+}));
+
 function SUICardList({
   type,
   list,
@@ -22,91 +31,114 @@ function SUICardList({
   // rowRWD: [xs,sm,md,lg,xl]
   exerciseScheduleList,
   setExerciseScheduleList,
+  handleBodypartSelection,
+  handleSearch,
+  bodyPart,
+  bodyParts,
 }) {
   // >>> dialog control
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const handleDialogClose = () => {
     setDialogOpen(false);
-    // console.log(dialogOpen);
   };
 
   const handleDialogOpen = (item) => {
-    // console.log(item);
     setSelectedItem({ ...item, sets: null, reps: null, quantity: null });
     setDialogOpen(true);
   };
   // <<< dialog control
 
   return (
-    <Paper
-      sx={{
-        display: 'flex',
-        backgroundColor: 'var(--steel-light-grey)',
-        // borderRadius: '20px',
-        width: '100%',
-        height: '500px',
-        marginTop: '1.5rem',
-        overflow: 'auto',
-        position: 'relative',
-        // border: `${myBorderWidth} solid ${myBorderColor}`,
-        padding: '0.5rem',
-        // outline: `${myBorderWidth} solid blue`,
-        '&::-webkit-scrollbar': {
-          width: 20,
-        },
-        '&::-webkit-scrollbar-track': {
-          backgroundColor: 'var(--deepgrey)',
-          borderRadius: '5px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          borderRadius: '5px',
-          backgroundColor: 'var(--steel-grey)',
-          transition: '.5s',
-          '&:hover': {
-            filter: 'brightness(0.85)',
-            backgroundColor: 'var(--light-grey)',
-          },
-        },
-      }}
-    >
-      <Grid container>
-        {list?.map((item, i) => (
-          <Grid
-            item
-            xs={rowRWD[0]}
-            // sm={4}
-            md={rowRWD[2]}
-            key={i}
-            sx={{
-              display: 'flex',
-              justifyContent: 'center',
-              p: 1,
-            }}
-          >
-            <Box
-              onClick={() => {
-                handleDialogOpen(item);
-                // console.log(item);
-              }}
-              sx={{ cursor: 'pointer', width: '100%' }}
-            >
-              <MyCard type={type} item={item} />
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-      {list?.length > 0 && type === 'exercise' && dialogOpen && (
-        <ExeCardDialog
-          open={dialogOpen}
-          onClose={handleDialogClose}
-          item={selectedItem}
-          setSelectedItem={setSelectedItem}
-          exerciseScheduleList={exerciseScheduleList}
-          setExerciseScheduleList={setExerciseScheduleList}
+    <>
+      <Section>
+        <h1>規劃你的訓練</h1>
+        <CUISelect
+          sx={{ width: '50%' }}
+          label="部位分類"
+          value={bodyPart[0].value}
+          options={bodyParts.current}
+          onChange={(e) => {
+            handleBodypartSelection(e);
+          }}
         />
-      )}
-    </Paper>
+        <CUISearch
+          sx={{ width: '50%' }}
+          label="搜尋運動類型"
+          placeholder="請輸入關鍵字"
+          onChange={(e) => {
+            handleSearch(e);
+          }}
+        />
+      </Section>
+      <Paper
+        sx={{
+          display: 'flex',
+          backgroundColor: 'var(--steel-light-grey)',
+          // borderRadius: '20px',
+          width: '100%',
+          height: '500px',
+          marginTop: '1.5rem',
+          overflow: 'auto',
+          position: 'relative',
+          // border: `${myBorderWidth} solid ${myBorderColor}`,
+          padding: '0.5rem',
+          // outline: `${myBorderWidth} solid blue`,
+          '&::-webkit-scrollbar': {
+            width: 20,
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'var(--deepgrey)',
+            borderRadius: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '5px',
+            backgroundColor: 'var(--steel-grey)',
+            transition: '.5s',
+            '&:hover': {
+              filter: 'brightness(0.85)',
+              backgroundColor: 'var(--light-grey)',
+            },
+          },
+        }}
+      >
+        <Grid container>
+          {list?.map((item, i) => (
+            <Grid
+              item
+              xs={rowRWD[0]}
+              // sm={4}
+              md={rowRWD[2]}
+              key={i}
+              sx={{
+                display: 'flex',
+                justifyContent: 'center',
+                p: 1,
+              }}
+            >
+              <Box
+                onClick={() => {
+                  handleDialogOpen(item);
+                }}
+                sx={{ cursor: 'pointer', width: '100%' }}
+              >
+                <MyCard type={type} item={item} />
+              </Box>
+            </Grid>
+          ))}
+        </Grid>
+        {list?.length > 0 && type === 'exercise' && dialogOpen && (
+          <ExeCardDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            item={selectedItem}
+            setSelectedItem={setSelectedItem}
+            exerciseScheduleList={exerciseScheduleList}
+            setExerciseScheduleList={setExerciseScheduleList}
+          />
+        )}
+      </Paper>
+    </>
   );
 }
 
