@@ -9,7 +9,7 @@
   right: 0;
   bottom: 0;
   margin: auto;
-  background-color: rgba(76, 106, 150, 0.9);
+  background-color: var(--main-black);
 }
 
 .loader {
@@ -17,7 +17,7 @@
   top: 50%;
   left: 50%;
   margin-left: -1em;
-/*   margin-top: -0.6em;
+  /*   margin-top: -0.6em;
 display: flex;
   margin: 0 auto; */
 }
