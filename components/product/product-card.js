@@ -18,7 +18,7 @@ export default function ProductCard(prop) {
               <img
                 alt="2"
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3001/imgs/product/index01.jpg"
+                src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/index01.jpg`}
               />
 
               <div className={`${styles['BigCardText']}`}>
@@ -42,7 +42,7 @@ export default function ProductCard(prop) {
                     <div className={`${styles['product-img-container']}`}>
                       <img
                         alt="1"
-                        src={`http://localhost:3001/imgs/product/${v.picture}`}
+                        src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${v.picture}`}
                       />
                     </div>
                   </Link>
@@ -180,7 +180,7 @@ export default function ProductCard(prop) {
             <div className={`${styles['Card']}`}>
               <img
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3001/imgs/product/index04.jpg"
+                src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/index04.jpg`}
               />
 
               <div className={`${styles['BigCardText']}`}>
@@ -203,7 +203,7 @@ export default function ProductCard(prop) {
                   <Link href={`product/category/2/${v.sid}`}>
                     <div className={`${styles['product-img-container']}`}>
                       <img
-                        src={`http://localhost:3001/imgs/product/${v.picture}`}
+                        src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${v.picture}`}
                       />
                     </div>
                   </Link>
@@ -341,7 +341,7 @@ export default function ProductCard(prop) {
             <div className={`${styles['Card']}`}>
               <img
                 className={`${styles['img-bigCard']}`}
-                src="http://localhost:3001/imgs/product/index02.jpg"
+                src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/index02.jpg`}
               />
 
               <div className={`${styles['BigCardText']}`}>
@@ -366,9 +366,9 @@ export default function ProductCard(prop) {
                   <Link href={`product/category/3/${v.sid}`}>
                     <div className={`${styles['product-img-container']}`}>
                       <img
-                        src={`http://localhost:3001/imgs/product/${
-                          v.picture.split(',')[0]
-                        }`}
+                        src={`${
+                          process.env.NEXT_PUBLIC_BACKEND_PORT
+                        }/imgs/product/${v.picture.split(',')[0]}`}
                       />
                     </div>
                   </Link>

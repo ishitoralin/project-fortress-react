@@ -8,7 +8,7 @@ export default function CuiImgsmap({ productData }) {
         <div className={`${styles['flexrow']}`}>
           <img
             className={`${styles['productimgs']}`}
-            src={`http://localhost:3001/imgs/product/${
+            src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${
               productData.picture.split(',')[0]
             }`}
           />

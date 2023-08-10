@@ -30,7 +30,7 @@ export default function ListCard({ data = [], cid }) {
                 tabIndex="0"
               >
                 <img
-                  src={`http://localhost:3001/imgs/product/${
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${
                     v.picture.split(',')[0]
                   }`}
                 />
