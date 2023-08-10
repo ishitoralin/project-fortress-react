@@ -71,14 +71,17 @@ export default function ProductCard(prop) {
                             item_sid: v.sid,
                             quantity: 1,
                           });
-                          fetch('http://localhost:3001/SCadd', {
-                            method: 'POST',
-                            body: jsonData,
-                            headers: {
-                              'Content-Type': 'application/json',
-                              Authorization: `Bearer ${auth?.accessToken}`,
-                            },
-                          });
+                          fetch(
+                            `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`,
+                            {
+                              method: 'POST',
+                              body: jsonData,
+                              headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${auth?.accessToken}`,
+                              },
+                            }
+                          );
                           toast.success('已加入購物車');
                         }}
                       >
@@ -229,14 +232,17 @@ export default function ProductCard(prop) {
                             item_sid: v.sid,
                             quantity: 1,
                           });
-                          fetch('http://localhost:3001/SCadd', {
-                            method: 'POST',
-                            body: jsonData,
-                            headers: {
-                              'Content-Type': 'application/json',
-                              Authorization: `Bearer ${auth?.accessToken}`,
-                            },
-                          });
+                          fetch(
+                            `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`,
+                            {
+                              method: 'POST',
+                              body: jsonData,
+                              headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${auth?.accessToken}`,
+                              },
+                            }
+                          );
                           toast.success('已加入購物車');
                         }}
                       >
@@ -391,14 +397,17 @@ export default function ProductCard(prop) {
                             item_sid: v.sid,
                             quantity: 1,
                           });
-                          fetch('http://localhost:3001/SCadd', {
-                            method: 'POST',
-                            body: jsonData,
-                            headers: {
-                              'Content-Type': 'application/json',
-                              Authorization: `Bearer ${auth?.accessToken}`,
-                            },
-                          });
+                          fetch(
+                            `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`,
+                            {
+                              method: 'POST',
+                              body: jsonData,
+                              headers: {
+                                'Content-Type': 'application/json',
+                                Authorization: `Bearer ${auth?.accessToken}`,
+                              },
+                            }
+                          );
                           toast.success('已加入購物車');
                         }}
                       >

@@ -15,7 +15,7 @@ export default function Index() {
   const [data, setData] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:3001/api/product/main-page/')
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/product/main-page/`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data.data);

@@ -45,7 +45,7 @@ export default function Index() {
   useEffect(() => {
     if (auth?.accessToken) {
       fetch(
-        `http://localhost:3001/api/member/member-favorite-products/${router.query.cid}/${router.query.pid}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products/${router.query.cid}/${router.query.pid}`,
         {
           headers: {
             Authorization: `Bearer ${auth.accessToken}`,
@@ -63,7 +63,7 @@ export default function Index() {
   useEffect(() => {
     if (router.query.cid && router.query.pid) {
       fetch(
-        `http://localhost:3001/api/product/${router.query.cid}/${router.query.pid}`
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/product/${router.query.cid}/${router.query.pid}`
       )
         .then((res) => res.json())
         .then((data) => {
@@ -198,7 +198,7 @@ export default function Index() {
                       item_sid: parseInt(router.query.pid),
                       quantity,
                     });
-                    fetch('http://localhost:3001/SCadd', {
+                    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`, {
                       method: 'POST',
 
                       body: jsonData,
@@ -262,7 +262,7 @@ export default function Index() {
                         });
                         console.log(data);
                         fetch(
-                          'http://localhost:3001/api/member/member-favorite-products',
+                          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products`,
                           {
                             method: 'DELETE',
 
@@ -295,7 +295,7 @@ export default function Index() {
                         });
                         console.log(data);
                         fetch(
-                          'http://localhost:3001/api/member/member-favorite-products',
+                          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-products`,
                           {
                             method: 'POST',
 
