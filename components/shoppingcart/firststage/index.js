@@ -5,7 +5,6 @@ import Box from '@mui/material/Box';
 import {
   indexBackground,
   indexContainer,
-  checkbutton,
 } from '@/styles/shoppingcart-style/recommandproduct';
 export default function FirstStageComponent() {
   return (

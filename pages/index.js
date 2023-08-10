@@ -78,7 +78,7 @@ const HomePage = () => {
               <ScrollContent setSixDelta={setSixDelta} />
             </Scroll>
           </ScrollControls>
-          {/* <OrbitControls enableZoom={false} /> */}
+          <OrbitControls enableZoom={false} />
         </Canvas>
       </div>
       <div

@@ -12,6 +12,7 @@ export default function CUIRadioButtons(props) {
   return (
     <>
       <FormControl sx={{ ...ContainerFormStyle }}>
+        {console.log(props.delivery)}
         <FormLabel
           sx={{
             marginBottom: '30px',
@@ -36,11 +37,9 @@ export default function CUIRadioButtons(props) {
               <>
                 <Box
                   sx={{
-                    // width: `${100 / props.RadioButtonArray.length}` + '%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    // borderLeft: `${i === 0 ? 'none' : '1px solid #D9D9D9'}`,
                   }}
                 >
                   <div
@@ -51,7 +50,6 @@ export default function CUIRadioButtons(props) {
                     }}
                   >
                     <FormControlLabel
-                      // sx={{ position: 'absolute' }}
                       key={i}
                       value={v.value}
                       control={<Radio />}
