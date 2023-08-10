@@ -3,7 +3,6 @@ import { Stack } from '@mui/material';
 import styles from './member.module.css';
 import { useRouter } from 'next/router';
 export default function MemberPagenation({ data }) {
-  console.log(data);
   const router = useRouter();
 
   return (
