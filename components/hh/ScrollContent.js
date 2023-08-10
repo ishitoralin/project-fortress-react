@@ -17,6 +17,34 @@ const SectionMap = dynamic(
   }
 );
 
+const locations = [
+  {
+    name: '台北',
+    center: [25.033913, 121.5412242],
+    address: '台北市大安區復興南路一段390號2樓',
+    tel: 'Tel : (02) 6631-6588',
+    transportation:
+      '淡水線搭乘到大安捷運站4號或6號出口,淡水線搭乘到大安捷運站1號出口',
+    img: 'taipei.jpg',
+  },
+  {
+    name: '台中',
+    center: [24.1505394, 120.6325709],
+    address: '台中市南屯區公益路二段51號18樓',
+    tel: 'Tel : (04) 2326-5860',
+    transportation:
+      '中壢火車站 → 中壢客運17路 (中壢 – 高鐵 青埔站)即可到達聖德基督學院',
+    img: 'taichung.jpg',
+  },
+  {
+    name: '高雄',
+    center: [22.6282249, 120.2908495],
+    address: '高雄市前金區中正四路211號8號樓之1',
+    tel: 'Tel : (07) 969-9885',
+    img: 'kaohsiung.jpg',
+  },
+];
+
 const productData = {
   6: {
     x: 125,
@@ -99,6 +127,9 @@ const ScrollContent = () => {
   const [sectionTwoDelta, setSectionTwoDelta] = useState(0);
   const [imgSectionDelta, setImgSectionDelta] = useState(0);
   const [shopSectionDelta, setShopSectionDelta] = useState(0);
+  const [afterSixDelta, setAfterSixDelta] = useState(0);
+  const [location, setLocation] = useState(locations[0]);
+
   useFrame(() => {
     setSectionTwoDelta(scroll.range(0.5 / 12, 1 / 12));
     const inSectionTwo = scroll.range(2 / 12, 1 / 12);
@@ -117,8 +148,7 @@ const ScrollContent = () => {
     setShopSectionDelta(inSectionFive);
     scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
 
-    // Math.random() * 1 < 0.025 && console.log(scrollData.section);
-    //   console.log(`X:${pointer.x * 50 + 50}%`, `Y:${pointer.y * 50 + 50}%`);
+    setAfterSixDelta(scroll.range(8.6 / 12, 3.5 / 12));
   });
 
   return (
@@ -139,7 +169,7 @@ const ScrollContent = () => {
           }}
         >
           <h2>全台據點</h2>
-          <SectionMap />
+          <SectionMap location={location} setLocation={setLocation} />
         </div>
       </section>
       <section className={styles['section-two']}>
@@ -246,14 +276,24 @@ const ScrollContent = () => {
       <section className={styles['section-empty']}></section>
       <section className={styles['section-five']}>
         <h2>全台據點</h2>
-        <SectionMap />
+        <SectionMap location={location} setLocation={setLocation} />
       </section>
-      <section className={styles['section-empty']}></section>
-      <section className={styles['section-empty']}></section>
+      {/* <section className={styles['section-empty']}></section> */}
       <section className={styles['section-empty']}></section>
       <section className={styles['section-six']}>
-        <div style={{border: '2px solid red'}}>
-          <LogoIcon width={540} height={180} />
+        <div
+          className={styles['go-transform']}
+          style={{
+            // '--s': afterSixDelta,
+            '--y': `${afterSixDelta * 143}rem`,
+            // '--z': `${-100}rem`,
+          }}
+        >
+          <LogoIcon
+            fill={afterSixDelta > 0 ? 'red' : ''}
+            width={540}
+            height={180}
+          />
         </div>
       </section>
     </>
