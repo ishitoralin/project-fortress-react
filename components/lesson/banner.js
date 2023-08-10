@@ -60,7 +60,9 @@ const Banner = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('http://localhost:3001/lesson/banners');
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson/banners`
+      );
       const data = await res.json();
       setCategories(data);
       setOrder([...data.keys()]);
@@ -134,20 +136,22 @@ const Banner = () => {
                   {categories[item]['description']}
                 </Typography>
                 <WhiteTheme>
-                  <Button
-                    endIcon={
-                      <TrendingFlatIcon
-                        sx={{
-                          marginLeft: '.5rem',
-                          transform: 'translateY(-1px) scale(1.2)',
-                        }}
-                      />
-                    }
-                    variant="outlined"
-                    sx={buttonStyle}
-                  >
-                    <Link href="/lesson/5">了解更多</Link>
-                  </Button>
+                  <Link href={`/lesson/${categories[item]['sid']}`}>
+                    <Button
+                      endIcon={
+                        <TrendingFlatIcon
+                          sx={{
+                            marginLeft: '.5rem',
+                            transform: 'translateY(-1px) scale(1.2)',
+                          }}
+                        />
+                      }
+                      variant="outlined"
+                      sx={buttonStyle}
+                    >
+                      了解更多
+                    </Button>
+                  </Link>
                 </WhiteTheme>
               </Box>
               <Image
@@ -155,7 +159,7 @@ const Banner = () => {
                 width={100}
                 height={100}
                 sizes="100vw"
-                src={`/lesson-img/${categories[item]['img']}`}
+                src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${categories[item]['img']}`}
                 blurDataURL={categories[item]['img_base64']}
                 placeholder="blur"
                 alt="bannerimg"

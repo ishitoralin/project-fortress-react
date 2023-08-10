@@ -2,9 +2,13 @@ import React from 'react';
 import CUICard from '../customUI/cui-card';
 import styles from '@/styles/product.module.css';
 import CUIButton from '../customUI/cui-button';
-import { Link, Rating, Typography } from '@mui/material';
+import { Link, Typography } from '@mui/material';
+import { toast } from 'react-hot-toast';
+import { useAuth } from '@/context/auth/useAuth';
 
-export default function productCard(prop) {
+export default function ProductCard(prop) {
+  const { auth } = useAuth();
+
   return (
     <>
       <div className={`${styles['product-card-section']}`}>
@@ -12,6 +16,7 @@ export default function productCard(prop) {
           <CUICard className={`${styles['BigCard2']}`}>
             <div className={`${styles['Card']}`}>
               <img
+                alt="2"
                 className={`${styles['img-bigCard']}`}
                 src="http://localhost:3001/imgs/product/index01.jpg"
               />
@@ -27,12 +32,16 @@ export default function productCard(prop) {
         </div>
         <div className={`${styles['Cardcontainer']}`}>
           <div className={`${styles['Cardcontainer2']}`}>
+            <Typography variant="h5" className={`${styles['mdtitle']}`}>
+              運動衣物
+            </Typography>
             {prop.data?.productRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
                   <Link href={`product/category/1/${v.sid}`}>
                     <div className={`${styles['product-img-container']}`}>
                       <img
+                        alt="1"
                         src={`http://localhost:3001/imgs/product/${v.picture}`}
                       />
                     </div>
@@ -53,9 +62,38 @@ export default function productCard(prop) {
                     />
                   </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
-                    <CUIButton className={`${styles['smallCardButton']}`}>
-                      <Typography variant="p">加入購物車</Typography>
-                    </CUIButton>
+                    {auth?.isLogin ? (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          const jsonData = JSON.stringify({
+                            products_type_sid: 1,
+                            item_sid: v.sid,
+                            quantity: 1,
+                          });
+                          fetch('http://localhost:3001/SCadd', {
+                            method: 'POST',
+                            body: jsonData,
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${auth?.accessToken}`,
+                            },
+                          });
+                          toast.success('已加入購物車');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    ) : (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          toast.success('請先登入');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    )}
                   </div>
                 </CUICard>
               );
@@ -153,6 +191,9 @@ export default function productCard(prop) {
         </div>
         <div className={`${styles['Cardcontainer']}`}>
           <div className={`${styles['Cardcontainer2']}`}>
+            <Typography variant="h5" className={`${styles['mdtitle']}`}>
+              健身食品
+            </Typography>
             {prop.data?.foodRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
@@ -179,9 +220,38 @@ export default function productCard(prop) {
                     />
                   </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
-                    <CUIButton className={`${styles['smallCardButton']}`}>
-                      加入購物車
-                    </CUIButton>
+                    {auth?.isLogin ? (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          const jsonData = JSON.stringify({
+                            products_type_sid: 2,
+                            item_sid: v.sid,
+                            quantity: 1,
+                          });
+                          fetch('http://localhost:3001/SCadd', {
+                            method: 'POST',
+                            body: jsonData,
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${auth?.accessToken}`,
+                            },
+                          });
+                          toast.success('已加入購物車');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    ) : (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          toast.success('請先登入');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    )}
                   </div>
                 </CUICard>
               );
@@ -281,6 +351,9 @@ export default function productCard(prop) {
         </div>
         <div className={`${styles['Cardcontainer']}`}>
           <div className={`${styles['Cardcontainer2']}`}>
+            <Typography variant="h5" className={`${styles['mdtitle']}`}>
+              健身器材
+            </Typography>
             {prop.data?.equipmentRows?.map((v, i) => {
               return (
                 <CUICard key={v.sid} className={`${styles['smallCard']}`}>
@@ -309,9 +382,38 @@ export default function productCard(prop) {
                     />
                   </div> */}
                   <div className={`${styles['CardButtonContainer']}`}>
-                    <CUIButton className={`${styles['smallCardButton']}`}>
-                      加入購物車
-                    </CUIButton>
+                    {auth?.isLogin ? (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          const jsonData = JSON.stringify({
+                            products_type_sid: 3,
+                            item_sid: v.sid,
+                            quantity: 1,
+                          });
+                          fetch('http://localhost:3001/SCadd', {
+                            method: 'POST',
+                            body: jsonData,
+                            headers: {
+                              'Content-Type': 'application/json',
+                              Authorization: `Bearer ${auth?.accessToken}`,
+                            },
+                          });
+                          toast.success('已加入購物車');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    ) : (
+                      <CUIButton
+                        className={`${styles['smallCardButton']}`}
+                        onClick={() => {
+                          toast.success('請先登入');
+                        }}
+                      >
+                        <Typography variant="p">加入購物車</Typography>
+                      </CUIButton>
+                    )}
                   </div>
                 </CUICard>
               );

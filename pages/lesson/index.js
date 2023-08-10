@@ -28,7 +28,9 @@ import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
 export const getStaticProps = async () => {
   const data = {};
   try {
-    const res = await fetch('http://localhost:3001/lesson/tags');
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson/tags`
+    );
     data.tags = await res.json();
   } catch (ex) {
     data.tags = ['目前沒有標籤可選取'];
@@ -39,7 +41,7 @@ export const getStaticProps = async () => {
 
 const LISTMODE = 'list';
 const SKELETONMODE = 'skeleton';
-const LESSON_BASEURL = 'http://localhost:3001/lesson';
+const LESSON_BASEURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson`;
 
 const initPrice = [200, 1500];
 const initStep = 50;

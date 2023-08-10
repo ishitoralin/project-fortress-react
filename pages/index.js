@@ -1,8 +1,4 @@
-import dynamic from 'next/dynamic'; //因為server端不會有window物件，有必要在client端的時候才進行渲染。
-
-import styles from '@/styles/homepage.module.css';
-
-import { Suspense } from 'react';
+import { Suspense, useEffect, useRef, useState } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Environment,
@@ -11,27 +7,63 @@ import {
   ScrollControls,
 } from '@react-three/drei';
 
-import LogoIcon from '@/assets/logo';
+import styles from '@/styles/homepage.module.css';
 import BarBell from '@/components/hh/BarBell';
+import ScrollContent from '@/components/hh/ScrollContent';
 
-const SectionMap = dynamic(
-  () => import('@/components/index-page/section-map'),
-  {
-    ssr: false,
-  }
-);
+export const scrollData = {
+  section: null,
+  setSection(n) {
+    this.section = n;
+  },
+};
 
-const basicScale = 2.75;
+const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
 
 const HomePage = () => {
+  const lenRef = useRef();
+
+  useEffect(() => {
+    lenRef.current.style.setProperty('--s', 0);
+    let isFire = false;
+    const trackPointer = (event) => {
+      lenRef.current.style.setProperty(
+        '--x',
+        `${clamp(event.clientX - 50, 25, window.innerWidth - 125)}px`
+      );
+      lenRef.current.style.setProperty(
+        '--y',
+        `${clamp(event.clientY - 50, 25, window.innerHeight - 125)}px`
+      );
+    };
+
+    window.addEventListener('mousemove', () => (isFire = true), { once: true });
+    window.addEventListener('mousemove', trackPointer);
+
+    const intervalId = window.setInterval(() => {
+      if (!isFire) return;
+      const lenScale = lenRef.current.style.getPropertyValue('--s');
+      lenRef.current.style.setProperty(
+        '--s',
+        scrollData.section === '3&4' ? 0 : lenScale === '0.9' ? 1.25 : 0.9
+      );
+    }, 1000);
+
+    return () => {
+      window.removeEventListener('mousemove', trackPointer);
+      window.clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <>
+      <div ref={lenRef} className={styles['len']}></div>
       <div className={styles['main-box']}>
         <Canvas>
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
-          <ScrollControls pages={8} damping={0.35}>
+          <ScrollControls pages={12} damping={0.35}>
             <Suspense>
               <BarBell
                 scale={4}
@@ -39,48 +71,11 @@ const HomePage = () => {
                 rotation={[0, 1.55, -0.2]}
               />
             </Suspense>
-
             <Scroll html>
-              <section className={styles['section-one']}>
-                <div className={styles['logoBox']}>
-                  <LogoIcon width={240} height={80} />
-                </div>
-                <h1>為你的身體築一座堡壘</h1>
-              </section>
-              <section className={styles['section-two']}>
-                <h1>全台灣最大的複合式健身房</h1>
-              </section>
-              <section className={styles['section-three']}>
-                <div>
-                  <h2>專業師資</h2>
-                </div>
-                <div>
-                  <h2>多元課程</h2>
-                </div>
-              </section>
-              <section style={{ textAlign: 'center' }}>
-                <h1 style={{ display: 'inline-block', color: 'white' }}>
-                  全台據點
-                </h1>
-                <SectionMap />
-              </section>
+              <ScrollContent />
             </Scroll>
           </ScrollControls>
-          {/* <BarBell
-              scale={basicScale}
-              position={[-1.5, 0, 0]}
-              rotation={[0, 1, 0.5]}
-            />
-            <CatmullRomLine
-              points={[
-                [0, 0, 0],
-                [1, 1, 1],
-                [-1.5, 0, 0],
-              ]} // Array of Points
-              color="white" // Default
-              lineWidth={5} // In pixels (default)
-            /> */}
-          <OrbitControls enableZoom={false} />
+          {/* <OrbitControls enableZoom={false} /> */}
         </Canvas>
       </div>
     </>

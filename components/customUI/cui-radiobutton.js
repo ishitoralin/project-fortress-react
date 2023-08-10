@@ -12,7 +12,14 @@ export default function CUIRadioButtons(props) {
   return (
     <>
       <FormControl sx={{ ...ContainerFormStyle }}>
-        <FormLabel sx={{ marginBottom: '30px' }}>
+        <FormLabel
+          sx={{
+            marginBottom: '30px',
+            fontSize: '24px',
+            fontWeight: '700',
+            color: 'black',
+          }}
+        >
           {props.RadioButtonTitle}
         </FormLabel>
         <RadioGroup
@@ -29,11 +36,11 @@ export default function CUIRadioButtons(props) {
               <>
                 <Box
                   sx={{
-                    width: `${100 / props.RadioButtonArray.length}` + '%',
+                    // width: `${100 / props.RadioButtonArray.length}` + '%',
                     display: 'flex',
                     justifyContent: 'center',
                     alignItems: 'center',
-                    borderLeft: `${i === 0 ? 'none' : '1px solid #D9D9D9'}`,
+                    // borderLeft: `${i === 0 ? 'none' : '1px solid #D9D9D9'}`,
                   }}
                 >
                   <div

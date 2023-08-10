@@ -6,7 +6,7 @@ import CoachCard from '@/components/coach/coach-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 import UiButton from '@/components/hh/UiButton';
 
-const baseUrl = 'http://localhost:3001/coach/all';
+const baseUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/all`;
 
 export const getStaticProps = async () => {
   const res = await fetch(baseUrl);

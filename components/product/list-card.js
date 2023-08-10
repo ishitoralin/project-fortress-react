@@ -42,36 +42,46 @@ export default function ListCard({ data = [], cid }) {
                   <Typography variant="h6">${v.price}</Typography>
                 </div>
               </div>
-              <div>
-                <Rating
-                  className={`${styles['product-price']}`}
-                  name="half-rating"
-                  defaultValue={2.5}
-                  precision={0.5}
-                />
-              </div>
+              {/* <div className={`${styles['product-Rating']}`}>
+                <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
+                <Typography>4.5(22)</Typography>
+              </div> */}
               <div className={`${styles['CardButtonContainer']}`}>
-                <CUIButton
-                  className={`${styles['smallCardButton']}`}
-                  onClick={() => {
-                    const jsonData = JSON.stringify({
-                      products_type_sid: parseInt(cid),
-                      item_sid: v.sid,
-                      quantity: 1,
-                    });
-                    fetch('http://localhost:3001/SCadd', {
-                      method: 'POST',
-                      body: jsonData,
-                      headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${auth?.accessToken}`,
-                      },
-                    });
-                    toast.success('已加入購物車');
-                  }}
-                >
-                  加入購物車
-                </CUIButton>
+                {auth?.isLogin ? (
+                  <CUIButton
+                    className={`${styles['smallCardButton']}`}
+                    onClick={() => {
+                      //判斷有登入 就加入購物車
+                      //如果沒登入就用toast提示登入
+                      // console.log(auth?.isLogin);
+                      const jsonData = JSON.stringify({
+                        products_type_sid: cid,
+                        item_sid: v.sid,
+                        quantity: 1,
+                      });
+                      fetch('http://localhost:3001/SCadd', {
+                        method: 'POST',
+                        body: jsonData,
+                        headers: {
+                          'Content-Type': 'application/json',
+                          Authorization: `Bearer ${auth?.accessToken}`,
+                        },
+                      });
+                      toast.success('已加入購物車');
+                    }}
+                  >
+                    加入購物車
+                  </CUIButton>
+                ) : (
+                  <CUIButton
+                    className={`${styles['smallCardButton']}`}
+                    onClick={() => {
+                      toast.success('請先登入');
+                    }}
+                  >
+                    加入購物車
+                  </CUIButton>
+                )}
               </div>
             </CUICard>
           );

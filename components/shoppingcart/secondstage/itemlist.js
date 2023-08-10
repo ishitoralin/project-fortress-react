@@ -1,8 +1,5 @@
 import React from 'react';
 import styles from '@/styles/shoppingcart.module.css';
-import Button from '@mui/material/Button';
-import createColorTheme from '@/libs/CreateColorTheme';
-import { useEffect, useState } from 'react';
 export default function ItemList(props) {
   return (
     <>
@@ -23,7 +20,7 @@ export default function ItemList(props) {
                 alt="商品圖片"
               />
             </div>
-            <div className={`${styles.ProductConFirmListComponent2}`}>
+            <div className={`${styles.ProductConFirmListComponentName}`}>
               {v.item_name}
             </div>
             <div className={`${styles.ProductConFirmListComponent1}`}>

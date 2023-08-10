@@ -17,12 +17,16 @@ export default function MyOrders() {
   });
   const router = useRouter();
   const getMyOrders = async (page = 1) => {
-    const res = await axios.get(
-      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/my-orders?page=${page}`
-    );
-    if (res.data?.output?.rows);
-    {
-      setData({ ...res.data.output });
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/my-orders?page=${page}`
+      );
+      if (res.data?.output?.rows);
+      {
+        setData({ ...res.data.output });
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
   useEffect(() => {

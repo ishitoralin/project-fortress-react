@@ -120,6 +120,11 @@
   backface-visibility: hidden;
   animation: flip 1s ease-out forwards;
 }
+.CUITextField-number-input input::-webkit-outer-spin-button,
+.CUITextField-number-input input::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0;
+}
 @keyframes flip {
   0% {
     opacity: 0;

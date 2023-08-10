@@ -41,7 +41,7 @@ const CoachCard = ({ coachdata }) => {
               objectFit: 'cover',
               objectPosition: 'center top',
             }}
-            src={`/coach-img/${coachdata.img}`}
+            src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coachdata.img}`}
             placeholder="blur"
             blurDataURL={coachdata.img_base64}
           />

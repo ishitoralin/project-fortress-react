@@ -35,6 +35,7 @@ import { useAuth } from '@/context/auth/useAuth';
 import NextBreadCrumb from '@/components/breadcrumb';
 import { toast } from 'react-hot-toast';
 import { color } from 'd3';
+import RecommendProduct from '@/components/shoppingcart/firststage/recommendproduct';
 export default function Index() {
   const [productData, setProductData] = useState({});
   const [quantity, setQuantity] = useState(1);
@@ -101,7 +102,7 @@ export default function Index() {
     <>
       <div className={`${styles['product-detail-section1']}`}>
         {/* <BasicBreadcrumbs></BasicBreadcrumbs> */}
-        <div className={`${styles['BreadCrumb']}`}>
+        <div className={`${styles['BreadCrumb1']}`}>
           <NextBreadCrumb></NextBreadCrumb>
         </div>
         <div className={`${styles['product-detail-container']}`}>
@@ -246,6 +247,8 @@ export default function Index() {
                   favorite ? (
                     <FavoriteIcon
                       sx={{
+                        cursor: 'pointer',
+
                         marginTop: '3px',
                         width: '25px',
                         height: '25px',
@@ -278,7 +281,8 @@ export default function Index() {
                   ) : (
                     <FavoriteBorderIcon
                       sx={{
-                        marginTop: '3px',
+                        cursor: 'pointer',
+                        marginTop: '5px',
                         width: '25px',
                         height: '25px',
                         color: 'red',
@@ -311,6 +315,7 @@ export default function Index() {
                 ) : (
                   <FavoriteBorderIcon
                     sx={{
+                      cursor: 'pointer',
                       marginTop: '3px',
                       width: '25px',
                       height: '25px',
@@ -330,17 +335,17 @@ export default function Index() {
       <div className={`${styles['product-detail-section2']}`}>
         <div className={`${styles['product-detail-Container']}`}>
           <div className={`${styles['description-title']}`}>
-            <Typography variant="h4">產品說明</Typography>
+            <Typography variant="h5">產品說明</Typography>
           </div>
           <div className={`${styles['detail-description']}`}>
             <div className={`${styles['description-Container']}`}>
               <div className={`${styles['description-text1']}`}>
-                <Typography variant="h5">
+                <Typography variant="h6">
                   男士透氣 Essential Fitness 圓領 T 卹 - 黑色 |
                   我們的設計團隊全心全意為您 的第一次鍛煉設計這款健身 T
                   卹……以及之後的每一次鍛煉！
                 </Typography>
-                <Typography variant="h6">
+                <Typography variant="p">
                   這款健身 T
                   卹是衣櫥的終極基本款！簡約的設計、柔軟的手感和透氣的面料使其成為
                   您健身服裝的必備單品。
@@ -349,26 +354,26 @@ export default function Index() {
               <div className={`${styles['description-text-big1']}`}>
                 <div className={`${styles['description-text-big2']}`}>
                   <div className={`${styles['description-text2']}`}>
-                    <Typography variant="h5">吸濕排汗</Typography>
-                    <Typography variant="h6">
+                    <Typography variant="h6">吸濕排汗</Typography>
+                    <Typography variant="p">
                       保持乾燥！面料速乾並吸走汗水。
                     </Typography>
                   </div>
                   <div className={`${styles['description-text3']}`}>
-                    <Typography variant="h5">輕的</Typography>
-                    <Typography variant="h6">132 克/平方米的面料。</Typography>
+                    <Typography variant="h6">輕的</Typography>
+                    <Typography variant="p">132 克/平方米的面料。</Typography>
                   </div>
                 </div>
                 <div className={`${styles['description-text-big3']}`}>
                   <div className={`${styles['description-text4']}`}>
-                    <Typography variant="h5">有彈性</Typography>
-                    <Typography variant="h6">
+                    <Typography variant="h6">有彈性</Typography>
+                    <Typography variant="p">
                       拉伸和剪裁提供極大的運動自由度。
                     </Typography>
                   </div>
                   <div className={`${styles['description-text5']}`}>
-                    <Typography variant="h5">易於維護</Typography>
-                    <Typography variant="h6">
+                    <Typography variant="h6">易於維護</Typography>
+                    <Typography variant="p">
                       易於維護和快速乾燥的能力。
                     </Typography>
                   </div>
@@ -383,7 +388,7 @@ export default function Index() {
         <div className={`${styles['product-detail-comment']}`}>
           <div className={`${styles['comment-title']}`}>
             <Typography variant="h5">商品評論</Typography>
-            <div className={`${styles['product-detail-Rating']}`}>
+            <div className={`${styles['product-detail-Rating1']}`}>
               <Rating name="half-rating" defaultValue={4.5} precision={0.5} />
               <Typography variant="p">4.8(150)</Typography>
             </div>
@@ -572,21 +577,17 @@ export default function Index() {
                 </Typography>
               </div>
               <div className={`${styles['comment-Rating-line']}`}>
-                <Divider sx={{ width: '1518px', height: '1px' }} />
+                <Divider sx={{ width: '100%', height: '1px' }} />
               </div>
             </div>
           </div>
         </div>
       </div>
-      <div className={`${styles['product-detail-section4']}`}>
+      {/* <div className={`${styles['product-detail-section4']}`}>
         <div className={`${styles['Cardcontainer']}`}>
-          <div className={`${styles.recommendProductTitle}`}>熱門商品!!!</div>
-          <div className={`${styles.recommendProductContainer}`}>
-            {/* <RecommendProduct /> */}
-          </div>
+          <RecommendProduct />
         </div>
-      </div>
-      
+      </div> */}
     </>
   );
 }

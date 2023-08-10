@@ -24,7 +24,9 @@ import {
 } from '@/styles/lesson-style/lesson-id-style';
 
 export const getStaticPaths = async () => {
-  const res = await fetch('http://localhost:3001/lesson/categories');
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson/categories`
+  );
   const data = await res.json();
 
   const paths = data.map((ct) => ({ params: { id: ct.toString() } }));
@@ -36,8 +38,8 @@ export const getStaticPaths = async () => {
 };
 
 const fetchData = async (id) => {
-  const getCategoryUrl = `http://localhost:3001/lesson/categories?id=${id}`;
-  const getLessonsUrl = `http://localhost:3001/lesson?category=${id}`;
+  const getCategoryUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson/categories?id=${id}`;
+  const getLessonsUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson?category=${id}`;
 
   const [category, rawLessons] = await Promise.all(
     [getCategoryUrl, getLessonsUrl].map(async (url) => {
@@ -121,7 +123,7 @@ const CertainLessonPage = ({ categoryId, category, initLessons }) => {
           <CUICard sx={imgBoxStyle}>
             <Image
               alt="lesson-img"
-              src={`/lesson-img/${category.img}`}
+              src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${category.img}`}
               blurDataURL={`/lesson-img/${category.img_base64}`}
               fill
               style={{ objectFit: 'cover' }}

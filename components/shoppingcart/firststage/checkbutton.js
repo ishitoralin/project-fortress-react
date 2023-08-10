@@ -5,6 +5,8 @@ import styles from '@/styles/shoppingcart.module.css';
 import Link from 'next/link';
 import {} from '@/components/shoppingcart/firststage/productlist';
 import { useAuth } from '@/context/auth/useAuth';
+import { checkbutton } from '@/styles/shoppingcart-style/recommandproduct';
+import Box from '@mui/material/Box';
 
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
@@ -24,52 +26,54 @@ export default function CheckButton(props) {
   return (
     <>
       {/* 結帳按鈕 */}
-      <div className={`${styles.checkButtonContainer}`}>
-        <WhiteTheme>
-          <Button
-            className={`${styles.buttonContainer}`}
-            sx={{
-              flexWrap: 'nowrap',
-              marginLeft: '10px',
-              width: '200px',
-              ':hover': {
-                opacity: '.7',
-                bgcolor: 'var(--light-gray2)',
-              },
-              '@media screen and (max-width: 996px)': {
-                width: '0',
-              },
-            }}
-            variant="contained"
-            onClick={props.onClick}
-          >
-            <Link href="/" sx={{ width: '100%' }}>
-              返回首頁
-            </Link>
-          </Button>
-        </WhiteTheme>
-        <RedTheme>
-          <Button
-            className={`${styles.buttonContainer}`}
-            sx={{
-              marginLeft: '10px',
-              width: '200px',
-              ':hover': {
-                opacity: '.7',
-                bgcolor: 'var(--main-red)',
-              },
-              '@media screen and (max-width: 996px)': {
-                width: '0',
-              },
-            }}
-            variant="contained"
-            onClick={checkConfirm}
-            disabled={!props.cartItems ? false : true}
-          >
-            <Link href="/shoppingcart/secondstage">送出訂單</Link>
-          </Button>
-        </RedTheme>
-      </div>
+      <Box sx={checkbutton}>
+        <div className={`${styles.checkButtonContainer}`}>
+          <WhiteTheme>
+            <Button
+              className={`${styles.buttonContainer}`}
+              sx={{
+                flexWrap: 'nowrap',
+                marginLeft: '10px',
+                width: '200px',
+                ':hover': {
+                  opacity: '.7',
+                  bgcolor: 'var(--light-gray2)',
+                },
+                '@media screen and (max-width: 996px)': {
+                  width: '0',
+                },
+              }}
+              variant="contained"
+              onClick={props.onClick}
+            >
+              <Link href="/" sx={{ width: '100%' }}>
+                返回首頁
+              </Link>
+            </Button>
+          </WhiteTheme>
+          <RedTheme>
+            <Button
+              className={`${styles.buttonContainer}`}
+              sx={{
+                marginLeft: '10px',
+                width: '200px',
+                ':hover': {
+                  opacity: '.7',
+                  bgcolor: 'var(--main-red)',
+                },
+                '@media screen and (max-width: 996px)': {
+                  width: '0',
+                },
+              }}
+              variant="contained"
+              onClick={checkConfirm}
+              disabled={!props.cartItems ? false : true}
+            >
+              <Link href="/shoppingcart/secondstage">送出訂單</Link>
+            </Button>
+          </RedTheme>
+        </div>
+      </Box>
     </>
   );
 }

@@ -9,7 +9,7 @@ import data from '@/assets/taiwangeo.json';
 import styles from './space-find-component.module.css';
 import GymTypeSelect from './gym-type-select';
 import axios from 'axios';
-import { Box, Paper, Typography } from '@mui/material';
+import { Box, Paper, Skeleton, Typography } from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 export default function SpaceFindComponent() {
@@ -22,7 +22,7 @@ export default function SpaceFindComponent() {
     setGymData(() => {
       return [];
     });
-
+    setLoading(true);
     try {
       city = city.replace('台', '臺');
 
@@ -43,6 +43,7 @@ export default function SpaceFindComponent() {
       }); */
 
       setGymData(() => res.data);
+      setLoading(false);
     } catch (error) {
       console.log(error);
     }
@@ -83,6 +84,7 @@ export default function SpaceFindComponent() {
     const svg = select(svgRef.current); //先選中svg
     svg.on('click', function (e, d) {
       setGymData([]);
+      setLoading(false);
       countyname = '';
       select(this)
         .select('g')
@@ -129,6 +131,7 @@ export default function SpaceFindComponent() {
             );
         } else {
           setGymData([]);
+          setLoading(false);
           countyname = '';
           svg
             .selectAll('path')
@@ -146,6 +149,7 @@ export default function SpaceFindComponent() {
   const cleanMap = () => {
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
+    setGymData([]);
   };
   useEffect(() => {
     renderMap();
@@ -187,7 +191,57 @@ export default function SpaceFindComponent() {
         <div className={`${styles['map-container']}`} ref={containerRef}>
           <svg className={`${styles['map-svg']}`} ref={svgRef}></svg>
         </div>
-        {gymData.length > 0 ? (
+        {loading ? (
+          <motion.div
+            className={`${styles['info']}`}
+            variants={container}
+            initial="hidden"
+            animate="show"
+            exit="hide"
+          >
+            {Array(8)
+              .fill(1)
+              .map((el, i) => (
+                <Paper
+                  key={i}
+                  component={motion.div}
+                  className={`${styles['info-card']}`}
+                  variants={item}
+                >
+                  <Box className={`${styles['skeleton-word-wrapper']}`}>
+                    <Box>
+                      <Skeleton
+                        variant="text"
+                        className={`${styles['skeleton-title']}`}
+                      />
+                    </Box>
+                    <Box>
+                      <Skeleton
+                        variant="text"
+                        className={`${styles['skeleton-content1']}`}
+                      />
+                      <Skeleton
+                        variant="text"
+                        className={`${styles['skeleton-content2']}`}
+                      />
+                    </Box>
+                    <Box>
+                      <Skeleton
+                        variant="text"
+                        className={`${styles['skeleton-end']}`}
+                      />
+                    </Box>
+                  </Box>
+                  <Box className={`${styles['skeleton-img-wrapper']}`}>
+                    <Skeleton
+                      variant="reactangular"
+                      className={`${styles['skeleton-img']}`}
+                    />
+                  </Box>
+                </Paper>
+              ))}
+          </motion.div>
+        ) : gymData.length > 0 ? (
           <motion.div
             className={`${styles['info']}`}
             variants={container}
