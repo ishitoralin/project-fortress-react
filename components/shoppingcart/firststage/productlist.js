@@ -282,7 +282,7 @@ export default function ProductList() {
                 {finalQuantity}
               </div>
               <div className={`${styles.countComponentForNumber}`}>
-                小計 : {finalPrice}
+                {finalPrice}
               </div>
             </div>
             {/* 只包含button的元件 */}
