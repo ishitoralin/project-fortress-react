@@ -1,4 +1,4 @@
-import { Suspense, useEffect, useRef, useState } from 'react';
+import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
 import {
   Environment,
@@ -9,7 +9,9 @@ import {
 
 import styles from '@/styles/homepage.module.css';
 import BarBell from '@/components/hh/BarBell';
+import LogoIcon from '@/assets/logo';
 import ScrollContent from '@/components/hh/ScrollContent';
+import { style } from 'd3';
 
 export const scrollData = {
   section: null,
@@ -22,6 +24,7 @@ const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
 
 const HomePage = () => {
   const lenRef = useRef();
+  const [sixDelta, setSixDelta] = useState(0);
 
   useEffect(() => {
     lenRef.current.style.setProperty('--s', 0);
@@ -72,11 +75,19 @@ const HomePage = () => {
               />
             </Suspense>
             <Scroll html>
-              <ScrollContent />
+              <ScrollContent setSixDelta={setSixDelta} />
             </Scroll>
           </ScrollControls>
           {/* <OrbitControls enableZoom={false} /> */}
         </Canvas>
+      </div>
+      <div
+        className={`${styles['logo-box']} ${styles['fade-in']} ${styles['go-transform']}`}
+        style={{
+          '--o': sixDelta,
+        }}
+      >
+        <LogoIcon width={480} height={160} />
       </div>
     </>
   );

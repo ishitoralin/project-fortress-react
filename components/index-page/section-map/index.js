@@ -29,9 +29,7 @@ const locations = [
     img: 'kaohsiung.jpg',
   },
 ];
-export default function Index() {
-  const [location, setLocation] = useState(locations[0]);
-
+export default function Index({ location, setLocation }) {
   return (
     <div className={`${styles.container}`}>
       <Map
