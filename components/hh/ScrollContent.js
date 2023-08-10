@@ -121,13 +121,13 @@ const ShopTemplate = ({ className, shopSectionDelta }) => {
   );
 };
 
-const ScrollContent = () => {
+const ScrollContent = ({ setSixDelta }) => {
   const scroll = useScroll();
   const [draw, setDraw] = useState(false);
   const [sectionTwoDelta, setSectionTwoDelta] = useState(0);
   const [imgSectionDelta, setImgSectionDelta] = useState(0);
   const [shopSectionDelta, setShopSectionDelta] = useState(0);
-  const [afterSixDelta, setAfterSixDelta] = useState(0);
+  // const [afterSixDelta, setAfterSixDelta] = useState(0);
   const [location, setLocation] = useState(locations[0]);
 
   useFrame(() => {
@@ -148,7 +148,8 @@ const ScrollContent = () => {
     setShopSectionDelta(inSectionFive);
     scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
 
-    setAfterSixDelta(scroll.range(8.6 / 12, 3.5 / 12));
+    setSixDelta(Math.floor(scroll.range(9.5 / 12, 2 / 12) * 100) * 0.01);
+    // setAfterSixDelta(scroll.range(8.6 / 12, 3.5 / 12));
   });
 
   return (
@@ -281,7 +282,7 @@ const ScrollContent = () => {
       {/* <section className={styles['section-empty']}></section> */}
       <section className={styles['section-empty']}></section>
       <section className={styles['section-six']}>
-        <div
+        {/* <div
           className={styles['go-transform']}
           style={{
             // '--s': afterSixDelta,
@@ -294,7 +295,7 @@ const ScrollContent = () => {
             width={540}
             height={180}
           />
-        </div>
+        </div> */}
       </section>
     </>
   );

@@ -168,13 +168,17 @@
   right: 0;
 }
 
-.section-one-map h2, .section-five h2 {
+.section-one-map h2,
+.section-five h2 {
   text-align: center;
   margin-bottom: -2rem;
 }
 
-.section-six {
-  text-align: center;
+.logo-box {
+  position: fixed;
+  top: calc(50vh - 80px);
+  left: calc(50vw - 240px);
+  pointer-events: none;
 }
 
 .go-transform {
@@ -183,7 +187,7 @@
   --y: 0;
   --z: 0;
 
-  transform: scale(var(--s)) translate3d(var(--x), var(--y), var(--z));
+  transform: perspective(500px) scale(var(--s)) translate3d(var(--x), var(--y), var(--z));
 }
 
 .fade-in {
