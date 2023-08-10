@@ -17,11 +17,14 @@ export default function BuyerInfo() {
   useEffect(() => {
     const getBuyerInfo = async () => {
       try {
-        const res = await axios.get('http://localhost:3001/FObuyerinfo/', {
-          headers: {
-            Authorization: `Bearer ${auth?.accessToken}`,
-          },
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/FObuyerinfo/`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.accessToken}`,
+            },
+          }
+        );
         setBuyerInfo(res.data.omdata);
       } catch (error) {
         console.log('error');
@@ -30,11 +33,14 @@ export default function BuyerInfo() {
     getBuyerInfo();
     const getItemList = async () => {
       try {
-        const res = await axios.get('http://localhost:3001/FOitemlist/', {
-          headers: {
-            Authorization: `Bearer ${auth?.accessToken}`,
-          },
-        });
+        const res = await axios.get(
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/FOitemlist/`,
+          {
+            headers: {
+              Authorization: `Bearer ${auth?.accessToken}`,
+            },
+          }
+        );
         const tolocalestring = res.data.oddata.map((v, i) => {
           return { ...v, price: v.price.toLocaleString() };
         });

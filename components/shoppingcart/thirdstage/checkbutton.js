@@ -11,7 +11,7 @@ export default function CheckButton(props) {
   const { auth } = useAuth();
   const sendingEmail = () => {
     console.log('123');
-    fetch('http://localhost:3001/cart/test', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/test`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,

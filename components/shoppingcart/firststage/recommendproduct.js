@@ -45,7 +45,7 @@ export default function RecommendProduct(props) {
 
   // data from database
   useEffect(() => {
-    fetch('http://localhost:3001/SCrecommanded', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCrecommanded`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,
@@ -55,12 +55,12 @@ export default function RecommendProduct(props) {
       .then((results) => setRecommandProduct(results.data));
   }, []);
   useEffect(() => {
-    fetch('http://localhost:3001/SCpopular')
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCpopular`)
       .then((r) => r.json())
       .then((results) => setPopularProducts(results.newData));
   }, []);
   useEffect(() => {
-    fetch('http://localhost:3001/SChotlesson')
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SChotlesson`)
       .then((r) => r.json())
       .then((results) => setRecommandLesson(results.newData));
   }, []);
