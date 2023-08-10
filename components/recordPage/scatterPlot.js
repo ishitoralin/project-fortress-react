@@ -24,7 +24,7 @@ function getRandomDate() {
   const randomDate = new Date(randomTimestamp);
   return randomDate;
 }
-export default function ScatterPlot(plotData) {
+export default function ScatterPlot({ plotData, plotType }) {
   const datasetPointColor = [
     'rgba(255, 99, 132, 1)',
     'rgba(53, 162, 235, 1)',
@@ -41,12 +41,18 @@ export default function ScatterPlot(plotData) {
   ];
 
   const datasets = toPlotFormat(
-    plotData.plotData,
+    plotData,
+    plotType,
     datasetPointColor,
     datasetLineColor
   );
-  // console.log(datasets);
-  // console.log(dayjs(getRandomDate()));
+
+  let plotTitle;
+  if (plotType === 'volumn') {
+    plotTitle = '訓練Volumn = 重量x次數x組數';
+  } else if (plotType === 'max') {
+    plotTitle = '當天最大重量';
+  }
 
   const options = {
     responsive: true,
@@ -54,7 +60,7 @@ export default function ScatterPlot(plotData) {
     plugins: {
       title: {
         display: true,
-        text: '訓練Volumn = 重量x次數x組數',
+        text: plotTitle,
         font: { size: 20 },
       },
       legend: {

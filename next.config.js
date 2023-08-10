@@ -4,11 +4,6 @@ const nextConfig = {
   images: {
     domains: ['via.placeholder.com', 'localhost'],
   },
-
-  env: {
-    SEAN_API_SERVER: 'http://localhost:9009',
-  },
-
   // transpilePackages: ['three'],
 
   // avoid cors with proxy

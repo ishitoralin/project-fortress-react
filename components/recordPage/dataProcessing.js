@@ -1,9 +1,18 @@
 import dayjs from 'dayjs';
 
-const toPlotFormat = (plotData, datasetPointColor, datasetLineColor) => {
+const toPlotFormat = (
+  plotData,
+  plotType,
+  datasetPointColor,
+  datasetLineColor
+) => {
   const datasets = plotData.map((datas, i) => {
     const xy = datas.map((data) => {
-      return { x: dayjs(data.date), y: data.volumn };
+      if (plotType === 'volumn') {
+        return { x: dayjs(data.date), y: data.volumn };
+      } else if (plotType === 'max') {
+        return { x: dayjs(data.date), y: data.quantity };
+      }
     });
     datas = {
       label: datas[0].name,

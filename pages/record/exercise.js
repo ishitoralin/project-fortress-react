@@ -118,7 +118,7 @@ export default function ExercisePage() {
     // console.log(editing);
     if (editing) {
       await fetch(
-        `${process.env.SEAN_API_SERVER}/exercise-record/delete-record`,
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/delete-record`,
         {
           method: 'DELETE',
           headers: {
@@ -137,7 +137,7 @@ export default function ExercisePage() {
       list.map(async (item) => {
         const data = { ...item, date };
         await fetch(
-          `${process.env.SEAN_API_SERVER}/exercise-record/add-record`,
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/add-record`,
           {
             method: 'POST',
             headers: {
@@ -171,7 +171,7 @@ export default function ExercisePage() {
   useEffect(
     () => {
       // === get bodyparts list
-      fetch(`${process.env.SEAN_API_SERVER}/exe-type/body-part`, {
+      fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/exe-type/body-part`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -190,7 +190,7 @@ export default function ExercisePage() {
 
   useDebounceHH(() => {
     fetch(
-      `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`,
       {
         method: 'GET',
         headers: {
@@ -211,7 +211,7 @@ export default function ExercisePage() {
   useDebounceHH(() => {
     // === for selection and search
     fetch(
-      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exe-type/exercise-type/body-part/${bodyPart[0].key}/${keyword}`,
       {
         method: 'GET',
         headers: {
@@ -253,7 +253,7 @@ export default function ExercisePage() {
       setScheduleDate(editDate);
       if (editing) {
         fetch(
-          `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record/${editDate}/${editDate}`,
+          `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/exercise-record/${editDate}/${editDate}`,
           {
             method: 'GET',
             headers: {

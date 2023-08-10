@@ -8,6 +8,14 @@ import { styled } from '@mui/material/styles';
 import { useState, useEffect, useRef } from 'react';
 import { useDebounceHH } from '../customHook/useDebounce';
 
+// >>> radio
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+//<<< radio
+
 // >>> for plot
 import ScatterPlot from './scatterPlot';
 import { useAuth } from '@/context/auth/useAuth';
@@ -44,20 +52,21 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
   const dateDefault = { start: null, end: null };
   const maxPlotNumber = 5;
   const plotCheck = useRef();
+  const [plotType, setPlotType] = useState('volumn');
   const [plotDates, setPlotDates] = useState(dateDefault);
   const [plotBodyPart, setPlotBodyPart] = useState([exerciseInit]); //=== for plot exercise body-part filter
   const [plotKeyword, setPlotKeyword] = useState(''); //=== for plot search keyword
   const [plotExeSelected, setPlotExeSelected] = useState(''); //=== for selected option
   const [plotExeTypes, setPlotExeTypes] = useState([]); //=== exercise select options for plot
   const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
-  const [plotting, setPlotting] = useState(false);
+  // const [plotting, setPlotting] = useState(false);
   const [plotData, setPlotData] = useState([]); //=== data for plot
 
   // >>> plot filter by body part
   useDebounceHH(() => {
     // === for selection and search
     fetch(
-      `${process.env.SEAN_API_SERVER}/exe-type/exercise-type/body-part/${plotBodyPart[0].key}/${plotKeyword}`,
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exe-type/exercise-type/body-part/${plotBodyPart[0].key}/${plotKeyword}`,
       {
         method: 'GET',
         headers: {
@@ -80,20 +89,25 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
 
   useDebounceHH(() => {
     setPlotData([]);
+
+    // >>> fetch data for plot
     plotExeList.map(async (item) => {
-      await fetch(
-        `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`,
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${auth?.accessToken}`,
-          },
-        }
-      )
+      let fetchType;
+      if (plotType === 'volumn') {
+        fetchType = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/exercise-record-plot-volumn/${plotDates.start}/${plotDates.end}/${item.sid}`;
+      } else if (plotType === 'max') {
+        fetchType = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/exercise-record-plot-max/${plotDates.start}/${plotDates.end}/${item.sid}`;
+      }
+
+      await fetch(fetchType, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${auth?.accessToken}`,
+        },
+      })
         .then((r) => r.json())
         .then((data) => {
-          // setPlotData((prev) => [...prev, data.data]);
           setPlotData((prev) =>
             data.data?.length > 0
               ? [...prev, data.data]
@@ -108,10 +122,10 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
           );
         });
     });
-  }, [plotExeList, plotDates]);
+    // <<< fetch data for plot
+  }, [plotExeList, plotDates, plotType]);
+
   plotCheck.current = plotData.filter((e) => e.error);
-  // console.log('check', plotCheck.current);
-  // console.log('data:', plotData);
 
   // ================================================================
   // >>> filter exercise by body part
@@ -130,7 +144,6 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
     const selectItem = plotExeTypes.filter(
       (e) => e.exercise_name === plotExeSelected
     );
-    // console.log(selectItem);
     setPlotExeList((prev) => {
       if (prev.some((obj) => obj.exercise_name === plotExeSelected)) {
         return prev;
@@ -151,19 +164,6 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
   const handleSearch = (e) => {
     setPlotKeyword(e.target.value);
   };
-  // <<< search by keyword
-  // const handlePlot = () => {
-  //   setPlotData([]);
-  //   plotExeList.map(async (item) => {
-  //     await fetch(
-  //       `${process.env.SEAN_API_SERVER}/exercise-record/exercise-record-plot/${plotDates.start}/${plotDates.end}/${item.sid}`
-  //     )
-  //       .then((r) => r.json())
-  //       .then((data) => {
-  //         setPlotData((prev) => [...prev, data.data]);
-  //       });
-  //   });
-  // };
 
   const handleClean = () => {
     setPlotDates(dateDefault);
@@ -171,7 +171,6 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
     // setPlotData([])  //need this?
   };
 
-  // TODO: unfinished
   const handlePDF = () => {
     // console.log(document);
     const plot = document.querySelector('.outputPDF');
@@ -179,7 +178,6 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
     html2canvas(plot).then((canvas) => {
       const border = 5;
       const rescale = 1.0;
-      // const x =
       const imgWidth =
         output.internal.pageSize.getHeight() * rescale - border * 2;
       const imgHeight = (canvas.height / canvas.width) * imgWidth;
@@ -187,7 +185,7 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
       output.addImage(
         image,
         'JPEG',
-        border,
+        (output.internal.pageSize.getWidth() - imgHeight) / 2,
         border - imgHeight,
         imgWidth,
         imgHeight,
@@ -195,11 +193,10 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
         1,
         270
       );
-      output.save(`${auth.user.name}_${plotDates.start}_${plotDates.end}.pdf`);
-      console.log(plotExeList);
+      output.save(
+        `${auth.user.name}_${plotType}_${plotDates.start}_${plotDates.end}.pdf`
+      );
     });
-
-    // console.log(plot);
   };
 
   // ================================================================
@@ -230,6 +227,32 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
               }}
             >
               <h1>展示你的訓練記錄</h1>
+              <FormControl>
+                <FormLabel id="plot-type-label">Gender</FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="plot-type-label"
+                  name="plot-type-radio"
+                  value={plotType}
+                  onChange={(e) => setPlotType(e.target.value)}
+                >
+                  <FormControlLabel
+                    value="volumn"
+                    control={<Radio />}
+                    label="volumn"
+                  />
+                  <FormControlLabel
+                    value="max"
+                    control={<Radio />}
+                    label="Max"
+                  />
+                  {/* <FormControlLabel
+                    value="other"
+                    control={<Radio />}
+                    label="Other"
+                  /> */}
+                </RadioGroup>
+              </FormControl>
               <Box
                 sx={{
                   display: 'flex',
@@ -422,9 +445,7 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                     plotExeList.length === 0
                   }
                   onClick={() => {
-                    // console.log(123);
                     handlePDF();
-                    // console.log(123);
                   }}
                 >
                   輸出PDF
@@ -459,7 +480,9 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                   ))}
                 </Box>
               ) : (
-                plotData.length > 0 && <ScatterPlot plotData={plotData} />
+                plotData.length > 0 && (
+                  <ScatterPlot plotData={plotData} plotType={plotType} />
+                )
               )
             ) : (
               'description'
