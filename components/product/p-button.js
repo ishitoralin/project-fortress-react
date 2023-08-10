@@ -54,7 +54,7 @@ export default function PButton(...props) {
                 variant="contained"
                 onClick={props.onClick}
               >
-                健身器材
+                健身食品
               </Button>
             </Link>
           </div>
@@ -79,7 +79,7 @@ export default function PButton(...props) {
                 variant="contained"
                 onClick={props.onClick}
               >
-                健身食品
+                健身器材
               </Button>
             </Link>
           </div>

@@ -9,7 +9,6 @@ export default function ListCard({ data = [], cid }) {
   return (
     <>
       <div className={`${styles['list-Cardcontainer']}`}>
-      
         {data.map((v, i) => {
           return (
             <CUICard key={v.sid} className={`${styles['smallCard']}`}>
@@ -19,9 +18,9 @@ export default function ListCard({ data = [], cid }) {
               >
                 <div className={`${styles['product-img-container']}`}>
                   <img
-                    src={`http://localhost:3001/imgs/product/${
-                      v.picture.split(',')[0]
-                    }`}
+                    src={`${
+                      process.env.NEXT_PUBLIC_BACKEND_PORT
+                    }/imgs/product/${v.picture.split(',')[0]}`}
                   />
                 </div>
               </Link>

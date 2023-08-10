@@ -21,8 +21,14 @@ export default function ProductPage({ data, cid }) {
             siblingCount={0}
             page={data.page}
             onChange={(e, page) => {
-            //   console.log(router.pathname.find());
-              //   router.push(`${router.asPath}?page=${page}`);
+              console.log(router.asPath);
+              console.log(router.query.page);
+              router.push(
+                `${router.asPath.replace(
+                  `?page=${router.query.page}`,
+                  ''
+                )}?page=${page}`
+              );
             }}
           />
         </Stack>

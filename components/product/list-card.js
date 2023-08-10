@@ -11,6 +11,7 @@ export default function ListCard({ data = [], cid }) {
   console.log(data.length);
   const { auth } = useAuth();
   const router = useRouter();
+
   return (
     <>
       <div className={`${styles['list-Cardcontainer']}`}>
@@ -29,7 +30,7 @@ export default function ListCard({ data = [], cid }) {
                 tabIndex="0"
               >
                 <img
-                  src={`http://localhost:3001/imgs/product/${
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/product/${
                     v.picture.split(',')[0]
                   }`}
                 />
@@ -59,7 +60,7 @@ export default function ListCard({ data = [], cid }) {
                         item_sid: v.sid,
                         quantity: 1,
                       });
-                      fetch('http://localhost:3001/SCadd', {
+                      fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`, {
                         method: 'POST',
                         body: jsonData,
                         headers: {
