@@ -9,9 +9,9 @@ import {
 
 import styles from '@/styles/homepage.module.css';
 import BarBell from '@/components/hh/BarBell';
+import Navbar from '@/components/layout/navbar';
 import LogoIcon from '@/assets/logo';
 import ScrollContent from '@/components/hh/ScrollContent';
-import { style } from 'd3';
 
 export const scrollData = {
   section: null,
@@ -25,6 +25,7 @@ const clamp = (x, min, max) => Math.min(Math.max(x, min), max);
 const HomePage = () => {
   const lenRef = useRef();
   const [sixDelta, setSixDelta] = useState(0);
+  const [reachSix, setReachSix] = useState(false);
 
   useEffect(() => {
     lenRef.current.style.setProperty('--s', 0);
@@ -48,9 +49,12 @@ const HomePage = () => {
       const lenScale = lenRef.current.style.getPropertyValue('--s');
       lenRef.current.style.setProperty(
         '--s',
-        scrollData.section === '3&4' ? 0 : lenScale === '0.9' ? 1.25 : 0.9
+        scrollData.section === '3&4' ? 0 : lenScale === '0.9' ? 1.1 : 0.9
       );
     }, 1000);
+
+    setReachSix(localStorage.getItem('reach-six') || false);
+    console.log(localStorage.getItem('reach-six'));
 
     return () => {
       window.removeEventListener('mousemove', trackPointer);
@@ -58,8 +62,21 @@ const HomePage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (sixDelta === 0) return;
+    if (reachSix) return;
+    setReachSix(true);
+    localStorage.setItem('reach-six', true);
+  }, [sixDelta]);
+
   return (
     <>
+      <Navbar
+        boxStyle={{
+          top: sixDelta > 0 || reachSix ? 0 : '-60px',
+          transition: '.5s',
+        }}
+      />
       <div ref={lenRef} className={styles['len']}></div>
       <div className={styles['main-box']}>
         <Canvas>
@@ -75,7 +92,7 @@ const HomePage = () => {
               />
             </Suspense>
             <Scroll html>
-              <ScrollContent setSixDelta={setSixDelta} />
+              <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
             </Scroll>
           </ScrollControls>
           {/* <OrbitControls enableZoom={false} /> */}

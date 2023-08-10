@@ -213,7 +213,7 @@ const getInitState = () => {
   return new Map(initState);
 };
 
-export default function Navbar() {
+export default function Navbar({ boxStyle }) {
   const router = useRouter();
   const { auth, logout } = useAuth();
 
@@ -256,7 +256,7 @@ export default function Navbar() {
   }, [router]);
 
   return (
-    <Stack sx={navbarStyle} direction={'row'}>
+    <Stack sx={{ ...navbarStyle, ...boxStyle }} direction={'row'}>
       <Box sx={logoBoxStyle} onClick={closeLinks}>
         <Link href="/" style={{ height: '50px' }}>
           <LogoIcon width={150} height={50} />

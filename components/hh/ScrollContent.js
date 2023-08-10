@@ -121,13 +121,12 @@ const ShopTemplate = ({ className, shopSectionDelta }) => {
   );
 };
 
-const ScrollContent = ({ setSixDelta }) => {
+const ScrollContent = ({ reachSix, setSixDelta }) => {
   const scroll = useScroll();
   const [draw, setDraw] = useState(false);
   const [sectionTwoDelta, setSectionTwoDelta] = useState(0);
   const [imgSectionDelta, setImgSectionDelta] = useState(0);
   const [shopSectionDelta, setShopSectionDelta] = useState(0);
-  // const [afterSixDelta, setAfterSixDelta] = useState(0);
   const [location, setLocation] = useState(locations[0]);
 
   useFrame(() => {
@@ -149,15 +148,16 @@ const ScrollContent = ({ setSixDelta }) => {
     scroll.horizontal = inSectionFive < 1 && inSectionFive > 0;
 
     setSixDelta(Math.floor(scroll.range(9.5 / 12, 2 / 12) * 100) * 0.01);
-    // setAfterSixDelta(scroll.range(8.6 / 12, 3.5 / 12));
   });
 
   return (
     <>
       <section className={styles['section-one']}>
-        <div className={styles['logoBox']}>
-          <LogoIcon width={240} height={80} />
-        </div>
+        {!reachSix && (
+          <div className={styles['logoBox']}>
+            <LogoIcon width={240} height={80} />
+          </div>
+        )}
         <h1>為你的身體築一座堡壘</h1>
         <ShopTemplate
           className={styles['section-shop']}
@@ -278,24 +278,6 @@ const ScrollContent = ({ setSixDelta }) => {
       <section className={styles['section-five']}>
         <h2>全台據點</h2>
         <SectionMap location={location} setLocation={setLocation} />
-      </section>
-      {/* <section className={styles['section-empty']}></section> */}
-      <section className={styles['section-empty']}></section>
-      <section className={styles['section-six']}>
-        {/* <div
-          className={styles['go-transform']}
-          style={{
-            // '--s': afterSixDelta,
-            '--y': `${afterSixDelta * 143}rem`,
-            // '--z': `${-100}rem`,
-          }}
-        >
-          <LogoIcon
-            fill={afterSixDelta > 0 ? 'red' : ''}
-            width={540}
-            height={180}
-          />
-        </div> */}
       </section>
     </>
   );

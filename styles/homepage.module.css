@@ -18,13 +18,12 @@
   background-color: aliceblue;
   position: fixed;
   mix-blend-mode: difference;
-  top: var(--y);
-  left: var(--x);
   border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  transition: transform 1s ease-in-out;
-  transform: scale(var(--s));
+  --s: 1;
+  width: calc(100px * var(--s));
+  height: calc(100px * var(--s));
+  transition: all 1s ease, transform 0s;
+  transform: perspective(500px) translate3d(var(--x), var(--y), 1.25rem);
   z-index: 99;
   pointer-events: none;
 }
