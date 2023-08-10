@@ -31,15 +31,17 @@ export default function Index() {
           router.query.cid
         }?page=${router.query?.page ? router.query?.page : 1}`
       )
+        // &keyword=${
+        //router.query?.keyword ? router.query?.keyword : ''}
+
         .then((res) => res.json())
         .then((data) => {
-          console.log(data.data);
+          console.log(data);
           setData(data.data);
           setOutput(data.output);
         });
     }
   }, [router.query]);
-  console.log(data.data);
   return (
     <>
       {/* <div>有芬頁</div> */}
