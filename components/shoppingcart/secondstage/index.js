@@ -32,7 +32,7 @@ export default function SecondStage() {
 
   // 從DB抓取產品列表
   useEffect(() => {
-    fetch('http://localhost:3001/OLbuyerData', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/OLbuyerData`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,

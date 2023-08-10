@@ -40,7 +40,7 @@ export default function ProductList() {
   };
 
   useEffect(() => {
-    fetch('http://localhost:3001/cart/', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,
@@ -77,10 +77,13 @@ export default function ProductList() {
   // quantity更新api(給+ -及input用)
   const updateQuantity = async (order_sid, newQuantity) => {
     try {
-      await axios.put(`http://localhost:3001/SCeditquantity/${order_sid}`, {
-        order_sid: order_sid,
-        quantity: newQuantity,
-      });
+      await axios.put(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCeditquantity/${order_sid}`,
+        {
+          order_sid: order_sid,
+          quantity: newQuantity,
+        }
+      );
     } catch (error) {
       console.error('Error updating quantity:', error);
     }
@@ -89,7 +92,9 @@ export default function ProductList() {
   // 刪除商品API(給delete用)
   const deleteItem = async (order_sid) => {
     try {
-      await axios.delete(`http://localhost:3001/SCdelete/${order_sid}`);
+      await axios.delete(
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCdelete/${order_sid}`
+      );
     } catch (error) {
       console.log('error to delete item');
     }

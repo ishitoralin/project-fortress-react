@@ -12,7 +12,7 @@ import { toast } from 'react-hot-toast';
 export default function Delivery(props) {
   const [deliveryMethod, setDeliveryMethod] = useState([]);
   useEffect(() => {
-    fetch('http://localhost:3001/OLdeliveryMethod', {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/OLdeliveryMethod`, {
       method: 'GET',
     })
       .then((r) => r.json())

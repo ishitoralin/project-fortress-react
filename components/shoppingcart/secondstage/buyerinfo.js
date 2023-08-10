@@ -26,7 +26,7 @@ export default function BuyerInfo(props) {
   };
 
   const importData = async () => {
-    await fetch('http://localhost:3001/OLautofillinfo', {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/OLautofillinfo`, {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,

@@ -26,7 +26,7 @@ export default function CheckButton(props) {
   console.log(props.confirmInfo, props.delivery);
 
   const checkConfirm = async () => {
-    await fetch('http://localhost:3001/OLdelivery', {
+    await fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/OLdelivery`, {
       method: 'POST',
       body: JSON.stringify({
         ...props.confirmInfo,
