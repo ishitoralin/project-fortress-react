@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
@@ -79,6 +79,8 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
   const { auth } = useAuth();
   setAuthCache(auth);
 
+  const anchorRef = useRef();
+
   useEffect(() => {
     if (!auth.user?.id) return;
     (async () => {
@@ -87,9 +89,16 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
     })();
   }, [auth]);
 
+  useEffect(() => {
+    anchorRef.current.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  }, [lessons]);
+
   return (
     <BreakPointTheme>
-      <Box sx={{ py: 4 }}>
+      <Box sx={{ py: 4 }} ref={anchorRef}>
         <BrickWallPaper
           brickstyle={{
             scale: 2,
@@ -126,6 +135,7 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
                 <Image
                   fill
                   alt="coach-img"
+                  sizes="15vw"
                   style={{
                     objectFit: 'cover',
                     objectPosition: 'center top',

@@ -125,6 +125,7 @@ const CertainLessonPage = ({ categoryId, category, initLessons }) => {
               alt="lesson-img"
               src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${category.img}`}
               blurDataURL={`/lesson-img/${category.img_base64}`}
+              sizes="80vw"
               fill
               style={{ objectFit: 'cover' }}
             />

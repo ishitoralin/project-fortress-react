@@ -111,6 +111,9 @@ const LessionPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false);
 
+  const anchorRef = useRef();
+  const rightSideRef = useRef();
+
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
     dateAfter: dateAfterRef.current.value,
@@ -118,6 +121,13 @@ const LessionPage = (props) => {
     price: priceRef.current,
     tags: selectTags,
   });
+
+  useEffect(() => {
+    anchorRef.current.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  }, [lessons]);
 
   const setLocation = (newLocation) => {
     setQueryObject((prev) => ({
@@ -247,7 +257,7 @@ const LessionPage = (props) => {
           >
             尋找您喜愛的課程
           </Typography>
-          <Box sx={flexRowSpaceBetween}>
+          <Box ref={anchorRef} sx={flexRowSpaceBetween}>
             <CUIFilter
               sx={
                 filterShow
@@ -353,6 +363,7 @@ const LessionPage = (props) => {
               ]}
             />
             <RightSide
+              rightSideRef={rightSideRef}
               showFilter={showFilter}
               location={location}
               setLocation={setLocation}

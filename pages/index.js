@@ -54,7 +54,6 @@ const HomePage = () => {
     }, 1000);
 
     setReachSix(localStorage.getItem('reach-six') || false);
-    console.log(localStorage.getItem('reach-six'));
 
     return () => {
       window.removeEventListener('mousemove', trackPointer);

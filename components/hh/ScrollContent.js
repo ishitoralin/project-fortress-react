@@ -113,7 +113,12 @@ const ShopTemplate = ({ className, shopSectionDelta }) => {
               '--s': `${productData[index]['s']}`,
             }}
           >
-            <Image fill alt="product-img" src={`/homepage-img/${img}`} />
+            <Image
+              sizes="10vw"
+              fill
+              alt="product-img"
+              src={`/homepage-img/${img}`}
+            />
           </div>
         ))}
       </div>
@@ -201,6 +206,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
           >
             <Image
               fill
+              sizes="15vw"
               className={`${styles['go-transform']}`}
               style={{
                 '--s': `${imgSectionDelta / 2 + 1}`,
@@ -219,6 +225,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
           >
             <Image
               fill
+              sizes="15vw"
               className={`${styles['go-transform']}`}
               style={{
                 '--s': `${imgSectionDelta / 2 + 1}`,
@@ -241,6 +248,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
           >
             <Image
               fill
+              sizes="15vw"
               className={`${styles['go-transform']}`}
               style={{
                 '--s': `${imgSectionDelta / 2 + 1}`,
@@ -259,6 +267,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
           >
             <Image
               fill
+              sizes="15vw"
               className={`${styles['go-transform']}`}
               style={{
                 '--s': `${imgSectionDelta / 2 + 1}`,
