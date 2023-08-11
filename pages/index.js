@@ -110,6 +110,6 @@ const HomePage = () => {
   );
 };
 
-// HomePage.getLayout = (page) => <>{page}</>;
+HomePage.getLayout = (page) => <>{page}</>;
 
 export default HomePage;
