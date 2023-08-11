@@ -33,11 +33,11 @@ const HomePage = () => {
     const trackPointer = (event) => {
       lenRef.current.style.setProperty(
         '--x',
-        `${clamp(event.clientX - 50, 25, window.innerWidth - 125)}px`
+        `${clamp(event.clientX - 50, 25, window.innerWidth - 200)}px`
       );
       lenRef.current.style.setProperty(
         '--y',
-        `${clamp(event.clientY - 50, 25, window.innerHeight - 125)}px`
+        `${clamp(event.clientY - 50, 60, window.innerHeight - 150)}px`
       );
     };
 

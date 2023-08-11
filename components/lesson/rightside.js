@@ -78,11 +78,10 @@ const RightSide = ({
   setLocation,
   displayMode,
   sortLessons,
-  rightSideRef,
 }) => {
   if (!Array.isArray(lessons)) throw new Error('lessons should be Array type');
   return (
-    <Box ref={rightSideRef} sx={rightSideStyle}>
+    <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
         <Box>
           <ToggleButtonGroup

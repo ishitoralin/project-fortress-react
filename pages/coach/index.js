@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 import { Box, Typography, ToggleButtonGroup, Container } from '@mui/material';
 
@@ -24,6 +24,14 @@ const initLocation = 'taipei';
 const CoachListPage = ({ allCoachs }) => {
   const [location, setLocation] = useState([initLocation]);
   const [coachs, setCoachs] = useState(getFilterCoachs([initLocation]));
+  const topRef = useRef();
+
+  useEffect(() => {
+    topRef.current.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  });
 
   function getFilterCoachs(locations) {
     return allCoachs.filter(
@@ -32,7 +40,7 @@ const CoachListPage = ({ allCoachs }) => {
   }
 
   return (
-    <Box>
+    <Box ref={topRef}>
       <BrickWallPaper scale={1.6} rotate={7.5} />
       <Container sx={{ paddingBlock: { xs: '1rem', sm: '3rem' } }}>
         <Box sx={{ textAlign: 'center', marginBlock: 5 }}>

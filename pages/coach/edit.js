@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Box,
   IconButton,
@@ -19,14 +19,17 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import Layout from '@/components/layout/layout';
 import ProtectedRouteWrapper from '@/components/protected-route';
 
-const iconStyle = {
-  bgcolor: 'var(--steel-grey)',
-  borderRadius: '5px',
-  color: 'white',
-  ':hover': {
-    bgcolor: 'var(--steel-light-grey)',
-  },
-};
+import {
+  mainContainerStyle,
+  iconStyle,
+  editCardStyle,
+  imgBoxStyle,
+  editBoxStyle,
+  nameBoxStyle,
+  iconBoxStyle,
+  introBoxStyle,
+  introEditModeStyle,
+} from '@/styles/coach-style/coach-edit-style';
 
 const CoachEditPage = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -34,32 +37,13 @@ const CoachEditPage = () => {
   return (
     <Box>
       <BrickWallPaper scale={1.75} rotate={5} />
-      <Container sx={{ p: 4 }}>
-        <CUICard
-          sx={{
-            position: 'relative',
-            p: 4,
-            bgcolor: '#eee',
-            display: 'flex',
-            flexDirection: {
-              xs: 'column',
-              sm: 'row',
-            },
-            flexWrap: 'wrap',
-          }}
-        >
-          <CUICard
-            sx={{
-              borderRadius: '5px',
-              overflow: 'hidden',
-              position: 'relative',
-              height: { xs: '150px', sm: '200px' },
-              width: { xs: '150px', sm: '200px' },
-            }}
-          >
+      <Container sx={mainContainerStyle}>
+        <CUICard sx={editCardStyle}>
+          <CUICard sx={imgBoxStyle}>
             <Image
               alt="coach-img"
               fill
+              sizes="20vw"
               src="/coach-img/hannah.jpg"
               style={{
                 objectFit: 'cover',
@@ -67,27 +51,8 @@ const CoachEditPage = () => {
               }}
             />
           </CUICard>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              flex: 1,
-              justifyContent: 'space-evenly',
-              paddingBlock: 2,
-              marginLeft: { xs: 0, sm: '2rem' },
-            }}
-          >
-            <Box
-              sx={{
-                display: 'flex',
-                flex: 1,
-                justifyContent: 'space-between',
-                flexDirection: {
-                  xs: 'column-reverse',
-                  md: 'row',
-                },
-              }}
-            >
+          <Box sx={editBoxStyle}>
+            <Box sx={nameBoxStyle}>
               <Box>
                 {isEdit ? (
                   <TextField
@@ -107,17 +72,7 @@ const CoachEditPage = () => {
                   <Typography variant="h5">Hannah</Typography>
                 )}
               </Box>
-              <Box
-                sx={{
-                  marginLeft: 'auto',
-                  position: {
-                    xs: 'absolute',
-                    sm: 'static',
-                  },
-                  top: '3rem',
-                  right: '3rem',
-                }}
-              >
+              <Box sx={iconBoxStyle}>
                 {isEdit ? (
                   <>
                     <IconButton
@@ -143,16 +98,7 @@ const CoachEditPage = () => {
                 )}
               </Box>
             </Box>
-            <Box
-              sx={{
-                width: '100%',
-                marginTop: '1rem',
-                display: {
-                  xs: 'none',
-                  md: 'block',
-                },
-              }}
-            >
+            <Box sx={introBoxStyle}>
               {isEdit ? (
                 <TextField
                   color="steel_grey"
@@ -170,16 +116,7 @@ const CoachEditPage = () => {
               )}
             </Box>
           </Box>
-          <Box
-            sx={{
-              width: '100%',
-              display: {
-                xs: 'block',
-                md: 'none',
-              },
-              marginTop: '1rem',
-            }}
-          >
+          <Box sx={introEditModeStyle}>
             {isEdit ? (
               <TextField
                 color="steel_grey"

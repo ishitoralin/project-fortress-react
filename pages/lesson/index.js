@@ -93,6 +93,7 @@ const shrinkString = (str) => {
 
 const LessionPage = (props) => {
   const router = useRouter();
+  const renderTimeRef = useRef(0);
 
   const { auth } = useAuth();
   setAuthCache(auth);
@@ -112,7 +113,8 @@ const LessionPage = (props) => {
   const [filterShow, setFilterShow] = useState(false);
 
   const anchorRef = useRef();
-  const rightSideRef = useRef();
+  const topRef = useRef();
+  // const rightSideRef = useRef();
 
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
@@ -123,6 +125,14 @@ const LessionPage = (props) => {
   });
 
   useEffect(() => {
+    if (renderTimeRef.current < 2) {
+      renderTimeRef.current += 1;
+      topRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      });
+      return;
+    }
     anchorRef.current.scrollIntoView({
       block: 'start',
       behavior: 'smooth',
@@ -173,6 +183,9 @@ const LessionPage = (props) => {
 
   useEffect(() => {
     if (Object.keys(queryObject).length === 0) return;
+    if (Object.keys(queryObject).length !== 1) {
+      renderTimeRef.current = 2;
+    }
     setDisplayMode(SKELETONMODE);
     // check if lessons data already cache
     const cacheLessonDatas = queryDatasCache.get(
@@ -246,7 +259,7 @@ const LessionPage = (props) => {
   }, [router.isReady]);
 
   return (
-    <Box>
+    <Box ref={topRef}>
       <Banner />
       <Box sx={mainContentStyle}>
         <Container sx={containerStyle}>
@@ -363,7 +376,6 @@ const LessionPage = (props) => {
               ]}
             />
             <RightSide
-              rightSideRef={rightSideRef}
               showFilter={showFilter}
               location={location}
               setLocation={setLocation}
