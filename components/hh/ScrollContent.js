@@ -171,7 +171,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
         <div
           className={`${styles['section-one-map']} ${styles['go-transform']}`}
           style={{
-            '--x': `${shopSectionDelta * 128.975}rem`,
+            '--x': `${shopSectionDelta * 134.5}vw`,
           }}
         >
           <h2>全台據點</h2>

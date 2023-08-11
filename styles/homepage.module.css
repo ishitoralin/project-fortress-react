@@ -53,11 +53,15 @@
 }
 
 .section-one-map {
-  margin-top: 10vh;
+  margin-top: 15vh;
   position: absolute;
   width: 100vw;
   height: 100%;
   right: 50vw;
+}
+
+.section-five {
+  padding-top: 1.77vh;
 }
 
 .section-one {
@@ -126,7 +130,7 @@
 }
 
 .shop-style h2 {
-  margin-top: 5rem;
+  margin-top: 15vh;
   margin-left: 5rem;
 }
 
