@@ -105,7 +105,7 @@ export default function MyProducts() {
               },
             }}
             filterIcon={
-              <IconButton onClick={() => {}}>
+              <IconButton sx={{ display: 'none' }} onClick={() => {}}>
                 <CancelIcon />
               </IconButton>
             }
@@ -301,8 +301,30 @@ export default function MyProducts() {
                       <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                         ${el?.price.toLocaleString()}
                       </Typography>
-                      <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                        <IconButton
+                      <Box
+                        sx={{
+                          display: 'flex',
+                          justifyContent: 'flex-end',
+                          gap: '5px',
+                        }}
+                      >
+                        <CUIButton
+                          color="steel_grey"
+                          onClick={() => {
+                            axios.post(
+                              `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`,
+                              {
+                                products_type_sid: el.category_sid,
+                                item_sid: el.product_sid,
+                                quantity: 1,
+                              }
+                            );
+                            toast.success('已加入購物車');
+                          }}
+                        >
+                          加入購物車
+                        </CUIButton>
+                        <CUIButton
                           onClick={() => {
                             const deleteFavoriteProducts = async () => {
                               const res = await axios.delete(
@@ -340,8 +362,8 @@ export default function MyProducts() {
                             '&:hover': { fill: 'red', cursor: 'pointer' },
                           }}
                         >
-                          <DeleteIcon />
-                        </IconButton>
+                          取消收藏
+                        </CUIButton>
                       </Box>
                     </CUICard>
                   </Box>
