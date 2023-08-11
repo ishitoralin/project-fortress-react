@@ -117,6 +117,7 @@ const LessonCard = ({ lesson, setLessons, coachcard }) => {
             </Link>
             <Image
               className="lesson_card_img"
+              sizes="50vw"
               alt="lessonImg"
               src={
                 coachcard

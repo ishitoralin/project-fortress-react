@@ -50,16 +50,6 @@ const BarBell = (props) => {
       '>'
     );
 
-    // timeLineRef.current.to(
-    //   barbellRef.current.rotation,
-    //   {
-    //     duration: 5,
-    //     y: Math.PI * 4,
-    //     z: 0,
-    //   },
-    //   '+=0'
-    // );
-
     timeLineRef.current.to(
       barbellRef.current.position,
       {

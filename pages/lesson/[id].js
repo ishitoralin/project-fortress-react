@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useState } from 'react';
+import { Fragment, useEffect, useState, useRef } from 'react';
 import { Box, Chip, Container, Grid, Typography } from '@mui/material';
 import CUICard from '@/components/customUI/cui-card';
 
@@ -82,6 +82,7 @@ const CertainLessonPage = ({ categoryId, category, initLessons }) => {
   setAuthCache(auth);
 
   const [lessons, setLessons] = useState(initLessons);
+  const topRef = useRef();
 
   const lessonsGate = [
     {
@@ -115,8 +116,15 @@ const CertainLessonPage = ({ categoryId, category, initLessons }) => {
     })();
   }, [auth]);
 
+  useEffect(() => {
+    topRef.current.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  }, []);
+
   return (
-    <Box>
+    <Box ref={topRef}>
       <BrickWallPaper />
       <Container sx={containerStyle}>
         <Box sx={cardBoxStyle}>
@@ -125,6 +133,7 @@ const CertainLessonPage = ({ categoryId, category, initLessons }) => {
               alt="lesson-img"
               src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/lesson/lessons-img/${category.img}`}
               blurDataURL={`/lesson-img/${category.img_base64}`}
+              sizes="80vw"
               fill
               style={{ objectFit: 'cover' }}
             />

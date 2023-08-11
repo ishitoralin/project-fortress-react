@@ -37,6 +37,7 @@ const CoachCard = ({ coachdata }) => {
           <Image
             fill
             alt="coach-img"
+            sizes="50vw"
             style={{
               objectFit: 'cover',
               objectPosition: 'center top',

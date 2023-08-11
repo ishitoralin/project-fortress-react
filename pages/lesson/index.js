@@ -93,6 +93,7 @@ const shrinkString = (str) => {
 
 const LessionPage = (props) => {
   const router = useRouter();
+  const renderTimeRef = useRef(0);
 
   const { auth } = useAuth();
   setAuthCache(auth);
@@ -111,6 +112,10 @@ const LessionPage = (props) => {
 
   const [filterShow, setFilterShow] = useState(false);
 
+  const anchorRef = useRef();
+  const topRef = useRef();
+  // const rightSideRef = useRef();
+
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
     dateAfter: dateAfterRef.current.value,
@@ -118,6 +123,21 @@ const LessionPage = (props) => {
     price: priceRef.current,
     tags: selectTags,
   });
+
+  useEffect(() => {
+    if (renderTimeRef.current < 2) {
+      renderTimeRef.current += 1;
+      topRef.current.scrollIntoView({
+        block: 'start',
+        behavior: 'smooth',
+      });
+      return;
+    }
+    anchorRef.current.scrollIntoView({
+      block: 'start',
+      behavior: 'smooth',
+    });
+  }, [lessons]);
 
   const setLocation = (newLocation) => {
     setQueryObject((prev) => ({
@@ -163,6 +183,9 @@ const LessionPage = (props) => {
 
   useEffect(() => {
     if (Object.keys(queryObject).length === 0) return;
+    if (Object.keys(queryObject).length !== 1) {
+      renderTimeRef.current = 2;
+    }
     setDisplayMode(SKELETONMODE);
     // check if lessons data already cache
     const cacheLessonDatas = queryDatasCache.get(
@@ -236,7 +259,7 @@ const LessionPage = (props) => {
   }, [router.isReady]);
 
   return (
-    <Box>
+    <Box ref={topRef}>
       <Banner />
       <Box sx={mainContentStyle}>
         <Container sx={containerStyle}>
@@ -247,7 +270,7 @@ const LessionPage = (props) => {
           >
             尋找您喜愛的課程
           </Typography>
-          <Box sx={flexRowSpaceBetween}>
+          <Box ref={anchorRef} sx={flexRowSpaceBetween}>
             <CUIFilter
               sx={
                 filterShow

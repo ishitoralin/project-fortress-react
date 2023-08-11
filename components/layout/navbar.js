@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Box, Collapse, Stack, IconButton } from '@mui/material';
+import { Box, Collapse, Stack, IconButton, Icon } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';
@@ -213,7 +214,7 @@ const getInitState = () => {
   return new Map(initState);
 };
 
-export default function Navbar() {
+export default function Navbar({ boxStyle }) {
   const router = useRouter();
   const { auth, logout } = useAuth();
 
@@ -256,7 +257,7 @@ export default function Navbar() {
   }, [router]);
 
   return (
-    <Stack sx={navbarStyle} direction={'row'}>
+    <Stack sx={{ ...navbarStyle, ...boxStyle }} direction={'row'}>
       <Box sx={logoBoxStyle} onClick={closeLinks}>
         <Link href="/" style={{ height: '50px' }}>
           <LogoIcon width={150} height={50} />
@@ -280,7 +281,7 @@ export default function Navbar() {
               onClick={() => toggleLink('coachLesson')}
               links={expandData['coachLesson']}
             >
-              課程與教練
+              課程與教練🞃
             </ExpandItem>
             <Item
               href="/product"

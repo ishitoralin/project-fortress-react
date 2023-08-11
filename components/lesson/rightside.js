@@ -2,11 +2,8 @@ import { Box, IconButton, ToggleButtonGroup } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import SortIcon from '@mui/icons-material/Sort';
 
-import React from 'react';
-
 import LessonCard from './lesson-card';
 import UiButton from '../hh/UiButton';
-import { isArray } from 'lodash';
 import CUICard from '../customUI/cui-card';
 import CUISelect from '../customUI/cui-select';
 import LessonCardSkeleton from './lesson-card-skeleton';
@@ -82,7 +79,7 @@ const RightSide = ({
   displayMode,
   sortLessons,
 }) => {
-  if (!isArray(lessons)) throw new Error('lessons should be Array type');
+  if (!Array.isArray(lessons)) throw new Error('lessons should be Array type');
   return (
     <Box sx={rightSideStyle}>
       <Box sx={headerStyle}>
