@@ -144,7 +144,6 @@ export default function CheckButton(props) {
           name="Newebpay"
           action="https://ccore.newebpay.com/MPG/mpg_gateway"
           method="POST"
-          class="payment"
         >
           <input type="hidden" name="MerchantID" value="MS17361556" />
           <input type="hidden" name="TradeInfo" ref={tradeInfoRef} />
@@ -158,7 +157,6 @@ export default function CheckButton(props) {
           <button
             ref={buttonRef}
             type="submit"
-            class="btn btn-secondary custom-btn beside-btn"
             style={{ display: 'none' }}
           ></button>
         </form>
