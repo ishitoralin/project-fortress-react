@@ -3,6 +3,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import styles from '@/styles/shoppingcart.module.css';
 import { v4 as uuidv4 } from 'uuid';
+import dayjs from 'dayjs';
 export default function BuyerInfo() {
   const [buyerInfo, setBuyerInfo] = useState({});
   const [itemList, setItemList] = useState([]);
@@ -25,8 +26,13 @@ export default function BuyerInfo() {
             },
           }
         );
+        console.log(res.data);
         setBuyerInfo(res.data.omdata);
-        setOrderNumber(`J${Date.parse(res.data.omdata.orderNumber)}`);
+        if (dayjs(res.data.omdata.orderNumber).isValid()) {
+          setOrderNumber(`J${Date.parse(res.data.omdata.orderNumber)}`);
+        } else {
+          setOrderNumber(`${res.data.omdata.orderNumber}`);
+        }
       } catch (error) {
         console.log('error');
       }
