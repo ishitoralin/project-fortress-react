@@ -78,7 +78,7 @@ export default function ProductList() {
   const updateQuantity = async (order_sid, newQuantity) => {
     try {
       await axios.put(
-        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCeditquantity/${order_sid}`,
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/SCeditquantity/${order_sid}`,
         {
           order_sid: order_sid,
           quantity: newQuantity,
@@ -93,7 +93,7 @@ export default function ProductList() {
   const deleteItem = async (order_sid) => {
     try {
       await axios.delete(
-        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCdelete/${order_sid}`
+        `${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/SCdelete/${order_sid}`
       );
     } catch (error) {
       console.log('error to delete item');
@@ -282,7 +282,7 @@ export default function ProductList() {
                 {finalQuantity}
               </div>
               <div className={`${styles.countComponentForNumber}`}>
-                小計 : {finalPrice}
+                {finalPrice}
               </div>
             </div>
             {/* 只包含button的元件 */}

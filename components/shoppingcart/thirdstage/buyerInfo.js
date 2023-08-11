@@ -7,8 +7,8 @@ export default function BuyerInfo() {
   const [buyerInfo, setBuyerInfo] = useState({});
   const [itemList, setItemList] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [orderNumber, setOrderNumber] = useState('');
   const [uuid, setUuid] = useState('');
-  const date = Date.parse(new Date());
   const { auth } = useAuth();
   useEffect(() => {
     const recipt = uuidv4();
@@ -26,6 +26,7 @@ export default function BuyerInfo() {
           }
         );
         setBuyerInfo(res.data.omdata);
+        setOrderNumber(`J${Date.parse(res.data.omdata.orderNumber)}`);
       } catch (error) {
         console.log('error');
       }
@@ -78,7 +79,7 @@ export default function BuyerInfo() {
             </div>
             <div>商品數量：{buyerInfo?.amount}</div>
             <div>商品總價：{totalPrice}</div>
-            <div>訂單編號：{`J${date}`}</div>
+            <div>訂單編號：{orderNumber}</div>
           </div>
         </div>
       </div>

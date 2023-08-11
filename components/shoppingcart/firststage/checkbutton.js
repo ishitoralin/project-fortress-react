@@ -12,7 +12,7 @@ export default function CheckButton(props) {
   const RedTheme = createColorTheme('#FF0000');
   const { auth } = useAuth();
   const checkConfirm = () => {
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCconfirm`, {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/SCconfirm`, {
       method: 'POST',
       body: {},
       headers: {

@@ -4,13 +4,13 @@ import createColorTheme from '@/libs/CreateColorTheme';
 import styles from '@/styles/shoppingcart.module.css';
 import Link from 'next/link';
 import { useAuth } from '@/context/auth/useAuth';
+import { toast } from 'react-hot-toast';
 
 export default function CheckButton(props) {
   const WhiteTheme = createColorTheme('#FFF');
   const Deepgrey = createColorTheme('#707070');
   const { auth } = useAuth();
   const sendingEmail = () => {
-    console.log('123');
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/test`, {
       method: 'GET',
       headers: {
@@ -22,6 +22,10 @@ export default function CheckButton(props) {
         console.log(results);
       })
       .catch((error) => console.log(error));
+  };
+
+  const toastSendingEemail = () => {
+    toast.success('已寄送訂單資訊至信箱');
   };
   return (
     <>
@@ -64,7 +68,10 @@ export default function CheckButton(props) {
               },
             }}
             variant="contained"
-            onClick={sendingEmail}
+            onClick={() => {
+              sendingEmail();
+              toastSendingEemail();
+            }}
           >
             寄送明細
           </Button>
