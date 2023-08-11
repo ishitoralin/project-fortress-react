@@ -70,7 +70,6 @@ const Section = styled(Box)(({ theme }) => ({
 
 export default function ExercisePage() {
   const { auth } = useAuth();
-  // console.log(auth.accessToken);
   const pdfLabel = [
     { label: '運動項目', key: 'name' },
     { label: '重量', key: 'quantity' },
@@ -109,13 +108,11 @@ export default function ExercisePage() {
   // const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
 
   // =============================================================
-  // console.log(bodyParts.current);
   // =============================================================
 
   // >>> add/editing schadule
   const handleAddSchedule = async (list, date) => {
     let dataAdded;
-    // console.log(editing);
     if (editing) {
       await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/delete-record`,
@@ -150,23 +147,21 @@ export default function ExercisePage() {
           .then((r) => r.json())
           .then((data) => {
             dataAdded += data.result.affectedRows;
-            // console.log('added');
           });
       });
       //>>> reset
       setExerciseScheduleList([]);
       setScheduleDate(undefined);
       //<<< reset
-      // console.log('added'); // TODO:hot toast
     } else {
-      // console.log('no date'); // TODO:hot toast
+      // console.log('no date'); // maybe hot toast
     }
 
     setEditing(false); //=== reset editing
     setEditDate(null);
   };
   // <<< add/editing schadule
-  // console.log(exerciseScheduleList);
+
   // >>> initiallize
   useEffect(
     () => {
@@ -188,8 +183,8 @@ export default function ExercisePage() {
     2000
   );
 
-  useDebounceHH(() => {
-    fetch(
+  useDebounceHH(async () => {
+    await fetch(
       `${process.env.NEXT_PUBLIC_BACKEND_PORT}/exercise-record/exercise-record/${exerciseStartEnd.start}/${exerciseStartEnd.end}`,
       {
         method: 'GET',
@@ -224,14 +219,12 @@ export default function ExercisePage() {
       .then((data) => {
         setExeType(data.data);
       });
-    // console.log(frontIDs.includes(bodyPart[0].key));
     if (!flipFront && frontIDs.includes(bodyPart[0].key)) {
       setFlipFront(true);
     } else if (flipFront && backIDs.includes(bodyPart[0].key)) {
       setFlipFront(false);
     }
   }, [bodyPart, keyword]);
-  // console.log(bodyParts);
   // >>> filter by body part
 
   // >>> filter exercise by body part
@@ -264,7 +257,6 @@ export default function ExercisePage() {
         ) //=== for exercise record
           .then((r) => r.json())
           .then((data) => {
-            // console.log(data.data);
             setExerciseScheduleList(data.data);
           });
       } else {
@@ -306,7 +298,6 @@ export default function ExercisePage() {
                 justifyContent: 'start',
               }}
             >
-              {/* {console.log(bodyPart)} */}
               <Box sx={{ ...myBGstyle, width: '75%', p: 2 }}>
                 <BodySvg
                   flipFront={flipFront}
@@ -348,7 +339,9 @@ export default function ExercisePage() {
                 justifyContent: 'center',
               }}
             >
-              <SUIScheduleTable sx={{ ...myBGstyle, width: '100%' }}>
+              <SUIScheduleTable
+                sx={{ ...myBGstyle, overflow: 'hidden', width: '100%' }}
+              >
                 <SUISchedule
                   // >>> style
                   myBGstyle={myBGstyle}
@@ -386,18 +379,6 @@ export default function ExercisePage() {
           }}
         >
           <Grid container justifyContent="center" sx={{ width: '100%' }}>
-            {/* <Grid
-            item
-            lg={3}
-            sm={12}
-            sx={{
-              // outline: '3px solid blue',
-              p: 2,
-            }}
-          >
-            <CalendarCardList dates={exerciseDate} />
-          </Grid> */}
-
             {/* ============================================================= */}
 
             <Grid
@@ -414,8 +395,6 @@ export default function ExercisePage() {
                 sx={{ mb: 2 }}
                 disabled={!exerciseRecord}
               >
-                {/* {console.log(exerciseRecord)} */}
-                {/* ADD member's name and month to title of .csv */}
                 {exerciseRecord?.length > 0 ? (
                   <CSVLink
                     data={exerciseRecord.map((e) => ({
@@ -438,7 +417,6 @@ export default function ExercisePage() {
                 updateStartEnd={setExerciseStartEnd}
                 setDate={setEditDate}
               />
-              {/* {console.log(auth.user.name)} */}
             </Grid>
           </Grid>
         </div>
@@ -452,13 +430,6 @@ export default function ExercisePage() {
           myBGstyle={myBGstyle}
         />
       </Box>
-      {/* <CUIButton
-        onClick={() => {
-          toast.success('test');
-        }}
-      >
-        test
-      </CUIButton> */}
     </>
   );
 }

@@ -6,12 +6,16 @@ import { ExeCardDialog } from './sui-card-dialog';
 import CUIDatePicker from '../customUI/cui-date-picker';
 import CUIButton from '../customUI/cui-button';
 import { toast } from 'react-hot-toast';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+// >>> style
+import { SUIScheduleItemNum2 } from '@/styles/record-style/exerciseFirstPage-style';
+//<<< style
 
 const Section = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column',
-  // justifyContent: 'center',
   alignItems: 'center',
 }));
 
@@ -24,7 +28,6 @@ const SUIScheduleItem = styled(Box)(() => ({
   justifyContent: 'center',
   alignItems: 'center',
   height: '2.5rem',
-  // backgroundColor: 'lightgreen',
   padding: '10px',
   borderRadius: '0px',
   borderWidth: `${myBorderWidth} 0 ${myBorderWidth} ${myBorderWidth}`,
@@ -37,7 +40,7 @@ function SUISchedule({
   scheduleTitleStyle,
   scheduleItemWdith = ['58%', '18%', '12%', '12%'],
   // <<< style
-  type, // exercise/died
+  type, // exercise/diet
   editing,
   setEditing,
   // >>> 規劃暫存清單
@@ -54,22 +57,30 @@ function SUISchedule({
   // >>> dialog control
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
-
   const handleDialogClose = () => {
     setDialogOpen(false);
   };
-
   const handleDialogOpen = (item) => {
-    // console.log(item, 'L61');
     setSelectedItem(item);
     setDialogOpen(true);
   };
   // <<< dialog control
 
+  // >>> for DND
+  // const [list, setList] = useState(items);
+  const handleDragEnd = (result) => {
+    if (!result.destination) return;
+
+    const reorderedList = Array.from(scheduleList);
+    const [removed] = reorderedList.splice(result.source.index, 1);
+    reorderedList.splice(result.destination.index, 0, removed);
+
+    setScheduleList(reorderedList);
+  };
+  //<<< for DND
+
   const handleDelete = (item) => {
     const updateList = [...scheduleList];
-    // console.log(item);
-    // console.log(scheduleList);
     setScheduleList(
       updateList.filter((ele) => {
         return ele.id !== item.id || ele.sid !== item.sid;
@@ -127,7 +138,6 @@ function SUISchedule({
               bgcolor: 'var(--steel-grey)',
             }}
             onClick={(e) => {
-              // console.log('123');
               setEditing(false);
               setScheduleList([]);
               setScheduleDate(null);
@@ -176,22 +186,22 @@ function SUISchedule({
           // height: '100%',
           overflow: 'auto',
           position: 'relative',
-          // '&::-webkit-scrollbar': {
-          //   width: 20,
-          // },
-          // '&::-webkit-scrollbar-track': {
-          //   backgroundColor: 'var(--deepgrey)',
-          //   borderRadius: '5px',
-          // },
-          // '&::-webkit-scrollbar-thumb': {
-          //   borderRadius: '5px',
-          //   backgroundColor: 'var(--steel-grey)',
-          //   transition: '.5s',
-          //   '&:hover': {
-          //     filter: 'brightness(0.85)',
-          //     backgroundColor: 'var(--light-grey)',
-          //   },
-          // },
+          '&::-webkit-scrollbar': {
+            width: 20,
+          },
+          '&::-webkit-scrollbar-track': {
+            backgroundColor: 'var(--deepgrey)',
+            borderRadius: '5px',
+          },
+          '&::-webkit-scrollbar-thumb': {
+            borderRadius: '5px',
+            backgroundColor: 'var(--steel-grey)',
+            transition: '.5s',
+            '&:hover': {
+              filter: 'brightness(0.85)',
+              backgroundColor: 'var(--light-grey)',
+            },
+          },
         }}
       >
         <div
@@ -199,122 +209,144 @@ function SUISchedule({
             width: '100%',
           }}
         >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              mt: 3,
-              width: '100%',
-            }}
-          >
-            {scheduleList.map((scheduleItem, i) => {
-              {
-                /* console.log(scheduleItem); */
-              }
-              let Num1;
-              let Num2;
-              if (type === 'exercise') {
-                Num1 = scheduleItem.reps;
-                Num2 = scheduleItem.sets;
-              } else {
-                Num1 = scheduleItem.calories;
-                Num2 = scheduleItem.protein;
-              }
-
-              return (
+          <DragDropContext onDragEnd={handleDragEnd}>
+            <Droppable droppableId="items">
+              {(provided) => (
                 <Box
-                  key={scheduleItem.id || scheduleItem.sid}
-                  component={Box}
                   sx={{
                     display: 'flex',
-                    justifyContent: 'center',
-                    my: 0.5,
+                    flexDirection: 'column',
+                    mt: 3,
                     width: '100%',
-                    minWidth: 'auto', // Set min-width to auto
-                    '&:hover': {
-                      backgroundColor: 'rgba(0, 0, 0, 0.1)', // Add your desired hover effect
-                      cursor: 'pointer', // Change cursor to pointer on hover
-                      borderRadius: '30px',
-                    },
                   }}
-                  onClick={(e) => {
-                    // FIXME: need better solusion
-                    handleDialogOpen(scheduleItem);
-                    // if (e.target.classList.contains('MuiBox-root')) {
-                    //   console.log(e);
-                    //   handleDialogOpen(scheduleItem);
-                    // }
-                  }}
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
                 >
-                  <Box
-                    sx={{
-                      display: 'flex',
-                      justifyContent: 'center',
-                      my: 0.5,
-                      width: '100%',
-                    }}
-                  >
-                    <SUIScheduleItem
-                      sx={{
-                        borderTopLeftRadius: '30px',
-                        borderBottomLeftRadius: '30px',
-                        width: scheduleItemWdith[0],
-                      }}
-                    >
-                      {scheduleItem.name}
-                    </SUIScheduleItem>
-                    <SUIScheduleItem sx={{ width: scheduleItemWdith[1] }}>
-                      {scheduleItem.quantity}
-                    </SUIScheduleItem>
-                    <SUIScheduleItem sx={{ width: scheduleItemWdith[2] }}>
-                      {Num1}
-                    </SUIScheduleItem>
-                    <SUIScheduleItem
-                      sx={{
-                        width: scheduleItemWdith[3],
-                        borderTopRightRadius: '30px',
-                        borderBottomRightRadius: '30px',
-                        borderRight: myBorder,
-                        display: 'flex',
-                        justifyContent: 'end',
-                      }}
-                    >
-                      <Box sx={{ mr: 3 }}>{Num2}</Box>
+                  {scheduleList.map((scheduleItem, i) => {
+                    let Num1;
+                    let Num2;
+                    if (type === 'exercise') {
+                      Num1 = scheduleItem.reps;
+                      Num2 = scheduleItem.sets;
+                    } else {
+                      Num1 = scheduleItem.calories;
+                      Num2 = scheduleItem.protein;
+                    }
+                    const dragID = scheduleItem.id || scheduleItem.sid;
 
-                      {/* >>> Delete Button >>> */}
-                      <ButtonBase
-                        sx={{
-                          p: 0, // Set padding to 0
-                          minWidth: 'auto', // Set min-width to auto
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          handleDelete(scheduleItem);
-                        }}
+                    return (
+                      <Draggable
+                        key={dragID.toString()}
+                        draggableId={dragID.toString()}
+                        index={i}
                       >
-                        <CancelIcon
-                          sx={{ fontSize: 30, color: 'var(--main-red)' }}
-                        />
-                      </ButtonBase>
-                      {/* <<< Delete Button <<< */}
-                    </SUIScheduleItem>
-                  </Box>
+                        {(provided) => (
+                          <Box
+                            // key={scheduleItem.id || scheduleItem.sid}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                            component={Box}
+                            sx={{
+                              display: 'flex',
+                              justifyContent: 'center',
+                              my: 0.5,
+                              width: '100%',
+                              minWidth: 'auto', // Set min-width to auto
+                              '&:hover': {
+                                backgroundColor: 'rgba(0, 0, 0, 0.1)', // Add your desired hover effect
+                                cursor: 'pointer', // Change cursor to pointer on hover
+                                borderRadius: '30px',
+                              },
+                            }}
+                            onClick={(e) => {
+                              handleDialogOpen(scheduleItem);
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                justifyContent: 'center',
+                                my: 0.5,
+                                width: '100%',
+                              }}
+                            >
+                              <SUIScheduleItem
+                                sx={{
+                                  borderTopLeftRadius: '30px',
+                                  borderBottomLeftRadius: '30px',
+                                  width: scheduleItemWdith[0],
+                                }}
+                              >
+                                {scheduleItem.name}
+                              </SUIScheduleItem>
+                              <SUIScheduleItem
+                                sx={{ width: scheduleItemWdith[1] }}
+                              >
+                                {scheduleItem.quantity}
+                              </SUIScheduleItem>
+                              <SUIScheduleItem
+                                sx={{ width: scheduleItemWdith[2] }}
+                              >
+                                {Num1}
+                              </SUIScheduleItem>
+                              <SUIScheduleItem
+                                sx={{
+                                  width: scheduleItemWdith[3],
+                                  borderTopRightRadius: '30px',
+                                  borderBottomRightRadius: '30px',
+                                  borderRight: myBorder,
+                                  display: 'flex',
+                                  justifyContent: 'end',
+                                }}
+                              >
+                                <Box sx={{ ...SUIScheduleItemNum2 }}>
+                                  {Num2}
+                                </Box>
+
+                                {/* >>> Delete Button >>> */}
+                                <ButtonBase
+                                  sx={{
+                                    p: 0, // Set padding to 0
+                                    minWidth: 'auto', // Set min-width to auto
+                                  }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleDelete(scheduleItem);
+                                  }}
+                                >
+                                  <CancelIcon
+                                    sx={{
+                                      fontSize: 30,
+                                      color: 'var(--main-red)',
+                                    }}
+                                  />
+                                </ButtonBase>
+                                {/* <<< Delete Button <<< */}
+                              </SUIScheduleItem>
+                            </Box>
+                          </Box>
+                        )}
+                      </Draggable>
+                    );
+                  })}
+                  {/* >>> dialog */}
+                  {type === 'exercise' && dialogOpen && (
+                    <ExeCardDialog
+                      open={dialogOpen}
+                      onClose={handleDialogClose}
+                      item={selectedItem}
+                      setSelectedItem={setSelectedItem}
+                      exerciseScheduleList={scheduleList}
+                      setExerciseScheduleList={setScheduleList}
+                    />
+                  )}
+                  {/* <<< dialog */}
+                  {provided.placeholder}
                 </Box>
-              );
-            })}
-            {/* >>> dialog */}
-            {type === 'exercise' && dialogOpen && (
-              <ExeCardDialog
-                open={dialogOpen}
-                onClose={handleDialogClose}
-                item={selectedItem}
-                setSelectedItem={setSelectedItem}
-                exerciseScheduleList={scheduleList}
-                setExerciseScheduleList={setScheduleList}
-              />
-            )}
-            {/* <<< dialog */}
-          </Box>
+              )}
+            </Droppable>
+          </DragDropContext>
         </div>
       </Section>
     </>
