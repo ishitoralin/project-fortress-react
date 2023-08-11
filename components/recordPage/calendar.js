@@ -8,10 +8,9 @@ import moment from 'moment';
 import dayjs from 'dayjs';
 
 import React, { useRef, useEffect } from 'react';
-// import { formatDate } from 'fullcalendar';
 
 export default function SeanCalendar({ list, updateStartEnd, setDate }) {
-  //   console.log(list);
+  const today = dayjs(new Date()).format('YYYY-MM-DD');
   const calendarRef = useRef(null);
   let color;
 
@@ -88,11 +87,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           // editable={true}
           selectable={true}
           selectMirror={true}
-          //   resources={[
-          //     { id: 'a', title: 'Auditorium A' },
-          //     { id: 'b', title: 'Auditorium B', eventColor: 'green' },
-          //     { id: 'c', title: 'Auditorium C', eventColor: 'orange' },
-          //   ]}
           // initialEvents={[
           //   { title: 'event 1', start: new Date(), resourceId: 'a' },
           // ]}
@@ -100,9 +94,17 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           //   { title: 'Event 1', start: '2023-07-16', resourceId: 'a' },
           //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
           // ]}
+          eventOrder="custom" // Use custom event order
+          eventOrderSpecs={[
+            {
+              field: 'sid', // You can use any event property for sorting
+              order: 'desc', // 'asc' for ascending, 'desc' for descending
+            },
+          ]}
           events={list?.map((ele) => {
-            // console.log(ele.frontBackLow);
-            if (ele.frontBackLow === 0) {
+            if (ele.date > today) {
+              color = 'gray';
+            } else if (ele.frontBackLow === 0) {
               color = 'blue';
             } else if (ele.frontBackLow === 1) {
               color = 'orange';
@@ -115,8 +117,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
               id: ele.sid,
               title: ele.name,
               date: formatDate(ele.date),
-              // blue, orange, green
-              // TODO:change color
               backgroundColor: color,
               // editable: true,
               extendedProps: {
@@ -126,6 +126,7 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           })}
         />
       </FullCalendarLayout>
+      {/* {console.log(list)} */}
     </div>
   );
 }

@@ -172,7 +172,6 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
   };
 
   const handlePDF = () => {
-    // console.log(document);
     const plot = document.querySelector('.outputPDF');
     const output = new jsPDF();
     html2canvas(plot).then((canvas) => {
