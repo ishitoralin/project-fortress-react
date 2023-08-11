@@ -281,7 +281,7 @@ export default function Navbar({ boxStyle }) {
               onClick={() => toggleLink('coachLesson')}
               links={expandData['coachLesson']}
             >
-              課程與教練🞃
+              課程與教練 ⏷
             </ExpandItem>
             <Item
               href="/product"
@@ -297,7 +297,7 @@ export default function Navbar({ boxStyle }) {
               onClick={() => toggleLink('record')}
               links={expandData['record']}
             >
-              個人紀錄
+              個人紀錄 ⏷
             </ExpandItem>
             <Item
               href="/space-find"

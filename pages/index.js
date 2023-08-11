@@ -1,11 +1,6 @@
 import { Suspense, useState, useEffect, useRef } from 'react';
 import { Canvas } from '@react-three/fiber';
-import {
-  Environment,
-  OrbitControls,
-  Scroll,
-  ScrollControls,
-} from '@react-three/drei';
+import { Environment, Scroll, ScrollControls } from '@react-three/drei';
 
 import styles from '@/styles/homepage.module.css';
 import BarBell from '@/components/hh/BarBell';
@@ -83,19 +78,18 @@ const HomePage = () => {
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
-          <ScrollControls pages={12} damping={0.35}>
-            <Suspense>
+          <Suspense>
+            <ScrollControls pages={12} damping={0.35}>
               <BarBell
                 scale={4}
                 position={[-1, -0.75, 0.5]}
                 rotation={[0, 1.55, -0.2]}
               />
-            </Suspense>
-            <Scroll html>
-              <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
-            </Scroll>
-          </ScrollControls>
-          <OrbitControls enableZoom={false} />
+              <Scroll html>
+                <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
+              </Scroll>
+            </ScrollControls>
+          </Suspense>
         </Canvas>
       </div>
       <div
@@ -110,6 +104,6 @@ const HomePage = () => {
   );
 };
 
-// HomePage.getLayout = (page) => <>{page}</>;
+HomePage.getLayout = (page) => <>{page}</>;
 
 export default HomePage;
