@@ -95,12 +95,6 @@ export default function SeanCalendar({ list, updateStartEnd, setDate }) {
           //   { title: 'Event 2', date: '2023-07-17', resourceId: 'b' },
           // ]}
           eventOrder="custom" // Use custom event order
-          eventOrderSpecs={[
-            {
-              field: 'sid', // You can use any event property for sorting
-              order: 'desc', // 'asc' for ascending, 'desc' for descending
-            },
-          ]}
           events={list?.map((ele) => {
             if (ele.date > today) {
               color = 'gray';
