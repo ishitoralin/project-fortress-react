@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Box, Collapse, Stack, IconButton, Icon } from '@mui/material';
+import { Box, Collapse, Stack, IconButton } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';

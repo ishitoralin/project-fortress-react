@@ -31,7 +31,7 @@ const filterMediaQueryStyle = {
 };
 
 export const filterStyle = {
-  width: { md: '30%', lg: '27%' },
+  width: '30%',
   maxHeight: 'calc(100vh - var(--nav-height) - 4rem)',
   overflowY: 'auto',
   position: 'sticky',

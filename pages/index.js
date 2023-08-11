@@ -78,18 +78,18 @@ const HomePage = () => {
           <Environment preset="studio" />
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
-          <Suspense>
-            <ScrollControls pages={12} damping={0.35}>
+          <ScrollControls pages={12} damping={0.35}>
+            <Suspense>
               <BarBell
                 scale={4}
                 position={[-1, -0.75, 0.5]}
                 rotation={[0, 1.55, -0.2]}
               />
-              <Scroll html>
-                <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
-              </Scroll>
-            </ScrollControls>
-          </Suspense>
+            </Suspense>
+            <Scroll html>
+              <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
+            </Scroll>
+          </ScrollControls>
         </Canvas>
       </div>
       <div

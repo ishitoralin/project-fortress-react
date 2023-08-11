@@ -114,7 +114,6 @@ const LessionPage = (props) => {
 
   const anchorRef = useRef();
   const topRef = useRef();
-  // const rightSideRef = useRef();
 
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
@@ -286,6 +285,7 @@ const LessionPage = (props) => {
               label="篩選器"
               onClick={() => {
                 setQueryObject((prev) => ({ ...prev, ...getFilterValues() }));
+                closeFilter();
               }}
               items={[
                 <CUISearch
