@@ -42,7 +42,12 @@ export default function CheckButton(props) {
 
   const testnewebpay = () => {
     fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/cart/newebpayInfo`, {
-      method: 'GET',
+      method: 'POST',
+      body: JSON.stringify({
+        ...props.confirmInfo,
+        paymentMethod,
+        deliveryMethod: parseInt(props.delivery),
+      }),
       headers: {
         Authorization: `Bearer ${auth?.accessToken}`,
         'Content-type': 'application/json',
