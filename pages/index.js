@@ -31,6 +31,7 @@ const HomePage = () => {
     lenRef.current.style.setProperty('--s', 0);
     let isFire = false;
     const trackPointer = (event) => {
+      if (!lenRef.current) return;
       lenRef.current.style.setProperty(
         '--x',
         `${clamp(event.clientX - 50, 25, window.innerWidth - 200)}px`

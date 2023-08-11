@@ -6,16 +6,17 @@ export default function Footer() {
       style={{
         height: 'var(--footer-height)',
         overflow: 'hidden',
-        padding: '.5rem',
+        lineHeight: 'var(--footer-height)',
         width: '100%',
         position: 'absolute',
         top: '100%',
+        letterSpacing: '3px',
         backgroundColor: MAIN_BLACK,
-        color: 'white',
+        color: '#ddd',
         textAlign: 'center',
       }}
     >
-      Footer
+      Copyright © 2023 健身堡壘. All rights reserved.
     </div>
   );
 }
