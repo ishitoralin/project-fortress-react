@@ -125,7 +125,7 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box sx={ProductName}>{v.product_name}</Box>
-                            <Box
+                            {/* <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandProduct(
@@ -142,7 +142,7 @@ export default function RecommendProduct(props) {
                                   sx={FavorIconStyle}
                                 ></FavoriteBorderIcon>
                               )}
-                            </Box>
+                            </Box> */}
                           </Box>
                         </Typography>
                         <Typography
@@ -209,7 +209,7 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box sx={ProductName}>{v.product_name}</Box>
-                            <Box
+                            {/* <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setPopularProducts(
@@ -226,7 +226,7 @@ export default function RecommendProduct(props) {
                                   sx={FavorIconStyle}
                                 ></FavoriteBorderIcon>
                               )}
-                            </Box>
+                            </Box> */}
                           </Box>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
@@ -284,7 +284,7 @@ export default function RecommendProduct(props) {
                         <Typography gutterBottom variant="h5" component="div">
                           <Box sx={ProductNameAndIcon}>
                             <Box sx={ProductName}>{v.name}</Box>
-                            <Box
+                            {/* <Box
                               sx={FavorIconStyle}
                               onClick={() => {
                                 setRecommandLesson(
@@ -301,7 +301,7 @@ export default function RecommendProduct(props) {
                                   sx={FavorIconStyle}
                                 ></FavoriteBorderIcon>
                               )}
-                            </Box>
+                            </Box> */}
                           </Box>
                         </Typography>
                         <Typography variant="body2" color="text.secondary">
