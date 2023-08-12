@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   Box,
   IconButton,
@@ -14,10 +14,15 @@ import CUICard from '@/components/customUI/cui-card';
 import BrickWallPaper from '@/components/brick-wallpaper';
 
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
+import getToast from '@/hh_global/getToast';
 import Layout from '@/components/layout/layout';
 import ProtectedRouteWrapper from '@/components/protected-route';
+
+import { useAuth } from '@/context/auth/useAuth';
+import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
 
 import {
   mainContainerStyle,
@@ -31,10 +36,95 @@ import {
   introEditModeStyle,
 } from '@/styles/coach-style/coach-edit-style';
 
-const CoachEditPage = () => {
-  const [isEdit, setIsEdit] = useState(false);
+const BASEURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/edit`;
 
-  return (
+const editData = async (data) => {
+  const result = {};
+  try {
+    const body = JSON.stringify(data);
+    const res = await fetch(BASEURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...getAuthHeaders(),
+      },
+      body,
+    });
+    return await res.json();
+  } catch (error) {
+    result.success = false;
+    result.error = error;
+  }
+  return result;
+};
+
+const nameReg = /^([^0-9]*)+$/;
+
+const CoachEditPage = () => {
+  const router = useRouter();
+  const { auth } = useAuth();
+  setAuthCache(auth);
+
+  const [first, setFirst] = useState(true);
+  const [coach, setCoach] = useState(null);
+  const [inEdit, setInEdit] = useState(false);
+  const [nameState, setNameState] = useState({
+    error: false,
+    helperText: '',
+  });
+  const [introState, setIntroState] = useState({
+    error: false,
+    helperText: '',
+  });
+
+  const textRef = useRef();
+  const textAreaRef = useRef();
+
+  const toast = getToast();
+
+  const edit = async () => {
+    const nickname = textRef.current.value;
+    const introduction = textAreaRef.current.value;
+    if (coach.nickname === nickname && coach.introduction === introduction)
+      return;
+    toast.loading();
+    const result = await editData({
+      nickname,
+      introduction,
+    });
+    if (!result.success) return toast.error();
+    if (!result.isEdit) return toast.error('資料未修改');
+    toast.success('資料修改成功');
+    setCoach((prev) => ({ ...prev, nickname, introduction }));
+  };
+
+  useEffect(() => {
+    if (first) {
+      setFirst(false);
+      return;
+    }
+    if (!auth.isLogin) {
+      router.push('/404');
+    }
+    (async () => {
+      try {
+        const res = await fetch(BASEURL, {
+          headers: getAuthHeaders(),
+        });
+        const [data] = await res.json();
+        if (data.length === 0) {
+          router.push('/404');
+        }
+        setCoach(data);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
+  }, [auth]);
+
+  return coach === null ? (
+    <h1>Loading</h1>
+  ) : (
     <Box>
       <BrickWallPaper scale={1.75} rotate={5} />
       <Container sx={mainContainerStyle}>
@@ -44,7 +134,7 @@ const CoachEditPage = () => {
               alt="coach-img"
               fill
               sizes="20vw"
-              src="/coach-img/hannah.jpg"
+              src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coach['img']}`}
               style={{
                 objectFit: 'cover',
                 objectPosition: 'top center',
@@ -54,13 +144,32 @@ const CoachEditPage = () => {
           <Box sx={editBoxStyle}>
             <Box sx={nameBoxStyle}>
               <Box>
-                {isEdit ? (
+                {inEdit ? (
                   <TextField
-                    placeholder="Hannah"
-                    value={'Hannah'}
+                    error={nameState.error}
+                    helperText={nameState.helperText}
+                    onChange={(event) => {
+                      const result = {
+                        error: false,
+                        helperText: [],
+                      };
+                      if (!nameReg.test(event.target.value)) {
+                        result.error = true;
+                        result.helperText.push('暱稱不能有數字');
+                      }
+                      if (event.target.value.length <= 2) {
+                        result.error = true;
+                        result.helperText.push('暱稱太短');
+                      }
+                      result.helperText = result.helperText.join(',');
+                      setNameState(result);
+                    }}
+                    placeholder={coach['nickname']}
+                    defaultValue={coach['nickname']}
                     variant="standard"
                     color="steel_grey"
                     inputProps={{
+                      ref: textRef,
                       style: {
                         display: 'block',
                         padding: 0,
@@ -69,21 +178,25 @@ const CoachEditPage = () => {
                     }}
                   />
                 ) : (
-                  <Typography variant="h5">Hannah</Typography>
+                  <Typography variant="h5">{coach['nickname']}</Typography>
                 )}
               </Box>
               <Box sx={iconBoxStyle}>
-                {isEdit ? (
+                {inEdit ? (
                   <>
                     <IconButton
+                      disabled={nameState.error || introState.error}
                       sx={iconStyle}
-                      onClick={() => setIsEdit((prev) => !prev)}
+                      onClick={() => {
+                        edit();
+                        setInEdit((prev) => !prev);
+                      }}
                     >
                       <CheckIcon />
                     </IconButton>
                     <IconButton
                       sx={{ ...iconStyle, marginLeft: '1rem' }}
-                      onClick={() => setIsEdit((prev) => !prev)}
+                      onClick={() => setInEdit((prev) => !prev)}
                     >
                       <CloseIcon />
                     </IconButton>
@@ -91,7 +204,7 @@ const CoachEditPage = () => {
                 ) : (
                   <IconButton
                     sx={iconStyle}
-                    onClick={() => setIsEdit((prev) => !prev)}
+                    onClick={() => setInEdit((prev) => !prev)}
                   >
                     <EditIcon />
                   </IconButton>
@@ -99,38 +212,46 @@ const CoachEditPage = () => {
               </Box>
             </Box>
             <Box sx={introBoxStyle}>
-              {isEdit ? (
+              {inEdit ? (
                 <TextField
+                  error={introState.error}
+                  helperText={introState.helperText}
+                  onChange={(event) => {
+                    const result = {
+                      error: false,
+                      helperText: '',
+                    };
+                    if (event.target.value.length <= 50) {
+                      result.error = true;
+                      result.helperText = '自我介紹內容過少';
+                    }
+                    setIntroState(result);
+                  }}
+                  inputProps={{
+                    ref: textAreaRef,
+                  }}
                   color="steel_grey"
                   sx={{ width: '100%' }}
                   variant="standard"
                   multiline
-                  value={
-                    '嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！'
-                  }
+                  defaultValue={coach['introduction']}
                 />
               ) : (
-                <Typography>
-                  嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
-                </Typography>
+                <Typography>{coach['introduction']}</Typography>
               )}
             </Box>
           </Box>
           <Box sx={introEditModeStyle}>
-            {isEdit ? (
+            {inEdit ? (
               <TextField
                 color="steel_grey"
                 sx={{ width: '100%' }}
                 variant="standard"
                 multiline
-                value={
-                  '嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！'
-                }
+                defaultValue={coach['introduction']}
               />
             ) : (
-              <Typography>
-                嘿！我是Nick，一位專業的男性健身教練。對於我來說，健身不僅僅是一種運動，更是一種生活方式。我的目標是通過適應性訓練和全面的身體塑造，幫助男性實現健康、強壯和有自信的身體。無論你是新手還是有經驗的健身愛好者，我都會根據你的需求和目標，設計出最有效的鍛煉計劃和營養指導。讓我們一起開始這個令人興奮的健身旅程吧！
-              </Typography>
+              <Typography>{coach['introduction']}</Typography>
             )}
           </Box>
         </CUICard>
@@ -153,10 +274,10 @@ const CoachEditPage = () => {
   );
 };
 
-CoachEditPage.getlayout = (page) => (
-  <ProtectedRouteWrapper>
-    <Layout>{page}</Layout>
-  </ProtectedRouteWrapper>
-);
+// CoachEditPage.getlayout = (page) => (
+//   <ProtectedRouteWrapper>
+//     <Layout>{page}</Layout>
+//   </ProtectedRouteWrapper>
+// );
 
 export default CoachEditPage;

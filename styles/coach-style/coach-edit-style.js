@@ -7,6 +7,10 @@ export const iconStyle = {
   ':hover': {
     bgcolor: 'var(--steel-light-grey)',
   },
+  ':disabled': {
+    color: '#eee',
+    bgcolor: 'lightgrey',
+  },
 };
 
 export const editCardStyle = {

@@ -10,8 +10,8 @@ const getToast = () => ({
       id: this.toastId,
     });
   },
-  error() {
-    toast.error('發生錯誤請稍後再試', {
+  error(message) {
+    toast.error(message || '發生錯誤請稍後再試', {
       id: this.toastId,
     });
   },
