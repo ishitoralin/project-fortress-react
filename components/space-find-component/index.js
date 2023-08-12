@@ -9,15 +9,26 @@ import data from '@/assets/taiwangeo.json';
 import styles from './space-find-component.module.css';
 import GymTypeSelect from './gym-type-select';
 import axios from 'axios';
-import { Box, Paper, Skeleton, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  Paper,
+  Skeleton,
+  Typography,
+} from '@mui/material';
 import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import CUIButton from '../customUI/cui-button';
+import { GoogleQrCode } from './GoogleQrCode';
 export default function SpaceFindComponent() {
   const containerRef = useRef(null);
   const svgRef = useRef(null);
   const [gymData, setGymData] = useState([]);
   const [gymType, setgymType] = useState('棒球場');
   const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [qrCodeAddress, setQrCodeAddress] = useState('');
   const searchGymData = async (city) => {
     setGymData(() => {
       return [];
@@ -150,6 +161,14 @@ export default function SpaceFindComponent() {
     const svg = select(svgRef.current);
     svg.selectAll('*').remove();
     setGymData([]);
+    setShowDialog(false);
+  };
+  const handleDialogShow = () => {
+    setShowDialog(true);
+  };
+  const handleDialogClose = () => {
+    setShowDialog(false);
+    setQrCodeAddress('');
   };
   useEffect(() => {
     renderMap();
@@ -277,6 +296,22 @@ export default function SpaceFindComponent() {
                         {Address}
                       </Typography>
                     </Box>
+                    <CUIButton
+                      color={'steel_grey'}
+                      sx={{
+                        '@media (max-width: 500px)': {
+                          width: '100%',
+                          padding: '5px 5px 4px 5px',
+                          marginTop: '5px',
+                        },
+                      }}
+                      onClick={() => {
+                        handleDialogShow();
+                        setQrCodeAddress(Address);
+                      }}
+                    >
+                      點我導航
+                    </CUIButton>
                   </Box>
                   <Box className={`${styles['img-wrapper']}`}>
                     <img
@@ -288,6 +323,17 @@ export default function SpaceFindComponent() {
                 </Paper>
               );
             })}
+            <Dialog open={showDialog} onClose={handleDialogClose}>
+              <DialogContent>
+                {qrCodeAddress ? (
+                  <GoogleQrCode
+                    value={`https://www.google.com/maps/search/${qrCodeAddress}`}
+                  />
+                ) : (
+                  <Typography>請稍後再試</Typography>
+                )}
+              </DialogContent>
+            </Dialog>
           </motion.div>
         ) : undefined}
       </div>

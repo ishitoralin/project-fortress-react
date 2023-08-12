@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import CUISearch from '@/components/customUI/cui-search';
-import useDebounce from '@/hooks/useDebounce';
+// import useDebounce from '@/hooks/useDebounce';
 
 export default function MyCourses() {
   const router = useRouter();
@@ -52,12 +52,12 @@ export default function MyCourses() {
       getMyfavoriteProducts(router.query.page);
     }
   }, [router]);
-  const debounceHandleSearchChange = useDebounce(searchChange);
-  useEffect(() => {
+  // const debounceHandleSearchChange = useDebounce(searchChange);
+  /*   useEffect(() => {
     if (inputKeyword !== '') {
       debounceHandleSearchChange();
     }
-  }, [inputKeyword]);
+  }, [inputKeyword]); */
 
   return (
     <div className={`${styles['my-container']}`}>
@@ -69,7 +69,7 @@ export default function MyCourses() {
             alignItems="center"
             sx={{ marginBottom: '20px' }}
           >
-            <CUISearch
+            {/* <CUISearch
               onChange={(e) => {
                 setInputKeyword(e.target.value);
               }}
@@ -78,7 +78,7 @@ export default function MyCourses() {
                 width: '250px',
                 borderRadius: '3px',
               }}
-            />
+            /> */}
           </Stack>
           <CoursesTable data={data} setData={setData} />
           <MemberPagenation data={data} />

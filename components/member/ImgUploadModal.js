@@ -15,7 +15,6 @@ export default function ImgUploadModal({ open = false, handleClose }) {
   const fileRef = useRef(null);
   const imgRef = useRef(null);
   const [imgSrc, setImgSrc] = useState('');
-  const blobUrlRef = useRef('');
   const [crop, setCrop] = useState();
   const [completedCrop, setCompletedCrop] = useState();
   /*  const [scale, setScale] = useState(1);
@@ -42,13 +41,15 @@ export default function ImgUploadModal({ open = false, handleClose }) {
       return;
     } */
 
-    // setCrop(centerAspectCrop(width, height, 1));
-    setCrop({
-      unit: '%',
-      x: 50,
-      y: 50,
-      width: 90,
-      aspect: 1,
+    setCrop((prev) => {
+      console.log(prev);
+      return {
+        unit: 'px',
+        x: 50,
+        y: 50,
+        width: 50,
+        height: 50,
+      };
     });
   };
   const getCroppedImg = (image, crop, fileName, setAuth) => {

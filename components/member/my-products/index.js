@@ -109,7 +109,6 @@ export default function MyProducts() {
                 <CancelIcon />
               </IconButton>
             }
-            color={'steel_grey'}
             label="篩選器"
             onClick={async () => {
               console.log({
@@ -188,7 +187,6 @@ export default function MyProducts() {
                 fullWidth
                 key={'reset'}
                 onClick={() => {
-                  console.log(router.query);
                   setData(initialData);
                   setPrice([50, 4000]);
                   setCategory('全部');
@@ -203,6 +201,7 @@ export default function MyProducts() {
 
                   // getMyfavoriteProducts();
                 }}
+                color="steel_grey"
               >
                 重置
               </CUIButton>,
@@ -309,7 +308,9 @@ export default function MyProducts() {
                         }}
                       >
                         <CUIButton
-                          color="steel_grey"
+                          sx={{
+                            '@media (max-width: 768px)': { width: '50%' },
+                          }}
                           onClick={() => {
                             axios.post(
                               `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`,
@@ -325,6 +326,10 @@ export default function MyProducts() {
                           加入購物車
                         </CUIButton>
                         <CUIButton
+                          sx={{
+                            '@media (max-width: 768px)': { width: '50%' },
+                          }}
+                          color="steel_grey"
                           onClick={() => {
                             const deleteFavoriteProducts = async () => {
                               const res = await axios.delete(
@@ -357,9 +362,6 @@ export default function MyProducts() {
                               }
                             };
                             deleteFavoriteProducts();
-                          }}
-                          sx={{
-                            '&:hover': { fill: 'red', cursor: 'pointer' },
                           }}
                         >
                           取消收藏
