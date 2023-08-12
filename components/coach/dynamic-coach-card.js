@@ -67,9 +67,11 @@ const CoachCard = ({ coachdata }) => {
             }
           >
             <Typography sx={cardInfoStyle}>{coachdata.introduction}</Typography>
-            <CUIButton variant="outlined" color={'main_white'}>
-              <Link href={`coach/${coachdata.sid}`}>詳細資料</Link>
-            </CUIButton>
+            <Link href={`coach/${coachdata.sid}`}>
+              <CUIButton variant="outlined" color={'main_white'}>
+                詳細資料
+              </CUIButton>
+            </Link>
           </Box>
         </Box>
       </Box>
