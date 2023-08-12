@@ -62,6 +62,7 @@ const linkItemStyle = {
     bgcolor: { xs: '#777', md: 'white' },
     color: { xs: 'white', md: 'black' },
   },
+  backgroundColor: 'var(--bgc)',
 };
 
 const ExpandItem = (props) => {
@@ -79,6 +80,7 @@ const ExpandItem = (props) => {
         px: { xs: 0, md: paddingDistance },
         position: 'relative',
         cursor: 'pointer',
+        ...props.style,
       }}
       onClick={props.onClick}
     >
@@ -146,8 +148,8 @@ const ExpandItem = (props) => {
 const Item = (props) => (
   <Link
     passHref
-    style={{ ...ml2, display: 'block', ...props.style }}
     {...props}
+    style={{ ...ml2, display: 'block', ...props.style }}
   >
     <Box sx={linkItemStyle}>{props.children}</Box>
   </Link>
@@ -220,6 +222,7 @@ export default function Navbar({ boxStyle }) {
   const [linksState, setLinksState] = useState(() => getInitState());
   const [listTimeout, setListTimeout] = useState('auto');
   const [expand, setExpand] = useState(true);
+  const [currentPage, setCurrentPage] = useState();
 
   const toggleLink = (name) => {
     setLinksState((pre) => {
@@ -253,6 +256,7 @@ export default function Navbar({ boxStyle }) {
 
   useEffect(() => {
     mobileCloseList();
+    setCurrentPage(router.asPath.split(/[/?]+/)[1]);
   }, [router]);
 
   return (
@@ -277,6 +281,11 @@ export default function Navbar({ boxStyle }) {
           <Box sx={linksStyle}>
             <ExpandItem
               in={linksState.get('coachLesson')}
+              style={
+                ['coach', 'lesson'].includes(currentPage)
+                  ? { '--bgc': 'var(--deepgrey)' }
+                  : {}
+              }
               onClick={() => toggleLink('coachLesson')}
               links={expandData['coachLesson']}
             >
@@ -284,6 +293,9 @@ export default function Navbar({ boxStyle }) {
             </ExpandItem>
             <Item
               href="/product"
+              style={
+                currentPage === 'product' ? { '--bgc': 'var(--deepgrey)' } : {}
+              }
               onClick={() => {
                 mobileCloseList();
                 closeLinks();
@@ -295,11 +307,19 @@ export default function Navbar({ boxStyle }) {
               in={linksState.get('record')}
               onClick={() => toggleLink('record')}
               links={expandData['record']}
+              style={
+                currentPage === 'record' ? { '--bgc': 'var(--deepgrey)' } : {}
+              }
             >
               個人紀錄 ⏷
             </ExpandItem>
             <Item
               href="/space-find"
+              style={
+                currentPage === 'space-find'
+                  ? { '--bgc': 'var(--deepgrey)' }
+                  : {}
+              }
               onClick={() => {
                 mobileCloseList();
                 closeLinks();
@@ -318,6 +338,10 @@ export default function Navbar({ boxStyle }) {
                   ':hover': {
                     color: 'var(--fortress)',
                   },
+                  color:
+                    currentPage === 'shoppingcart'
+                      ? 'var(--fortress)'
+                      : 'white',
                 }}
               />
             </Link>
