@@ -2,8 +2,6 @@ const authCache = {
   auth: null,
 };
 
-export const hasAuth = () => authCache.auth === null;
-
 export const getAuthHeaders = () =>
   authCache.auth === null
     ? {}

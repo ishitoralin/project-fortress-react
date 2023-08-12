@@ -3,6 +3,7 @@ import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
+import { handleScroll } from '@/hh_global/handleSaveLessons';
 import { useAuth } from '@/context/auth/useAuth';
 
 import {
@@ -75,7 +76,6 @@ const locationDictionary = {
 
 const CoachPage = ({ coach, coachId, initLessons }) => {
   const [lessons, setLessons] = useState(initLessons);
-
   const { auth } = useAuth();
   setAuthCache(auth);
 
@@ -90,6 +90,10 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
   }, [auth]);
 
   useEffect(() => {
+    if (!handleScroll.canScroll) {
+      handleScroll.allowScroll();
+      return;
+    }
     anchorRef.current.scrollIntoView({
       block: 'start',
       behavior: 'smooth',

@@ -24,6 +24,7 @@ import CUIFilter from '@/components/customUI/cui-filter';
 
 import { useAuth } from '@/context/auth/useAuth';
 import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
+import { handleScroll } from '@/hh_global/handleSaveLessons';
 
 export const getStaticProps = async () => {
   const data = {};
@@ -132,6 +133,10 @@ const LessionPage = (props) => {
       });
       return;
     }
+    if (!handleScroll.canScroll) {
+      handleScroll.allowScroll();
+      return;
+    }
     anchorRef.current.scrollIntoView({
       block: 'start',
       behavior: 'smooth',
@@ -186,16 +191,17 @@ const LessionPage = (props) => {
       renderTimeRef.current = 2;
     }
     setDisplayMode(SKELETONMODE);
+
     // check if lessons data already cache
-    const cacheLessonDatas = queryDatasCache.get(
-      shrinkString(getFetchUrl('', queryObject))
-    );
-    if (cacheLessonDatas) {
-      setDisplayMode(LISTMODE);
-      setLessons(cacheLessonDatas);
-      pushRouter(queryObject);
-      return;
-    }
+    // const cacheLessonDatas = queryDatasCache.get(
+    //   shrinkString(getFetchUrl('', queryObject))
+    // );
+    // if (cacheLessonDatas) {
+    //   setDisplayMode(LISTMODE);
+    //   setLessons(cacheLessonDatas);
+    //   pushRouter(queryObject);
+    //   return;
+    // }
 
     // fetch lessons data
     (async () => {

@@ -1,13 +1,24 @@
 import { getAuthHeaders } from './authCache';
 
+export const handleScroll = {
+  canScroll: true,
+  preventScroll() {
+    this.canScroll = false;
+  },
+  allowScroll() {
+    this.canScroll = true;
+  },
+};
+
 const handleSaveLesson = async (lesson_sid, action) => {
+  handleScroll.preventScroll();
   const result = {};
   const body = new URLSearchParams([
     [action === 'save' ? 'lsid' : 'sid', lesson_sid.toString()],
   ]);
   try {
     const res = await fetch(
-      'http://localhost:3001/api/member/member-favorite-courses',
+      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/api/member/member-favorite-courses`,
       {
         method: action === 'save' ? 'POST' : 'DELETE',
         headers: getAuthHeaders(),
