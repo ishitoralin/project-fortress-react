@@ -13,7 +13,7 @@ import CUIButton from '@/components/customUI/cui-button';
 import useLoginNavigate from '@/hooks/useLoginNavigate';
 import axios from 'axios';
 import { resetPassword, resetPasswordToken } from '@/context/auth/config';
-import { Toaster, toast } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/router';
 const validationSchema1 = yup.object({
   email: yup
@@ -231,14 +231,6 @@ export default function ForgotPassword() {
           <div className={styles['front-cover']}></div>
         </div>
       </div>
-      <Toaster
-        position="top-center"
-        toastOptions={{
-          style: {
-            boxShadow: '0 0 1px #eee',
-          },
-        }}
-      />
     </>
   );
 }
