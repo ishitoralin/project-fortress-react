@@ -79,13 +79,13 @@ const HomePage = () => {
           <ambientLight preset="rembrandt" intensity={2} />
           <directionalLight intensity={2} position={[50, 50, 50]} />
           <ScrollControls pages={12} damping={0.35}>
-            <Suspense>
-              <BarBell
-                scale={4}
-                position={[-1, -0.75, 0.5]}
-                rotation={[0, 1.55, -0.2]}
-              />
-            </Suspense>
+            {/* <Suspense> */}
+            <BarBell
+              scale={4}
+              position={[-1, -0.75, 0.5]}
+              rotation={[0, 1.55, -0.2]}
+            />
+            {/* </Suspense> */}
             <Scroll html>
               <ScrollContent reachSix={reachSix} setSixDelta={setSixDelta} />
             </Scroll>

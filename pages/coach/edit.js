@@ -5,7 +5,10 @@ import {
   Container,
   TextField,
   Typography,
+  Skeleton,
+  Icon,
 } from '@mui/material';
+import UploadFileIcon from '@mui/icons-material/UploadFile';
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
@@ -29,6 +32,8 @@ import {
   iconStyle,
   editCardStyle,
   imgBoxStyle,
+  imgIconBoxStyle,
+  imgIconStyle,
   editBoxStyle,
   nameBoxStyle,
   iconBoxStyle,
@@ -36,13 +41,15 @@ import {
   introEditModeStyle,
 } from '@/styles/coach-style/coach-edit-style';
 
-const BASEURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/edit`;
+const BASEURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach`;
+const EDITURL = `${BASEURL}/edit`;
+const UPLOADURL = `${BASEURL}/upload-img`;
 
 const editData = async (data) => {
   const result = {};
   try {
     const body = JSON.stringify(data);
-    const res = await fetch(BASEURL, {
+    const res = await fetch(EDITURL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -77,6 +84,7 @@ const CoachEditPage = () => {
     helperText: '',
   });
 
+  const inputRef = useRef();
   const textRef = useRef();
   const textAreaRef = useRef();
 
@@ -98,7 +106,26 @@ const CoachEditPage = () => {
     setCoach((prev) => ({ ...prev, nickname, introduction }));
   };
 
+  const getCoachData = async () => {
+    try {
+      const res = await fetch(EDITURL, {
+        headers: getAuthHeaders(),
+      });
+      const [data] = await res.json();
+      if (data.length === 0) {
+        router.push('/404');
+      }
+      setCoach(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
+    if (auth.isLogin) {
+      getCoachData();
+      return;
+    }
     if (first) {
       setFirst(false);
       return;
@@ -106,169 +133,200 @@ const CoachEditPage = () => {
     if (!auth.isLogin) {
       router.push('/404');
     }
-    (async () => {
-      try {
-        const res = await fetch(BASEURL, {
-          headers: getAuthHeaders(),
-        });
-        const [data] = await res.json();
-        if (data.length === 0) {
-          router.push('/404');
-        }
-        setCoach(data);
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    getCoachData();
   }, [auth]);
 
-  return coach === null ? (
-    <h1>Loading</h1>
-  ) : (
+  const uploadImg = async () => {
+    const body = new FormData();
+    body.append('coach-img', inputRef.current.files[0]);
+    const res = await fetch(UPLOADURL, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body,
+    });
+    const result = await res.json();
+    console.log(result);
+    // console.log(inputRef.current.files);
+  };
+
+  return (
     <Box>
       <BrickWallPaper scale={1.75} rotate={5} />
       <Container sx={mainContainerStyle}>
-        <CUICard sx={editCardStyle}>
-          <CUICard sx={imgBoxStyle}>
-            <Image
-              alt="coach-img"
-              fill
-              sizes="20vw"
-              src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coach['img']}`}
-              style={{
-                objectFit: 'cover',
-                objectPosition: 'top center',
-              }}
-            />
+        {coach === null ? (
+          <CUICard sx={editCardStyle}>
+            <CUICard sx={{ ...imgBoxStyle, bgcolor: '#eee' }}>
+              <Skeleton
+                sx={{ transform: 'none', width: '100%', height: '100%' }}
+              />
+            </CUICard>
+            <Box sx={editBoxStyle}>
+              <Box sx={nameBoxStyle}>
+                <Skeleton
+                  sx={{ transform: 'none', width: '100%', height: '100%' }}
+                />
+              </Box>
+              <Box sx={introBoxStyle}>
+                <Skeleton
+                  sx={{ transform: 'none', width: '100%', height: '100%' }}
+                />
+              </Box>
+            </Box>
           </CUICard>
-          <Box sx={editBoxStyle}>
-            <Box sx={nameBoxStyle}>
-              <Box>
+        ) : (
+          <>
+            <CUICard sx={editCardStyle}>
+              <CUICard sx={imgBoxStyle}>
+                <Image
+                  alt="coach-img"
+                  fill
+                  sizes="20vw"
+                  src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coach['img']}`}
+                  style={{
+                    objectFit: 'cover',
+                    objectPosition: 'top center',
+                  }}
+                />
+                <Icon
+                  sx={imgIconBoxStyle}
+                  onClick={() => {
+                    inputRef.current.click();
+                  }}
+                >
+                  <UploadFileIcon sx={imgIconStyle} fontSize="large" />
+                </Icon>
+              </CUICard>
+              <input ref={inputRef} onChange={uploadImg} type="file" hidden />
+              <Box sx={editBoxStyle}>
+                <Box sx={nameBoxStyle}>
+                  <Box>
+                    {inEdit ? (
+                      <TextField
+                        error={nameState.error}
+                        helperText={nameState.helperText}
+                        onChange={(event) => {
+                          const result = {
+                            error: false,
+                            helperText: [],
+                          };
+                          if (!nameReg.test(event.target.value)) {
+                            result.error = true;
+                            result.helperText.push('暱稱不能有數字');
+                          }
+                          if (event.target.value.length <= 2) {
+                            result.error = true;
+                            result.helperText.push('暱稱太短');
+                          }
+                          result.helperText = result.helperText.join(',');
+                          setNameState(result);
+                        }}
+                        placeholder={coach['nickname']}
+                        defaultValue={coach['nickname']}
+                        variant="standard"
+                        color="steel_grey"
+                        inputProps={{
+                          ref: textRef,
+                          style: {
+                            display: 'block',
+                            padding: 0,
+                            fontSize: '1.5rem',
+                          },
+                        }}
+                      />
+                    ) : (
+                      <Typography variant="h5">{coach['nickname']}</Typography>
+                    )}
+                  </Box>
+                  <Box sx={iconBoxStyle}>
+                    {inEdit ? (
+                      <>
+                        <IconButton
+                          disabled={nameState.error || introState.error}
+                          sx={iconStyle}
+                          onClick={() => {
+                            edit();
+                            setInEdit((prev) => !prev);
+                          }}
+                        >
+                          <CheckIcon />
+                        </IconButton>
+                        <IconButton
+                          sx={{ ...iconStyle, marginLeft: '1rem' }}
+                          onClick={() => setInEdit((prev) => !prev)}
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </>
+                    ) : (
+                      <IconButton
+                        sx={iconStyle}
+                        onClick={() => setInEdit((prev) => !prev)}
+                      >
+                        <EditIcon />
+                      </IconButton>
+                    )}
+                  </Box>
+                </Box>
+                <Box sx={introBoxStyle}>
+                  {inEdit ? (
+                    <TextField
+                      error={introState.error}
+                      helperText={introState.helperText}
+                      onChange={(event) => {
+                        const result = {
+                          error: false,
+                          helperText: '',
+                        };
+                        if (event.target.value.length <= 50) {
+                          result.error = true;
+                          result.helperText = '自我介紹內容過少';
+                        }
+                        setIntroState(result);
+                      }}
+                      inputProps={{
+                        ref: textAreaRef,
+                      }}
+                      color="steel_grey"
+                      sx={{ width: '100%' }}
+                      variant="standard"
+                      multiline
+                      defaultValue={coach['introduction']}
+                    />
+                  ) : (
+                    <Typography>{coach['introduction']}</Typography>
+                  )}
+                </Box>
+              </Box>
+              <Box sx={introEditModeStyle}>
                 {inEdit ? (
                   <TextField
-                    error={nameState.error}
-                    helperText={nameState.helperText}
-                    onChange={(event) => {
-                      const result = {
-                        error: false,
-                        helperText: [],
-                      };
-                      if (!nameReg.test(event.target.value)) {
-                        result.error = true;
-                        result.helperText.push('暱稱不能有數字');
-                      }
-                      if (event.target.value.length <= 2) {
-                        result.error = true;
-                        result.helperText.push('暱稱太短');
-                      }
-                      result.helperText = result.helperText.join(',');
-                      setNameState(result);
-                    }}
-                    placeholder={coach['nickname']}
-                    defaultValue={coach['nickname']}
-                    variant="standard"
                     color="steel_grey"
-                    inputProps={{
-                      ref: textRef,
-                      style: {
-                        display: 'block',
-                        padding: 0,
-                        fontSize: '1.5rem',
-                      },
-                    }}
+                    sx={{ width: '100%' }}
+                    variant="standard"
+                    multiline
+                    defaultValue={coach['introduction']}
                   />
                 ) : (
-                  <Typography variant="h5">{coach['nickname']}</Typography>
+                  <Typography>{coach['introduction']}</Typography>
                 )}
               </Box>
-              <Box sx={iconBoxStyle}>
-                {inEdit ? (
-                  <>
-                    <IconButton
-                      disabled={nameState.error || introState.error}
-                      sx={iconStyle}
-                      onClick={() => {
-                        edit();
-                        setInEdit((prev) => !prev);
-                      }}
-                    >
-                      <CheckIcon />
-                    </IconButton>
-                    <IconButton
-                      sx={{ ...iconStyle, marginLeft: '1rem' }}
-                      onClick={() => setInEdit((prev) => !prev)}
-                    >
-                      <CloseIcon />
-                    </IconButton>
-                  </>
-                ) : (
-                  <IconButton
-                    sx={iconStyle}
-                    onClick={() => setInEdit((prev) => !prev)}
-                  >
-                    <EditIcon />
-                  </IconButton>
-                )}
-              </Box>
-            </Box>
-            <Box sx={introBoxStyle}>
-              {inEdit ? (
-                <TextField
-                  error={introState.error}
-                  helperText={introState.helperText}
-                  onChange={(event) => {
-                    const result = {
-                      error: false,
-                      helperText: '',
-                    };
-                    if (event.target.value.length <= 50) {
-                      result.error = true;
-                      result.helperText = '自我介紹內容過少';
-                    }
-                    setIntroState(result);
-                  }}
-                  inputProps={{
-                    ref: textAreaRef,
-                  }}
-                  color="steel_grey"
-                  sx={{ width: '100%' }}
-                  variant="standard"
-                  multiline
-                  defaultValue={coach['introduction']}
-                />
-              ) : (
-                <Typography>{coach['introduction']}</Typography>
-              )}
-            </Box>
-          </Box>
-          <Box sx={introEditModeStyle}>
-            {inEdit ? (
-              <TextField
-                color="steel_grey"
-                sx={{ width: '100%' }}
-                variant="standard"
-                multiline
-                defaultValue={coach['introduction']}
-              />
-            ) : (
-              <Typography>{coach['introduction']}</Typography>
-            )}
-          </Box>
-        </CUICard>
+            </CUICard>
 
-        <CUICard sx={{ bgcolor: '#eee', marginTop: '2rem', p: 4 }}>
-          <Typography
-            variant="h5"
-            sx={{
-              paddingBottom: 2,
-              marginBottom: 4,
-              borderBottom: '2px solid var(--steel-grey)',
-            }}
-          >
-            我的課表
-          </Typography>
-          <FullCalendar plugins={[dayGridPlugin]} />
-        </CUICard>
+            <CUICard sx={{ bgcolor: '#eee', marginTop: '2rem', p: 4 }}>
+              <Typography
+                variant="h5"
+                sx={{
+                  paddingBottom: 2,
+                  marginBottom: 4,
+                  borderBottom: '2px solid var(--steel-grey)',
+                }}
+              >
+                我的課表
+              </Typography>
+              <FullCalendar plugins={[dayGridPlugin]} />
+            </CUICard>
+          </>
+        )}
       </Container>
     </Box>
   );

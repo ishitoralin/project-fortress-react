@@ -167,6 +167,11 @@ const expandData = {
       linkName: '課程資訊',
       href: '/lesson',
     },
+    {
+      key: 'coach-edit',
+      linkName: '我的資料',
+      href: '/coach/edit',
+    },
   ],
   member: [
     {
