@@ -347,7 +347,19 @@ const CoachEditPage = () => {
               >
                 我的課表
               </Typography>
-              <FullCalendar plugins={[dayGridPlugin]} />
+              <FullCalendar
+                eventTimeFormat={{
+                  hour: 'numeric',
+                  minute: '2-digit',
+                  meridiem: 'short',
+                }}
+                eventMouseEnter={(e) => console.log(e.event._def)}
+                events={coach.lessons.map((lesson) => ({
+                  title: lesson.name,
+                  start: lesson.time,
+                }))}
+                plugins={[dayGridPlugin]}
+              />
             </CUICard>
           </>
         )}
