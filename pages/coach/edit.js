@@ -180,8 +180,10 @@ const CoachEditPage = () => {
                 <Image
                   alt="coach-img"
                   fill
+                  placeholder="blur"
                   sizes="20vw"
                   src={`${process.env.NEXT_PUBLIC_BACKEND_PORT}/imgs/coach/coachs-img/${coach['img']}`}
+                  blurDataURL={coach['img_base64']}
                   style={{
                     objectFit: 'cover',
                     objectPosition: 'top center',
