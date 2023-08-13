@@ -114,6 +114,7 @@ const ShopTemplate = ({ className, shopSectionDelta }) => {
             }}
           >
             <Image
+              priority
               sizes="30vw"
               fill
               alt="product-img"
@@ -205,6 +206,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
             }}
           >
             <Image
+              priority
               fill
               sizes="45vw"
               className={`${styles['go-transform']}`}
@@ -224,6 +226,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
             }}
           >
             <Image
+              priority
               fill
               sizes="45vw"
               className={`${styles['go-transform']}`}
@@ -247,6 +250,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
             }}
           >
             <Image
+              priority
               fill
               sizes="45vw"
               className={`${styles['go-transform']}`}
@@ -266,6 +270,7 @@ const ScrollContent = ({ reachSix, setSixDelta }) => {
             }}
           >
             <Image
+              priority
               fill
               sizes="45vw"
               className={`${styles['go-transform']}`}
