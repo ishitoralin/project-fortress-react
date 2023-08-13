@@ -72,7 +72,8 @@ const CoachEditPage = () => {
   const { auth } = useAuth();
   setAuthCache(auth);
 
-  const [first, setFirst] = useState(true);
+  const idRef = useRef();
+  const [count, setCount] = useState(0);
   const [coach, setCoach] = useState(null);
   const [inEdit, setInEdit] = useState(false);
   const [nameState, setNameState] = useState({
@@ -122,31 +123,48 @@ const CoachEditPage = () => {
   };
 
   useEffect(() => {
-    if (auth.isLogin) {
-      getCoachData();
-      return;
-    }
-    if (first) {
-      setFirst(false);
-      return;
-    }
-    if (!auth.isLogin) {
-      router.push('/404');
-    }
+    if (!auth.isLogin) return;
     getCoachData();
   }, [auth]);
 
+  const timer = () => setCount((prev) => prev + 1);
+  useEffect(() => {
+    idRef.current = window.setInterval(timer, 100);
+
+    return () => clearInterval(idRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!auth.isLogin && count < 50) return;
+    if (auth.isLogin) {
+      clearInterval(idRef.current);
+      return;
+    }
+    router.push('/404');
+  }, [count]);
+
   const uploadImg = async () => {
+    toast.loading();
+
     const body = new FormData();
     body.append('coach-img', inputRef.current.files[0]);
+
     const res = await fetch(UPLOADURL, {
       method: 'POST',
       headers: getAuthHeaders(),
       body,
     });
-    const result = await res.json();
-    console.log(result);
-    // console.log(inputRef.current.files);
+    const { success, filename, base64Text } = await res.json();
+    success
+      ? (() => {
+          toast.success('上傳圖片成功');
+          setCoach((prev) => ({
+            ...prev,
+            img: filename,
+            img_base64: base64Text,
+          }));
+        })()
+      : toast.error();
   };
 
   return (
@@ -190,6 +208,7 @@ const CoachEditPage = () => {
                   }}
                 />
                 <Icon
+                  title="上傳自我介紹圖片"
                   sx={imgIconBoxStyle}
                   onClick={() => {
                     inputRef.current.click();
@@ -243,6 +262,7 @@ const CoachEditPage = () => {
                     {inEdit ? (
                       <>
                         <IconButton
+                          title="儲存修改"
                           disabled={nameState.error || introState.error}
                           sx={iconStyle}
                           onClick={() => {
@@ -253,6 +273,7 @@ const CoachEditPage = () => {
                           <CheckIcon />
                         </IconButton>
                         <IconButton
+                          title="取消"
                           sx={{ ...iconStyle, marginLeft: '1rem' }}
                           onClick={() => setInEdit((prev) => !prev)}
                         >
@@ -261,6 +282,7 @@ const CoachEditPage = () => {
                       </>
                     ) : (
                       <IconButton
+                        title="修改資料"
                         sx={iconStyle}
                         onClick={() => setInEdit((prev) => !prev)}
                       >
