@@ -13,12 +13,16 @@ export default function ShoppingState() {
           <CheckCircleIcon className={styles.ShoppingState414} />
           訂單確認
         </div>
-        <EastIcon className={styles.ShoppingState576} />
+        <div className={styles.ShoppingState576}>
+          <EastIcon />
+        </div>{' '}
         <div className={`${styles.shoppingStateComponent} `}>
           <CheckCircleIcon />
           買家資訊
         </div>
-        <EastIcon className={styles.ShoppingState576} />
+        <div className={styles.ShoppingState576}>
+          <EastIcon />
+        </div>{' '}
         <div
           className={`${styles.shoppingStateComponent} ${styles.ShoppingState576}`}
         >

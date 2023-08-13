@@ -70,11 +70,12 @@
   }
 }
 /* for buyer & payment & east icon*/
-@media screen and (max-width: 576px) {
-  .ShoppingState576 {
+.ShoppingState576 {
+  @media screen and (max-width: 576px) {
     display: none;
   }
 }
+
 /* shoppinglisttitle */
 /* 購物車產品標題物件容器 */
 .ProductionTitleContainer {
@@ -155,7 +156,7 @@
     margin: 0 75px;
   }
   @media screen and (max-width: 576px) {
-    margin: 0 30px;
+    margin: 0 0px;
     padding: 0 30px;
   }
   @media screen and (max-width: 414px) {
@@ -234,7 +235,8 @@
     font-size: 16px;
   }
   @media screen and (max-width: 576px) {
-    display: none;
+    /* display: none; */
+    width: 100%;
   }
 }
 .ProductListComponentForDetail {
@@ -368,6 +370,7 @@
   align-items: center;
   @media screen and (max-width: 996px) {
     justify-content: center;
+    white-space: nowrap;
   }
 }
 
@@ -726,7 +729,7 @@
 
 @media screen and (max-width: 576px) {
   .productListTitleWords576 {
-    display: none;
+    /* display: none; */
   }
 }
 
@@ -736,19 +739,30 @@
   border-radius: 5px;
   padding: 20px;
   margin-top: 20px;
+  @media screen and (max-width:996px) {
+    font-size: 18px;
+  }
 }
 
 .buyerInfoLRFor3rdPage {
   display: flex;
-  justify-content: flex-start;
-  /* align-items: center; */
+  justify-content: space-around;
   margin: 0 auto;
   font-size: 20px;
+  @media screen and (max-width:996px) {
+    font-size: 18px;
+    flex-direction: column;
+  }
 }
 
 .buyerInfoLeftFor3rdPage,
 .buyerInfoRightFor3rdPage {
-  width: 100%;
+  width: 45%;
+  @media screen and (max-width:996px) {
+    font-size: 18px;
+    width: 100%;
+
+  }
 }
 
 .buyerInfoTitleFor3rdPage {
@@ -794,10 +808,10 @@
   font-weight: 700;
 }
 
-
 .finishedButton {
   display: flex;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  white-space: nowrap;
 }
