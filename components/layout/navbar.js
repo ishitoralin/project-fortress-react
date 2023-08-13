@@ -9,6 +9,7 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 
 import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';
+import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
 import User from '@/assets/user';
 
 const paddingDistance = '.8rem';
@@ -155,7 +156,7 @@ const Item = (props) => (
   </Link>
 );
 
-const expandData = {
+const initExpandData = {
   coachLesson: [
     {
       key: 'coach',
@@ -166,11 +167,6 @@ const expandData = {
       key: 'lesson',
       linkName: '課程資訊',
       href: '/lesson',
-    },
-    {
-      key: 'coach-edit',
-      linkName: '我的資料',
-      href: '/coach/edit',
     },
   ],
   member: [
@@ -212,18 +208,37 @@ const expandData = {
   ],
 };
 
+const isCoachExpandData = {
+  ...initExpandData,
+  coachLesson: [
+    ...initExpandData.coachLesson,
+    { key: 'coach-edit', linkName: '我的資料', href: '/coach/edit' },
+  ],
+};
+
 const initState = new Map(
-  [...Object.keys(expandData)].map((key) => [key, false])
+  [...Object.keys(initExpandData)].map((key) => [key, false])
 );
 
 const getInitState = () => {
   return new Map(initState);
 };
 
+const coachUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/edit`;
+const checkIsCoach = async () => {
+  const res = await fetch(coachUrl, {
+    headers: getAuthHeaders(),
+  });
+  const result = await res.json();
+  return result.length === 1;
+};
+
 export default function Navbar({ boxStyle }) {
   const router = useRouter();
   const { auth, logout } = useAuth();
+  setAuthCache(auth);
 
+  const [expandData, setExpandData] = useState(() => initExpandData);
   const [linksState, setLinksState] = useState(() => getInitState());
   const [listTimeout, setListTimeout] = useState('auto');
   const [expand, setExpand] = useState(true);
@@ -263,6 +278,17 @@ export default function Navbar({ boxStyle }) {
     mobileCloseList();
     setCurrentPage(router.asPath.split(/[/?]+/)[1]);
   }, [router]);
+
+  useEffect(() => {
+    if (!auth.isLogin) {
+      setExpandData(initExpandData);
+      return;
+    }
+    (async () => {
+      const result = await checkIsCoach();
+      setExpandData(result ? isCoachExpandData : initExpandData);
+    })();
+  }, [auth]);
 
   return (
     <Stack sx={{ ...navbarStyle, ...boxStyle }} direction={'row'}>
