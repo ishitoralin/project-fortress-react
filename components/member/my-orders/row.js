@@ -117,7 +117,7 @@ export default function Row(props) {
                             className={`${styles['td-img']}`}
                             src={`${
                               process.env.NEXT_PUBLIC_BACKEND_PORT
-                            }/imgs/product/${row.picture.split(',')[0]}`}
+                            }/imgs/product/${row.picture?.split(',')[0]}`}
                             alt="商品圖片"
                           />
                         </Link>
@@ -127,21 +127,21 @@ export default function Row(props) {
                         align="right"
                         data-title="單價 :"
                       >
-                        {row.price.toLocaleString()}
+                        {row.price?.toLocaleString()}
                       </TableCell>
                       <TableCell
                         component="th"
                         align="right"
                         data-title="數量 :"
                       >
-                        {row.quantity.toLocaleString()}
+                        {row.quantity?.toLocaleString()}
                       </TableCell>
                       <TableCell
                         component="th"
                         align="right"
                         data-title="小計 :$"
                       >
-                        {(row.price * row.quantity).toLocaleString()}
+                        {(row.price * row.quantity)?.toLocaleString()}
                       </TableCell>
                     </TableRow>
                   ))}
