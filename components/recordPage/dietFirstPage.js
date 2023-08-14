@@ -1,5 +1,5 @@
 import { Grid, Box } from '@mui/material';
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import {
   FormControl,
@@ -8,18 +8,11 @@ import {
   RadioGroup,
 } from '@mui/material';
 // =========================================================================
-import CUISearch from '@/components/customUI/cui-search';
 import CUISelect from '@/components/customUI/cui-select';
-import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIButton from '@/components/customUI/cui-button';
 import CUITextField from '@/components/customUI/cui-textfield';
 // =========================================================================
-import { SUICardList } from '@/components/seanUI/sui-card';
-import {
-  SUISchedule,
-  SUIScheduleTable,
-} from '@/components/seanUI/sui-schedule';
-import { SUIInputNumber, SUIDataBox } from '@/components/seanUI/sui-input';
+import { SUIDataBox } from '@/components/seanUI/sui-input';
 import { nutritionRegression } from '@/pages/record/nutritionCalc';
 // =========================================================================
 import { useDebounceHH } from '../customHook/useDebounce';
@@ -35,14 +28,7 @@ const myBGstyle = { borderRadius: myBorderRadius, bgcolor: myBackgroundColor };
 
 const NuBorder = `4px solid black`;
 const NuBorderRadius = '30px';
-const scheduleItemWdith = ['58%', '18%', '12%', '12%'];
 
-const scheduleTitle = {
-  borderRight: myBorder,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-};
 const Section = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   display: 'flex',
@@ -55,7 +41,6 @@ const NuBox = styled(Box)(() => ({
   flexDirection: 'column',
   justifyContent: 'center',
   alignItems: 'center',
-  // outline: '3px solid blue',
   width: '100%',
 }));
 //<<< style
@@ -69,7 +54,6 @@ const activity = [
 ];
 const TDEEcalculate = (gender, bodyData, multiplier) => {
   // ref: https://reference.medscape.com/calculator/846/mifflin-st-jeor-equation
-  // console.log(gender, bodyData, multiplier);
   let TDEE;
 
   if (gender === 'female') {
@@ -395,11 +379,11 @@ const DietFisrtPage = () => {
               // color: 'var(--light-gray)',
             }}
           >
-            <Section className={`${style.description}`}>
+            <Section sx={{ fontSize: '27px' }}>
               BMR 指人體在靜止休息狀態下，維持新陳代謝所需的熱量。BMR
               會隨著年紀增加或體重減輕而降低，會隨著肌肉量增加而上升。
             </Section>
-            <Section className={`${style.description}`}>
+            <Section sx={{ fontSize: '27px' }}>
               TDEE
               是身體一整天下來，包括基礎代謝、活動量、吃東西所消耗的熱量。不同的生活型態需要的熱量也不一樣，當每天攝取的熱量和
               TDEE 相等，便達到「熱量平衡」。
@@ -416,24 +400,24 @@ const DietFisrtPage = () => {
                     borderBottom: NuBorder,
                   }}
                 >
-                  <NuBox className={`${style.nutritionMainText}`}>
+                  <NuBox sx={{ fontSize: '27px', flexDirection: 'row' }}>
                     全穀雜糧類
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.grains?.total || 0}
                     </span>
                     份
                   </NuBox>
                   <NuBox>
-                    <NuBox className={`${style.nutritionSecondaryText}`}>
+                    <NuBox sx={{ fontSize: '18px', flexDirection: 'row' }}>
                       未精緻
-                      <span className={`${style.nutritionSecondaryNumber}`}>
+                      <span style={{ color: 'green', fontSize: '36px' }}>
                         {nutrition?.grains?.unrefined || 0}
                       </span>
                       份
                     </NuBox>
-                    <NuBox className={`${style.nutritionSecondaryText}`}>
+                    <NuBox sx={{ fontSize: '18px', flexDirection: 'row' }}>
                       其他
-                      <span className={`${style.nutritionSecondaryNumber}`}>
+                      <span style={{ color: 'green', fontSize: '36px' }}>
                         {nutrition?.grains?.else || 0}
                       </span>
                       份
@@ -449,21 +433,28 @@ const DietFisrtPage = () => {
                   }}
                 >
                   <NuBox
-                    className={`${style.nutritionMainText}`}
-                    sx={{ borderBottom: NuBorder, height: '50%' }}
+                    sx={{
+                      borderBottom: NuBorder,
+                      height: '50%',
+                      fontSize: '27px',
+                      flexDirection: 'row',
+                    }}
                   >
                     豆魚蛋肉
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.beanFishEggMeat || 0}
                     </span>
                     份
                   </NuBox>
                   <NuBox
-                    className={`${style.nutritionMainText}`}
-                    sx={{ height: '50%' }}
+                    sx={{
+                      height: '50%',
+                      fontSize: '27px',
+                      flexDirection: 'row',
+                    }}
                   >
                     乳品類
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.dairy || 0}
                     </span>
                     份
@@ -473,24 +464,24 @@ const DietFisrtPage = () => {
               {/* ================================================ */}
               <NuBox sx={{ display: 'flex', flexDirection: 'row' }}>
                 <NuBox sx={{ width: '50%', borderRight: NuBorder }}>
-                  <NuBox className={`${style.nutritionMainText}`}>
+                  <NuBox sx={{ fontSize: '27px', flexDirection: 'row' }}>
                     油脂與堅果種子
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.oilNuts?.total || 0}
                     </span>
                     份
                   </NuBox>
                   <NuBox>
-                    <NuBox className={`${style.nutritionSecondaryText}`}>
+                    <NuBox sx={{ fontSize: '18px', flexDirection: 'row' }}>
                       油脂
-                      <span className={`${style.nutritionSecondaryNumber}`}>
+                      <span style={{ color: 'green', fontSize: '36px' }}>
                         {nutrition?.oilNuts?.oil || 0}
                       </span>
                       份
                     </NuBox>
-                    <NuBox className={`${style.nutritionSecondaryText}`}>
+                    <NuBox sx={{ fontSize: '18px', flexDirection: 'row' }}>
                       堅果種子
-                      <span className={`${style.nutritionSecondaryNumber}`}>
+                      <span style={{ color: 'green', fontSize: '36px' }}>
                         {nutrition?.oilNuts?.nuts || 0}
                       </span>
                       份
@@ -505,21 +496,28 @@ const DietFisrtPage = () => {
                   }}
                 >
                   <NuBox
-                    className={`${style.nutritionMainText}`}
-                    sx={{ height: '50%', borderBottom: NuBorder }}
+                    sx={{
+                      height: '50%',
+                      borderBottom: NuBorder,
+                      fontSize: '27px',
+                      flexDirection: 'row',
+                    }}
                   >
                     蔬菜類
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.vegetable || 0}
                     </span>
                     份
                   </NuBox>
                   <NuBox
-                    className={`${style.nutritionMainText}`}
-                    sx={{ height: '50%' }}
+                    sx={{
+                      height: '50%',
+                      fontSize: '27px',
+                      flexDirection: 'row',
+                    }}
                   >
                     水果類
-                    <span className={`${style.nutritionMainNumber}`}>
+                    <span style={{ color: 'green', fontSize: '48px' }}>
                       {nutrition?.fruits || 0}
                     </span>
                     份

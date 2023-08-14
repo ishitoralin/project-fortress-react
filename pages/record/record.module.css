@@ -2,20 +2,20 @@
     font-size:27px;
 }
 
-.nutritionMainText{
+/* .nutritionMainText{
 font-size: 27px;
 flex-direction: row;
-}
+} */
 
-.nutritionSecondaryText{
+/* .nutritionSecondaryText{
     font-size: 18px;
     flex-direction: row;
-    }
+    } */
 
-.nutritionMainNumber{
+/* .nutritionMainNumber{
     color:green;
     font-size: 48px;
-}
+} */
 
 .nutritionSecondaryNumber{
     color:green;
