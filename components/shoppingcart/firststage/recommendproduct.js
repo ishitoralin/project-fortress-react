@@ -104,7 +104,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            // scrollbar={{ draggable: true, dragSize: 300, width: 200 }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandProduct.map((v, i) => {
               return (
@@ -187,7 +187,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            // scrollbar={{ draggable: true, dragSize: 300 }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {' '}
             {popularProducts.map((v, i) => {
@@ -265,7 +265,7 @@ export default function RecommendProduct(props) {
             slidesPerView={slidesPerView}
             navigation
             pagination={{ clickable: true }}
-            // scrollbar={{ draggable: true, dragSize: 300 }}
+            scrollbar={{ draggable: true, dragSize: 300 }}
           >
             {recommandLesson.map((v, i) => {
               return (

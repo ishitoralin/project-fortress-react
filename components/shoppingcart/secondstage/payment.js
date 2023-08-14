@@ -28,7 +28,7 @@ export default function Payment(props) {
       overFlow: 'hidden',
     },
     {
-      label: '信用卡',
+      label: '藍新金流',
       value: 4,
       src: '/shoppingcart/creditcard.png',
       Icon: null,

@@ -14,6 +14,7 @@ export const indexBackground = {
 };
 
 export const indexContainer = {
+  height: '100vh',
   margin: '0 150px',
   padding: '0 50px',
   backgroundColor: 'white',
@@ -143,5 +144,3 @@ export const AddAndReduceButton = {
     minWidth: '32px',
   },
 };
-
-
