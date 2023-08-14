@@ -150,7 +150,7 @@ export default function CheckButton(props) {
           action="https://ccore.newebpay.com/MPG/mpg_gateway"
           method="POST"
         >
-          <input type="hidden" name="MerchantID" value="MS17361556" />
+          <input type="hidden" name="MerchantID" value="MS149952932" />
           <input type="hidden" name="TradeInfo" ref={tradeInfoRef} />
           <input type="hidden" name="TradeSha" ref={tradeShaRef} />
           <input type="hidden" name="Version" value="2.0" />

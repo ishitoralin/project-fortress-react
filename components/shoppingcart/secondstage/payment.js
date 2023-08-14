@@ -48,21 +48,21 @@ export default function Payment(props) {
       ),
       alt: '無法顯示圖片',
     },
-    {
-      label: 'ATM轉帳',
-      value: 1,
-      src: '',
-      Icon: (
-        <LocalAtmIcon
-          sx={{
-            fontSize: '70px',
-          }}
-        ></LocalAtmIcon>
-      ),
-      alt: '無法顯示圖片',
-    },
+    // {
+    //   label: 'ATM轉帳',
+    //   value: 1,
+    //   src: '',
+    //   Icon: (
+    //     <LocalAtmIcon
+    //       sx={{
+    //         fontSize: '70px',
+    //       }}
+    //     ></LocalAtmIcon>
+    //   ),
+    //   alt: '無法顯示圖片',
+    // },
   ];
- 
+
   return (
     <>
       {/* 付款方式 */}
