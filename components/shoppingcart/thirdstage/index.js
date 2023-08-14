@@ -6,13 +6,13 @@ import BuyerInfo from './buyerInfo';
 import CheckButton from './checkbutton';
 import {
   indexBackground,
-  indexContainer,
+  indexContainerFor3rdPage,
 } from '@/styles/shoppingcart-style/recommandproduct';
 export default function ThirdStage() {
   return (
     <>
       <Box sx={indexBackground}>
-        <Box sx={indexContainer}>
+        <Box sx={indexContainerFor3rdPage}>
           <ShoppingState></ShoppingState>
           <BuyerInfo></BuyerInfo>
           <CheckButton></CheckButton>

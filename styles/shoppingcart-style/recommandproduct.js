@@ -14,7 +14,26 @@ export const indexBackground = {
 };
 
 export const indexContainer = {
-  height: '100vh',
+  // height: '100vh',
+  margin: '0 150px',
+  padding: '0 50px',
+  backgroundColor: 'white',
+  zIndex: '20',
+  '@media screen and (max-width: 768px)': {
+    margin: '0 75px',
+  },
+  '@media screen and (max-width: 576px)': {
+    margin: '0',
+    padding: '0 30px',
+  },
+  '@media screen and (max-width: 414px)': {
+    margin: '0',
+    padding: '0 15px',
+  },
+};
+
+export const indexContainerFor3rdPage = {
+  minHeight: '100vh',
   margin: '0 150px',
   padding: '0 50px',
   backgroundColor: 'white',
