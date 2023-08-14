@@ -3,6 +3,7 @@ import { Box, Container, Typography } from '@mui/material';
 import Image from 'next/image';
 
 import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
+import { handleScroll } from '@/hh_global/handleSaveLessons';
 import { useAuth } from '@/context/auth/useAuth';
 
 import {
@@ -24,8 +25,8 @@ const BreakPointTheme = createBreakPointTheme({
 });
 
 const fetchData = async (id) => {
-  const getCoachUrl = `http://localhost:3001/coach/${id}`;
-  const getLessonsUrl = `http://localhost:3001/lesson?coach=${id}`;
+  const getCoachUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/${id}`;
+  const getLessonsUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/lesson?coach=${id}`;
 
   const [coach, lessons] = await Promise.all(
     [getCoachUrl, getLessonsUrl].map(async (url) => {
@@ -75,7 +76,6 @@ const locationDictionary = {
 
 const CoachPage = ({ coach, coachId, initLessons }) => {
   const [lessons, setLessons] = useState(initLessons);
-
   const { auth } = useAuth();
   setAuthCache(auth);
 
@@ -90,6 +90,10 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
   }, [auth]);
 
   useEffect(() => {
+    if (!handleScroll.canScroll) {
+      handleScroll.allowScroll();
+      return;
+    }
     anchorRef.current.scrollIntoView({
       block: 'start',
       behavior: 'smooth',
@@ -127,7 +131,7 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
                 xs: '75vh',
                 sm: 'calc(100vh - var(--nav-height) - var(--footer-height))',
               },
-              width: { xs: '350px', sm: '450px', th: '480px' },
+              width: { xs: '350px', sm: '450px', th: '600px' },
             }}
           >
             <Box sx={cardGridStyle}>
@@ -164,7 +168,7 @@ const CoachPage = ({ coach, coachId, initLessons }) => {
             sx={{
               width: { th: '50%' },
               transition: '.5s',
-              marginLeft: { xs: '0', th: '-11rem', lg: '-2rem' },
+              marginLeft: { xs: '0', th: '-15rem', lg: '-2rem' },
               flexGrow: 1,
             }}
           >

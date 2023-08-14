@@ -8,8 +8,10 @@ import {
 } from '@mui/material';
 import CUIButton from '../customUI/cui-button';
 
-import { hasAuth, getAuthHeaders } from '@/hh_global/authCache';
+import { useAuth } from '@/context/auth/useAuth';
+import { getAuthHeaders } from '@/hh_global/authCache';
 import getToast from '@/hh_global/getToast';
+import { setAuthCache } from '@/hh_global/authCache';
 
 const cardBgcolor = '#eee';
 
@@ -60,7 +62,7 @@ const locationDictionary = {
   kaohsiung: '高雄館',
 };
 
-const ADDCARTURL = 'http://localhost:3001/SCadd';
+const ADDCARTURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/SCadd`;
 const addToCart = async (lessonSid) => {
   const result = {};
   const body = {
@@ -86,6 +88,8 @@ const addToCart = async (lessonSid) => {
 };
 
 const PurchaseCard = ({ open, closeCard, lesson }) => {
+  const { auth } = useAuth();
+
   const infoDictionary = [
     { title: '教練', content: lesson.nickname },
     { title: '地點', content: locationDictionary[lesson.location] },
@@ -100,7 +104,7 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
 
     const result = await addToCart(lesson.sid);
 
-    if (!result.success) return myToast.error;
+    if (!result.success) return myToast.error();
 
     myToast.success('成功加入購物車');
     setTimeout(() => {
@@ -138,7 +142,7 @@ const PurchaseCard = ({ open, closeCard, lesson }) => {
         <CUIButton btncolor={'#777'} onClick={closeCard}>
           取消
         </CUIButton>
-        {hasAuth() ? (
+        {auth.isLogin ? (
           <CUIButton color={'steel_grey'} onClick={handleAddCart}>
             加入購物車
           </CUIButton>

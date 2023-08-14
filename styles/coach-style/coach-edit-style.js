@@ -7,6 +7,10 @@ export const iconStyle = {
   ':hover': {
     bgcolor: 'var(--steel-light-grey)',
   },
+  ':disabled': {
+    color: '#eee',
+    bgcolor: 'lightgrey',
+  },
 };
 
 export const editCardStyle = {
@@ -27,6 +31,27 @@ export const imgBoxStyle = {
   position: 'relative',
   height: { xs: '150px', sm: '200px' },
   width: { xs: '150px', sm: '200px' },
+};
+
+export const imgIconBoxStyle = {
+  position: 'relative',
+  display: 'flex',
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: '100%',
+  height: '100%',
+  transition: '.3s',
+  opacity: 0,
+  cursor: 'pointer',
+  ':hover': {
+    opacity: 0.5,
+    bgcolor: '#333',
+  },
+};
+
+export const imgIconStyle = {
+  transform: 'scale(3)',
+  color: '#eee',
 };
 
 export const editBoxStyle = {

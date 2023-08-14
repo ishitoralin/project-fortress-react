@@ -1,15 +1,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { Box, Collapse, Stack, IconButton, Icon } from '@mui/material';
+import { Box, Collapse, Stack, IconButton } from '@mui/material';
 import ClickAwayListener from '@mui/base/ClickAwayListener';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 import LogoIcon from '@/assets/logo';
 import { useAuth } from '@/context/auth/useAuth';
+import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
 import User from '@/assets/user';
 
 const paddingDistance = '.8rem';
@@ -63,6 +63,7 @@ const linkItemStyle = {
     bgcolor: { xs: '#777', md: 'white' },
     color: { xs: 'white', md: 'black' },
   },
+  backgroundColor: 'var(--bgc)',
 };
 
 const ExpandItem = (props) => {
@@ -80,6 +81,7 @@ const ExpandItem = (props) => {
         px: { xs: 0, md: paddingDistance },
         position: 'relative',
         cursor: 'pointer',
+        ...props.style,
       }}
       onClick={props.onClick}
     >
@@ -147,14 +149,14 @@ const ExpandItem = (props) => {
 const Item = (props) => (
   <Link
     passHref
-    style={{ ...ml2, display: 'block', ...props.style }}
     {...props}
+    style={{ ...ml2, display: 'block', ...props.style }}
   >
     <Box sx={linkItemStyle}>{props.children}</Box>
   </Link>
 );
 
-const expandData = {
+const initExpandData = {
   coachLesson: [
     {
       key: 'coach',
@@ -206,21 +208,41 @@ const expandData = {
   ],
 };
 
+const isCoachExpandData = {
+  ...initExpandData,
+  coachLesson: [
+    ...initExpandData.coachLesson,
+    { key: 'coach-edit', linkName: '我的資料', href: '/coach/edit' },
+  ],
+};
+
 const initState = new Map(
-  [...Object.keys(expandData)].map((key) => [key, false])
+  [...Object.keys(initExpandData)].map((key) => [key, false])
 );
 
 const getInitState = () => {
   return new Map(initState);
 };
 
+const coachUrl = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach/edit`;
+const checkIsCoach = async () => {
+  const res = await fetch(coachUrl, {
+    headers: getAuthHeaders(),
+  });
+  const result = await res.json();
+  return result.length === 1;
+};
+
 export default function Navbar({ boxStyle }) {
   const router = useRouter();
   const { auth, logout } = useAuth();
+  setAuthCache(auth);
 
+  const [expandData, setExpandData] = useState(() => initExpandData);
   const [linksState, setLinksState] = useState(() => getInitState());
   const [listTimeout, setListTimeout] = useState('auto');
   const [expand, setExpand] = useState(true);
+  const [currentPage, setCurrentPage] = useState();
 
   const toggleLink = (name) => {
     setLinksState((pre) => {
@@ -254,7 +276,19 @@ export default function Navbar({ boxStyle }) {
 
   useEffect(() => {
     mobileCloseList();
+    setCurrentPage(router.asPath.split(/[/?]+/)[1]);
   }, [router]);
+
+  useEffect(() => {
+    if (!auth.isLogin) {
+      setExpandData(initExpandData);
+      return;
+    }
+    (async () => {
+      const result = await checkIsCoach();
+      setExpandData(result ? isCoachExpandData : initExpandData);
+    })();
+  }, [auth]);
 
   return (
     <Stack sx={{ ...navbarStyle, ...boxStyle }} direction={'row'}>
@@ -278,6 +312,11 @@ export default function Navbar({ boxStyle }) {
           <Box sx={linksStyle}>
             <ExpandItem
               in={linksState.get('coachLesson')}
+              style={
+                ['coach', 'lesson'].includes(currentPage)
+                  ? { '--bgc': 'var(--deepgrey)' }
+                  : {}
+              }
               onClick={() => toggleLink('coachLesson')}
               links={expandData['coachLesson']}
             >
@@ -285,6 +324,9 @@ export default function Navbar({ boxStyle }) {
             </ExpandItem>
             <Item
               href="/product"
+              style={
+                currentPage === 'product' ? { '--bgc': 'var(--deepgrey)' } : {}
+              }
               onClick={() => {
                 mobileCloseList();
                 closeLinks();
@@ -296,11 +338,19 @@ export default function Navbar({ boxStyle }) {
               in={linksState.get('record')}
               onClick={() => toggleLink('record')}
               links={expandData['record']}
+              style={
+                currentPage === 'record' ? { '--bgc': 'var(--deepgrey)' } : {}
+              }
             >
               個人紀錄 ⏷
             </ExpandItem>
             <Item
               href="/space-find"
+              style={
+                currentPage === 'space-find'
+                  ? { '--bgc': 'var(--deepgrey)' }
+                  : {}
+              }
               onClick={() => {
                 mobileCloseList();
                 closeLinks();
@@ -319,6 +369,10 @@ export default function Navbar({ boxStyle }) {
                   ':hover': {
                     color: 'var(--fortress)',
                   },
+                  color:
+                    currentPage === 'shoppingcart'
+                      ? 'var(--fortress)'
+                      : 'white',
                 }}
               />
             </Link>

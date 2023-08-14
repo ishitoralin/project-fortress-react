@@ -60,7 +60,7 @@ const pesudoHoverStyle = {
 export const lessonInfoBoxStyle = {
   position: 'absolute',
   inset: { xs: '10% 5%', sm: '15% 10%', md: '20% 15%' },
-  padding: { xs: '1% 2%', sm: '2% 3%', md: '3% 5%' },
+  padding: { xs: '1% 2%', sm: '2% 3%', md: '5vw', lg: '3vw' },
   border: { xs: 'none', sm: '2px solid white' },
   zIndex: 1,
   ':before': {
@@ -87,7 +87,7 @@ export const lessonDescriptStyle = {
   maxHeight: '60%',
   height: 'fit-content',
   overflow: 'hidden',
-  paddingInline: '2rem',
+  padding: '3vw',
   zIndex: 1,
 };
 

@@ -24,6 +24,7 @@ import CUIFilter from '@/components/customUI/cui-filter';
 
 import { useAuth } from '@/context/auth/useAuth';
 import { getAuthHeaders, setAuthCache } from '@/hh_global/authCache';
+import { handleScroll } from '@/hh_global/handleSaveLessons';
 
 export const getStaticProps = async () => {
   const data = {};
@@ -114,7 +115,6 @@ const LessionPage = (props) => {
 
   const anchorRef = useRef();
   const topRef = useRef();
-  // const rightSideRef = useRef();
 
   const getFilterValues = () => ({
     keyword: keywordRef.current.value,
@@ -131,6 +131,10 @@ const LessionPage = (props) => {
         block: 'start',
         behavior: 'smooth',
       });
+      return;
+    }
+    if (!handleScroll.canScroll) {
+      handleScroll.allowScroll();
       return;
     }
     anchorRef.current.scrollIntoView({
@@ -187,16 +191,17 @@ const LessionPage = (props) => {
       renderTimeRef.current = 2;
     }
     setDisplayMode(SKELETONMODE);
+
     // check if lessons data already cache
-    const cacheLessonDatas = queryDatasCache.get(
-      shrinkString(getFetchUrl('', queryObject))
-    );
-    if (cacheLessonDatas) {
-      setDisplayMode(LISTMODE);
-      setLessons(cacheLessonDatas);
-      pushRouter(queryObject);
-      return;
-    }
+    // const cacheLessonDatas = queryDatasCache.get(
+    //   shrinkString(getFetchUrl('', queryObject))
+    // );
+    // if (cacheLessonDatas) {
+    //   setDisplayMode(LISTMODE);
+    //   setLessons(cacheLessonDatas);
+    //   pushRouter(queryObject);
+    //   return;
+    // }
 
     // fetch lessons data
     (async () => {
@@ -286,6 +291,7 @@ const LessionPage = (props) => {
               label="篩選器"
               onClick={() => {
                 setQueryObject((prev) => ({ ...prev, ...getFilterValues() }));
+                closeFilter();
               }}
               items={[
                 <CUISearch

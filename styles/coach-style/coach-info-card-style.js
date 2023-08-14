@@ -3,8 +3,8 @@ const ANIMATIME = '1s';
 export const cardGridStyle = {
   position: 'relative',
   left: { xs: 'calc(50vw - 60%)', sm: 'calc(50vw - 50%)', th: 0 },
-  width: { xs: '100%', sm: '90%' },
-  height: { xs: '70%', sm: '75%', th: '75%', lg: '90%' },
+  width: { xs: '100%', sm: '100%', th: '90%' },
+  height: { xs: '70%', sm: '75%', th: '75%', lg: '80%' },
   ':before': {
     content: '""',
     position: 'absolute',
@@ -22,8 +22,8 @@ export const coachCardBoxStyle = {
   position: 'absolute',
   width: { xs: '100%', th: '90%' },
   height: '100%',
-  top: { xs: '15%', sm: 0, th: '20%', lg: '-10%' },
-  left: { xs: '-70%', sm: '-50%', th: '-62%', lg: '-28%' },
+  top: { xs: '15%', sm: '20%', th: '20%', lg: '-10%' },
+  left: { xs: '-70%', sm: '-50%', th: '-55%', lg: '-18%' },
   transition: '.5s',
   animation: `${ANIMATIME} move-card forwards`,
   '@keyframes move-card': {
@@ -35,10 +35,10 @@ export const coachCardBoxStyle = {
 
 export const imageBoxStyle = {
   position: 'absolute',
-  left: { xs: '35%', sm: '19%', md: '22%', th: '32%' },
-  top: { xs: '-5%', sm: '5%', th: '5%', lg: '30%' },
+  left: { xs: '40%', sm: '25%', th: '30%', lg: '22%' },
+  top: { xs: '0%', sm: '5%', th: '7.5%', lg: '30%' },
   transform: 'rotateZ(-10deg)',
-  width: { xs: '50%', sm: '45%', th: '45%', lg: '50%' },
+  width: { xs: '50%', sm: '55%', th: '45%', lg: '50%' },
   height: { xs: '50%', sm: '50%', th: '50%', lg: '55%' },
   boxShadow: '0 0 10px rgba(0, 0, 0, 0.3)',
   transition: '.5s',

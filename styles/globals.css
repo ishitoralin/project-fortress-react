@@ -47,6 +47,10 @@
   margin: 0;
 }
 
+/* nextjs-portal {
+  display: none;
+} */
+
 ::selection {
   background-color: var(--steel-grey);
   color: white;

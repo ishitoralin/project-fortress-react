@@ -33,6 +33,7 @@ const BarBell = (props) => {
       barbellRef.current.position,
       {
         duration: 2,
+        ease: 'power1.out',
         x: 0,
         z: -1,
       },
@@ -43,7 +44,7 @@ const BarBell = (props) => {
       barbellRef.current.rotation,
       {
         duration: 10,
-        ease: 'power1.in',
+        ease: 'power1.inOut',
         y: Math.PI * 4,
         z: 0,
       },
@@ -54,6 +55,7 @@ const BarBell = (props) => {
       barbellRef.current.position,
       {
         duration: 6,
+        ease: 'power1.out',
         y: 0.1,
         z: 5,
       },
