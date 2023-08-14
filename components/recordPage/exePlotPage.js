@@ -436,7 +436,7 @@ const PlotPage = ({ bodyParts, exerciseInit, myBGstyle }) => {
                 }}
               >
                 <CUIButton
-                  color={'fortress'}
+                  color={'light_grey'}
                   sx={{ width: '35%' }}
                   disabled={
                     !plotDates.start ||

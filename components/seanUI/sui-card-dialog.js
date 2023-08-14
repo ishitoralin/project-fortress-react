@@ -111,8 +111,6 @@ function ExeCardDialog({
         <Box sx={{ fontSize: '2.5rem' }}>
           {'運動類型: ' + item?.exercise_name}
         </Box>
-        {/* TODO:unfinished */}
-        {/* {console.log(item.vid)} */}
         {item.vid ? (
           <iframe
             width="100%"
