@@ -191,15 +191,15 @@ export default function MyProducts() {
                   setPrice([50, 4000]);
                   setCategory('全部');
                   keywordRef.current.value = '';
-                  router.push('/member/my-products');
-                  // router.replace({
-                  //   query: {},
-                  // });
-                  // if (router.query['keyword']) {
-                  //   delete router.query['keyword'];
-                  // }
+                  // router.push('/member/my-products');
+                  router.replace({
+                    query: {},
+                  });
+                  if (router.query['keyword']) {
+                    delete router.query['keyword'];
+                  }
 
-                  // getMyfavoriteProducts();
+                  getMyfavoriteProducts();
                 }}
                 color="steel_grey"
               >
