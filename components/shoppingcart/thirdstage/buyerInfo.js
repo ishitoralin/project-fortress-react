@@ -26,7 +26,6 @@ export default function BuyerInfo() {
             },
           }
         );
-        console.log(res.data);
         setBuyerInfo(res.data.omdata);
         if (dayjs(res.data.omdata.orderNumber).isValid()) {
           setOrderNumber(`J${Date.parse(res.data.omdata.orderNumber)}`);
@@ -82,6 +81,7 @@ export default function BuyerInfo() {
             <div>
               付款方式：
               {buyerInfo?.Method}
+              {/* {uuid} */}
             </div>
             <div>商品數量：{buyerInfo?.amount}</div>
             <div>商品總價：{totalPrice}</div>
