@@ -11,7 +11,6 @@ import CUIButton from '../customUI/cui-button';
 import { useAuth } from '@/context/auth/useAuth';
 import { getAuthHeaders } from '@/hh_global/authCache';
 import getToast from '@/hh_global/getToast';
-import { setAuthCache } from '@/hh_global/authCache';
 
 const cardBgcolor = '#eee';
 

@@ -14,6 +14,7 @@ import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 
 import CUICard from '@/components/customUI/cui-card';
+import CUIButton from '@/components/customUI/cui-button';
 import BrickWallPaper from '@/components/brick-wallpaper';
 
 import Image from 'next/image';
@@ -21,8 +22,6 @@ import { useRouter } from 'next/router';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import getToast from '@/hh_global/getToast';
-import Layout from '@/components/layout/layout';
-import ProtectedRouteWrapper from '@/components/protected-route';
 
 import { useAuth } from '@/context/auth/useAuth';
 import { setAuthCache, getAuthHeaders } from '@/hh_global/authCache';
@@ -40,6 +39,34 @@ import {
   introBoxStyle,
   introEditModeStyle,
 } from '@/styles/coach-style/coach-edit-style';
+import Link from 'next/link';
+
+const colorSet = [
+  'darkseagreen',
+  'paleturquoise',
+  'lightblue',
+  'lightcoral',
+  'pink',
+  'wheat',
+  'lightsalmon',
+  'lightsteelblue',
+  'plum',
+  'lavender',
+];
+
+const getColorMap = (lessons) => {
+  const set = new Set([...lessons].map((lesson) => lesson.category_sid));
+  const categories = Array.from(set);
+  const copyColorSet = [...colorSet];
+  return new Map(
+    categories.map((category) => {
+      const key = Math.floor(Math.random() * copyColorSet.length);
+      const item = [category, copyColorSet[key]];
+      copyColorSet.splice(key, 1);
+      return item;
+    })
+  );
+};
 
 const BASEURL = `${process.env.NEXT_PUBLIC_BACKEND_PORT}/coach`;
 const EDITURL = `${BASEURL}/edit`;
@@ -66,6 +93,10 @@ const editData = async (data) => {
 };
 
 const nameReg = /^([^0-9]*)+$/;
+const initErrorState = {
+  error: false,
+  helperText: '',
+};
 
 const CoachEditPage = () => {
   const router = useRouter();
@@ -76,14 +107,14 @@ const CoachEditPage = () => {
   const [count, setCount] = useState(0);
   const [coach, setCoach] = useState(null);
   const [inEdit, setInEdit] = useState(false);
-  const [nameState, setNameState] = useState({
-    error: false,
-    helperText: '',
-  });
-  const [introState, setIntroState] = useState({
-    error: false,
-    helperText: '',
-  });
+  const [nameState, setNameState] = useState(() => ({ ...initErrorState }));
+  const [introState, setIntroState] = useState(() => ({ ...initErrorState }));
+  const [lessonsColor, setLessonsColor] = useState([]);
+
+  const clearError = () => {
+    setNameState({ ...initErrorState });
+    setIntroState({ ...initErrorState });
+  };
 
   const inputRef = useRef();
   const textRef = useRef();
@@ -117,6 +148,7 @@ const CoachEditPage = () => {
         router.push('/404');
       }
       setCoach(data);
+      return data;
     } catch (error) {
       console.log(error);
     }
@@ -124,7 +156,10 @@ const CoachEditPage = () => {
 
   useEffect(() => {
     if (!auth.isLogin) return;
-    getCoachData();
+    (async () => {
+      const data = await getCoachData();
+      setLessonsColor(getColorMap(data.lessons));
+    })();
   }, [auth]);
 
   const timer = () => setCount((prev) => prev + 1);
@@ -154,7 +189,7 @@ const CoachEditPage = () => {
       headers: getAuthHeaders(),
       body,
     });
-    const { success, filename, base64Text } = await res.json();
+    const { success, filename, base64Text, message } = await res.json();
     success
       ? (() => {
           toast.success('上傳圖片成功');
@@ -164,7 +199,7 @@ const CoachEditPage = () => {
             img_base64: base64Text,
           }));
         })()
-      : toast.error();
+      : toast.error(message);
   };
 
   return (
@@ -267,7 +302,7 @@ const CoachEditPage = () => {
                           sx={iconStyle}
                           onClick={() => {
                             edit();
-                            setInEdit((prev) => !prev);
+                            setInEdit(false);
                           }}
                         >
                           <CheckIcon />
@@ -275,7 +310,10 @@ const CoachEditPage = () => {
                         <IconButton
                           title="取消"
                           sx={{ ...iconStyle, marginLeft: '1rem' }}
-                          onClick={() => setInEdit((prev) => !prev)}
+                          onClick={() => {
+                            clearError();
+                            setInEdit(false);
+                          }}
                         >
                           <CloseIcon />
                         </IconButton>
@@ -335,28 +373,40 @@ const CoachEditPage = () => {
                 )}
               </Box>
             </CUICard>
-
             <CUICard sx={{ bgcolor: '#eee', marginTop: '2rem', p: 4 }}>
               <Typography
                 variant="h5"
                 sx={{
+                  display: 'flex',
                   paddingBottom: 2,
                   marginBottom: 4,
                   borderBottom: '2px solid var(--steel-grey)',
                 }}
               >
                 我的課表
+                <Link
+                  style={{ marginLeft: 'auto' }}
+                  href={`/coach/${coach.sid}`}
+                >
+                  <CUIButton color={'steel_grey'} sx={{ fontSize: '1rem' }}>
+                    我的頁面
+                  </CUIButton>
+                </Link>
               </Typography>
               <FullCalendar
+                eventDisplay="block"
+                eventBorderColor="transparent"
+                eventTextColor="#333"
+                eventBackgroundColor={'lightblue'}
                 eventTimeFormat={{
                   hour: 'numeric',
                   minute: '2-digit',
                   meridiem: 'short',
                 }}
-                eventMouseEnter={(e) => console.log(e.event._def)}
                 events={coach.lessons.map((lesson) => ({
                   title: lesson.name,
                   start: lesson.time,
+                  backgroundColor: lessonsColor.get(lesson.category_sid),
                 }))}
                 plugins={[dayGridPlugin]}
               />
@@ -367,11 +417,5 @@ const CoachEditPage = () => {
     </Box>
   );
 };
-
-// CoachEditPage.getlayout = (page) => (
-//   <ProtectedRouteWrapper>
-//     <Layout>{page}</Layout>
-//   </ProtectedRouteWrapper>
-// );
 
 export default CoachEditPage;
