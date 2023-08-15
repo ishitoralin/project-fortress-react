@@ -238,7 +238,7 @@ export default function Navbar({ boxStyle }) {
   const { auth, logout } = useAuth();
   setAuthCache(auth);
 
-  const [expandData, setExpandData] = useState(() => initExpandData);
+  const [expandData, setExpandData] = useState(() => ({ ...initExpandData }));
   const [linksState, setLinksState] = useState(() => getInitState());
   const [listTimeout, setListTimeout] = useState('auto');
   const [expand, setExpand] = useState(true);
