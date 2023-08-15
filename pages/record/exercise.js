@@ -1,15 +1,15 @@
-import { Grid, Paper, Box } from '@mui/material';
+import { Grid, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import dayjs from 'dayjs';
-import CUISearch from '@/components/customUI/cui-search';
-import CUISelect from '@/components/customUI/cui-select';
-import CUIDatePicker from '@/components/customUI/cui-date-picker';
+// import dayjs from 'dayjs';
+// import CUISearch from '@/components/customUI/cui-search';
+// import CUISelect from '@/components/customUI/cui-select';
+// import CUIDatePicker from '@/components/customUI/cui-date-picker';
 import CUIButton from '@/components/customUI/cui-button';
 // =========================================================================
 import {
   SUICardList,
-  CalendarCard,
-  CalendarCardList,
+  // CalendarCard,
+  // CalendarCardList,
 } from '@/components/seanUI/sui-card';
 import {
   SUISchedule,
@@ -30,17 +30,16 @@ import { useRouter } from 'next/router';
 // =========================================================================
 import {
   useDebounceHH,
-  useDebounce,
+  // useDebounce,
 } from '@/components/customHook/useDebounce';
-import useUpdateEffect from '@/components/customHook/useUpdateEffect';
+// import useUpdateEffect from '@/components/customHook/useUpdateEffect';
 import ProtectedRouteWrapper from '@/components/protected-route';
 import Layout from '@/components/layout/layout';
 import { useAuth } from '@/context/auth/useAuth';
 import getBrickBackground from '@/libs/getBrickBackground';
 // =========================================================================
 //>>> pseudo-data
-const exerciseDate = ['Jan 20', 'Jan 22', 'Jan 23'];
-const plotType = ['臥推', '深蹲', '硬舉', '保加利雅深蹲'];
+
 //<<< pseudo-data
 
 // >>> style
@@ -63,7 +62,6 @@ const Section = styled(Box)(({ theme }) => ({
   padding: theme.spacing(2),
   display: 'flex',
   flexDirection: 'column',
-  // justifyContent: 'center',
   alignItems: 'center',
 }));
 // <<< style
@@ -77,9 +75,7 @@ export default function ExercisePage() {
     { label: '組數', key: 'sets' },
   ];
   // ============================================================
-  // const today = dayjs(new Date()).format('YYYY-MM-DD');
   const exerciseInit = { key: 0, value: '全部', label: '全部' }; //=== exercise type的初始值
-  // const router = useRouter();
   const [exeType, setExeType] = useState([]); //=== for exercise-type cards
   const [bodyPart, setBodyPart] = useState([exerciseInit]); //=== for exercise body-part filter
   const bodyParts = useRef([exerciseInit]); //=== for selection options
@@ -99,13 +95,6 @@ export default function ExercisePage() {
   useEffect(() => {
     setEditing(exerciseRecord?.some((item) => item.date === editDate));
   }, [exerciseRecord, editDate]);
-  // ===============================================================
-
-  // const [plotDates, setPlotDates] = useState({ start: null, end: null });
-  // const [plotBodyPart, setPlotBodyPart] = useState([exerciseInit]); //=== for plot exercise body-part filter
-  // const [plotKeyword, setPlotKeyword] = useState(''); //=== for plot search keyword
-  // const [plotExeTypes, setPlotExeTypes] = useState([]); //=== exercise select options for plot
-  // const [plotExeList, setPlotExeList] = useState([]); //=== list of exercise for plot
 
   // =============================================================
   // =============================================================

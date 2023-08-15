@@ -3,9 +3,9 @@ import CUIDatePicker from '../customUI/cui-date-picker';
 import CUISelect from '../customUI/cui-select';
 import CancelIcon from '@mui/icons-material/Cancel';
 import CUISearch from '../customUI/cui-search';
-import { Grid, Paper, Box, Button, ButtonBase } from '@mui/material';
+import { Grid, Box, ButtonBase } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useRef } from 'react';
 import { useDebounceHH } from '../customHook/useDebounce';
 
 // >>> radio

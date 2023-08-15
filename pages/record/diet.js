@@ -1,47 +1,46 @@
 import { Container, Grid, Paper, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { TextField } from '@mui/material';
-import {
-  FormControl,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
-} from '@mui/material';
-import { Input } from '@mui/material';
-import { InputLabel } from '@mui/material';
+// import { TextField } from '@mui/material';
+// import {
+//   FormControl,
+//   FormControlLabel,
+//   Radio,
+//   RadioGroup,
+// } from '@mui/material';
+// import { Input } from '@mui/material';
+// import { InputLabel } from '@mui/material';
 
 // =========================================================================
-import CUISearch from '@/components/customUI/cui-search';
-import CUISelect from '@/components/customUI/cui-select';
-import CUIDatePicker from '@/components/customUI/cui-date-picker';
-import CUIButton from '@/components/customUI/cui-button';
-import CUITextField from '@/components/customUI/cui-textfield';
+// import CUISearch from '@/components/customUI/cui-search';
+// import CUISelect from '@/components/customUI/cui-select';
+// import CUIDatePicker from '@/components/customUI/cui-date-picker';
+// import CUIButton from '@/components/customUI/cui-button';
+// import CUITextField from '@/components/customUI/cui-textfield';
 // =========================================================================
-import { SUICardList } from '@/components/seanUI/sui-card';
-import {
-  SUISchedule,
-  SUIScheduleTable,
-} from '@/components/seanUI/sui-schedule';
-import { SUIInputNumber, SUIDataBox } from '@/components/seanUI/sui-input';
+// import { SUICardList } from '@/components/seanUI/sui-card';
+// import {
+//   SUISchedule,
+//   SUIScheduleTable,
+// } from '@/components/seanUI/sui-schedule';
+// import { SUIInputNumber, SUIDataBox } from '@/components/seanUI/sui-input';
 // =========================================================================
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 // =========================================================================
-import FullCalendarLayout from '@/components/fullcalendar/layout';
-import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import interactionPlugin from '@fullcalendar/interaction';
-import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
-import timeGridPlugin from '@fullcalendar/timegrid';
+// import FullCalendarLayout from '@/components/fullcalendar/layout';
+// import FullCalendar from '@fullcalendar/react';
+// import dayGridPlugin from '@fullcalendar/daygrid';
+// import interactionPlugin from '@fullcalendar/interaction';
+// import resourceTimelinePlugin from '@fullcalendar/resource-timeline';
+// import timeGridPlugin from '@fullcalendar/timegrid';
 // =========================================================================
 // import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 // import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 // =========================================================================
 import style from './record.module.css';
 // =========================================================================
-import { useState, useEffect, useRef } from 'react';
-import { useRouter } from 'next/router';
+import { useState, useRef } from 'react';
 // =========================================================================
 import DietFisrtPage from '@/components/recordPage/dietFirstPage';
 import getBrickBackground from '@/libs/getBrickBackground';
@@ -84,41 +83,39 @@ const DietPage = () => {
   // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   const foodInit = { key: 0, value: '全部', label: '全部' };
   // const router = useRouter();
-  const [foodType, setFoodType] = useState([]);
-  const [foodCategory, setFoodCategory] = useState([foodInit]);
-  const foodCategorys = useRef([foodInit]); //=== for selection options
+  // const [foodType, setFoodType] = useState([]);
+  // const [foodCategory, setFoodCategory] = useState([foodInit]);
+  // const foodCategorys = useRef([foodInit]); //=== for selection options
 
   // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   // >>> initiallize
-  useEffect(() => {
-    // TODO: debounce
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-category`)
-      .then((r) => r.json())
-      .then((data) => {
-        data.data.unshift(foodInit);
-        foodCategorys.current = data.data;
-      });
+  // useEffect(() => {
+  //   fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-category`)
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       data.data.unshift(foodInit);
+  //       foodCategorys.current = data.data;
+  //     });
 
-    fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type`)
-      .then((r) => r.json())
-      .then((data) => {
-        setFoodType(data.rows);
-      });
-  }, []);
+  //   fetch(`${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type`)
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       setFoodType(data.rows);
+  //     });
+  // }, []);
   // <<< initiallize
-  //TODO: search keyword
 
   //>>> filter by food category
-  useEffect(() => {
-    fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type/food-category/${foodCategory[0].key}`
-    )
-      .then((r) => r.json())
-      .then((data) => {
-        setFoodType(data.data);
-      });
-  }, [foodCategory]);
+  // useEffect(() => {
+  //   fetch(
+  //     `${process.env.NEXT_PUBLIC_BACKEND_PORT}/food-type/food-type/food-category/${foodCategory[0].key}`
+  //   )
+  //     .then((r) => r.json())
+  //     .then((data) => {
+  //       setFoodType(data.data);
+  //     });
+  // }, [foodCategory]);
   //<<< filter by food category
 
   return (
