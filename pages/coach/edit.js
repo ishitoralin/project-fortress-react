@@ -252,7 +252,13 @@ const CoachEditPage = () => {
                   <UploadFileIcon sx={imgIconStyle} fontSize="large" />
                 </Icon>
               </CUICard>
-              <input ref={inputRef} onChange={uploadImg} type="file" hidden />
+              <input
+                ref={inputRef}
+                onChange={uploadImg}
+                type="file"
+                accept="image/png, image/jpeg"
+                hidden
+              />
               <Box sx={editBoxStyle}>
                 <Box sx={nameBoxStyle}>
                   <Box>
