@@ -48,7 +48,6 @@ export default function ProductList() {
     })
       .then((r) => r.json())
       .then((results) => {
-        console.log(results);
         setCartItems(results.data);
       })
       .catch((error) => console.log(error));
