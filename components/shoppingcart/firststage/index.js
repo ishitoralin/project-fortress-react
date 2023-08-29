@@ -66,6 +66,7 @@ export default function FirstStageComponent() {
           ></button>
         </form>
       </div> */}
+      <button className={{ fontSize: '54px' }}>&#9776;</button>
       <Box sx={indexBackground}>
         <Box sx={indexContainer}>
           <ShoppingState></ShoppingState>
